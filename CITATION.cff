@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the three companion papers below (in dependency order: leptons → quarks → gravity)."
+title: "one-field: end-to-end E_8(1) > G_2(1) x F_4(1) derivation of the Standard Model"
+authors:
+  - family-names: Kahsay
+    given-names: Kibrom Kidane
+license: MIT
+type: software
+references:
+  - type: article
+    title: "The Innocent Lepton"
+    authors:
+      - family-names: Kahsay
+        given-names: Kibrom Kidane
+    year: 2026
+    doi: 10.5281/zenodo.19899091
+  - type: article
+    title: "One Substrate, Three Generations"
+    authors:
+      - family-names: Kahsay
+        given-names: Kibrom Kidane
+    year: 2026
+    doi: 10.5281/zenodo.20069456
+  - type: article
+    title: "The Echo of Standing Waves"
+    authors:
+      - family-names: Kahsay
+        given-names: Kibrom Kidane
+    year: 2026
+    doi: 10.5281/zenodo.20144381
