@@ -50,11 +50,22 @@ def derive(scale: dict):
 
     S("2.1  Brannen formula with B/A = √2, θ = 2/9")
 
-    # B/A and theta are derived in constants.py from group theory:
-    #   theta = C_2(fund,SU(3)) / (k + h_dual) = (4/3)/6 = 2/9   (Sugawara)
-    #   B/A = sqrt(2) from Koide corollary Q=2/3 iff |B/A|=sqrt(2)
-    ratio = BA_RATIO                 # = sqrt(2), derived from Koide identity
-    theta_L = THETA_BRANNEN          # = 2/9, derived from SU(3)_3 Sugawara
+    # The Brannen functional form (Brannen 2006) was originally an empirical
+    # numerological ansatz.  In this framework B/A and theta are NOT fitted.
+    # They are derived from the SU(3)_3 modular tensor category and the
+    # octonionic G_2/SU(3) Clebsch-Gordan data:
+    #
+    #   theta = h(fund) = C_2(fund,SU(3))/(k+h^v) = (4/3)/(3+3) = 2/9
+    #     (Sugawara: conformal weight of the lightest SU(3)_3 primary)
+    #
+    #   B/A = 2|C_3bar|/(|C_1|*d(fund)) = 2*sqrt(2)/(1*2) = sqrt(2)
+    #     (octonionic Clebsch-Gordan: |C_3bar|=sqrt(2), |C_1|=1, d(fund)=2;
+    #      see Innocent Lepton paper, Sec. 4)
+    #
+    # The Koide value Q=2/3 follows as a corollary of |B/A|=sqrt(2)
+    # on the positive branch (BdG identity, Kidane 2026).
+    ratio = BA_RATIO                 # = sqrt(2), derived (NOT fit)
+    theta_L = THETA_BRANNEN          # = 2/9, derived (NOT fit)
 
     lepton_tree = {}
     lepton_labels = [(1, "e"), (2, "mu"), (0, "tau")]

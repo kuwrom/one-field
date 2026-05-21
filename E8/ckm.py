@@ -47,10 +47,17 @@ def derive(wzw: dict):
 
     H("LAYER 5:  CKM MATRIX -- FOUR STRUCTURES → FOUR PARAMETERS")
 
+    # The four Wolfenstein parameters below are NOT independent fits.
+    # Each comes from a DISTINCT mathematical structure on SU(3)_3 / D^(6),
+    # set by the conformal embedding.  See One Substrate, Secs. 9.1-9.4.
+
     # ── 5.1  λ = tan(h₁₀) ────────────────────────────────────────────
 
     S("5.1  λ = tan(h₁₀) -- METRIC")
 
+    # λ is the boundary-OPE phase tangent for the SU(3)_3 fundamental.
+    # h_10 = 2/9 is the conformal weight (fixed by the conformal embedding);
+    # tan of it is the leading Cabibbo-like rotation at the D^(6) boundary.
     lam = math.tan(h10)
     lam_pdg, lam_sig = PDG_CKM['lambda']
     print(f"  λ = tan(2/9) = {lam:.5f}   (PDG: {lam_pdg} ± {lam_sig}, pull: {(lam-lam_pdg)/lam_sig:+.2f}σ)")
@@ -59,6 +66,9 @@ def derive(wzw: dict):
 
     S("5.2  A = √(2/3) -- ALGEBRAIC")
 
+    # A = sqrt(off-diagonal fraction of the n_11 nimrep block of D^(6)).
+    # The D^(6) boundary has 6 sites organised as 3 generation pairs, each
+    # carrying the n_11 block [[1,2],[2,1]] (off-diag = 4, total = 6 → 2/3).
     A = math.sqrt(2.0 / 3.0)
     A_pdg, A_sig = PDG_CKM['A']
     print(f"  A = √(2/3) = {A:.5f}   (PDG: {A_pdg} ± {A_sig}, pull: {(A-A_pdg)/A_sig:+.2f}σ)")
@@ -67,6 +77,8 @@ def derive(wzw: dict):
 
     S("5.3  η̄ = π/9 -- MODULAR (exact)")
 
+    # η̄ is the argument of the Kac-Peterson S-matrix element S_{f,f}
+    # for the SU(3)_3 fundamental primary.  Exact algebraic value.
     eta = math.pi / 9.0
     eta_pdg, eta_sig = PDG_CKM['etabar']
     print(f"  η̄ = π/9 = {eta:.5f}   (PDG: {eta_pdg} ± {eta_sig}, pull: {(eta-eta_pdg)/eta_sig:+.2f}σ)")
@@ -75,6 +87,8 @@ def derive(wzw: dict):
 
     S("5.4  ρ̄ = h₁₀/√2 = √2/9 -- TOPOLOGICAL")
 
+    # ρ̄ = h_10 * |W| where |W| = 1/sqrt(2) is the Ocneanu cell norm.
+    # Type-I unitarity of the D^(6) cells fixes |W| with zero physical DOF.
     rho = h10 / math.sqrt(2)
     rho_pdg, rho_sig = PDG_CKM['rhobar']
     print(f"  ρ̄ = √2/9 = {rho:.5f}   (PDG: {rho_pdg} ± {rho_sig}, pull: {(rho-rho_pdg)/rho_sig:+.2f}σ)")

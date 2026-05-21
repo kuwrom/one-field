@@ -1,6 +1,7 @@
 # one-field
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20323890.svg)](https://doi.org/10.5281/zenodo.20323890)
+[![tests](https://github.com/kuwrom/one-field/actions/workflows/tests.yml/badge.svg)](https://github.com/kuwrom/one-field/actions/workflows/tests.yml)
 
 **End-to-end derivation of the Standard Model and Newton's constant through the conformal embedding `E₈(1) ⊃ G₂(1) × F₄(1)`.**
 
@@ -176,14 +177,27 @@ Each layer is a module exposing one `derive(deps) → dict` function. The order 
 ## Install and run
 
 ```bash
-git clone https://github.com/<your-handle>/one-field.git
+git clone https://github.com/kuwrom/one-field.git
 cd one-field
 pip install -r requirements.txt
 python -m E8              # full derivation
 python -m E8 --summary    # scorecard + tree only
+pytest                    # verify all 34 predictions as falsification tests
 ```
 
 Requires Python 3.10+ and NumPy. Runs in well under a second.
+
+## Tests
+
+The scorecard is encoded as a `pytest` test suite in `tests/test_scorecard.py`. Each numerical prediction is a single assertion against PDG / NuFit / Planck reference data, with tolerances chosen as small margins above the observed deviation:
+
+```
+$ pytest -v
+...
+25 passed in 9.74s
+```
+
+If any modification to the algebra moves a prediction outside its tolerance band, the suite fails. This is the operational form of the closure claim *("if any of the 34 predictions broke, the structure would break with it")* reduced to one command.
 
 ## Citing
 

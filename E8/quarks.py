@@ -58,8 +58,16 @@ def derive(alg: dict, scale: dict, lep: dict):
     h_fund = 2.0 / 9.0          # h(1,0) = C₂(fund) / (2K) = (8/3)/12
     delta_OPE = 1.0 / 18.0      # δ = h(1,1) − 2h(1,0) = 1/2 − 4/9
 
-    m_u = (4.0 + h_fund) * m_e     # (38/9) m_e
-    m_d = (9.0 + h_fund) * m_e     # (83/9) m_e
+    # The integer coefficients 4 and 9 are NOT fitted.  They come from the
+    # Z_3 centre of SU(3)_c, which forces U(1)_em eigenvalues on the 26 of F_4
+    # to be integer multiples of 1/3: charges {0, 1/3, 2/3, 1} for {nu, d, u, e}.
+    # The Dynkin Z_2 swap (8_v <-> 8_c, i.e., e_R <-> d_R) cross-assigns
+    # the charges as sqrt(m) labels: sqrt(m_e):sqrt(m_u):sqrt(m_d) = 1:2:3.
+    # Squaring gives the tree ratios m_u/m_e = 4, m_d/m_e = 9.  The h_fund
+    # shift adds the SU(3)_3 fundamental conformal weight (2/9).
+    # Ref: One Substrate Three Generations, Sec. 5.1 (light-quark triality).
+    m_u = (4.0 + h_fund) * m_e     # 4 = (charge int u)^2 = 2^2; total (38/9) m_e
+    m_d = (9.0 + h_fund) * m_e     # 9 = (charge int d_R after Z_2 swap)^2 = 3^2; total (83/9) m_e
 
     print(f"  m_q = (d(λ)² + h(1,0)) × m_e")
     print(f"  h(1,0) = 2/9 = {h_fund:.6f}")
