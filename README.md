@@ -1,5 +1,7 @@
 # one-field
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20323890.svg)](https://doi.org/10.5281/zenodo.20323890)
+
 **End-to-end derivation of the Standard Model and Newton's constant through the conformal embedding `E₈(1) ⊃ G₂(1) × F₄(1)`.**
 
 **Zero dimensionless free parameters.** Every mass ratio, every mixing-matrix element, `α_em(0)`, `sin²θ_W`, `G_ind/G_N`, and `η_B` is fixed by pure group theory. The Planck mass only sets the unit system (equivalent to working in Planck units with `M_Pl = 1`), and any other dimensional observable could play the same role.
@@ -42,7 +44,7 @@ All numbers below come from running the code as-is. `M_Pl = 1.22089 × 10¹⁹ G
 | Baryon asymmetry `η_B` | 6.08 × 10⁻¹⁰ | Planck | 0.6% |
 | Neutrino sum `Σm_ν` | 58.8 meV |  | DESI/Euclid testable |
 
-**Structural predictions:** `m_ν₁ = 0` (rank-2 seesaw, two RH neutrinos in F₄), normal ordering, `θ_QCD = 0` (forced by `π₃(G₂) → π₃(SU(3))` with the unique E₈(1) vacuum module), and six confined coset vectors at `M_V ≈ 112 GeV` from `G₂ → SU(3)_c` breaking (they carry fundamental colour, so they appear only through their contribution to the `α_s` threshold and the heat-kernel sum).
+**Structural predictions:** `m_ν₁ = 0` (rank-2 seesaw, two RH neutrinos in F₄), normal ordering, `θ_QCD = 0` (forced by `π₃(G₂) → π₃(SU(3))` with the unique E₈(1) vacuum module), and six confined coset vectors at `M_V ≈ 112 GeV` from `G₂ → SU(3)_c` breaking (colour-charged, so visible only through the `α_s` threshold and the heat-kernel sum).
 
 **The precision hierarchy is structural.** Leptons sit closest to the `Z₃` source and emerge cleanly (0.002%). Quarks pass through additional layers (triality, generation scaling, confinement), and each layer adds residuals of order `α_s/π` (≤ 0.3%). Gravity sits two layers further out, at 0.6–0.7%. The accuracy gradient is not noise. It is what the emergence depth predicts.
 
@@ -72,7 +74,9 @@ The algebraic distinction is sharp. `G₂ = Aut(𝕆)` is the automorphism group
 
 This shows up in the energy scale. Leptons sit in the `F₄` singlet (Casimir = 0), so their standing wave closes at the confinement scale `Λ_conf ≈ 314 MeV`. Quarks sit in the **`26` of `F₄`** (Casimir = 6), and that Casimir shift moves their scale to the electroweak `v_EW = M_Pl · exp(−(9π²/2 − 6 + 15/512)) ≈ 246 GeV`. The factor of ~784 between `Λ_conf` and `v_EW` is the exponential of an algebraic constant, not a hierarchy that needs tuning.
 
-`Spin(8)` triality inside the `26` splits matter cleanly: `26 → 8_v ⊕ 8_s ⊕ 8_c ⊕ 2·1` becomes charged leptons, up-type quarks, down-type quarks, and two right-handed neutrinos. The same `Z₃` that gave three lepton generations gives three of each quark type, woven through triality. Light quark masses follow a clean `1:2:3` ratio with the electron, set by the `Z₃` centre charges `{0, 1/3, 2/3, 1}` of `{ν, d, u, e}`. Heavy quarks follow `SU(3)₃` WZW emergence: `m_t = (1165/12) m_τ`, `m_c = (217/18) m_μ`, with `Q(c, b, t) = 289/432`. Same closure logic, deeper layer.
+`Spin(8)` triality inside the `26` splits matter cleanly: `26 → 8_v ⊕ 8_s ⊕ 8_c ⊕ 2·1` becomes charged leptons, up-type quarks, down-type quarks, and two right-handed neutrinos. The same `Z₃` that gave three lepton generations gives three of each quark type, woven through triality.
+
+Light quark masses follow a clean `1:2:3` ratio with the electron, set by the `Z₃` centre charges `{0, 1/3, 2/3, 1}` of `{ν, d, u, e}`. Heavy quarks follow `SU(3)₃` WZW emergence: `m_t = (1165/12) m_τ`, `m_c = (217/18) m_μ`, with `Q(c, b, t) = 289/432`. Same closure logic, deeper layer.
 
 ### What gravity is
 
@@ -101,7 +105,9 @@ Every soliton imprints its shadow on the *same* field `R₀`. A planet's worth o
 
 But forming a standing wave is not enough. The shadow has to be coherent with everyone else's, or it will not add up. The gravity paper tests seven candidate branches against three independent gates (lepton closure, quark closure, gravity closure). Five form standing waves whose shadows are misshaped, or whose bridge reading reverses sign and makes gravity repulsive. **Only one branch closes all three gates: protected `G₂` forgetting applied exactly once.** This is the falsification gauntlet.
 
-The screening length is the Planck healing length `ξ₀ = ℓ_Pl/2`, so the bare scalar channel is suppressed by `exp(−r/ξ_Pl) < 10⁻³⁰⁰` at any observable distance (invisible). What survives macroscopically is the induced spin-2 sector: matter standing waves propagating on the common acoustic metric. Two independent routes converge on the Einstein equations with the same coefficient: a one-loop heat-kernel (Sakharov) calculation of the induced action, and a Jacobson–Clausius construction from horizon thermodynamics. Newton's `G` falls out at 0.6–0.7%.
+The screening length is the Planck healing length `ξ₀ = ℓ_Pl/2`, so the bare scalar channel is suppressed by `exp(−r/ξ_Pl) < 10⁻³⁰⁰` at any observable distance (invisible). What survives macroscopically is the induced spin-2 sector: matter standing waves propagating on the common acoustic metric.
+
+Two independent routes converge on the Einstein equations with the same coefficient: a one-loop heat-kernel (Sakharov) calculation of the induced action, and a Jacobson–Clausius construction from horizon thermodynamics. Newton's `G` falls out at 0.6–0.7%.
 
 The same machinery fixes the cosmological constant. The naive QFT estimate of the vacuum energy is 10¹²³ times the observed value. **The bulk vacuum energy vanishes exactly by the Gibbs–Duhem identity** (Volovik's mechanism), not by fine-tuning. Only the de Sitter departure from equilibrium sets the scale.
 
@@ -181,13 +187,11 @@ Requires Python 3.10+ and NumPy. Runs in well under a second.
 
 ## Citing
 
-Cite all three companion papers (dependency order: lepton → quark → gravity):
+Companion papers, in dependency order:
 
 1. Kahsay, Kibrom Kidane (2026). *The Innocent Lepton*. Zenodo. [doi:10.5281/zenodo.19899091](https://doi.org/10.5281/zenodo.19899091)
 2. Kahsay, Kibrom Kidane (2026). *One Substrate, Three Generations*. Zenodo. [doi:10.5281/zenodo.20069456](https://doi.org/10.5281/zenodo.20069456)
 3. Kahsay, Kibrom Kidane (2026). *The Echo of Standing Waves*. Zenodo. [doi:10.5281/zenodo.20144381](https://doi.org/10.5281/zenodo.20144381)
-
-GitHub renders a "Cite this repository" button from `CITATION.cff`.
 
 ## License
 

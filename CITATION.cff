@@ -6,6 +6,11 @@ authors:
     given-names: Kibrom Kidane
 license: MIT
 type: software
+doi: 10.5281/zenodo.20323890
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.20323890
+    description: Zenodo archive of this code release
 references:
   - type: article
     title: "The Innocent Lepton"
