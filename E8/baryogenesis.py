@@ -10,7 +10,7 @@ Companion code for:
     Zenodo. https://doi.org/10.5281/zenodo.20144381
 
 Derives the baryon-to-photon ratio η_B from the E₈ algebraic data
-with ZERO free parameters.  No Yukawa dressing, no Boltzmann
+with no tunable inputs.  No Yukawa dressing, no Boltzmann
 equations, no washout approximations.  Pure emergence.
 
 The formula:
@@ -173,7 +173,7 @@ def derive(alg: dict, pmns: dict):
     n_photons = 1.0 / eta_B
 
     box([
-        f"η_B FROM E₈ ALGEBRAIC DATA  (zero free parameters)",
+        f"η_B FROM E₈ ALGEBRAIC DATA  (all couplings derived)",
         f"",
         f"  E₈(1) → G₂(1) × F₄(1)",
         f"    │         │",

@@ -22,7 +22,7 @@ Structural prediction:
         m₁ = 0    (normal ordering)
 
     The remaining masses are fixed by the measured oscillation
-    splittings alone -- no additional free parameters:
+    splittings alone -- no additional tunable inputs:
         m₂ = √(Δm²₂₁)
         m₃ = √(Δm²₃₁)
 

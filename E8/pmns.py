@@ -12,7 +12,7 @@ Companion code for:
 Tree level:  Democratic nimrep from Z_C → S₃ symmetry → TBM mixing.
 NLO:  U_PMNS = U_e† · U_TBM  with  U_e = R₂₃(−φ) · R₁₃(θ_C, δ)
 
-Three framework-derived parameters (zero free):
+Three framework-derived parameters (no tunable inputs):
     φ = √(m_e/m_μ) / √2    -- mass hierarchy × Ocneanu cell magnitude
     θ = θ_C = arctan(2/9)   -- shared CKM conformal weight
     δ = arccos(−λ)           -- cross-invariant orientation reversal

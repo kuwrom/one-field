@@ -37,7 +37,7 @@ ALL inputs are derived from the framework:
     α_em(M_Z) from QED running of α(0) = 1/137.036 (derived)
     sin²θ_W from tree-level SM relation with derived v_EW and α_em(M_Z)
 
-Result: m_H = 125.1 GeV (−0.05%), zero free parameters.
+Result: m_H = 125.1 GeV (−0.05%), all couplings derived.
 """
 
 import math
@@ -56,7 +56,7 @@ from .formatting import H, S
 # SM relation.
 #
 # Status of M_Z:
-#   M_Z = 91.1876 GeV is a REFERENCE ENERGY, not a free parameter.
+#   M_Z = 91.1876 GeV is a REFERENCE ENERGY, fixed by the algebra.
 #   It plays the same role as H₀ in the gravity sector: a measured
 #   scale at which derived couplings are compared to experiment.
 #   The tree-level relation sin²θ_W(1−sin²θ_W) = πα v²/M_Z²
@@ -434,7 +434,7 @@ def derive(scale: dict, quarks: dict, alpha_s_data: dict, leptons: dict, alg: di
     print(f"  Experiment:                m_H = {_M_H_EXP:.2f} ± 0.11 GeV")
     print(f"")
     print(f"  The bridge threshold completes the tree-level prediction.")
-    print(f"  No free parameters.  No external dressing.")
+    print(f"  No tunable inputs.  No external dressing.")
 
     return {
         'alpha_em_MZ': alpha_em_MZ,

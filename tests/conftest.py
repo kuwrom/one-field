@@ -12,6 +12,7 @@ import pytest
 
 from E8 import (
     algebra,
+    alpha_bridge,
     alpha_s,
     baryogenesis,
     ckm,
@@ -41,10 +42,11 @@ def res():
         pm = pmns.derive(wz, lep, ck)
         nu = neutrinos.derive(alg)
         als = alpha_s.derive(alg, scl, qrk)
+        ab = alpha_bridge.derive(alg)
         hg = higgs.derive(scl, qrk, als, lep, alg)
         gr = gravity.derive(alg, scl)
         br = baryogenesis.derive(alg, pm)
     return dict(
         alg=alg, scl=scl, lep=lep, qrk=qrk, wz=wz, oc=oc, ck=ck,
-        pm=pm, nu=nu, als=als, hg=hg, gr=gr, br=br,
+        pm=pm, nu=nu, als=als, ab=ab, hg=hg, gr=gr, br=br,
     )

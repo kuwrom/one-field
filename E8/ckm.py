@@ -25,28 +25,28 @@ theory (i.e., how they mix).  This single algebraic object has
 four distinct mathematical faces, each of which determines one
 Wolfenstein parameter:
 
-λ = tan(2/9) — METRIC FACE (conformal weights):
+λ = tan(2/9) -- METRIC FACE (conformal weights):
     The conformal weight h(1,0) = 2/9 measures the scaling dimension
     of the lightest charged primary.  In the boundary OPE (Cardy/BPPZ
     formalism), chiral and anti-chiral sectors couple, and the Cabibbo
     mixing parameter is the ratio of boundary one-point functions:
     sin(h(1,0))/cos(h(1,0)) = tan(2/9).
 
-A = √(2/3) — ALGEBRAIC FACE (nimrep):
+A = √(2/3) -- ALGEBRAIC FACE (nimrep):
     The D⁽⁶⁾ nimrep matrix n(1,1) has 2×2 blocks of the form [[1,2],[2,1]]
     for each generation pair.  The off-diagonal entry n_off = 2 counts the
     number of boundary channels connecting different generations.  The
     quantum dimension d(1,1) = 3 is the total number of channels.  The
     inter-generation fraction is 2/3, and A is its amplitude: √(2/3).
 
-η̄ = π/9 — MODULAR FACE (S-matrix phase):
+η̄ = π/9 -- MODULAR FACE (S-matrix phase):
     The Kac–Peterson S-matrix of SU(3)₃ encodes the modular
     transformation τ → −1/τ.  The fundamental-fundamental entry
     S_{(1,0),(1,0)} has phase 11π/18 (from the Weyl orbit sum).
     After subtracting the standard phase normalisation π/2:
     η̄ = 11π/18 − π/2 = π/9.
 
-ρ̄ = √2/9 — TOPOLOGICAL FACE (Ocneanu cells):
+ρ̄ = √2/9 -- TOPOLOGICAL FACE (Ocneanu cells):
     The conformal weight h(1,0) = 2/9 supplies the length of the
     fundamental boundary step.  The unique Ocneanu cell (the
     topological datum of the D⁽⁶⁾ invariant, |W| = 1/√2) projects

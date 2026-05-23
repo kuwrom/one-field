@@ -34,6 +34,12 @@ def derive():
 
     S("0.1  Conformal embedding -- central charge split")
 
+    # Gate 3 (level) and Gate 5 (octavian / E_8 coherence) anchor here.
+    # The central-charge identity c(G_2) + c(F_4) = 14/5 + 26/5 = 8 = c(E_8)
+    # at level 1 is the conformal-embedding signature: the stress tensor
+    # decomposes exactly, T_{E_8(1)} = T_{G_2(1)} + T_{F_4(1)}, which is
+    # what forces the level-one branching to be 248 -> (14,1) + (1,52) +
+    # (7,26).  See __init__.py for the full gate chain.
     h_dual = {'E8': 30, 'G2': 4, 'F4': 9}
     dim_g  = {'E8': 248, 'G2': 14, 'F4': 52}
     c = {g: dim_g[g] / (1 + h_dual[g]) for g in h_dual}

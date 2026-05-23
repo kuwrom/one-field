@@ -18,7 +18,7 @@ from .constants import PDG_MASSES
 from .formatting import H, S, box, pct
 
 
-def derive(lep: dict, quarks: dict, ckm: dict, higgs: dict, pmns: dict, alpha_s: dict, proofs=None, grav=None, nu=None, baryo=None):
+def derive(lep: dict, quarks: dict, ckm: dict, higgs: dict, pmns: dict, alpha_s: dict, grav=None, nu=None, baryo=None):
     """
     Print the global scorecard and emergence tree.
 
@@ -30,9 +30,9 @@ def derive(lep: dict, quarks: dict, ckm: dict, higgs: dict, pmns: dict, alpha_s:
     higgs   : dict from higgs.derive()
     pmns    : dict from pmns.derive()
     alpha_s : dict from alpha_s.derive()
-    proofs  : dict from proofs.derive() (optional)
     grav    : dict from gravity.derive() (optional)
     nu      : dict from neutrinos.derive() (optional)
+    baryo   : dict from baryogenesis.derive() (optional)
     """
 
     n_checks = 30 if grav else 29
@@ -129,14 +129,6 @@ def derive(lep: dict, quarks: dict, ckm: dict, higgs: dict, pmns: dict, alpha_s:
         print(f"      = {baryo['dim_G2_fund']} × {baryo['J_lep']:.6f} × {baryo['tunnelling']:.4e}")
         print(f"      = {baryo['eta_B']:.4e}  (Planck: {baryo['eta_B_obs']:.2e}, {pull_pct:.2f}%)")
 
-    if proofs is not None:
-        S("Proof certificates")
-        counts = proofs.get('status_counts', {})
-        proved = counts.get('PROVED', 0)
-        standard = counts.get('STANDARD_QFT', 0) + counts.get('STANDARD_RGE', 0)
-        print(f"  Local mathematical certificates: {proved}")
-        print(f"  Standard QFT/RGE certificates:   {standard}")
-
     # ── Emergence tree ───────────────────────────────────────────────
 
     m_c = quarks['m_c']
@@ -164,7 +156,8 @@ def derive(lep: dict, quarks: dict, ckm: dict, higgs: dict, pmns: dict, alpha_s:
         "  ├── F₄ sector → quarks + v_EW + Higgs",
         "  │     v_EW = M_Pl · exp(−(9π²/2 − 6 + 15/512))",
         "  │     30 modes = 26 (F₄ fund) + 4 (Higgs DOFs)",
-        "  │     α(emergence) = π/512,  α(0) = 256(2π−1)/π² = 1/137.04",
+        "  │     α(emergence) = π/512,  α(0) = (512/π)(1−1/(2π)) = 1/137.036",
+        "  │       ↑ bridge self-interference: h=1 marginal, D²=1, c=0",
         "  │     m_u = (38/9)m_e,  m_d = (83/9)m_e  (triality + h₁₀)",
         "  │",
         "  │     ── Emergence pattern ──",
@@ -229,7 +222,7 @@ def derive(lep: dict, quarks: dict, ckm: dict, higgs: dict, pmns: dict, alpha_s:
     tree_lines.extend([
         "",
         f"TOTAL: 9 masses + {'3 ν + ' if nu else ''}15 CKM + 3 PMNS + 1 α_s + 1 Higgs + {'1 G_N + ' if grav else ''}{'1 η_B' if baryo else ''}",
-        f"     = {n_checks} numerical checks from M_Pl alone, zero free parameters",
+        f"     = {n_checks} numerical checks from M_Pl alone, all couplings derived",
         f"Mass: {n_sub1}/9 ≤ 1%, {n_sub2}/9 ≤ 2%, max {max_err:.1f}%",
         f"CKM:  χ²/n = {chi2_ckm/n_ckm:.2f}  ({n_ckm} obs)",
         f"PMNS: χ²/n = {chi2_pmns/3:.2f}  (3 obs)",

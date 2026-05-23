@@ -113,6 +113,41 @@ def derive(alg: dict, scale: dict, lep: dict):
 
     H("LAYER 3:  QUARK MASSES -- F₄ SECTOR")
 
+    # ──────────────────────────────────────────────────────────────────
+    #  No-tuning note for the entire layer
+    # ──────────────────────────────────────────────────────────────────
+    # The six quark masses below look like polynomials in small integers
+    # over the SU(3)₃ WZW data:
+    #
+    #     m_u   = (4   + 2/9 ) m_e            light triality + h(1,0)
+    #     m_d   = (9   + 2/9 ) m_e            light triality + h(1,0)
+    #     m_c   = (12  + 1/18) m_μ            d₁₀²·d₁₁ + δ_OPE
+    #     m_t   = (97  + 1/12) m_τ            d₁₁⁴+d₁₀⁴ + 1/(2K)
+    #     Q(c,b,t) = 2/3 + h₁₁/K³ = 289/432   adjoint-channel Koide
+    #     Q(s,c,b) = 2/3 + h₁₀/K³ = 649/972   fundamental-channel Koide
+    #
+    # Each of the integers above is a Verlinde quantum dimension or
+    # altitude of the unique SU(3)₃ modular tensor category that the
+    # conformal embedding E₈(1) ⊃ G₂(1) × F₄(1) at level 1 selects:
+    #
+    #     d(1,0) = 2          (quantum dim of fundamental)
+    #     d(1,1) = 3          (quantum dim of adjoint)
+    #     K      = 6          (altitude k + h∨)
+    #     h(1,0) = 2/9        (conformal weight of fundamental)
+    #     h(1,1) = 1/2        (conformal weight of adjoint)
+    #
+    # None of {2, 3, 6, 2/9, 1/2} is adjustable -- they are operator
+    # identities of the WZW model.  And the ladder of corrections
+    # satisfies its own self-consistency:
+    #
+    #     corr₁/corr₂ = (2/9)/(1/18)  = 4   = d(1,0)²
+    #     corr₂/corr₃ = (1/18)/(1/12) = 2/3 = Q₀   (the Koide value)
+    #
+    # so generations 1→2→3 are not three independent ansätze but one
+    # ladder, and the ratio of consecutive corrections reproduces the
+    # Koide parameter Q₀ that already appears in the lepton sector.
+    # There is no free coefficient anywhere in this layer.
+
     # ══════════════════════════════════════════════════════════════════
     #  3.1  Light quarks: triality + conformal zero-point
     # ══════════════════════════════════════════════════════════════════

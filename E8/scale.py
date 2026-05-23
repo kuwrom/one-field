@@ -127,6 +127,28 @@ def derive(alg: dict):
     #    4 modes: real Higgs doublet DOFs (enter through electroweak
     #             instanton sector governed by F₄(1) fusion rule)
     #   Total: 30 modes.  α = π/512 (from Singh ratio, see constants.py).
+    #
+    # Why the count is not adjustable:
+    # The count N = 30 enters v_EW exponentially through δS = N·α/(2π) =
+    # 15/512.  If N were a tunable input, it could be tuned to hit v_EW
+    # exactly -- but the framework has no such knob.  N is forced by group
+    # theory: 26 = dim(F₄ fundamental) and 4 = real DOFs of the SM Higgs
+    # doublet, both fixed.
+    #
+    # Not-25: under Spin(9) ⊂ F₄ the fundamental splits as 26 → 1 ⊕ 9 ⊕ 16,
+    # and a Spin(9)-only argument would count only the 25 non-singlet
+    # modes.  The framework uses the parent F₄ gauge vertex, not the
+    # Spin(9) one; F₄ has no invariant decomposition of the 26 (Schur on
+    # the irreducible representation), so the singlet still couples
+    # through the F₄ vertex and must be counted.  Hence 26 (not 25) F₄-
+    # fund modes + 4 real Higgs-doublet DOFs = 30 with no free choice.
+    # See "One Substrate, Three Generations" Sec. III, paragraph "All 26
+    # modes ... not 25."
+    #
+    # Diagnostic check (printed below): the count that would hit v_EW
+    # exactly is N_fitted; the algebraic prediction is N_VERTEX = 30.
+    # The deviation N_fitted − 30 measures the framework's residual,
+    # NOT the freedom it has to fit (it has none).
     N_vertex = N_VERTEX                  # = 30, derived from branching rules
     delta_S_QED = N_vertex * ALPHA_EM / (2.0 * math.pi)
     S_quark = S_quark_LO + delta_S_QED

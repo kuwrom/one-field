@@ -21,7 +21,7 @@ The calculation follows Supporting Math Sections 5-6:
   5. Channel weight: W(3̄) = 1/d(3) = 1/2
   6. Amplitude ratio: B/A = 2|C₃̄|/(|C₁|·d(3)) = 2√2/2 = √2
 
-No free parameters.  The ratio |C₃̄|/|C₁| = √2 is frame-independent
+No tunable inputs.  The ratio |C₃̄|/|C₁| = √2 is frame-independent
 (both maps are unique up to phase).
 """
 
