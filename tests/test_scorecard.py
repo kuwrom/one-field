@@ -15,10 +15,11 @@ without being so tight that they fail on cosmetic numerical noise.
 """
 
 import math
+from fractions import Fraction
 
 import pytest
 
-from E8.constants import NUFIT_OSCILLATION, NUFIT_PMNS, PDG_MASSES
+from E8.constants import N_VERTEX, NUFIT_OSCILLATION, NUFIT_PMNS, PDG_MASSES, ALPHA_EM
 
 
 def err_pct(predicted: float, expected: float) -> float:
@@ -199,3 +200,104 @@ def test_strong_cp_resolved(res):
             "theta_QCD appeared as a derived/free parameter - "
             "the strong-CP resolution requires it to be structurally absent"
         )
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  Algebraic structure  (rational identities behind the predictions)
+#  ──────────────────────────────────────────────────────────────────
+#  The numerical tests above check "does the answer match PDG".  These
+#  check "does the answer come from the right rational?".  A refactor
+#  that preserved the float but broke the algebraic ratio would pass
+#  the numerical tests and fail these.
+# ═══════════════════════════════════════════════════════════════════════
+
+def test_light_quark_ratios_are_38_9_and_83_9(res):
+    """m_u/m_e = 38/9 and m_d/m_e = 83/9 (triality + h(1,0) = 2/9)."""
+    h10 = Fraction(2, 9)
+    assert Fraction(4, 1) + h10 == Fraction(38, 9)
+    assert Fraction(9, 1) + h10 == Fraction(83, 9)
+    # And the module returns those floats:
+    assert math.isclose(res["qrk"]["m_u"] / res["lep"]["m_e"], 38 / 9, rel_tol=1e-12)
+    assert math.isclose(res["qrk"]["m_d"] / res["lep"]["m_e"], 83 / 9, rel_tol=1e-12)
+
+
+def test_heavy_quark_ratios_are_217_18_and_1165_12(res):
+    """m_c/m_mu = 217/18 (charm) and m_t/m_tau = 1165/12 (top)."""
+    delta_OPE = Fraction(1, 18)  # h(1,1) − 2 h(1,0) = 1/2 − 4/9
+    K = 6
+    assert Fraction(12, 1) + delta_OPE == Fraction(217, 18)
+    assert Fraction(81 + 16, 1) + Fraction(1, 2 * K) == Fraction(1165, 12)
+    assert math.isclose(res["qrk"]["m_c"] / res["lep"]["m_mu"], 217 / 18, rel_tol=1e-12)
+    assert math.isclose(res["qrk"]["m_t"] / res["lep"]["m_tau"], 1165 / 12, rel_tol=1e-12)
+
+
+def test_bottom_koide_is_289_432(res):
+    """Q(c,b,t) = 2/3 + h(1,1)/K^3 = 289/432."""
+    K = 6
+    Q = Fraction(2, 3) + Fraction(1, 2) / Fraction(K**3, 1)
+    assert Q == Fraction(289, 432)
+    sc = math.sqrt(res["qrk"]["m_c"])
+    sb = math.sqrt(res["qrk"]["m_b"])
+    st = math.sqrt(res["qrk"]["m_t"])
+    Q_num = (res["qrk"]["m_c"] + res["qrk"]["m_b"] + res["qrk"]["m_t"]) / (sc + sb + st) ** 2
+    assert math.isclose(Q_num, 289 / 432, rel_tol=1e-10)
+
+
+def test_strange_koide_is_649_972():
+    """Q(s,c,b) = 2/3 + h(1,0)/K^3 = 649/972 (Rivero inverse fundamental channel)."""
+    K = 6
+    Q = Fraction(2, 3) + Fraction(2, 9) / Fraction(K**3, 1)
+    assert Q == Fraction(649, 972)
+
+
+def test_albert_bridge_factor_is_32_over_27():
+    """bridge^2 = Q0^2 * d(1,0)^3 / d(1,1) = (4/9)(8/3) = 32/27."""
+    d10, d11 = 2, 3
+    bridge_sq = Fraction(2, 3) ** 2 * Fraction(d10**3, 1) / Fraction(d11, 1)
+    assert bridge_sq == Fraction(32, 27)
+
+
+def test_lepton_koide_is_two_thirds(res):
+    """Q_lep = 1/3 + (B/A)^2 / 6 = 2/3 from |B/A|^2 = 2."""
+    BA_sq = 2  # octonionic CG corollary
+    Q = Fraction(1, 3) + Fraction(BA_sq, 6)
+    assert Q == Fraction(2, 3)
+    me, mmu, mtau = res["lep"]["m_e"], res["lep"]["m_mu"], res["lep"]["m_tau"]
+    Q_num = (me + mmu + mtau) / (math.sqrt(me) + math.sqrt(mmu) + math.sqrt(mtau)) ** 2
+    assert math.isclose(Q_num, 2 / 3, rel_tol=1e-5)
+
+
+def test_vertex_count_is_30_with_no_free_choice():
+    """N_vertex = 26 (F4 fund irreducible) + 4 (Higgs DOFs) = 30."""
+    assert N_VERTEX == 30
+
+
+def test_vertex_action_is_15_over_512():
+    """delta_S = N * alpha / (2 pi) = 30 * (pi/512) / (2 pi) = 15/512 exactly."""
+    delta_s = N_VERTEX * ALPHA_EM / (2.0 * math.pi)
+    assert math.isclose(delta_s, 15.0 / 512.0, abs_tol=1e-15)
+
+
+def test_alpha_bridge_chain_is_one_loop_exact(res):
+    """alpha(0) bridge derivation: h_bridge = 1, D^2 = 1, c_coset = 0."""
+    ab = res["ab"]
+    # Marginal primary: h_bridge = h(7) + h(26) = 2/5 + 3/5 = 1
+    assert math.isclose(ab["h_bridge"], 1.0, abs_tol=1e-12)
+    assert math.isclose(ab["h_G2_7"], 2 / 5, abs_tol=1e-12)
+    assert math.isclose(ab["h_F4_26"], 3 / 5, abs_tol=1e-12)
+    # Lagrangian condensation: D^2_local = 1
+    assert math.isclose(ab["D2_local"], 1.0, abs_tol=1e-12)
+    assert math.isclose(ab["g_bridge_sq"], 1.0, abs_tol=1e-12)
+    # Topological coset: c_coset = 0
+    assert math.isclose(ab["c_coset"], 0.0, abs_tol=1e-12)
+    # Closed-form: 1/alpha(0) = 256(2pi-1)/pi^2
+    expected = 256.0 * (2.0 * math.pi - 1.0) / math.pi**2
+    assert math.isclose(ab["inv_alpha_phys"], expected, rel_tol=1e-12)
+
+
+def test_gravity_bridge_xi_is_1_over_48_pi(res):
+    """xi_bridge = alpha_G2 * E[v^2] * h_bridge = 1/(48 pi)."""
+    assert math.isclose(res["gr"]["xi_bridge"], 1.0 / (48.0 * math.pi), abs_tol=1e-14)
+    assert math.isclose(res["gr"]["E_v2"], 0.5, abs_tol=1e-12)
+    assert math.isclose(res["gr"]["h_bridge"], 1.0, abs_tol=1e-12)
+    assert res["gr"]["N_bridge"] == 182

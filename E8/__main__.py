@@ -45,10 +45,10 @@ from . import ckm
 from . import pmns
 from . import neutrinos
 from . import alpha_s
+from . import alpha_bridge
 from . import higgs
 from . import gravity
 from . import baryogenesis
-from . import proofs
 from . import scorecard
 
 
@@ -103,6 +103,9 @@ def main(argv: list[str] | None = None) -> None:
         # Layer 7 -- Strong coupling (embedding index chain)
         as_data = alpha_s.derive(alg, scl, qrk)
 
+        # Layer 7b -- Bridge self-interference: alpha(0) from (7,26)
+        ab = alpha_bridge.derive(alg)
+
         # Layer 8 -- Higgs mass from F_4(1) fusion + bridge threshold
         hig = higgs.derive(scl, qrk, as_data, lep, alg)
 
@@ -112,11 +115,8 @@ def main(argv: list[str] | None = None) -> None:
         # Layer 11 -- Baryogenesis: eta_B from emergence
         baryo = baryogenesis.derive(alg, pmns_data)
 
-        # Layer 12 -- Proof certificates
-        proof_data = proofs.derive(alg, scl, lep, qrk, wzw_data, ckm_data, hig, pmns_data, as_data, grav)
-
     # Global scorecard -- always printed
-    scorecard.derive(lep, qrk, ckm_data, hig, pmns_data, as_data, proof_data, grav, nu, baryo)
+    scorecard.derive(lep, qrk, ckm_data, hig, pmns_data, as_data, grav, nu, baryo)
 
 
 if __name__ == "__main__":

@@ -19,15 +19,19 @@ the unit system.  All dimensionless couplings are derived:
                                      broken-phase dilution factor 6)
     alpha_em(algebra) = pi/512      (= (pi/32)/16, emergence scale)
 
-    The physical fine-structure constant is a second algebraic identity:
+    The physical fine-structure constant is the same coupling read
+    at the IR pole-mass scale after self-interference through the
+    (7,26) bridge sector:
     1/alpha(0) = (512/pi)(1 − 1/(2pi))
                = 256(2pi − 1)/pi^2
                = 137.036  (to 0.0003%)
 
-    The factor (1 − 1/(2pi)) is an algebraic consequence of the
-    conformal embedding; no perturbative dressing is applied.
-    The instanton action uses alpha = pi/512; lepton pole masses
-    use alpha(0).
+    The factor (1 − 1/(2pi)) is the one-loop self-interference of a
+    marginal (h_bridge = 1) primary with unit coupling (D^2_local = 1)
+    in a topological coset (c_coset = 0).  See alpha_bridge.py
+    (Layer 7b) for the full derivation.  alpha = pi/512 and alpha(0)
+    are two readings of the same coupling at two emergence layers;
+    the instanton action uses alpha, lepton pole masses use alpha(0).
 
 The framework therefore has zero dimensionless free parameters.
 Everything else below is PDG / NuFit reference data for comparison.
@@ -55,15 +59,20 @@ M_Pl_MeV = M_Pl_GeV * 1e3     # Planck mass  [MeV]
 #  This is the coupling at the conformal embedding scale.
 #  It enters the instanton vertex correction: delta_S = 30 × (pi/512)/(2pi) = 15/512.
 #
-#  Step 2 -- Physical fine-structure constant (algebraic identity):
+#  Step 2 -- Physical fine-structure constant (bridge self-interference):
 #    1/alpha(0) = (512/pi) × (1 - 1/(2pi))
 #               = 256(2pi - 1)/pi^2
 #               = 137.0364  (expt: 137.036, agreement 0.0003%)
 #
-#    The (1 - 1/(2pi)) factor is an algebraic consequence of the
-#    conformal embedding structure -- not an external perturbative
-#    correction.  This alpha(0) enters the lepton pole-mass vertex
-#    correction.
+#    The (1 - 1/(2pi)) factor is the one-loop self-interference
+#    correction from the (7,26) bridge sector.  Three facts combine:
+#      (A) h_bridge = h(7) + h(26) = 2/5 + 3/5 = 1  (marginal primary)
+#      (B) D^2_local = 1  (Lagrangian algebra condensation -> unit coupling)
+#      (C) c_coset = c(E_8) - c(G_2) - c(F_4) = 0  (topological -> one-loop exact)
+#    The worldsheet integral of a marginal (h=1) primary with unit
+#    coupling gives the universal correction h/(2pi) = 1/(2pi).
+#    See alpha_bridge.py for the full derivation.
+#    This alpha(0) enters the lepton pole-mass vertex correction.
 
 # -- Singh ratio alpha_s / alpha_em = 16 --
 # Derived from the charge-trace structure of J_3(C x O).
@@ -95,12 +104,55 @@ SINGH_RATIO = CHARGE_TRACE * C2_FUND_F4             # = (8/3) x 6 = 16
 ALPHA_G2_vEW = math.pi / 32.0        # exact WZW identity
 ALPHA_EM = ALPHA_G2_vEW / SINGH_RATIO  # = pi/512 (emergence scale)
 
-# Physical fine-structure constant (algebraic identity)
-#   1/alpha(0) = (512/pi)(1 - 1/(2pi)) = 256(2pi-1)/pi^2
+# Physical fine-structure constant from the (7,26) bridge sector.
+#   1/alpha(0) = (1/alpha_alg) × (1 - h_bridge/(2pi))
+#              = (512/pi) × (2pi - 1)/(2pi)
+#              = 256(2pi - 1)/pi^2
+#              = 137.0364
+#
+# Microscopic origin (this is NOT a perturbative running approximation):
+#   The factor (1 - 1/(2pi)) is the one-loop self-interference of the
+#   (7,26) bridge sector of the E_8(1) > G_2(1) x F_4(1) embedding.
+#   Three independent facts make it exact:
+#
+#     (i)  h_bridge = h(7, G_2) + h(26, F_4) = 2/5 + 3/5 = 1  [MARGINAL]
+#          The bridge is a (h, h_bar) = (1, 1) marginal primary, so it
+#          generates a marginal worldsheet deformation.
+#
+#     (ii) A_{E_8} = 1 + (tau_G, tau_F) condenses with D^2_local = 1
+#          [LAGRANGIAN]
+#          The Lagrangian algebra in the Fibonacci x Fibonacci product
+#          category fixes the bridge-to-current coupling to unit strength
+#          g^2 = 1.  No free coupling.
+#
+#     (iii) c_coset = c(E_8) - c(G_2) - c(F_4) = 8 - 14/5 - 26/5 = 0
+#          [TOPOLOGICAL, ONE-LOOP EXACT]
+#          A c = 0 sector has no propagating modes, so higher-loop
+#          worldsheet diagrams with internal bridge propagators vanish.
+#          The one-loop result is exact.
+#
+#   The one-loop worldsheet integral of a marginal primary in a current-
+#   current correlator is the universal h/(2pi).  Combined with g^2 = 1:
+#
+#       delta(1/alpha) / (1/alpha) = g^2 * h / (2pi) = 1/(2pi).
+#
+#   Same bridge, two readings:
+#     * EM:      QED vertex factor (1 - alpha(0)/(2pi)) on lepton masses;
+#     * gravity: ksi_bridge = alpha_G2 * (1/2) * h_bridge = 1/(48pi),
+#                giving G_ind/G_N = 0.994 (UV) to 1.007 (broken).
+#   The (7,26) carries both QED self-interference and gravitational
+#   common-mode memory; the same h_bridge = 1 sets both.
+#
+#   See "One Substrate, Three Generations" Sec. III (revised paragraph
+#   on the physical fine-structure constant) and the derivation script
+#   alpha_bridge_derivation.py.
+#
+# Numerical agreement: 256(2pi-1)/pi^2 = 137.0364 vs PDG 137.0360, the
+# residual is at the 3 ppm level.
 ALPHA_PHYS = math.pi**2 / (256.0 * (2.0 * math.pi - 1.0))
 
 # Derived QED factors
-QED_FACTOR = 1.0 - ALPHA_PHYS / (2.0 * math.pi)   # pole-mass vertex correction
+QED_FACTOR = 1.0 - ALPHA_PHYS / (2.0 * math.pi)   # pole-mass vertex factor
 QED_FACTOR_BARE = 1.0 - ALPHA_EM / (2.0 * math.pi)   # for reference (emergence scale)
 
 # ===================================================================
