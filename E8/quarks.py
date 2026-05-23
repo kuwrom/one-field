@@ -15,6 +15,70 @@ Six quark masses from four derivation mechanisms:
   • Top:    WZW emergence  m_t = (d₁₁⁴+d₁₀⁴+1/(2K)) m_τ = (1165/12) m_τ
   • Bottom: Q(c,b,t) = 2/3 + h₁₁/K³  from Albert algebra + WZW
   • Strange: Rivero inverse with Q(s,c,b) = 2/3 + h₁₀/K³, Albert–Dynkin bridge
+
+Physical motivation (readable without the papers)
+──────────────────────────────────────────────────
+
+WHY quark masses are multiples of lepton masses:
+
+  The 26 of F₄ decomposes under Spin(8) ⊂ Spin(9) ⊂ F₄ as
+  26 = 8_v ⊕ 8_s ⊕ 8_c ⊕ 1 ⊕ 1.  Via the Pati–Salam embedding
+  SU(4)×SU(2) ⊂ Spin(8), the three octets carry SM matter:
+  8_v → charged leptons, 8_s → up quarks, 8_c → down quarks.
+
+  The Z₃ centre of SU(3)_c forces all U(1)_em eigenvalues on the 26
+  to be multiples of 1/3.  In a Z₃-equivariant standing wave, the
+  allowed boundary amplitude for each species is its charge integer,
+  and mass is the square of that amplitude.  Normalising by the Z₃
+  quantum 1/3 gives the ratio √m_e : √m_u : √m_d = 1 : 2 : 3.
+
+  Squaring: m_u/m_e = 4,  m_d/m_e = 9.  The conformal zero-point
+  h(1,0) = 2/9 from the SU(3)₃ WZW fundamental primary adds an
+  additive correction, giving m_u = (4 + 2/9)m_e = (38/9)m_e and
+  m_d = (9 + 2/9)m_e = (83/9)m_e.
+
+WHY quantum dimensions set the mass hierarchy (the WZW emergence pattern):
+
+  Each up-type quark is shaped by its generation lepton through
+  the quantum-dimension data of SU(3)₃.  The structural integers
+  in each formula are products of Verlinde quantum dimensions
+  d(1,0) = 2 and d(1,1) = 3:
+
+  Gen 1:  base = d(1,0)² = 4         corr = h(1,0) = 2/9
+  Gen 2:  base = d(1,0)²·d(1,1) = 12 corr = δ = 1/18   (OPE exponent)
+  Gen 3:  base = d(1,1)⁴+d(1,0)⁴ = 97  corr = 1/(2K) = 1/12
+
+  The correction ratios encode exact WZW data:
+    corr₁/corr₂ = (2/9)/(1/18) = 4 = d(1,0)²
+    corr₂/corr₃ = (1/18)/(1/12) = 2/3 = Q₀ (Koide parameter)
+
+  Physical picture: the WZW fusion algebra controls how many
+  independent channels a standing-wave knot can occupy at each
+  generation.  The quantum dimension d(λ) counts the effective
+  number of fusion channels in representation λ.  Higher generations
+  access more channels (higher powers of d), producing larger masses.
+
+WHY the Koide parameter Q governs heavier quarks:
+
+  The Koide ratio Q = (m₁+m₂+m₃)/(√m₁+√m₂+√m₃)² = 1/3 + |B/A|²/6.
+  The octonionic CG calculation (octonions.py) gives |B/A|² = 2 →
+  Q₀ = 2/3 for all Z₃ Brannen triplets.  The sub-leading WZW
+  correction is Q = 2/3 + h(rep)/K³, where the representation λ is
+  uniquely selected by each triplet's closure:
+    • (e,μ,τ):  identity (0,0), h=0  → Q = 2/3 exactly
+    • (c,b,t):  adjoint (1,1), h=1/2 → Q = 289/432
+    • (s,c,b):  fundamental (1,0), h=2/9 → Q = 649/972
+
+WHY the bridge factor √(32/27) appears in the strange mass:
+
+  The Albert algebra J₃(𝕆) has a natural trace norm whose spread
+  parameter is δ_J = √(3/8) = √(d(1,1)/d(1,0)³).  The Dynkin Z₂
+  fixed point (from the triality section) is δ_{Z₂} = 2/3.  The
+  ratio bridge² = δ_{Z₂}²/δ_J² = (2/3)²/(3/8) = Q₀²·d(1,0)³/d(1,1)
+  = 32/27 connects the Albert algebra geometry to the WZW data.
+  The strange quark enters through the antisymmetric ε-channel of
+  SU(3), which flips the sign of √m_s in the Koide sum (the Z₂
+  outer automorphism of SU(3) sends ε_{ijk} → −ε_{ijk}).
 """
 
 import math
@@ -55,7 +119,15 @@ def derive(alg: dict, scale: dict, lep: dict):
 
     S("3.1  Light quarks: (d² + h(1,0)) × m_e")
 
-    h_fund = 2.0 / 9.0          # h(1,0) = C₂(fund) / (2K) = (8/3)/12
+    # Conformal weight of the SU(3)₃ WZW fundamental primary (1,0):
+    #   h(1,0) = C₂(fund, SU(3)) / (k + h∨)
+    #          = (4/3) / (3 + 3) = 2/9
+    # where k=3 (WZW level) and h∨=3 (dual Coxeter number of SU(3)).
+    # This is the conformal zero-point energy that shifts each mass.
+    h_fund = 2.0 / 9.0          # h(1,0) = (4/3)/6 = 2/9
+
+    # OPE sub-leading exponent: the difference between the adjoint
+    # conformal weight and twice the fundamental weight.
     delta_OPE = 1.0 / 18.0      # δ = h(1,1) − 2h(1,0) = 1/2 − 4/9
 
     # The integer coefficients 4 and 9 are NOT fitted.  They come from the
@@ -81,7 +153,17 @@ def derive(alg: dict, scale: dict, lep: dict):
 
     S("3.2  Charm: (d₁₀²·d₁₁ + δ) × m_μ = (217/18) m_μ")
 
+    # WZW emergence formula for charm (see docstring for full motivation):
+    #   base = d(1,0)²·d(1,1) = 4×3 = 12
+    #     This product of Verlinde quantum dimensions counts the
+    #     independent fusion channels available at generation 2.
+    #   correction = δ = h(1,1) − 2h(1,0) = 1/18 (OPE sub-leading exponent)
+    #   Each up-type quark mass = (base + correction) × generation lepton
     m_c = (12.0 + delta_OPE) * m_mu           # (217/18) m_μ
+
+    # Cross-check via the Dynkin Z₂ generation ladder:
+    #   The Z₂ ⊂ S₃ maps the lepton generation ratio τ/μ to the quark
+    #   generation ratio, carried across by the (7,26) bridge of E₈.
     tau_over_mu = m_tau / m_mu
     m_c_ladder = 9.0 * m_e * tau_over_mu**2   # Dynkin cross-check
 
@@ -95,17 +177,25 @@ def derive(alg: dict, scale: dict, lep: dict):
 
     S("3.3  Top: (d₁₁⁴ + d₁₀⁴ + 1/(2K)) m_τ = (1165/12) m_τ")
 
-    # The third-generation emergence formula:
-    #   m_t = (d₁₁⁴ + d₁₀⁴ + corr₃) × m_τ
-    #       = (81 + 16 + 1/12) × m_τ
-    #       = (1165/12) m_τ
+    # Third-generation WZW emergence formula:
     #
-    # This completes the generation cascade:
+    #   m_t = (d(1,1)⁴ + d(1,0)⁴ + 1/(2K)) × m_τ
+    #       = (81 + 16 + 1/12) × m_τ  = (1165/12) m_τ
+    #
+    # Physical picture: the third generation accesses the FULL
+    # fusion algebra, both representations at their maximal power.
+    # d(1,1)⁴ = 81 counts the adjoint fusion channels (3⁴),
+    # d(1,0)⁴ = 16 counts the fundamental channels (2⁴).
+    # The correction 1/(2K) = 1/12 is the altitude suppression.
+    #
+    # The three-generation cascade (see docstring for full derivation):
     #   Gen 1: m_u = (d₁₀²  + h₁₀)  m_e   = (38/9) m_e     corr₁ = 2/9
     #   Gen 2: m_c = (d₁₀²d₁₁ + δ)  m_μ   = (217/18) m_μ   corr₂ = 1/18
     #   Gen 3: m_t = (d₁₁⁴+d₁₀⁴ + 1/(2K)) m_τ = (1165/12) m_τ  corr₃ = 1/12
     #
-    # Correction ratios: corr₁/corr₂ = d₁₀² = 4,  corr₂/corr₃ = Q₀ = 2/3
+    # The correction ratios are exact WZW data:
+    #   corr₁/corr₂ = (2/9)/(1/18) = 4 = d(1,0)²
+    #   corr₂/corr₃ = (1/18)/(1/12) = 2/3 = Q₀ (the Koide parameter)
     d_10 = 2    # quantum dimension of (1,0)
     d_11 = 3    # quantum dimension of (1,1)
     K = 6       # altitude
@@ -130,10 +220,17 @@ def derive(alg: dict, scale: dict, lep: dict):
 
     S("3.4  Bottom: Q(c,b,t) = 2/3 + h₁₁/K³")
 
-    # The Koide correction uses h₁₁ (the adjoint conformal weight 1/2)
-    # divided by the altitude cubed K³ = 216.  Equivalently, this is
-    # the third-generation WZW correction corr₃ = 1/(2K) = 1/12
-    # divided by K²:  Q = 2/3 + corr₃/K² = 2/3 + 1/432 = 289/432.
+    # Koide parameter for the (c,b,t) triplet:
+    #
+    # The triplet (c,b,t) spans the diagonal Z₃ of the Albert algebra
+    # J₃(𝕆): each member sits in a different triality sector of
+    # F₄ → SU(3)_A × SU(3)_B.  The amplitude ratio B/A = √2 (from
+    # octonionic CG, see octonions.py) gives the universal Q₀ = 2/3.
+    #
+    # The sub-leading correction is the adjoint conformal weight h(1,1)
+    # divided by K³ = 216 (the altitude cubed).  This is the unique
+    # WZW correction for the adjoint channel through which the (c,b,t)
+    # triplet closes (see the unified formula Q = 2/3 + h(rep)/K³).
     h_11 = 0.5                              # conformal weight of (1,1)
     K = 6                                   # altitude = k + h∨ = 3 + 3
     Q_tree = 2.0 / 3.0
@@ -162,10 +259,16 @@ def derive(alg: dict, scale: dict, lep: dict):
 
     S("3.5  Strange: Rivero inverse with Q = 2/3 + h₁₀/K³ + √(32/27) bridge")
 
-    # Unified formula: Q = 2/3 + h(rep)/K³
-    #   (c,b,t) uses h₁₁ (adjoint weight)  → Q = 289/432
-    #   (s,c,b) uses h₁₀ (fundamental weight) → Q = 649/972
-    # The fundamental weight governs the ε-channel (sign-flip) sector.
+    # Unified Koide formula: Q = 2/3 + h(rep)/K³
+    #   (c,b,t) uses h(1,1) = 1/2  (adjoint)      → Q = 289/432
+    #   (s,c,b) uses h(1,0) = 2/9  (fundamental)   → Q = 649/972
+    #
+    # The (s,c,b) triplet closes through the fundamental representation
+    # because the strange quark enters through the antisymmetric
+    # ε-channel of SU(3).  The ε_{ijk} tensor is the unique SU(3)
+    # invariant in 3⊗3→3̄, and under the Z₂ outer automorphism
+    # (complex conjugation: 3↔3̄) it flips sign.  This forces
+    # √m_s → −√m_s in the Koide sum, the "Rivero inverse" sign.
     Q_s = 2.0 / 3.0 + h_fund / K**3    # 2/3 + (2/9)/216 = 649/972
     sc_r = math.sqrt(m_c)
     sb_r = math.sqrt(m_b)
@@ -178,10 +281,14 @@ def derive(alg: dict, scale: dict, lep: dict):
     x_phys = x1_r if x1_r > 0 else x2_r
     m_s_bare = x_phys**2
 
-    # Bridge factor from WZW data:
-    #   bridge² = Q₀² × d₁₀³/d₁₁ = (2/3)² × 8/3 = 32/27
-    # Equivalently, the Albert algebra spread 3/8 = d₁₁/d₁₀³,
-    # so the Dynkin–Albert ratio δ_Z₂²/δ_J² = Q₀²/(d₁₁/d₁₀³) = Q₀² d₁₀³/d₁₁.
+    # Albert–Dynkin bridge factor (see docstring for derivation):
+    #
+    # The Albert algebra J₃(𝕆) has trace norm spread δ_J = √(3/8),
+    # which equals √(d(1,1)/d(1,0)³) in WZW language.  The Dynkin Z₂
+    # fixed point from the triality section is δ_{Z₂} = 2/3.
+    # The bridge connects these two geometries:
+    #   bridge² = δ_{Z₂}²/δ_J² = (2/3)²/(3/8) = (4/9)×(8/3) = 32/27
+    # Equivalently: Q₀² × d(1,0)³/d(1,1) = (2/3)² × 8/3 = 32/27.
     d_10 = 2    # quantum dimension of (1,0)
     d_11 = 3    # quantum dimension of (1,1)
     bridge_sq = (2.0/3.0)**2 * d_10**3 / d_11     # = 32/27

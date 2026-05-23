@@ -40,6 +40,7 @@ from . import scale
 from . import leptons
 from . import quarks
 from . import wzw
+from . import octonions
 from . import ckm
 from . import pmns
 from . import neutrinos
@@ -86,6 +87,9 @@ def main(argv: list[str] | None = None) -> None:
 
         # Layer 4 -- SU(3)_3 WZW data (CKM/PMNS engine)
         wzw_data = wzw.derive()
+
+        # Layer 4b -- Octonionic CG verification (B/A = sqrt(2) -> Q_0 = 2/3)
+        oct_data = octonions.derive(wzw_data)
 
         # Layer 5 -- CKM matrix (four WZW structures)
         ckm_data = ckm.derive(wzw_data)

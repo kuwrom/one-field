@@ -14,6 +14,47 @@ Four Wolfenstein parameters, each from a distinct mathematical structure:
     A = √(n₁₁_off/d₁₁) = √(2/3)      ← algebraic (nimrep block)
     η̄ = arg(S_{f,f})    = π/9          ← modular  (S-matrix phase)
     ρ̄ = h₁₀ · |W|       = √2/9         ← topological (Ocneanu cells)
+
+Physical motivation (readable without the papers)
+──────────────────────────────────────────────────
+
+The D⁽⁶⁾ modular invariant is the unique boundary extension of
+SU(3)₃ selected by the Z₃ standing-wave condition.  It describes
+how the three generations couple across the boundary of the WZW
+theory (i.e., how they mix).  This single algebraic object has
+four distinct mathematical faces, each of which determines one
+Wolfenstein parameter:
+
+λ = tan(2/9) — METRIC FACE (conformal weights):
+    The conformal weight h(1,0) = 2/9 measures the scaling dimension
+    of the lightest charged primary.  In the boundary OPE (Cardy/BPPZ
+    formalism), chiral and anti-chiral sectors couple, and the Cabibbo
+    mixing parameter is the ratio of boundary one-point functions:
+    sin(h(1,0))/cos(h(1,0)) = tan(2/9).
+
+A = √(2/3) — ALGEBRAIC FACE (nimrep):
+    The D⁽⁶⁾ nimrep matrix n(1,1) has 2×2 blocks of the form [[1,2],[2,1]]
+    for each generation pair.  The off-diagonal entry n_off = 2 counts the
+    number of boundary channels connecting different generations.  The
+    quantum dimension d(1,1) = 3 is the total number of channels.  The
+    inter-generation fraction is 2/3, and A is its amplitude: √(2/3).
+
+η̄ = π/9 — MODULAR FACE (S-matrix phase):
+    The Kac–Peterson S-matrix of SU(3)₃ encodes the modular
+    transformation τ → −1/τ.  The fundamental-fundamental entry
+    S_{(1,0),(1,0)} has phase 11π/18 (from the Weyl orbit sum).
+    After subtracting the standard phase normalisation π/2:
+    η̄ = 11π/18 − π/2 = π/9.
+
+ρ̄ = √2/9 — TOPOLOGICAL FACE (Ocneanu cells):
+    The conformal weight h(1,0) = 2/9 supplies the length of the
+    fundamental boundary step.  The unique Ocneanu cell (the
+    topological datum of the D⁽⁶⁾ invariant, |W| = 1/√2) projects
+    that step onto the real CP coordinate:
+    ρ̄ = h(1,0) × |W| = (2/9) × (1/√2) = √2/9.
+
+The CP phase γ = arctan(η̄/ρ̄) = arctan(π/√2) = 65.76° is then
+the angle between the modular face and the topological face.
 """
 
 import cmath
@@ -52,6 +93,9 @@ def derive(wzw: dict):
     # set by the conformal embedding.  See One Substrate, Secs. 9.1-9.4.
 
     # ── 5.1  λ = tan(h₁₀) ────────────────────────────────────────────
+    # The Cabibbo angle from the METRIC face of the D⁽⁶⁾ invariant:
+    # in the boundary OPE, chiral and anti-chiral sectors couple with
+    # amplitudes sin(h) and cos(h), so the mixing ratio is tan(h).
 
     S("5.1  λ = tan(h₁₀) -- METRIC")
 
@@ -63,6 +107,10 @@ def derive(wzw: dict):
     print(f"  λ = tan(2/9) = {lam:.5f}   (PDG: {lam_pdg} ± {lam_sig}, pull: {(lam-lam_pdg)/lam_sig:+.2f}σ)")
 
     # ── 5.2  A = √(2/3) ──────────────────────────────────────────────
+    # The hierarchy parameter from the ALGEBRAIC face:
+    # n(1,1) nimrep blocks are [[1,2],[2,1]] for each generation pair.
+    # Off-diagonal 2 out of quantum dimension 3 → fraction 2/3.
+    # A is the amplitude (square root) of this fraction.
 
     S("5.2  A = √(2/3) -- ALGEBRAIC")
 
@@ -74,6 +122,10 @@ def derive(wzw: dict):
     print(f"  A = √(2/3) = {A:.5f}   (PDG: {A_pdg} ± {A_sig}, pull: {(A-A_pdg)/A_sig:+.2f}σ)")
 
     # ── 5.3  η̄ = π/9 ─────────────────────────────────────────────────
+    # The CP-violating imaginary coordinate from the MODULAR face:
+    # the Kac–Peterson S-matrix entry S_{(1,0),(1,0)} has phase 11π/18
+    # from the Weyl orbit sum (computed in wzw.py).  After the standard
+    # phase normalisation (subtract π/2): η̄ = 11π/18 − π/2 = π/9.
 
     S("5.3  η̄ = π/9 -- MODULAR (exact)")
 
@@ -84,6 +136,11 @@ def derive(wzw: dict):
     print(f"  η̄ = π/9 = {eta:.5f}   (PDG: {eta_pdg} ± {eta_sig}, pull: {(eta-eta_pdg)/eta_sig:+.2f}σ)")
 
     # ── 5.4  ρ̄ = √2/9 ────────────────────────────────────────────────
+    # The CP-violating real coordinate from the TOPOLOGICAL face:
+    # h(1,0) = 2/9 is the boundary step length (conformal weight),
+    # and |W| = 1/√2 is the unique Ocneanu cell amplitude of D⁽⁶⁾.
+    # The Ocneanu cell projects the conformal step onto the real axis:
+    # ρ̄ = h(1,0) × |W| = (2/9)/(√2) = √2/9.
 
     S("5.4  ρ̄ = h₁₀/√2 = √2/9 -- TOPOLOGICAL")
 
@@ -94,6 +151,9 @@ def derive(wzw: dict):
     print(f"  ρ̄ = √2/9 = {rho:.5f}   (PDG: {rho_pdg} ± {rho_sig}, pull: {(rho-rho_pdg)/rho_sig:+.2f}σ)")
 
     # ── 5.5  CP phase γ ──────────────────────────────────────────────
+    # γ is the angle between the modular face (η̄ = π/9) and the
+    # topological face (ρ̄ = √2/9) of the same D⁽⁶⁾ algebra.
+    # γ = arctan(η̄/ρ̄) = arctan((π/9)/(√2/9)) = arctan(π/√2) = 65.8°.
 
     S("5.5  γ = arctan(π/√2)")
 

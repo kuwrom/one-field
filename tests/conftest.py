@@ -19,6 +19,7 @@ from E8 import (
     higgs,
     leptons,
     neutrinos,
+    octonions,
     pmns,
     quarks,
     scale,
@@ -35,6 +36,7 @@ def res():
         lep = leptons.derive(scl)
         qrk = quarks.derive(alg, scl, lep)
         wz = wzw.derive()
+        oc = octonions.derive(wz)
         ck = ckm.derive(wz)
         pm = pmns.derive(wz, lep, ck)
         nu = neutrinos.derive(alg)
@@ -43,6 +45,6 @@ def res():
         gr = gravity.derive(alg, scl)
         br = baryogenesis.derive(alg, pm)
     return dict(
-        alg=alg, scl=scl, lep=lep, qrk=qrk, wz=wz, ck=ck,
+        alg=alg, scl=scl, lep=lep, qrk=qrk, wz=wz, oc=oc, ck=ck,
         pm=pm, nu=nu, als=als, hg=hg, gr=gr, br=br,
     )

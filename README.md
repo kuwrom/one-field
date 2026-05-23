@@ -164,6 +164,7 @@ Each layer is a module exposing one `derive(deps) → dict` function. The order 
 | `leptons.py` | Layer 2: Brannen Z₃ formula |
 | `quarks.py` | Layer 3: F₄ quark masses |
 | `wzw.py` | Layer 4: SU(3)₃ WZW data, S-matrix, Verlinde fusion |
+| `octonions.py` | Layer 4b: Octonionic G₂/SU(3) Clebsch–Gordan check, derives `B/A = √2` |
 | `ckm.py` | Layer 5: CKM from four WZW structures |
 | `pmns.py` | Layer 6: PMNS from conjugation invariant |
 | `neutrinos.py` | Layer 6b: F₄ neutral sector → ν masses |
@@ -182,14 +183,14 @@ cd one-field
 pip install -r requirements.txt
 python -m E8              # full derivation
 python -m E8 --summary    # scorecard + tree only
-pytest                    # verify all 34 predictions as falsification tests
+pytest                    # 25 tests covering the 34 scorecard predictions
 ```
 
 Requires Python 3.10+ and NumPy. Runs in well under a second.
 
 ## Tests
 
-The scorecard is encoded as a `pytest` test suite in `tests/test_scorecard.py`. Each numerical prediction is a single assertion against PDG / NuFit / Planck reference data, with tolerances chosen as small margins above the observed deviation:
+The scorecard is encoded as a `pytest` test suite in `tests/test_scorecard.py`. Twenty-five test functions cover the 34 scorecard predictions plus three structural closure checks. Most predictions are 1-to-1 assertions against PDG / NuFit / Planck data. Some are grouped (e.g., the 15 CKM observables are covered by a χ²/n test plus a max-pull test). Tolerances are small margins above the observed deviation:
 
 ```
 $ pytest -v
