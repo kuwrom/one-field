@@ -111,7 +111,7 @@ The (7,26) bridge carries TWO predictions through the SAME h_bridge = 1:
   * QED:    The same h_bridge = 1 makes the bridge a marginal worldsheet
     primary; its one-loop self-interference fraction is h_bridge/(2π)
     = 1/(2π), giving (1 − 1/(2π)) that converts alpha_em = pi/2⁹ into
-    alpha(0) = 1/137.036.  See couplings.py.
+    alpha(0) = 1/137.035999050.  See couplings.py.
 Same sector, same h_bridge, two observables.
 
 Reference:
@@ -419,8 +419,9 @@ def derive(R, masses, mixing, couplings):
     # The F₄ face IS the metric face (J₃(O)); the share of the echo
     # re-absorbed by the metric face is the metric's own amplitude
     # returning, it cannot count as dilution of itself.  The G₂
-    # share is absorbed by the OTHER face (gauge dressing): genuine
-    # venting, stays in Σ.  "Once" is inherited from the
+    # share is absorbed by the OTHER face (cross-face back-reaction
+    # in the h∨ ledger, NOT a dressing of the gauge couplings, see
+    # the absence watch): genuine venting, stays in Σ.  "Once" is inherited from the
     # no-further-edge theorem (one node, one self-loop).
     # The self-echo is a property of the bridge, not of the phase:
     # it enters BOTH bookkeepings (UV canonical, broken diagnostic).
@@ -625,8 +626,10 @@ def derive(R, masses, mixing, couplings):
     # self-consistent λ(M_Z) iteration.  Fully specified, reproducible.
     # TRUNCATION BAND: the 1→2 loop shift on Planck-boundary Higgs
     # predictions is ~10 GeV (Buttazzo et al. 1307.3536); the standard
-    # NNLO band is ±1 GeV.  The measurement (125.20 ± 0.11) sits
-    # inside the band around the prediction below.  Upgrading the
+    # NNLO band is ±1 GeV, and tree-level matching at M_Z adds a
+    # comparable contribution.  The measurement (125.20 ± 0.11) lies
+    # within ~1.2 GeV of the prediction below, at the edge of the
+    # stated running band and inside the combined band.  Upgrading the
     # import to NNLO (3-loop running + one-loop matching) requires
     # SMDR-class external tooling and changes the import, not the
     # framework: λ(M_Pl) = −δ_bridge is the framework's claim.

@@ -12,11 +12,13 @@ all dimensionful values are derived).
     n₇  = 7     dim of G₂ fundamental (Fano plane lines)
     n₂₆ = 26    dim of F₄ fundamental (traceless Albert algebra)
 
-No-dressing principle.  Each derived quantity below is a CLOSED-FORM
+Back-reaction, not dressing.  Each derived quantity below is a CLOSED-FORM
 polynomial or rational in the four integers (and π), not a renormalised
 value tuned against measurement.  The Standard Model uses RGE running to
 dress free Yukawa couplings against data; this framework has no Yukawas
-to tune, so every factor here is itself an algebraic identity.  Readers
+to tune, so every factor here is itself an algebraic identity — the echo
+law's terms at each depth are the algebra's OWN back-reaction through the
+channels that exist, not corrections applied to bare values.  Readers
 familiar with the per-layer v3_release format will see the same quantities
 here, but compressed: 14+ named identities reduce to one screen.
 
@@ -123,9 +125,9 @@ assert h_bridge == 1
 # NO-SELF-DILUTION IS SYMMETRIC: each face's absorbed share returns
 # to that face's own circulating amplitude and is invisible to that
 # face's own ledgers, the F₄ share cannot dilute 1/G (gravity.py),
-# and the G₂ share cannot dress the gauge couplings.  The
+# and the G₂ share cannot back-react on the gauge couplings.  The
 # conservation is therefore complete internally: the law PREDICTS
-# THE ABSENCE of any anomalous gauge dressing (α_s carries no
+# THE ABSENCE of any anomalous gauge back-reaction (α_s carries no
 # ±(4/13)-unit shift; a future α_s anomaly of that size would
 # falsify the symmetry).
 assert Fraction(hv_G2, hv_G2 + hv_F4) + Fraction(hv_F4, hv_G2 + hv_F4) == h_bridge
@@ -308,7 +310,7 @@ class Web(dict):
 #  that node's channel already carries at depth 1, echoes compose
 #  existing vertices, they never invent new ones.  The multiplicity is
 #  the product of the two endpoint weights:
-#    • coupling node (1/α): no matter vertices (dresses itself) →
+#    • coupling node (1/α): no matter vertices (back-reacts on itself) →
 #      orientation count alone = 2  (S,S† pair);
 #    • action node (S): its depth-1 vertices are the charge trace
 #      (inside α_alg = α_G₂/16, the 30-mode vent) and the Casimir
@@ -332,7 +334,8 @@ class Web(dict):
 #  vertex counts the modes OF one channel; the Singh ratio's 8/3 is the
 #  charge trace WITHIN the EM channel), it never multiplies the number
 #  of loops.  So the depth-3 echo graph has two nodes (G₂-knot sector,
-#  F₄-knot sector), one edge (the bridge-dressed EM channel), one
+#  F₄-knot sector), one edge (the EM channel carrying the bridge
+#  back-reaction), one
 #  2-cycle, two orientations: coefficient exactly 2.  Counting species
 #  as nodes would double-count what the charge trace already counted.
 
@@ -542,10 +545,17 @@ BA_ratio = math.sqrt(d10)               # |B/A| = √d₁₀ = √2
 # ═══════════════════════════════════════════════════════════════════════
 #  PDG REFERENCE VALUES  (comparison only, not inputs)
 # ═══════════════════════════════════════════════════════════════════════
+# Leptons: pole masses (physical observables).
+# Quarks: PDG 2024 conventional coordinates —
+#   u, d, s: MS-bar at μ = 2 GeV;  c, b: MS-bar at μ = m;
+#   t: direct-measurement pole mass.
+# The algebra produces one value per fermion; it does not run to a
+# scale.  The PDG coordinate each value matches is an observable
+# consequence, not a choice.
 
 PDG_MASSES = {
     'e': 0.51099895069, 'mu': 105.6583755, 'tau': 1776.93,
-    'u': 2.16, 'c': 1273.0, 't': 172570.0,
+    'u': 2.16, 'c': 1273.0, 't': 172570.0,      # MeV
     'd': 4.70, 's': 93.5,  'b': 4183.0,
 }
 

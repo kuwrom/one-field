@@ -142,11 +142,16 @@ function of (d_10, d_11, n_7, n_26) + pi.
 
 This has a strict consequence for how the code reads.  In the Standard
 Model, RGE running and matching are tools for tuning free Yukawa
-couplings, a renormalised value at one scale is dressed into a
-prediction at another.  This framework has no Yukawas to tune, so the
-language of "correction" and "dressing" does not apply: there is no
-bare prediction being patched.  Every factor that appears here is one
-reading of the same algebra at a particular emergence layer.
+couplings: a renormalised value at one scale is dressed into a
+prediction at another, and the dressing absorbs the free parameters.
+This framework has no Yukawas to tune, so the language of "dressing"
+does not apply: there is no bare prediction being patched.  What
+DOES happen is BACK-REACTION: each closure echoes through the channels
+that already exist (the bridge self-loop, the e↔q cycle, the WZW
+vents), and the echo's weight is a theorem of the channel, not a
+fitted correction.  Every factor that appears here is one reading of
+the same algebra at a particular emergence layer — the layer
+determines the factor, not the other way around.
 
 The unified expression makes this manifest: instead of per-layer
 modules each with its own physical motivation (the v3_release format),
@@ -167,9 +172,9 @@ The compression itself is a falsifiability handle: four integers plus
 pi plus m_e producing the SM scorecard at sub-percent residuals is a
 structurally tighter claim than "each layer closes consistently."
 
-Concrete example, alpha_em = pi/512 and alpha(0) = 1/137.036 are
+Concrete example, alpha_em = pi/512 and alpha(0) = 1/137.035999050 are
 not "bare alpha and dressed alpha"; they are two readings of one
-coupling at two emergence layers.  alpha_em = pi/2**9 is the reading
+coupling's back-reaction at two emergence layers.  alpha_em = pi/2**9 is the reading
 at the conformal-embedding scale (Singh ratio + WZW), used inside the
 instanton vertex.  alpha(0) is the reading at the IR pole-mass scale:
 the bridge SELF-loop gives the factor (1 - 1/(2 pi)) (marginal h = 1,
@@ -280,7 +285,11 @@ CANONICAL:
    , a declared long-shot).
  3. m_1 = 0 exactly, normal ordering, sum m_nu ~ 59 meV.
  4. Omega_DM/Omega_b = 2pi - 1 = 5.2832 (between Planck and ACT today).
- 5. alpha_s(M_Z) = 0.1177.
+ 5. alpha_s(M_Z) = 0.1184 (matched at mu* = M_Pl e^{-(9pi^2/2-6)}
+    = v_EW e^{15/512} = 253.5 GeV, the gauge lever-arm endpoint where
+    the WZW cancellation is exact; pre-migration releases quoted
+    0.1177 by starting the run at v_EW = 246.2 under the old scale
+    label -- see the matching-scale note in couplings.py).
  6. G_ind/G_N = 0.999999917 canonical (UV venting forced by the
     bookkeeping decision theorem; the former -0.58% open vent is
     CLOSED by the FACE-SPLIT LAW: the bridge's one self-echo unit
@@ -311,19 +320,46 @@ PRECISION BLOCK (promoted by the vertex composition rule):
  E. M_Pl = 1.2209171e19 GeV (output).
 
 PRE-REGISTERED WATCH (the 4/13 absence test): the symmetric
-no-self-dilution rule predicts NO anomalous gauge dressing, the
-G2-absorbed share of the bridge self-echo is invisible to gauge
+no-self-dilution rule predicts NO anomalous gauge back-reaction —
+the G2-absorbed share of the bridge self-echo is invisible to gauge
 observables.  Decidable at ~0.03% alpha_s precision (lattice
-trajectory): alpha_s(M_Z) = 0.1177 (no dressing, the law's bet)
-vs 0.1170 / 0.1184 (a +-(4/13)/(2pi) dressing, which would falsify
-the symmetry).  PDG 0.1180(9) cannot yet distinguish.
+trajectory): alpha_s(M_Z) = 0.1184 (no back-reaction, the law's bet,
+matched at mu*) vs 0.1177 / 0.1191 (a +-(4/13)/(2pi) anomalous
+back-reaction, which would falsify the symmetry).  PDG 0.1180(9)
+cannot yet distinguish.
+DISCLOSURE (matching-scale degeneracy): the mu* migration shifts
+1/alpha_s by (32/3)(15/512)/(2pi) = 0.0497 -- numerically almost
+identical to the 4/13 back-reaction unit (4/13)/(2pi) = 0.0490.  The
+original registration (2026-06, pre-migration) quoted 0.1177 as the
+no-back-reaction value under the v_EW-start convention; under that
+convention the back-reaction alternative was 0.1184.  The two effects
+are nearly degenerate in 1/alpha, so any future discrimination must
+fix the matching scale FIRST (it is fixed: exactness of the WZW
+cancellation forces mu*) and then test for the back-reaction on top.
+History preserved here deliberately; this note is the audit trail.
 
-THE MASS COORDINATE.  A running mass m_q(mu) is a coordinate on an
-RG orbit, not an observable; no zero-parameter framework owes "the
-quark mass" until a comparison coordinate is chosen, and choosing the
-standard PDG coordinate (MS-bar at mu = m for heavy quarks, mu = 2
-GeV for light) is part of the prescription, not a fitted parameter.
-The algebra's mass table is stated in that coordinate.
+THE MASS COORDINATE (back-reaction, not running).  A running mass
+m_q(mu) is a coordinate on an RG orbit, not an observable; no
+zero-parameter framework owes "the quark mass" until a comparison
+coordinate is chosen.  In the SM the coordinate is reached by
+dressing: bare Yukawas are fitted, then RGE-run to the comparison
+scale.  Here the mechanism is different.  The algebra's mass formulas
+(masses.py) are emergence-layer readings: up-type quarks are rational
+coefficients times their generation lepton (38/9, 217/18, 1165/12),
+and those coefficients — the base ladder (d_10^2, d_10^2 d_11,
+d_11^4+d_10^4) plus the vent term (h_10, delta, 1/(2K)) — ARE the
+back-reaction of each quark closure through its WZW channel.  Down-
+type quarks back-react through the Koide relation: the Q-corrections
+h_11/K^3 (adjoint) and h_10/K^3 (fundamental) are WZW representation
+vents, and bridge^2 = Q_0^2 * d_10^3/d_11 connects the (s,c,b)
+triplet to the (c,b,t) anchor.  In both sectors the vent is what the
+SM achieves by dressing; the algebra produces it as a SINGLE reading
+at the natural emergence scale of that closure, not as a bare value
+run to a chosen mu.  The coincidence with the PDG coordinate
+(MS-bar at mu = m for c and b, mu = 2 GeV for light quarks, pole
+mass for t) is therefore a prediction: the emergence scale of each
+closure IS the scale at which the PDG convention evaluates.  No
+fitting enters; the algebra back-reacts and the result lands.
 
 PRE-REGISTERED WATCH (not a claim): the quark sector is currently
 noise-compatible (chi^2 = 2.74/6 with PDG errors); only m_b at
@@ -340,7 +376,8 @@ WITH A STATED BAND, where every import is itself decomposed and
 AUDITED (gravity.py): data-driven ingredients are measurements,
 parameter dependencies are recalculated from the framework's own
 values and verified compatible, and pure loop integrals are
-mathematics fixed by the field content.  Nothing is dressed;
+mathematics fixed by the field content.  Nothing is dressed — every
+non-trivial factor is a back-reaction through an existing channel;
 nothing is tuned (Delta-r-hat_W, rho-hat at one loop; the Higgs
 prescription, SM 2-loop RGE + tree matching + lambda(M_Pl) =
 -delta_bridge, with its ±1 GeV truncation band containing the
@@ -356,7 +393,7 @@ M_Z = 91.196 (+0.009%, +1.6 sigma of the import band, carrying the
 data's own W/Z tension structure).  (The former "locate the 4/13"
 item is RESOLVED by the symmetric no-self-dilution rule: each face's
 absorbed share is invisible to its own ledgers; the law predicts the
-ABSENCE of anomalous gauge dressing, consistent with alpha_s at
+ABSENCE of anomalous gauge back-reaction, consistent with alpha_s at
 -0.35 sigma.)
 
 HURWITZ FINALITY (the forward rule).  The echo grammar is closed:

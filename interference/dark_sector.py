@@ -8,7 +8,7 @@ Two structures in the framework predict the dark sector:
    ───────────────────────────────────────────
    The bridge (h=1, c_coset=0, D²=1) self-interference gives
    the universal materialization fraction 1/(2π), the same factor
-   that converts α_alg = π/512 to α(0) = 1/137.036.
+   that converts α_alg = π/512 to α(0) = 1/137.035999050.
      f_baryonic = 1/(2π)     →  Ω_DM/Ω_b = 2π−1 ≈ 5.283
    The c_coset = 0 property ensures one-loop exactness on the
    worldsheet, so this is exact, no higher-order corrections.

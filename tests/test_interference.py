@@ -541,8 +541,11 @@ def test_canonical_freeze(res):
     assert abs(g["M_Z_derived"] - 91.1956) < 2e-3
 
     # couplings + Higgs (declared imports, banded)
-    assert abs(c["alpha_s_MZ_thresh"] - 0.117686) < 1e-5
-    assert abs(g["mH_pred"] - 124.85) < 0.05
+    # alpha_s matched at mu* = M_Pl e^{-(9pi^2/2-6)} = v_EW e^{15/512}
+    # (gauge lever-arm endpoint; pre-migration label was v_EW)
+    assert abs(c["mu_star_GeV"] - 253.534) < 1e-2
+    assert abs(c["alpha_s_MZ_thresh"] - 0.118385) < 1e-5
+    assert abs(g["mH_pred"] - 124.06) < 0.05
 
     # words lemma bases (integer ranks, exact)
     import words as _w

@@ -54,10 +54,10 @@ All numbers below come from running the code as-is.
 | Sector | Result | Reference | Status |
 |:---|:---|:---|:---|
 | Electroweak scale `v_EW` | 246.21 GeV | 246.22 GeV | −0.00% |
-| Higgs mass `m_H` | 124.85 GeV | 125.20 GeV | −0.28% |
+| Higgs mass `m_H` | 124.06 GeV | 125.20 GeV | −0.91% |
 | CKM (15 observables) | χ²/n = 0.69 | PDG 2024 | max pull 1.4σ |
 | PMNS (3 observables) | χ²/n = 0.00 | NuFit 6.0 | predicts δ_CP = 76.9° |
-| Strong coupling `α_s(M_Z)` | 0.1177 | PDG 0.1180 | −0.27% |
+| Strong coupling `α_s(M_Z)` | 0.1184 | PDG 0.1180 | +0.33% |
 | Weinberg angle `sin²θ_W` | 0.231234 | PDG 0.23129(4) | pull −1.41σ |
 | W mass `M_W` | 80.365 GeV | 80.369 GeV | pull −0.33σ |
 | Z mass `M_Z` | 91.196 GeV | 91.188 GeV | +0.0088% |
@@ -162,7 +162,7 @@ E₈(1) → G₂(1) × F₄(1)
   ├── G₂ sector → leptons        (Brannen Z₃: B/A = √d₁₀ = √2, θ = d₁₀/d₁₁² = 2/9, Q₀ = d₁₀/d₁₁ = 2/3)
   ├── F₄ sector → quarks + v_EW + Higgs
   │                              v_EW = M_Pl · exp(−(9π²/2 − 6 + 15/512))
-  │                              α(emergence) = π/512,  α(0) = 1/137.04
+  │                              α(emergence) = π/512,  α(0) = 1/137.035999050
   ├── SU(3)₃ / D⁽⁶⁾ → CKM        (λ = tan 2/9, A = √(2/3), η̄ = π/9, ρ̄ = √2/9)
   ├── SU(3)₃ / Z_C → PMNS        (tribimaximal + corrections, predicts δ_CP = 76.9°)
   ├── F₄ singlets → ν masses     (m₁ = 0 structurally, normal ordering)
@@ -182,7 +182,7 @@ The package lives in [`interference/`](interference/). Each derivation module ex
 | `masses.py` | All nine masses from `m_e` anchor: Brannen Z₃ leptons, F₄ quarks, `v_EW` instanton suppression |
 | `mixing.py` | CKM (four Wolfenstein parameters from four WZW faces) and PMNS (conjugation invariant, tribimaximal + corrections) |
 | `octonions.py` | Octonionic `G₂/SU(3)` Clebsch–Gordan verification: `|C₁| = 1`, `|C_3̄| = √2` from Fano plane |
-| `couplings.py` | `α_s` via G₂ → SU(3) threshold; bridge self-interference `α(0)`: depth-1 `π²/(256(2π − 1))`, closed at depth 3 to `1/α(0) = (512/π)(1 − 1/(2π) − 2(α/2π)²) = 137.035999050` |
+| `couplings.py` | `α_s` via exact WZW cancellation at the gauge-matching scale `μ* = M_Pl·e^−(9π²/2 − 6) ≈ 253.5 GeV` + G₂ → SU(3) threshold; bridge self-interference `α(0)`: depth-1 `π²/(256(2π − 1))`, closed at depth 3 to `1/α(0) = (512/π)(1 − 1/(2π) − 2(α/2π)²) = 137.035999050` |
 | `gravity.py` | Sakharov + Jacobson induced gravity, `(7, 26)` heat kernel, protected forgetting, electroweak chain (`sin²θ_W`, `M_W`, `M_Z`), Higgs mass, `η_B`, neutrinos |
 | `dark_sector.py` | `Ω_DM/Ω_b = 2π − 1` from bridge venting |
 | `words.py` | Generation word lemma: boundary-walk word counts on the D⁽⁶⁾ nimrep `(4, 9, 12, 97)` `→` the integer bases of the quark mass ratios `(38/9, 83/9, 217/18, 1165/12)` |

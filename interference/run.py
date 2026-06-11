@@ -209,7 +209,7 @@ tree = f"""
     |     30 modes = 26 (F4 fund) + 4 (Higgs DOFs)
     |     sin2W = d11/(d10²+d11²) = 3/13 = {sin2W:.5f}
     |     M_Z = {grav_data['M_Z_derived']:.2f} GeV,  M_W = {grav_data['M_W_derived']:.2f} GeV  (derived)
-    |     alpha(emergence) = pi/512,  alpha(0) = 1/137.036
+    |     alpha(emergence) = pi/512,  alpha(0) = 1/137.035999050
     |       ^ bridge self-interference: h=1, D²=1, c=0
     |     m_u = (38/9)m_e,  m_d = (83/9)m_e
     |
@@ -235,7 +235,7 @@ tree = f"""
     |     Rank-{grav_data['n_RH']} seesaw -> m1 = 0  (normal ordering)
     |
     +-- Embedding index -> alpha_s
-    |     alpha_G2(v_EW) = pi/32
+    |     alpha_G2(mu*) = pi/32,  mu* = M_Pl e^-(9pi^2/2-6) = 253.5 GeV
     |     M_V = {M_V:.0f} GeV  (derived)
     |     alpha_s(M_Z) = {a_MZ:.4f}  ({e_th:+.1f}%)
     |

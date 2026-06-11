@@ -6,18 +6,30 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
   1. UV value: α_G₂(M_Pl) = |Z₃|/(2π D²_tot) = 1/(24π)  (SU(3)₃ MTC,
      executable in root.py).
 
-  2. EXACT WZW CANCELLATION down to v_EW.  One-loop G₂ running with
+  2. EXACT WZW CANCELLATION down to μ*.  One-loop G₂ running with
      C_A = h∨(G₂) = 4 and three Dirac fermions in the 7 (T(7) = 1):
          b₀ = (11/3)·4 − (4/3)·3 = 32/3
-     over the instanton exponent 9π²/2 − 6 (the lepton action with
-     the Casimir vent; the small 15/512 vertex echo enters v_EW
-     separately and does not participate in this identity):
-         1/α_G₂(v_EW) = 24π − (32/3)/(2π)·(9π²/2 − 6) = 32/π  EXACTLY
+     over the GAUGE lever arm 9π²/2 − 6 (the lepton action with the
+     Casimir vent).  The cancellation therefore terminates at the
+     gauge-matching scale
+         μ* ≡ M_Pl·exp(−(9π²/2 − 6)) ≈ 253.534 GeV
+            (exactly v_EW·e^{15/512 − 16(α/2π)²}, the EM complement
+            of the gauge lever arm in the S_quark ledger),
+     NOT at v_EW = 246.2 GeV: the vertex-echo terms are EM physics
+     below μ*.  They shift v_EW but are not part of the G₂ gauge
+     running, so they do not participate in this identity.
+         1/α_G₂(μ*) = 24π − (32/3)/(2π)·(9π²/2 − 6) = 32/π  EXACTLY
      (the π² in the action cancels the 1/2π of the loop integral).
-     So α_G₂(v_EW) = π/32 = 0.09817.
+     So α_G₂(μ*) = π/32 = 0.09817, and the SM running below starts
+     at μ*.  (Historical note: earlier releases labeled this scale
+     v_EW; the conflation entered when the 30-mode vertex echo was
+     added to the v_EW exponent.  The α(0) chain is untouched: π/512
+     is the algebraic coupling of the embedding layer, defined by the
+     Singh division of the WZW identity, not a running coupling
+     evaluated at 246.2 GeV.)
      STATUS: a NON-PERTURBATIVE WZW IDENTITY.  The two-loop
      coefficient b₁ = (34/3)C_A² − ((20/3)C_A + 4C₂(7))·T(7)·n_f
-     = 232/3 > 0 would shift α_s(v_EW) up ~14%, consistent with
+     = 232/3 > 0 would shift α_s(μ*) up ~14%, consistent with
      π/32 being an exact operator identity (Knizhnik-Zamolodchikov
      conformal weights are exact).
      WHY DIRAC COUNTING (n_f = 3, not 6 Weyl): the framework's
@@ -29,8 +41,8 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
 
   3. THRESHOLD at G₂ → SU(3) (Weinberg 1980 / Hall 1981 matching).
      The coset G₂/SU(3) (dim 6) gives six massive vectors in 3 ⊕ 3̄:
-         1/α_s(v_EW) = 1/α_G₂(v_EW) − λ₃/(12π),
-         λ₃ = (C_{G₂} − C_{SU(3)}) − 21·T_V·ln(M_V/v_EW),
+         1/α_s(μ*) = 1/α_G₂(μ*) − λ₃/(12π),
+         λ₃ = (C_{G₂} − C_{SU(3)}) − 21·T_V·ln(M_V/μ*),
      with C_{G₂} − C_{SU(3)} = 4 − 3 = 1 and T_V = T(3)+T(3̄) = 1.
      M_V is DERIVED: the G₂-breaking scalar lives in the
      7 → 3 ⊕ 3̄ ⊕ 1; the singlet takes the VEV v_break = v_EW/√2
@@ -48,21 +60,29 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
      M_V enters ONLY as a matching parameter (exactly like heavy
      states in GUT threshold corrections), not as a particle.
 
-  4. SM 2-loop QCD running v_EW → M_Z with derived thresholds
-     → α_s(M_Z) = 0.1177 (−0.27%, −0.35σ of PDG 0.1180(9)).
-     Without the threshold, π/32 + SM running alone gives 0.1115
-     (−5.5%): the derived 112 GeV matching is load-bearing, not
-     decorative.
+  4. SM 2-loop QCD running μ* → M_Z with derived thresholds
+     → α_s(M_Z) = 0.1184 (+0.33%, +0.43σ of PDG 0.1180(9)).
+     Without the threshold, π/32 + SM running alone gives 0.1119
+     (−5.1%): the derived 112 GeV matching is load-bearing.
 
 alpha(0):
-    Bridge self-interference:
-    1/alpha(0) = (2⁹/pi)(1 - h_bridge/(2pi))
-               = (2⁹/pi)(2pi-1)/(2pi)
-               = 2⁸(2pi-1)/pi²
-               = 137.036
+    Bridge self-interference, full depth-3 form.  1/alpha(0) is the
+    real root of the cubic
+        x³ = (2⁹/pi)[(1 − 1/(2pi)) x² − 1/(2pi²)]
+           = 137.035999050
+    (depth-1 self-echo 1/(2pi) + the FORCED depth-3 e↔q two-orientation
+    cycle, solved self-consistently in root.py).  Comparison, stated
+    completely: Berkeley Cs 137.035999046(27) → +0.13σ; LKB Rb
+    137.035999206(11) → −14σ; the two experiments disagree with each
+    other by 5.5σ, and the framework's pre-registered commitment is to
+    Cs, with the Rb outcome as a registered kill condition.  The
+    depth-1 TRUNCATION alone,
+        (2⁹/pi)(1 − 1/(2pi)) = 2⁸(2pi−1)/pi² = 137.036439,
+    is an intermediate identity, not the prediction.
 
 Two readings, one coupling.  alpha_em = pi/2⁹ and alpha(0) = pi²/(2⁸(2pi-1))
-are not "bare alpha and dressed alpha."  They are the SAME coupling read at
+are not "bare alpha and dressed alpha."  They are the SAME coupling's
+back-reaction through the bridge sector, read at
 two emergence layers of the conformal embedding:
 
   * alpha_em = pi/2⁹              at the conformal-embedding (Planck) scale.
@@ -100,7 +120,7 @@ from root import (d10, d11, n7, n26, h10, h11, K,
                   C2_26, hv_G2, hv_F4,
                   h_7, h_26, h_bridge,
                   alpha_G2_WZW, alpha_G2_Pl, alpha_phys, inv_alpha_phys,
-                  M_Pl_GeV, N_bridge, xi_bridge, E_v2, pct)
+                  M_Pl_GeV, S_lepton, N_bridge, xi_bridge, E_v2, pct)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -178,9 +198,11 @@ def _derive_bridge():
          This is a standard 2D CFT result for the integrated two-point
          function of a dimension-1 primary on the sphere.
 
-    5. Assembly:
+    5. Assembly (depth 1, the truncation):
          1/α_alg = 2⁹/π = 512/π  (emergence value, from Singh ratio)
-         1/α(0) = (512/π)(1 − 1/(2π)) = 2⁸(2π−1)/π² = 137.036
+         (512/π)(1 − 1/(2π)) = 2⁸(2π−1)/π² = 137.036439
+       The canonical 1/α(0) adds the FORCED depth-3 cycle and is the
+       cubic root 137.035999050 (steps continue below).
     """
     # Lagrangian algebra condensation → D²_local = 1
     phi = (1.0 + math.sqrt(5.0)) / 2.0
@@ -258,30 +280,48 @@ def derive(R, masses):
     M_Z_PDG = PDG_EW['M_Z']               # PDG scale for alpha_s comparison
     alpha_s_PDG = PDG_EW['alpha_s_MZ']    # PDG comparison value only
 
-    # ── alpha_s: exact WZW result ──
+    # ── alpha_s: exact WZW result at the gauge-matching scale μ* ──
     #   b₀(G₂) = (11/3)C_A − (4/3)ΣT_R = (11/3)(4) − (4/3)(3) = 32/3
     #   C_A = h∨(G₂) = 4,  matter = d₁₁=3 Dirac fermions in 7,  T(7)=1
-    alpha_s_vEW = math.pi / 2**5   # pi/32
+    # The cancellation terminates where the GAUGE lever arm ends:
+    #   μ* = M_Pl·exp(−(9π²/2 − 6)) = v_EW·e^{15/512} ≈ 253.5 GeV.
+    # The 15/512 vertex echo is EM physics below μ* (it shifts v_EW,
+    # not the G₂ gauge running), so π/32 holds at μ*, and the SM
+    # running starts there.
+    alpha_s_mu_star = math.pi / 2**5   # pi/32, exact at mu*
+    mu_star = M_Pl_GeV * math.exp(-(S_lepton - float(C2_26)))
+    # consistency: ln(mu*/v_EW) = 15/512 − 16(α/2π)², the EM physics
+    # below mu* (depth-1 vertex echo minus the depth-3 e↔q vent), the
+    # exact complement of the gauge lever arm in the S_quark ledger.
+    em_below = 15.0/512.0 - 16.0*(alpha_phys/(2.0*math.pi))**2
+    assert abs(math.log(mu_star / v_EW) - em_below) < 1e-9
 
-    print(f"\n  alpha_G₂(v_EW) = pi/2⁵ = pi/32 = {alpha_s_vEW:.6f}")
+    print(f"\n  alpha_G₂(mu*) = pi/2⁵ = pi/32 = {alpha_s_mu_star:.6f}")
+    print(f"    mu* = M_Pl·e^-(9pi²/2-6) = {mu_star:.3f} GeV")
+    print(f"        = v_EW·e^(15/512 - 16(a/2pi)²)  (the EM complement)")
+    print(f"    (gauge lever arm endpoint; the 15/512 vertex echo is EM")
+    print(f"     physics below mu* and does not feed the G₂ running)")
     print(f"    b₀(G₂) = (11/3)·4 − (4/3)·3 = 32/3  [C_A=h∨(G₂)=4, 3 Dirac in 7]")
     print(f"    Cancellation algebra:")
-    print(f"    1/alpha(v_EW) = 24pi - (32/3)/(2pi) * (d₁₁²pi²/2 - C₂(26))")
+    print(f"    1/alpha(mu*)  = 24pi - (32/3)/(2pi) * (d₁₁²pi²/2 - C₂(26))")
     print(f"                  = 24pi - [24pi - 32/pi]")
     print(f"                  = 32/pi = {32/math.pi:.4f}")
 
     # ── No-threshold baseline ──
     n_f = d10 * d11                         # 6 quark flavours = 2 types × 3 gen
-    a_no_th_mt = _run_SM_2loop(alpha_s_vEW, v_EW, m_t_GeV, n_f)
+    a_no_th_mt = _run_SM_2loop(alpha_s_mu_star, mu_star, m_t_GeV, n_f)
     alpha_MZ_no_th = _run_SM_2loop(a_no_th_mt, m_t_GeV, M_Z_PDG, n_f - 1)
     err_no_th = 100 * (alpha_MZ_no_th - alpha_s_PDG) / alpha_s_PDG
 
     print(f"\n  SM 2-loop running (no threshold):")
     print(f"    alpha_s(M_Z) = {alpha_MZ_no_th:.4f}  ({err_no_th:+.1f}%)")
 
-    # ── G₂ -> SU(3) threshold ──
-    g_G2 = math.sqrt(4.0 * math.pi * alpha_s_vEW)     # = pi/(2*sqrt(2))
-    # M_V = g_G₂ × v_EW / √C₂(26),  C₂(26) = d₁₀d₁₁ = 6
+    # ── G₂ -> SU(3) threshold (matched at μ*) ──
+    g_G2 = math.sqrt(4.0 * math.pi * alpha_s_mu_star)  # = pi/(2*sqrt(2))
+    # M_V = g_G₂ × v_EW / √C₂(26),  C₂(26) = d₁₀d₁₁ = 6.
+    # M_V is tied to the PHYSICAL EWSB scale v_EW (the coset vectors
+    # take their mass from the breaking VEV), while the Weinberg-Hall
+    # log is referenced to the matching scale μ*.
     M_V = g_G2 * v_EW / math.sqrt(float(C2_26))        # = pi*v_EW/(2*sqrt(12))
 
     # Dictionary forms (were bare floats): T_V = T(3)+T(3̄) = 2h₁₁ = 1;
@@ -290,21 +330,21 @@ def derive(R, masses):
     C_diff = float(d10**2 - d11)           # matching constant
     assert T_V == 1.0 and C_diff == 1.0
     # 21 = d₁₁ × n₇ = 3 × 7: coset coefficient for G₂ → SU(d₁₁) threshold
-    lambda_3 = C_diff - float(d11 * n7) * T_V * math.log(M_V / v_EW)
+    lambda_3 = C_diff - float(d11 * n7) * T_V * math.log(M_V / mu_star)
 
-    inv_as_G2_vEW = 1.0 / alpha_s_vEW                  # 32/pi
-    inv_as_thresh = inv_as_G2_vEW - lambda_3 / (12.0 * math.pi)
+    inv_as_G2_mu_star = 1.0 / alpha_s_mu_star          # 32/pi
+    inv_as_thresh = inv_as_G2_mu_star - lambda_3 / (12.0 * math.pi)
     a_thresh = 1.0 / inv_as_thresh
 
-    a_mt_th = _run_SM_2loop(a_thresh, v_EW, m_t_GeV, n_f)
+    a_mt_th = _run_SM_2loop(a_thresh, mu_star, m_t_GeV, n_f)
     alpha_MZ_thresh = _run_SM_2loop(a_mt_th, m_t_GeV, M_Z_PDG, n_f - 1)
     err_thresh = 100 * (alpha_MZ_thresh - alpha_s_PDG) / alpha_s_PDG
 
-    print(f"\n  G₂ -> SU(3) threshold:")
+    print(f"\n  G₂ -> SU(3) threshold (matched at mu*):")
     print(f"    g_G₂ = pi/(2sqrt(2)) = {g_G2:.6f}")
     print(f"    M_V = g*v_EW/sqrt(6) = {M_V:.3f} GeV  (derived, 0 params)")
-    print(f"    lambda_3 = {lambda_3:.6f}")
-    print(f"    alpha_s(v_EW) after threshold = {a_thresh:.6f}")
+    print(f"    lambda_3 = 1 - 21·ln(M_V/mu*) = {lambda_3:.6f}")
+    print(f"    alpha_s(mu*) after threshold = {a_thresh:.6f}")
     print(f"    alpha_s(M_Z) [+threshold] = {alpha_MZ_thresh:.4f}  ({err_thresh:+.2f}%)")
     print(f"    PDG: 0.1180 +/- 0.0009")
     print(f"    Delta = {abs(alpha_MZ_thresh-alpha_s_PDG):.4f}"
@@ -331,8 +371,9 @@ def derive(R, masses):
     print(f"    the framework lands on the cesium side, falsifiable call.")
 
     return {
-        'alpha_s_vEW': alpha_s_vEW,
-        'alpha_s_vEW_threshold': a_thresh,
+        'mu_star_GeV': mu_star,
+        'alpha_s_mu_star': alpha_s_mu_star,
+        'alpha_s_mu_star_threshold': a_thresh,
         'alpha_s_MZ_no_thresh': alpha_MZ_no_th,
         'alpha_s_MZ_thresh': alpha_MZ_thresh,
         'M_V_derived': M_V,
