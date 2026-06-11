@@ -1,11 +1,13 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the three companion papers below (in dependency order: leptons → quarks → gravity)."
+message: "If you use this software, please cite the companion papers below: three in dependency order (leptons → quarks → gravity), plus the v0.2 algebraic foundation (rigidity of the four integers)."
 title: "one-field: end-to-end E_8(1) > G_2(1) x F_4(1) derivation of the Standard Model"
 authors:
   - family-names: Kahsay
     given-names: Kibrom Kidane
 license: MIT
 type: software
+version: "0.2"
+date-released: 2026-06-11
 doi: 10.5281/zenodo.20323890
 identifiers:
   - type: doi
@@ -33,3 +35,11 @@ references:
         given-names: Kibrom Kidane
     year: 2026
     doi: 10.5281/zenodo.20144381
+  - type: article
+    title: "The Octavian Coherence Gate: Rigidity of the Four Irreducible Integers of the E_8(1) ⊃ G_2(1) × F_4(1) Conformal Embedding"
+    authors:
+      - family-names: Kahsay
+        given-names: Kibrom Kidane
+    year: 2026
+    doi: 10.5281/zenodo.20493955
+    notes: "v0.2 algebraic foundation: proves the four integers (n_7, n_26, d_10, d_11) = (7, 26, 2, 3) are uniquely fixed."
