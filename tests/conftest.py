@@ -1,52 +1,49 @@
 """Shared fixtures for the scorecard test suite.
 
 The full derivation chain is run once per test session, silently.  Every
-test then asserts against the cached results, so the test suite is fast
-(<1s total) and the layer-by-layer console output never pollutes pytest.
+test then asserts against the cached results, so the suite is fast and
+the layer-by-layer console output never pollutes pytest.
+
+Run with:
+    pytest -q
 """
 
 import contextlib
 import io
+import os
+import sys
 
 import pytest
 
-from E8 import (
-    algebra,
-    alpha_bridge,
-    alpha_s,
-    baryogenesis,
-    ckm,
-    gravity,
-    higgs,
-    leptons,
-    neutrinos,
-    octonions,
-    pmns,
-    quarks,
-    scale,
-    wzw,
-)
+# Add the sibling interference/ package to sys.path so its modules
+# (root, masses, ...) import as bare names, matching how run.py
+# bootstraps the chain.
+sys.path.insert(0, os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "interference")))
+
+import root
+import masses
+import mixing
+import couplings
+import gravity
+import dark_sector
 
 
 @pytest.fixture(scope="session")
 def res():
-    """Run the full E8 derivation chain once, silently."""
+    """Run the full derivation chain once, silently."""
     with contextlib.redirect_stdout(io.StringIO()):
-        alg = algebra.derive()
-        scl = scale.derive(alg)
-        lep = leptons.derive(scl)
-        qrk = quarks.derive(alg, scl, lep)
-        wz = wzw.derive()
-        oc = octonions.derive(wz)
-        ck = ckm.derive(wz)
-        pm = pmns.derive(wz, lep, ck)
-        nu = neutrinos.derive(alg)
-        als = alpha_s.derive(alg, scl, qrk)
-        ab = alpha_bridge.derive(alg)
-        hg = higgs.derive(scl, qrk, als, lep, alg)
-        gr = gravity.derive(alg, scl)
-        br = baryogenesis.derive(alg, pm)
-    return dict(
-        alg=alg, scl=scl, lep=lep, qrk=qrk, wz=wz, oc=oc, ck=ck,
-        pm=pm, nu=nu, als=als, ab=ab, hg=hg, gr=gr, br=br,
-    )
+        R = root.derive()
+        m = masses.derive(R)
+        mx = mixing.derive(R, m)
+        c = couplings.derive(R, m)
+        g = gravity.derive(R, m, mx, c)
+        d = dark_sector.derive(R, g)
+    return {
+        "R": R,        # algebraic root (four integers + all derived rationals)
+        "m": m,        # 9 masses + v_EW + bridge factor
+        "mx": mx,      # CKM + PMNS
+        "c": c,        # alpha_s + alpha(0) (bridge self-interference)
+        "g": g,        # Newton's G + Higgs + baryogenesis + neutrinos + EW
+        "d": d,        # dark sector + CC scale
+    }
