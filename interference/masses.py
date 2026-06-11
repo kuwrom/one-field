@@ -141,6 +141,44 @@ LIGHT QUARKS, d₁₀² ↔ d₁₁² swap
     The swap d₁₀² ↔ d₁₁² distinguishes up from down via the triality
     of the SO(8) subalgebra: up quarks see the fundamental channel d₁₀²,
     down quarks see the adjoint channel d₁₁².
+
+═══════════════════════════════════════════════════════════════════════
+THE MASS COORDINATE, one rule over three dynamical classes
+═══════════════════════════════════════════════════════════════════════
+
+A running mass m(μ) is a coordinate on an RG orbit; a mass prediction
+is complete only with its coordinate.  The table above is stated in
+one rule:
+
+  UNCONFINED fermions (e, μ, τ, t): the PROPAGATOR POLE, the only
+    scheme-independent mass an asymptotic state has.  The QED
+    mass-shell factor (1 − α(0)/2π) above IS the tree → pole
+    conversion; the top entry matches the PDG kinematic mass.
+
+  CONFINED HEAVY quarks (c, b): the SELF-SCALE m(m), the unique
+    fixed point of μ ↦ m(μ).  No pole exists below confinement
+    (renormalon ambiguity ~Λ_QCD), so the fixed-point coordinate is
+    the canonical one, and it is the PDG reference coordinate.
+
+  LIGHT quarks (u, d, s): no perturbative self-scale exists
+    (m < Λ_QCD).  The scheme-free content is the RG-INVARIANT
+    RATIOS (QCD running is flavour-blind, so it cancels in m_q/m_q'):
+        m_u/m_d = 38/83 = 0.45783        PDG 2024: 0.473(17)  (−0.9σ)
+        m_s/m_ud = 27.130                PDG 2024: 27.30(8)   (−2.1σ)
+        Q_ellipse = 22.229               η→3π dispersive: 22.1(7)
+                                         (+0.2σ); lattice 23.4(6)
+                                         (−2.0σ; the two data
+                                         determinations disagree,
+                                         PDG review Sec. 60)
+    The absolute entries are quoted in the PDG MS-bar(2 GeV)
+    coordinate, a declared dictionary entry, not a fitted one.
+
+The algebra does not run to a scale; its output IS the prediction.
+A reader who wants a different convention applies standard RGE
+transport with the framework's own α_s(M_Z) = 0.1184 (couplings.py)
+— both
+endpoints are algebraic, so zero freedom enters — but that is the
+SM's coordinate change, not a step in the prediction.
 """
 
 import math
@@ -366,6 +404,25 @@ def derive(R):
     print(f"    m_d = ({Fraction(d11**2) + Fraction(d10, d11**2)}) m_e = {m_d:.4f} MeV  ({pct(m_d, PDG_MASSES['d']):+.1f}%)")
     print(f"    Note: m_u/m_e = d₁₀²+h₁₀,  m_d/m_e = d₁₁²+h₁₀  (d₁₀²↔d₁₁² swap)")
 
+    # ── Scheme-invariant light-quark ratios (no mass coordinate) ─────
+    # QCD running is flavour-blind: m_q(μ)/m_q'(μ) is μ- and
+    # scheme-independent.  These three numbers are predictions with
+    # NO coordinate choice at all.
+    mu_over_md = m_u / m_d                       # = 38/83 exactly
+    assert abs(mu_over_md - 38.0/83.0) < 1e-12
+    m_ud = 0.5 * (m_u + m_d)
+    ms_over_mud = m_s / m_ud
+    Q_ellipse = math.sqrt((m_s**2 - m_ud**2) / (m_d**2 - m_u**2))
+    print(f"\n  Scheme-invariant ratios (RG-invariant, no coordinate):")
+    print(f"    m_u/m_d  = 38/83 = {mu_over_md:.5f}   PDG 2024: 0.473(17)"
+          f"   ({(mu_over_md-0.473)/0.017:+.1f}σ)")
+    print(f"    m_s/m_ud = {ms_over_mud:.3f}            PDG 2024: 27.30(8)"
+          f"    ({(ms_over_mud-27.30)/0.08:+.1f}σ)")
+    print(f"    Q_ellipse = {Q_ellipse:.3f}           dispersive 22.1(7)"
+          f" ({(Q_ellipse-22.1)/0.7:+.1f}σ), lattice 23.4(6)"
+          f" ({(Q_ellipse-23.4)/0.6:+.1f}σ)")
+    print(f"    (the two Q determinations disagree; PDG review Sec. 60)")
+
     # ── Summary ──────────────────────────────────────────────────────
 
     n1 = sum(1 for n in PDG_MASSES if abs(pct(
@@ -390,5 +447,7 @@ def derive(R):
         'bridge': math.sqrt(bridge_sq),
         'h_fund': h10, 'delta_OPE': delta,
         'Q_val': Q_cbt, 'Q_s': Q_scb,
+        'mu_over_md': mu_over_md, 'ms_over_mud': ms_over_mud,
+        'Q_ellipse': Q_ellipse,
         'n_sub1': n1, 'max_err': max_err,
     }

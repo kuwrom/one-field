@@ -28,7 +28,7 @@ where `W` is the derived-weight edge map. Every edge is a theorem (a polynomial 
 
 ```bash
 python interference/run.py    # full derivation
-pytest -q                      # 58 tests including the canonical freeze table
+pytest -q                      # 59 tests including the canonical freeze table
 ```
 
 ## The scorecard
@@ -48,6 +48,8 @@ All numbers below come from running the code as-is.
 | c | 1273.8 MeV | 1273 MeV | +0.06% | (217/18) m_μ |
 | b | 4193.8 MeV | 4183 MeV | +0.3% | Q = Q₀ + h₁₁/K³ |
 | t | 172.51 GeV | 172.57 GeV | −0.036% | (1165/12) m_τ |
+
+**Mass coordinates.** Unconfined fermions (leptons, top) are at the propagator pole; confined heavy quarks (c, b) at the self-scale `m(m)`; light quarks (u, d, s) at the PDG `MS-bar(2 GeV)` coordinate. The scheme-free content of the light sector is the RG-invariant ratios, which carry no coordinate at all: `m_u/m_d = 38/83` (−0.9σ), `m_s/m_ud = 27.130` (−2.1σ), `Q_ellipse = 22.229` (+0.2σ dispersive, −2.0σ lattice). See `masses.py` for the full treatment.
 
 ### Mixing, couplings, gravity, baryogenesis, dark sector
 
@@ -193,7 +195,7 @@ Tests live at the repo root in [`tests/`](tests/) (standard layout):
 | File | Role |
 |:---|:---|
 | `tests/conftest.py` | Session-scoped fixture that runs the full derivation chain once, silently |
-| `tests/test_interference.py` | 58 tests including the canonical freeze table |
+| `tests/test_interference.py` | 59 tests including the canonical freeze table |
 
 ## Install and run
 
@@ -202,14 +204,14 @@ git clone https://github.com/kuwrom/one-field.git
 cd one-field
 pip install -r requirements.txt
 python interference/run.py    # full derivation, prints scorecard and emergence tree
-pytest -q                      # 58 tests
+pytest -q                      # 59 tests
 ```
 
 Requires Python 3.10+ and NumPy. Runs in about five seconds, dominated by the Planck-to-electroweak RGE integration in `gravity.py` (20 000-step RK4, iterated three times for self-consistency).
 
 ## Tests
 
-The scorecard is encoded as a `pytest` suite in [`tests/test_interference.py`](tests/test_interference.py). 58 tests cover the 35 numerical checks, the 3 structural predictions, and the algebraic identities that link them (polynomial relations, Casimir values, central-charge sums, octonionic CG, nimrep eigenvalues, freeze-table integers).
+The scorecard is encoded as a `pytest` suite in [`tests/test_interference.py`](tests/test_interference.py). 59 tests cover the 35 numerical checks, the 3 structural predictions, and the algebraic identities that link them (polynomial relations, Casimir values, central-charge sums, octonionic CG, nimrep eigenvalues, freeze-table integers).
 
 ```
 $ pytest -q
@@ -221,7 +223,7 @@ If any modification to the algebra moves a prediction outside its tolerance band
 
 ## Version history
 
-- **v0.2** (current): polynomial closure on four integers + recursive echo ledger. Eight `derive()` modules plus the `run.py` driver in `interference/`, `m_e` as the sole dimensional anchor, `M_Pl` and `G` derived. Companion paper: *The Octavian Coherence Gate* ([doi:10.5281/zenodo.20493955](https://doi.org/10.5281/zenodo.20493955)). 35 numerical checks, 58 tests.
+- **v0.2** (current): polynomial closure on four integers + recursive echo ledger. Eight `derive()` modules plus the `run.py` driver in `interference/`, `m_e` as the sole dimensional anchor, `M_Pl` and `G` derived. Companion paper: *The Octavian Coherence Gate* ([doi:10.5281/zenodo.20493955](https://doi.org/10.5281/zenodo.20493955)). 35 numerical checks, 59 tests.
 - **v0.1.1**: final state of the per-layer `E8/` package (14 modules, layer-by-layer architecture). Preserved at tag [`v0.1.1`](https://github.com/kuwrom/one-field/releases/tag/v0.1.1).
 
 ## Citing

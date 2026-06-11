@@ -341,25 +341,24 @@ History preserved here deliberately; this note is the audit trail.
 THE MASS COORDINATE (back-reaction, not running).  A running mass
 m_q(mu) is a coordinate on an RG orbit, not an observable; no
 zero-parameter framework owes "the quark mass" until a comparison
-coordinate is chosen.  In the SM the coordinate is reached by
-dressing: bare Yukawas are fitted, then RGE-run to the comparison
-scale.  Here the mechanism is different.  The algebra's mass formulas
-(masses.py) are emergence-layer readings: up-type quarks are rational
-coefficients times their generation lepton (38/9, 217/18, 1165/12),
-and those coefficients — the base ladder (d_10^2, d_10^2 d_11,
-d_11^4+d_10^4) plus the vent term (h_10, delta, 1/(2K)) — ARE the
-back-reaction of each quark closure through its WZW channel.  Down-
-type quarks back-react through the Koide relation: the Q-corrections
-h_11/K^3 (adjoint) and h_10/K^3 (fundamental) are WZW representation
-vents, and bridge^2 = Q_0^2 * d_10^3/d_11 connects the (s,c,b)
-triplet to the (c,b,t) anchor.  In both sectors the vent is what the
-SM achieves by dressing; the algebra produces it as a SINGLE reading
-at the natural emergence scale of that closure, not as a bare value
-run to a chosen mu.  The coincidence with the PDG coordinate
-(MS-bar at mu = m for c and b, mu = 2 GeV for light quarks, pole
-mass for t) is therefore a prediction: the emergence scale of each
-closure IS the scale at which the PDG convention evaluates.  No
-fitting enters; the algebra back-reacts and the result lands.
+coordinate is chosen.  The table uses ONE RULE over three dynamical
+classes (masses.py): unconfined fermions (e, mu, tau, t) at the
+propagator pole, the only scheme-independent mass an asymptotic
+state has; confined heavy quarks (c, b) at the self-scale m(m),
+the unique fixed point of mu -> m(mu) (no pole exists below
+confinement); light quarks (u, d, s) through their RG-INVARIANT
+RATIOS, which carry no coordinate at all: m_u/m_d = 38/83
+(-0.9 sigma), m_s/m_ud = 27.130 vs PDG 27.30(8) (-2.1 sigma, the
+sharpest mass-sector pull, watched alongside m_b), Q_ellipse =
+22.229 (+0.2 sigma dispersive, -2.0 sigma lattice; the two data
+determinations disagree, PDG quark-masses review Sec. 60).  The
+absolute light entries are quoted in the PDG MS-bar(2 GeV)
+coordinate, a declared dictionary entry — not a fitted one.  The
+algebra does not run to a scale; its output IS the prediction.  A
+reader who wants a different convention applies standard RGE transport
+with the framework's own alpha_s (also algebraic): both endpoints
+fixed, zero freedom enters — but that is the SM's coordinate change,
+not a step in the prediction.
 
 PRE-REGISTERED WATCH (not a claim): the quark sector is currently
 noise-compatible (chi^2 = 2.74/6 with PDG errors); only m_b at
@@ -394,7 +393,7 @@ data's own W/Z tension structure).  (The former "locate the 4/13"
 item is RESOLVED by the symmetric no-self-dilution rule: each face's
 absorbed share is invisible to its own ledgers; the law predicts the
 ABSENCE of anomalous gauge back-reaction, consistent with alpha_s at
--0.35 sigma.)
++0.43 sigma.
 
 HURWITZ FINALITY (the forward rule).  The echo grammar is closed:
 depth <= 3, edges only along the sector graph, multiplicities only by
@@ -403,4 +402,4 @@ rules.  No new term may be added after a comparison.  Consequently
 every canonical residual is BOUNDED: a deviation that exceeds the
 next-depth echo unit of its sector falsifies the rule that produced
 it, there is no deeper term to absorb a miss.
-"""
+""" 

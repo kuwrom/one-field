@@ -519,6 +519,15 @@ def test_vew_matches_GF_at_1e7(res):
 #  or a regression (fix it).
 # ═══════════════════════════════════════════════════════════════════════
 
+def test_mass_coordinate_invariants(res):
+    """Scheme-invariant light-quark ratios: predictions with no
+    mass-coordinate choice at all (QCD running cancels)."""
+    ms = res["m"]
+    assert abs(ms["mu_over_md"] - 38.0 / 83.0) < 1e-12   # exact
+    assert abs(ms["ms_over_mud"] - 27.1305) < 1e-3
+    assert abs(ms["Q_ellipse"] - 22.229) < 1e-2
+
+
 def test_canonical_freeze(res):
     """The frozen canonical table (2026-06-11, ledger closed)."""
     R, m, g, c = res["R"], res["m"], res["g"], res["c"]
