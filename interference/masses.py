@@ -173,12 +173,12 @@ one rule:
     The absolute entries are quoted in the PDG MS-bar(2 GeV)
     coordinate, a declared dictionary entry, not a fitted one.
 
-The algebra does not run to a scale; its output IS the prediction.
-A reader who wants a different convention applies standard RGE
-transport with the framework's own α_s(M_Z) = 0.1184 (couplings.py)
-— both
-endpoints are algebraic, so zero freedom enters — but that is the
-SM's coordinate change, not a step in the prediction.
+The mass formulas do not run to a scale; the algebraic output
+IS the prediction.  A reader who wants a different convention applies
+standard RGE with the framework's own α_s(M_Z) = 0.1184 (couplings.py,
+itself algebraic): both endpoints fixed, zero freedom enters.  That
+conversion is a coordinate change on the reader's side, not a step in
+the prediction.
 """
 
 import math

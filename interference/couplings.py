@@ -81,8 +81,7 @@ alpha(0):
     is an intermediate identity, not the prediction.
 
 Two readings, one coupling.  alpha_em = pi/2⁹ and alpha(0) = pi²/(2⁸(2pi-1))
-are not "bare alpha and dressed alpha."  They are the SAME coupling's
-back-reaction through the bridge sector, read at
+are not "bare alpha and dressed alpha."  They are the SAME coupling read at
 two emergence layers of the conformal embedding:
 
   * alpha_em = pi/2⁹              at the conformal-embedding (Planck) scale.

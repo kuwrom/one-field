@@ -1,4 +1,4 @@
-"""Scorecard tests for the interference formulation.
+"""Scorecard tests for the unified formulation.
 
 Every numerical prediction and every load-bearing polynomial identity is
 encoded as a pass/fail assertion.  The framework's claim is "no free
@@ -12,6 +12,7 @@ integers".  A refactor that preserved the float but broke the algebraic
 ratio would pass the numerical tests and fail the structural ones.
 
 Run with:
+    cd unified/
     pytest -q
 """
 
@@ -22,8 +23,7 @@ from fractions import Fraction
 
 import pytest
 
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "interference")))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from root import PDG_MASSES
 
