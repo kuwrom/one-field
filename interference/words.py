@@ -161,11 +161,7 @@ def derive():
     # ── graph facts the lemma uses ──────────────────────────────────
     evN = np.linalg.eigvals(N)
     evA = np.linalg.eigvals(A)
-    # Perron-Frobenius principal eigenvalue is real positive; filter to
-    # real before taking max (N has three magnitude-2 eigenvalues: +2 and
-    # the complex pair -1 ± i√3, so plain max(key=abs) is order-dependent).
-    real_evN = evN[np.abs(evN.imag) < 1e-9].real
-    assert abs(max(real_evN, key=abs) - d10) < 1e-9      # principal = d₁₀
+    assert abs(max(evN, key=abs) - d10) < 1e-9      # principal = d₁₀
     assert {round(x.real) for x in evA} == {d11, -1}  # spec(A) = {3, −1}
     assert np.allclose(N @ A, A @ N), "nimreps must commute"
     assert set(N.sum(1)) == {float(d10)} and set(A.sum(1)) == {float(d11)}

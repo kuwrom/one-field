@@ -12,13 +12,11 @@ all dimensionful values are derived).
     n₇  = 7     dim of G₂ fundamental (Fano plane lines)
     n₂₆ = 26    dim of F₄ fundamental (traceless Albert algebra)
 
-Back-reaction, not dressing.  Each derived quantity below is a CLOSED-FORM
+No-dressing principle.  Each derived quantity below is a CLOSED-FORM
 polynomial or rational in the four integers (and π), not a renormalised
 value tuned against measurement.  The Standard Model uses RGE running to
 dress free Yukawa couplings against data; this framework has no Yukawas
-to tune, so every factor here is itself an algebraic identity — the echo
-law's terms at each depth are the algebra's OWN back-reaction through the
-channels that exist, not corrections applied to bare values.  Readers
+to tune, so every factor here is itself an algebraic identity.  Readers
 familiar with the per-layer v3_release format will see the same quantities
 here, but compressed: 14+ named identities reduce to one screen.
 
@@ -125,9 +123,9 @@ assert h_bridge == 1
 # NO-SELF-DILUTION IS SYMMETRIC: each face's absorbed share returns
 # to that face's own circulating amplitude and is invisible to that
 # face's own ledgers, the F₄ share cannot dilute 1/G (gravity.py),
-# and the G₂ share cannot back-react on the gauge couplings.  The
+# and the G₂ share cannot dress the gauge couplings.  The
 # conservation is therefore complete internally: the law PREDICTS
-# THE ABSENCE of any anomalous gauge back-reaction (α_s carries no
+# THE ABSENCE of any anomalous gauge dressing (α_s carries no
 # ±(4/13)-unit shift; a future α_s anomaly of that size would
 # falsify the symmetry).
 assert Fraction(hv_G2, hv_G2 + hv_F4) + Fraction(hv_F4, hv_G2 + hv_F4) == h_bridge
@@ -545,17 +543,10 @@ BA_ratio = math.sqrt(d10)               # |B/A| = √d₁₀ = √2
 # ═══════════════════════════════════════════════════════════════════════
 #  PDG REFERENCE VALUES  (comparison only, not inputs)
 # ═══════════════════════════════════════════════════════════════════════
-# Leptons: pole masses (physical observables).
-# Quarks: PDG 2024 conventional coordinates —
-#   u, d, s: MS-bar at μ = 2 GeV;  c, b: MS-bar at μ = m;
-#   t: direct-measurement pole mass.
-# The algebra produces one value per fermion; it does not run to a
-# scale.  The PDG coordinate each value matches is an observable
-# consequence, not a choice.
 
 PDG_MASSES = {
     'e': 0.51099895069, 'mu': 105.6583755, 'tau': 1776.93,
-    'u': 2.16, 'c': 1273.0, 't': 172570.0,      # MeV
+    'u': 2.16, 'c': 1273.0, 't': 172570.0,
     'd': 4.70, 's': 93.5,  'b': 4183.0,
 }
 

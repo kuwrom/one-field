@@ -578,7 +578,7 @@ def derive(R, masses, mixing, couplings):
     print(f"    alpha_em(M_Z) = 1/{1.0/alpha_em_MZ:.3f}")
     print(f"    sin²theta_W = 3/13 + h₇·(α/2π) = {sin2W:.6f}  [tree 3/13 = {float(SIN2W_TREE):.5f} + FORCED depth-1 emission echo]")
     print(f"    PDG 2024 global fit: {sin2W_PDG}(4)  (pull: {(sin2W - sin2W_PDG)/PDG_EW['sin2W_err']:+.2f}σ; tree alone: −13σ)")
-    print(f"    M_W = A₀/(ŝ√(1−Δr̂_W)) = {M_W_derived:.4f} GeV  (PDG: {M_W_PDG}(13), pull {(M_W_derived-M_W_PDG)/0.0133:+.2f}σ)")
+    print(f"    M_W = A₀/(ŝ√(1−Δr̂_W)) = {M_W_derived:.4f} GeV  (PDG: {M_W_PDG}(133) world avg, pull {(M_W_derived-M_W_PDG)/0.0133:+.2f}σ)")
     print(f"    M_Z = M_W/(ρ̂^½ĉ)      = {M_Z_derived:.4f} GeV  (PDG: {M_Z_PDG}, {pct(M_Z_derived, M_Z_PDG):+.4f}%; +1.6σ of import band)")
     print(f"      [A₀ = √(πα(0))·v_EW = {A_EW:.5f} GeV vs PDG 37.28038(1): 0.1 ppm;")
     print(f"       imports Δr̂_W = 0.06937(6), ρ̂ = 1.01016(9), PDG 2024 Eq. (10.26)]")

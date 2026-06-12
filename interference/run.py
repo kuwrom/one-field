@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-End-to-end runner: every prediction from (d₁₀, d₁₁, n₇, n₂₆) + pi + m_e
+Unified runner: every prediction from (d₁₀, d₁₁, n₇, n₂₆) + pi + m_e
 (the electron anchors the scale; M_Pl and G are outputs).
 
 Calls root -> masses -> mixing -> couplings -> gravity (incl. Higgs,
@@ -18,7 +18,7 @@ Reference:
 import sys
 import os
 
-# Ensure the package directory is on the import path
+# Ensure the unified directory is on the import path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from root import PDG_MASSES, pct
@@ -80,7 +80,7 @@ dark_data = dark_sector.derive(R, grav_data)
 # proofs.py (d_11^2-1=4 d_10, C_2 factorisations, h_bridge=1, c_coset=0,
 # the Fraction ratios 38/9, 217/18, 1165/12, 289/432, 32/27, 649/972,
 # sin^2 theta_W = 3/13, N_vertex=30, etc.) are now asserted directly in
-# test_interference.py and by inline asserts inside each module's derive()
+# test_unified.py and by inline asserts inside each module's derive()
 # function.  The test suite is the certificate.
 
 n_checks = 35   # 9 masses + 15 CKM + 3 PMNS + 1 alpha_s + 1 Higgs + 1 G_N + 1 eta_B + 3 EW + 1 DM/baryon
@@ -205,7 +205,7 @@ tree = f"""
     |     (e, mu, tau): 3 masses
     |
     +-- F4 sector -> quarks + v_EW + Higgs
-    |     v_EW = M_Pl * exp(-(9pi²/2 - 6 + 15/512))
+    |     v_EW = M_Pl * exp(-(9pi²/2 - 6 + 15/512 - 16(a/2pi)²))
     |     30 modes = 26 (F4 fund) + 4 (Higgs DOFs)
     |     sin2W = d11/(d10²+d11²) = 3/13 = {sin2W:.5f}
     |     M_Z = {grav_data['M_Z_derived']:.2f} GeV,  M_W = {grav_data['M_W_derived']:.2f} GeV  (derived)
@@ -254,7 +254,7 @@ tree = f"""
   TOTAL: 9 masses + 15 CKM + 3 PMNS + 1 alpha_s + 1 Higgs + 1 G_N + 1 eta_B + 3 EW + 1 DM/baryon
        = {n_checks} numerical checks + {n_structural} structural (m1=0, ordering, CC scale)
        from the electron anchor alone (M_Pl derived), all couplings derived.
-       Structural and polynomial identities are asserted in test_interference.py:
+       Structural and polynomial identities are asserted in test_unified.py:
            pytest -q   ->   58 tests including the canonical freeze table.
   Mass: {n_sub1}/9 <= 1%, {n_sub2}/9 <= 2%, max {max_err:.1f}%
   CKM:  chi2/n = {chi2_ckm/n_ckm:.2f}  ({n_ckm} obs)

@@ -1,5 +1,4 @@
-"""Harmonic formulation of the E_8(1) > G_2(1) x F_4(1) framework
-through substrate self-interference.
+"""Unified harmonic formulation of the E_8(1) > G_2(1) x F_4(1) framework.
 
 Every prediction is expressed through 4 irreducible integers + pi + m_e
 (the electron anchors the scale; M_Pl and G are OUTPUTS):
@@ -19,7 +18,7 @@ Reference:
     Kahsay, Kibrom Kidane (2026). The Echo of Standing Waves.
         Zenodo. https://doi.org/10.5281/zenodo.20144381
 
-Run the derivation via:
+Run the unified derivation via:
     python run.py
 
 VERSION: this package is the canonical current state of the theory
@@ -142,16 +141,11 @@ function of (d_10, d_11, n_7, n_26) + pi.
 
 This has a strict consequence for how the code reads.  In the Standard
 Model, RGE running and matching are tools for tuning free Yukawa
-couplings: a renormalised value at one scale is dressed into a
-prediction at another, and the dressing absorbs the free parameters.
-This framework has no Yukawas to tune, so the language of "dressing"
-does not apply: there is no bare prediction being patched.  What
-DOES happen is BACK-REACTION: each closure echoes through the channels
-that already exist (the bridge self-loop, the e↔q cycle, the WZW
-vents), and the echo's weight is a theorem of the channel, not a
-fitted correction.  Every factor that appears here is one reading of
-the same algebra at a particular emergence layer — the layer
-determines the factor, not the other way around.
+couplings, a renormalised value at one scale is dressed into a
+prediction at another.  This framework has no Yukawas to tune, so the
+language of "correction" and "dressing" does not apply: there is no
+bare prediction being patched.  Every factor that appears here is one
+reading of the same algebra at a particular emergence layer.
 
 The unified expression makes this manifest: instead of per-layer
 modules each with its own physical motivation (the v3_release format),
@@ -174,7 +168,7 @@ structurally tighter claim than "each layer closes consistently."
 
 Concrete example, alpha_em = pi/512 and alpha(0) = 1/137.035999050 are
 not "bare alpha and dressed alpha"; they are two readings of one
-coupling's back-reaction at two emergence layers.  alpha_em = pi/2**9 is the reading
+coupling at two emergence layers.  alpha_em = pi/2**9 is the reading
 at the conformal-embedding scale (Singh ratio + WZW), used inside the
 instanton vertex.  alpha(0) is the reading at the IR pole-mass scale:
 the bridge SELF-loop gives the factor (1 - 1/(2 pi)) (marginal h = 1,
@@ -236,7 +230,7 @@ words.py     | Generation word lemma, executable and fully derived:
              | superselection (neutral lane); knot definition +
              | conversion lemma (terminus); exclusions killed by data.
 run.py       | End-to-end driver, scorecard, agreement summary.
-test_interference.py | The falsifiability suite: every claim is an assertion.
+test_unified.py | The falsifiability suite: every claim is an assertion.
 
 Quickstart:   python3 run.py        (full chain + scorecard)
               python3 -m pytest -q  (the test suite)
@@ -320,45 +314,44 @@ PRECISION BLOCK (promoted by the vertex composition rule):
  E. M_Pl = 1.2209171e19 GeV (output).
 
 PRE-REGISTERED WATCH (the 4/13 absence test): the symmetric
-no-self-dilution rule predicts NO anomalous gauge back-reaction —
-the G2-absorbed share of the bridge self-echo is invisible to gauge
+no-self-dilution rule predicts NO anomalous gauge dressing, the
+G2-absorbed share of the bridge self-echo is invisible to gauge
 observables.  Decidable at ~0.03% alpha_s precision (lattice
-trajectory): alpha_s(M_Z) = 0.1184 (no back-reaction, the law's bet,
-matched at mu*) vs 0.1177 / 0.1191 (a +-(4/13)/(2pi) anomalous
-back-reaction, which would falsify the symmetry).  PDG 0.1180(9)
-cannot yet distinguish.
+trajectory): alpha_s(M_Z) = 0.1184 (no dressing, the law's bet,
+matched at mu*) vs 0.1177 / 0.1191 (a +-(4/13)/(2pi) dressing,
+which would falsify the symmetry).  PDG 0.1180(9) cannot yet
+distinguish.
 DISCLOSURE (matching-scale degeneracy): the mu* migration shifts
 1/alpha_s by (32/3)(15/512)/(2pi) = 0.0497 -- numerically almost
-identical to the 4/13 back-reaction unit (4/13)/(2pi) = 0.0490.  The
+identical to the 4/13 dressing unit (4/13)/(2pi) = 0.0490.  The
 original registration (2026-06, pre-migration) quoted 0.1177 as the
-no-back-reaction value under the v_EW-start convention; under that
-convention the back-reaction alternative was 0.1184.  The two effects
-are nearly degenerate in 1/alpha, so any future discrimination must
-fix the matching scale FIRST (it is fixed: exactness of the WZW
-cancellation forces mu*) and then test for the back-reaction on top.
+no-dressing value under the v_EW-start convention; under that
+convention the dressing alternative was 0.1184.  The two effects are
+nearly degenerate in 1/alpha, so any future discrimination must fix
+the matching scale FIRST (it is fixed: exactness of the WZW
+cancellation forces mu*) and then test for the dressing on top.
 History preserved here deliberately; this note is the audit trail.
 
-THE MASS COORDINATE (back-reaction, not running).  A running mass
-m_q(mu) is a coordinate on an RG orbit, not an observable; no
-zero-parameter framework owes "the quark mass" until a comparison
-coordinate is chosen.  The table uses ONE RULE over three dynamical
-classes (masses.py): unconfined fermions (e, mu, tau, t) at the
-propagator pole, the only scheme-independent mass an asymptotic
-state has; confined heavy quarks (c, b) at the self-scale m(m),
-the unique fixed point of mu -> m(mu) (no pole exists below
-confinement); light quarks (u, d, s) through their RG-INVARIANT
-RATIOS, which carry no coordinate at all: m_u/m_d = 38/83
-(-0.9 sigma), m_s/m_ud = 27.130 vs PDG 27.30(8) (-2.1 sigma, the
-sharpest mass-sector pull, watched alongside m_b), Q_ellipse =
-22.229 (+0.2 sigma dispersive, -2.0 sigma lattice; the two data
-determinations disagree, PDG quark-masses review Sec. 60).  The
-absolute light entries are quoted in the PDG MS-bar(2 GeV)
-coordinate, a declared dictionary entry — not a fitted one.  The
-algebra does not run to a scale; its output IS the prediction.  A
-reader who wants a different convention applies standard RGE transport
-with the framework's own alpha_s (also algebraic): both endpoints
-fixed, zero freedom enters — but that is the SM's coordinate change,
-not a step in the prediction.
+THE MASS COORDINATE.  A running mass m_q(mu) is a coordinate on an
+RG orbit, not an observable; no zero-parameter framework owes "the
+quark mass" until a comparison coordinate is chosen.  The table uses
+ONE RULE over three dynamical classes (masses.py): unconfined
+fermions (e, mu, tau, t) at the propagator pole, the only
+scheme-independent mass an asymptotic state has; confined heavy
+quarks (c, b) at the self-scale m(m), the unique fixed point of
+mu -> m(mu) (no pole exists below confinement); light quarks (u, d,
+s) through their RG-INVARIANT RATIOS, which carry no coordinate at
+all: m_u/m_d = 38/83 (-0.9 sigma), m_s/m_ud = 27.130 vs PDG 27.30(8)
+(-2.1 sigma, the sharpest mass-sector pull, watched alongside m_b),
+Q_ellipse = 22.229 (+0.2 sigma dispersive, -2.0 sigma lattice; the
+two data determinations disagree, PDG quark-masses review Sec. 60).
+The absolute light entries are quoted in the PDG MS-bar(2 GeV)
+coordinate, a declared dictionary entry, not a fitted one.  The mass formulas do not run to a scale; the
+algebraic output IS the prediction.  A reader who wants a different
+convention applies standard RGE with the framework's own alpha_s
+(itself algebraic): both endpoints fixed, zero freedom enters.  That
+conversion is a coordinate change on the reader's side, not a step in
+the prediction.
 
 PRE-REGISTERED WATCH (not a claim): the quark sector is currently
 noise-compatible (chi^2 = 2.74/6 with PDG errors); only m_b at
@@ -375,8 +368,7 @@ WITH A STATED BAND, where every import is itself decomposed and
 AUDITED (gravity.py): data-driven ingredients are measurements,
 parameter dependencies are recalculated from the framework's own
 values and verified compatible, and pure loop integrals are
-mathematics fixed by the field content.  Nothing is dressed — every
-non-trivial factor is a back-reaction through an existing channel;
+mathematics fixed by the field content.  Nothing is dressed;
 nothing is tuned (Delta-r-hat_W, rho-hat at one loop; the Higgs
 prescription, SM 2-loop RGE + tree matching + lambda(M_Pl) =
 -delta_bridge, with its ±1 GeV truncation band containing the
@@ -392,8 +384,8 @@ M_Z = 91.196 (+0.009%, +1.6 sigma of the import band, carrying the
 data's own W/Z tension structure).  (The former "locate the 4/13"
 item is RESOLVED by the symmetric no-self-dilution rule: each face's
 absorbed share is invisible to its own ledgers; the law predicts the
-ABSENCE of anomalous gauge back-reaction, consistent with alpha_s at
-+0.43 sigma.
+ABSENCE of anomalous gauge dressing, consistent with alpha_s at
++0.43 sigma.)
 
 HURWITZ FINALITY (the forward rule).  The echo grammar is closed:
 depth <= 3, edges only along the sector graph, multiplicities only by
@@ -402,4 +394,4 @@ rules.  No new term may be added after a comparison.  Consequently
 every canonical residual is BOUNDED: a deviation that exceeds the
 next-depth echo unit of its sector falsifies the rule that produced
 it, there is no deeper term to absorb a miss.
-""" 
+"""
