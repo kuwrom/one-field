@@ -172,11 +172,12 @@ def test_neutrino_normal_ordering(res):
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_sin2_theta_W(res):
-    """sin^2 theta_W = d_11 / (d_10^2 + d_11^2) = 3/13."""
+    """sin^2 theta_W = 3/13 + Q₀²·α/(2π), depth-1 h₇ + depth-2 h₇/d₁₁²."""
     sin2W = res["g"]["sin2W"]
-    # canonical: tree 3/13 + FORCED G2-face emission echo h_7*(alpha/2pi)
+    # canonical: tree 3/13 + depth-1 h₇·α/(2π) + depth-2 (h₇/d₁₁²)·α/(2π)
+    # total echo coefficient h₇(1+1/d₁₁²) = Q₀² = 4/9
     import root as _r
-    expected = 3.0/13.0 + (2.0/5.0) * _r.alpha_phys / (2.0 * math.pi)
+    expected = 3.0/13.0 + (4.0/9.0) * _r.alpha_phys / (2.0 * math.pi)
     assert math.isclose(sin2W, expected, rel_tol=1e-12)
     assert abs(sin2W - 0.23129) / 4e-5 < 2.0      # within 2 sigma of PDG 2024 global fit
     # PDG: 0.23122
@@ -184,14 +185,14 @@ def test_sin2_theta_W(res):
 
 
 def test_M_Z_derived(res):
-    """M_Z at one loop (MS-bar chain, PDG 2024 imports): within 0.02%."""
+    """M_Z at layer-1 (MS-bar chain, PDG 2024 imports): within 0.02%."""
     M_Z = res["g"]["M_Z_derived"]
     M_Z_PDG = res["g"]["M_Z_PDG"]
     assert err_pct(M_Z, M_Z_PDG) < 0.02
 
 
 def test_M_W_derived(res):
-    """M_W at one loop (A from alpha(0),v_EW; dr_hat_W declared import):
+    """M_W at layer-1 (A from alpha(0),v_EW; dr_hat_W declared import):
     within 2 sigma of PDG 80.3692(133)."""
     M_W = res["g"]["M_W_derived"]
     M_W_PDG = res["g"]["M_W_PDG"]
@@ -524,8 +525,8 @@ def test_mass_coordinate_invariants(res):
     mass-coordinate choice at all (QCD running cancels)."""
     ms = res["m"]
     assert abs(ms["mu_over_md"] - 38.0 / 83.0) < 1e-12   # exact
-    assert abs(ms["ms_over_mud"] - 27.1305) < 1e-3
-    assert abs(ms["Q_ellipse"] - 22.229) < 1e-2
+    assert abs(ms["ms_over_mud"] - 27.3183) < 1e-3
+    assert abs(ms["Q_ellipse"] - 22.383) < 1e-2
 
 
 def test_canonical_freeze(res):
@@ -543,18 +544,18 @@ def test_canonical_freeze(res):
 
     # face-split law closures
     assert abs(g["G_ratio_UV"] - 1.0) < 1e-6
-    assert abs(g["sin2W"] - 0.23123379) < 1e-7
+    assert abs(g["sin2W"] - 0.23128541) < 1e-7
 
-    # EW one-loop chain (PDG 2024 imports)
-    assert abs(g["M_W_derived"] - 80.3648) < 2e-3
-    assert abs(g["M_Z_derived"] - 91.1956) < 2e-3
+    # EW layer-1 chain (PDG 2024 imports)
+    assert abs(g["M_W_derived"] - 80.3559) < 2e-3
+    assert abs(g["M_Z_derived"] - 91.1885) < 2e-3
 
     # couplings + Higgs (declared imports, banded)
     # alpha_s matched at mu* = M_Pl e^{-(9pi^2/2-6)} = v_EW e^{15/512}
     # (gauge lever-arm endpoint; pre-migration label was v_EW)
     assert abs(c["mu_star_GeV"] - 253.534) < 1e-2
     assert abs(c["alpha_s_MZ_thresh"] - 0.118385) < 1e-5
-    assert abs(g["mH_pred"] - 124.06) < 0.05
+    assert abs(g["mH_pred"] - 124.00) < 0.05
 
     # words lemma bases (integer ranks, exact)
     import words as _w
@@ -562,3 +563,48 @@ def test_canonical_freeze(res):
     with _ctx.redirect_stdout(_io.StringIO()):
         bases = _w.derive()["base"]
     assert bases == (4, 12, 97)
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  Embedding uniqueness (E₈ coherence gate)
+# ═══════════════════════════════════════════════════════════════════════
+
+def test_embedding_uniqueness():
+    """E₈(1) ⊃ G₂(1) × F₄(1) is the unique conformal embedding
+    passing all six coherence gates among rank-8 simple algebras."""
+    import embedding_uniqueness as eu
+    import io, contextlib
+    with contextlib.redirect_stdout(io.StringIO()):
+        result = eu.derive()
+    assert result['n_survivors'] == 1
+    assert result['survivor'] == ('E8', 'G2', 'F4')
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  Protected forgetting (G₂ harmonic)
+# ═══════════════════════════════════════════════════════════════════════
+
+def test_protected_forgetting():
+    """v = (1, -1/2, -1/2) satisfies PvP=0 and Pv²P=1/2."""
+    import protected_forgetting as pf
+    import io, contextlib
+    with contextlib.redirect_stdout(io.StringIO()):
+        result = pf.derive()
+    assert abs(result['PvP']) < 1e-14
+    assert abs(result['Pv2P'] - 0.5) < 1e-14
+    assert result['unique'] is True
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  NLS soliton (substrate dynamics)
+# ═══════════════════════════════════════════════════════════════════════
+
+def test_nls_soliton_stability():
+    """Z₃-NLS evolves stably with number conservation."""
+    import nls_soliton
+    import io, contextlib
+    with contextlib.redirect_stdout(io.StringIO()):
+        result = nls_soliton.derive()
+    assert result['conservation'] < 1e-6
+
+

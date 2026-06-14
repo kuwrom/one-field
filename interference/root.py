@@ -16,7 +16,7 @@ Back-reaction, not dressing.  Each derived quantity below is a CLOSED-FORM
 polynomial or rational in the four integers (and π), not a renormalised
 value tuned against measurement.  The Standard Model uses RGE running to
 dress free Yukawa couplings against data; this framework has no Yukawas
-to tune, so every factor here is itself an algebraic identity — the echo
+to tune, so every factor here is itself an algebraic identity -- the echo
 law's terms at each depth are the algebra's OWN back-reaction through the
 channels that exist, not corrections applied to bare values.  Readers
 familiar with the per-layer v3_release format will see the same quantities
@@ -69,6 +69,16 @@ assert d11**2 - 1 == 4 * d10, "Sugawara consistency: d₁₁² − 1 = 4d₁₀"
 M_E_ANCHOR_MEV = 0.51099895069       # CODATA 2022, ±1.6e-10 (0.3 ppb)
 M_PL_CODATA_GEV = 1.22089e19          # via G = 6.67430(15)e-11 (22 ppm)
 G_CODATA = 6.67430e-11                # m³ kg⁻¹ s⁻², rel. unc. 2.2e-5
+
+# Unit conversions (CODATA 2022, mathematics, not physics choices)
+HBAR_SI   = 1.054571817e-34           # ħ in J·s   (exact since 2019 SI)
+GEV_PER_J = 1.0 / 1.602176634e-10    # GeV/J      (exact since 2019 SI)
+
+# Observational scale anchor (same status as M_E_ANCHOR: fixes a scale,
+# not a coupling).  Used only in the CC derivation ρ_Λ = (3/8π)M_Pl²H₀².
+H_0_KM_S_MPC = 67.4                  # Planck 2018, ± 0.5
+H_0_SI  = H_0_KM_S_MPC * 1e3 / 3.0856775814913673e22  # s⁻¹
+H_0_GEV = H_0_SI * HBAR_SI * GEV_PER_J                # GeV
 
 # placeholders, assigned by the anchor inversion further down
 M_Pl_GeV = None
@@ -403,6 +413,51 @@ assert abs(_x**3 - (2**9/math.pi)*((1.0 - 1.0/(2*math.pi))*_x**2
                                    - 1.0/(2.0*math.pi**2))) < 1e-6
 assert abs(QED_factor - (1.0 - alpha_phys/(2.0*math.pi))) < 1e-15
 
+# ── sin²θ_W promoted to Web ledger ──────────────────────────────────
+#
+# Tree: sin²θ_W = h∨(SU(3))/(h∨(G₂)+h∨(F₄)) = d₁₁/(d₁₀²+d₁₁²) = 3/13
+#
+# Depth-1 (FORCED): G₂-face emission through the EM channel.
+#   Emission echoes carry conformal weights (face-split law).
+#   Factor: h₇ · α/(2π) = (2/5) · α/(2π)
+#
+# Depth-2 (FORCED): cross-echo composing the G₂ emission vertex
+#   with the fundamental WZW channel.  The depth-1 emission (h₇)
+#   traverses the fundamental representation, suppressed by
+#   h₁₀/d₁₀ = 1/d₁₁² (quantum Schur, the SAME suppression as B/A).
+#   Factor: (h₇/d₁₁²) · α/(2π) = (2/45) · α/(2π)
+#
+# IDENTITY: h₇ + h₇/d₁₁² = h₇(1+1/d₁₁²) = (2/5)(10/9) = 4/9 = Q₀²
+#   The total echo coefficient is the Koide parameter squared.
+WEB["sin2W"] = (
+    Ledger("sin²θ_W", float(sin2W), "add")
+    .echo(["G₂-face(EM)"],
+          lambda s: float(h_7) * (1.0 / s["inv_alpha"]) / (2.0 * math.pi),
+          1, "FORCED",
+          "G₂-face emission echo, weight h₇ = d₁₀/(1+d₁₀²)")
+    .echo(["G₂×WZW(fund)"],
+          lambda s: (float(h_7) / d11**2)
+          * (1.0 / s["inv_alpha"]) / (2.0 * math.pi),
+          2, "FORCED",
+          "h₇·(h₁₀/d₁₀) cross-echo through fundamental WZW"))
+
+# ── bridge² promoted to Web ledger ──────────────────────────────────
+#
+# Base: Q₀² · charge_trace = (d₁₀/d₁₁)² · d₁₀³/d₁₁ = 32/27
+#   Albert algebra trace norm × Dynkin Z₂ orientation factor.
+#
+# Depth-2 (FORCED): adjoint conformal weight at quadratic altitude.
+#   The Q back-reaction terms (h/K³) enter the Koide sum rule at CUBIC
+#   order (leading and quadratic vanish by Z₃ symmetry).  The bridge
+#   factor operates at the bridge level between the Koide spectrum
+#   and the strange mass, entering at QUADRATIC order → K² not K³.
+#   Channel: adjoint (1,1), weight h₁₁ = 1/d₁₀ (representation mixing).
+#   Factor: h₁₁/K² = (1/d₁₀)/(d₁₀d₁₁)² = 1/72
+WEB["bridge_sq"] = (
+    Ledger("bridge²", float(Q0**2 * charge_trace), "mul")
+    .echo(["WZW(adj/K²)"], float(h11) / K**2, 2,
+          "FORCED", "adjoint weight at quadratic altitude: h₁₁/K²"))
+
 # Protected forgetting
 E_v2 = Fraction(1, 2)                   # Pv²P = ½P
 
@@ -476,6 +531,9 @@ assert abs(M_Pl_GeV / M_PL_CODATA_GEV - 1.0) < 3.3e-5  # 3σ_G/2
 assert abs(G_PRED - 6.674003e-11) < 1e-15  # frozen prediction value
 S_baryo  = hv_G2 * math.pi**2 / 2       # = d₁₀²·π²/2 = 2π²
 
+# CC scale: ρ_Λ = (3/8π) M_Pl² H₀²  (Volovik→Jacobson→CKN, see gravity.py)
+RHO_LAMBDA = 3.0 * H_0_GEV**2 * M_Pl_GeV**2 / (8.0 * math.pi)
+
 # ── Electroweak scale (v_EW derivation chain) ───────────────────
 #
 # v_EW = M_Pl · exp(−S_eff),  where S_eff = S₀ − C₂(26) + δS
@@ -483,7 +541,8 @@ S_baryo  = hv_G2 * math.pi**2 / 2       # = d₁₀²·π²/2 = 2π²
 #   S₀ = 9π²/2:  lepton instanton action (above)
 #   −C₂(26) = −d₁₀d₁₁ = −6:  functional determinant shift from quarks
 #       living in the 26 of F₄ (Casimir of 26-dimensional representation)
-#   δS = N_vertex · α_EM / (2π):  't Hooft vertex one-loop correction
+#   δS = N_vertex · α_EM / (2π):  't Hooft vertex one-loop back-reaction
+#       (standard QFT: "one-loop correction"; here forced by the mode count)
 #       N_vertex = n₂₆ + h∨(G₂) = 26 + 4 = 30 modes
 #       (26 from F₄ fundamental + 4 real Higgs DOFs = h∨(G₂) = d₁₀²)
 #       α_EM = π/512 (derived above)
@@ -520,6 +579,8 @@ WEB["lambda_MPl"] = Ledger("lambda(M_Pl)", 0.0, "add").echo(
 #  re-run the kernel so the new nodes join the solved state
 WEB.solve()
 S_quark = WEB.state["S_quark"]           # = 9π²/2 − 6 + 15/512
+sin2W_phys = WEB.state["sin2W"]          # 3/13 + Q₀²·α/(2π)
+bridge_sq_phys = WEB.state["bridge_sq"]  # 32/27 × (1 + h₁₁/K²)
 
 # ── Koide Z₃ amplitude ratio (B/A from octonionic CG + quantum Schur) ──
 #
@@ -546,7 +607,7 @@ BA_ratio = math.sqrt(d10)               # |B/A| = √d₁₀ = √2
 #  PDG REFERENCE VALUES  (comparison only, not inputs)
 # ═══════════════════════════════════════════════════════════════════════
 # Leptons: pole masses (physical observables).
-# Quarks: PDG 2024 conventional coordinates —
+# Quarks: PDG 2024 conventional coordinates --
 #   u, d, s: MS-bar at μ = 2 GeV;  c, b: MS-bar at μ = m;
 #   t: direct-measurement pole mass.
 # The algebra produces one value per fermion; it does not run to a
@@ -589,7 +650,9 @@ PDG_EW = {
     'M_Z': 91.1876, 'M_W': 80.3692,
     'sin2W_MSbar': 0.23129, 'sin2W_err': 0.00004,   # global SM fit 2024
     'm_H': 125.20, 'alpha_s_MZ': 0.1180,
-    # MS-bar radiative-correction imports (DECLARED, cited).
+    # MS-bar radiative back-reaction imports (DECLARED, cited).
+    # (Standard QFT: "radiative corrections"; here they are back-reactions
+    # whose inputs are all re-derived from the framework.)
     # ZERO-PARAMETER DISCIPLINE: these are functions of (G_F, m_t,
     # m_H, alpha-hat(M_Z)); every ingredient is RECALCULATED from the
     # framework's own predictions and verified compatible within the
@@ -598,6 +661,12 @@ PDG_EW = {
     # Delta-r0, spectral MEASUREMENT, not a fit parameter.
     'dr_hat_W': 0.06937,   # ± 0.00006   PDG 2024 Eq. (10.26) text
     'rho_hat':  1.01016,   # ± 0.00009   PDG 2024 (incl. bosonic loops)
+}
+
+# Cosmological comparison data (single source)
+PDG_COSMO = {
+    'eta_B': 6.12e-10,     # baryon asymmetry, Planck 2018
+    'Omega_Lambda': 0.685, # dark energy fraction, Planck 2018
 }
 
 

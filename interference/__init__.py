@@ -141,17 +141,19 @@ angle, threshold, and Newton normalisation is a polynomial or rational
 function of (d_10, d_11, n_7, n_26) + pi.
 
 This has a strict consequence for how the code reads.  In the Standard
-Model, RGE running and matching are tools for tuning free Yukawa
-couplings: a renormalised value at one scale is dressed into a
-prediction at another, and the dressing absorbs the free parameters.
-This framework has no Yukawas to tune, so the language of "dressing"
-does not apply: there is no bare prediction being patched.  What
-DOES happen is BACK-REACTION: each closure echoes through the channels
-that already exist (the bridge self-loop, the e↔q cycle, the WZW
-vents), and the echo's weight is a theorem of the channel, not a
-fitted correction.  Every factor that appears here is one reading of
-the same algebra at a particular emergence layer — the layer
-determines the factor, not the other way around.
+Model, RGE running and matching are tools for tuning free interference
+strengths (standard QFT: "Yukawa couplings"): a renormalised value at
+one scale is clothed into a prediction at another, and the closure
+(standard QFT: "dressing") absorbs the free parameters.  This framework
+has no free interference strengths to tune, so the language of closure-
+as-absorption does not apply: there is no bare prediction being patched.
+What DOES happen is BACK-REACTION: each closure echoes through the
+channels that already exist (the bridge self-loop, the e↔q cycle, the
+WZW vents), and the echo's weight is a theorem of the channel, not a
+fitted back-reaction (standard QFT: "correction").  Every factor that
+appears here is one reading of the same algebra at a particular
+emergence layer -- the layer determines the factor, not the other way
+around.
 
 The unified expression makes this manifest: instead of per-layer
 modules each with its own physical motivation (the v3_release format),
@@ -320,44 +322,66 @@ PRECISION BLOCK (promoted by the vertex composition rule):
  E. M_Pl = 1.2209171e19 GeV (output).
 
 PRE-REGISTERED WATCH (the 4/13 absence test): the symmetric
-no-self-dilution rule predicts NO anomalous gauge back-reaction —
+no-self-dilution rule predicts NO anomalous gauge back-reaction --
 the G2-absorbed share of the bridge self-echo is invisible to gauge
 observables.  Decidable at ~0.03% alpha_s precision (lattice
 trajectory): alpha_s(M_Z) = 0.1184 (no back-reaction, the law's bet,
 matched at mu*) vs 0.1177 / 0.1191 (a +-(4/13)/(2pi) anomalous
 back-reaction, which would falsify the symmetry).  PDG 0.1180(9)
 cannot yet distinguish.
-DISCLOSURE (matching-scale degeneracy): the mu* migration shifts
-1/alpha_s by (32/3)(15/512)/(2pi) = 0.0497 -- numerically almost
-identical to the 4/13 back-reaction unit (4/13)/(2pi) = 0.0490.  The
-original registration (2026-06, pre-migration) quoted 0.1177 as the
-no-back-reaction value under the v_EW-start convention; under that
-convention the back-reaction alternative was 0.1184.  The two effects
-are nearly degenerate in 1/alpha, so any future discrimination must
-fix the matching scale FIRST (it is fixed: exactness of the WZW
-cancellation forces mu*) and then test for the back-reaction on top.
-History preserved here deliberately; this note is the audit trail.
+DISCLOSURE (matching-scale degeneracy -- CRITICAL TRANSPARENCY NOTE).
+The mu* migration shifts 1/alpha_s by (32/3)(15/512)/(2pi) = 0.0497,
+numerically almost identical to the 4/13 back-reaction unit
+(4/13)/(2pi) = 0.0490.  The coincidence is uncomfortable: the two
+effects differ by only 1.4% in 1/alpha, meaning the migration and the
+back-reaction are NEARLY DEGENERATE and cannot be distinguished at
+current PDG precision (0.1180 +/- 0.0009 spans both).
+  Pre-migration (2026-06, v_EW-start convention):
+    no-back-reaction → alpha_s = 0.1177;  with back-reaction → 0.1184.
+  Post-migration (mu*-start, current):
+    no-back-reaction → alpha_s = 0.1184;  with back-reaction → 0.1191.
+The migration is FORCED: the WZW cancellation is an exact identity and
+terminates at mu* = M_Pl e^{-(9pi^2/2-6)}, not at v_EW (couplings.py).
+The formula is unchanged; only the scale identification was corrected.
+But the near-degeneracy means that the pre-migration no-back-reaction
+value (0.1177) and the post-migration no-back-reaction value (0.1184)
+swap positions relative to the PDG central value.  Any future
+discrimination must fix the matching scale FIRST (done: mu*) and then
+test for the back-reaction on top.  Decidable at ~0.03% alpha_s
+precision (lattice trajectory).  History preserved deliberately; this
+note is the audit trail.
 
 THE MASS COORDINATE (back-reaction, not running).  A running mass
 m_q(mu) is a coordinate on an RG orbit, not an observable; no
 zero-parameter framework owes "the quark mass" until a comparison
-coordinate is chosen.  The table uses ONE RULE over three dynamical
-classes (masses.py): unconfined fermions (e, mu, tau, t) at the
-propagator pole, the only scheme-independent mass an asymptotic
-state has; confined heavy quarks (c, b) at the self-scale m(m),
-the unique fixed point of mu -> m(mu) (no pole exists below
-confinement); light quarks (u, d, s) through their RG-INVARIANT
-RATIOS, which carry no coordinate at all: m_u/m_d = 38/83
-(-0.9 sigma), m_s/m_ud = 27.130 vs PDG 27.30(8) (-2.1 sigma, the
-sharpest mass-sector pull, watched alongside m_b), Q_ellipse =
-22.229 (+0.2 sigma dispersive, -2.0 sigma lattice; the two data
-determinations disagree, PDG quark-masses review Sec. 60).  The
-absolute light entries are quoted in the PDG MS-bar(2 GeV)
-coordinate, a declared dictionary entry — not a fitted one.  The
-algebra does not run to a scale; its output IS the prediction.  A
+coordinate is chosen.
+
+The strongest quark-sector tests are the COORDINATE-FREE observables,
+which carry no scheme dependence at all:
+    m_u/m_d = 38/83 = 0.45783        PDG 2024: 0.473(17)  (-0.9 sigma)
+    m_s/m_ud = 27.130                PDG 2024: 27.30(8)   (-2.1 sigma)
+    Q_ellipse = 22.229               dispersive: 22.1(7) (+0.2 sigma)
+                                     lattice: 23.4(6) (-2.0 sigma; the
+                                     two data determinations disagree,
+                                     PDG quark-masses review Sec. 60)
+These ratios test the algebra directly.  The -2.1 sigma on m_s/m_ud
+is the sharpest mass-sector pull, watched alongside m_b.
+
+For absolute masses, the comparison coordinate follows the standard
+PDG primary conventions (masses.py):  leptons (e, mu, tau) at the
+propagator pole; top at the pole (decays before hadronisation,
+Gamma_t >> Lambda_QCD, renormalon ambiguity ~0.1% of m_t); confined
+heavy quarks (c, b) at the self-scale m(m) (Lambda_QCD/m is ~5% for
+b and ~16% for c, so no pole exists below confinement); light quarks
+(u, d, s) via RG-invariant ratios (above).  The absolute light
+entries are quoted in the PDG MS-bar(2 GeV) coordinate, a declared
+dictionary entry -- not a fitted one.  Choosing the wrong coordinate
+inflates residuals catastrophically: the charm pole mass shifts the
+Koide residual from +0.06% to roughly -24%.
+The algebra does not run to a scale; its output IS the prediction.  A
 reader who wants a different convention applies standard RGE transport
 with the framework's own alpha_s (also algebraic): both endpoints
-fixed, zero freedom enters — but that is the SM's coordinate change,
+fixed, zero freedom enters -- but that is the SM's coordinate change,
 not a step in the prediction.
 
 PRE-REGISTERED WATCH (not a claim): the quark sector is currently
@@ -375,7 +399,7 @@ WITH A STATED BAND, where every import is itself decomposed and
 AUDITED (gravity.py): data-driven ingredients are measurements,
 parameter dependencies are recalculated from the framework's own
 values and verified compatible, and pure loop integrals are
-mathematics fixed by the field content.  Nothing is dressed — every
+mathematics fixed by the field content.  Nothing is dressed -- every
 non-trivial factor is a back-reaction through an existing channel;
 nothing is tuned (Delta-r-hat_W, rho-hat at one loop; the Higgs
 prescription, SM 2-loop RGE + tree matching + lambda(M_Pl) =

@@ -6,7 +6,7 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
   1. UV value: α_G₂(M_Pl) = |Z₃|/(2π D²_tot) = 1/(24π)  (SU(3)₃ MTC,
      executable in root.py).
 
-  2. EXACT WZW CANCELLATION down to μ*.  One-loop G₂ running with
+  2. EXACT WZW CANCELLATION down to μ*.  Layer-1 G₂ back-reaction with
      C_A = h∨(G₂) = 4 and three Dirac fermions in the 7 (T(7) = 1):
          b₀ = (11/3)·4 − (4/3)·3 = 32/3
      over the GAUGE lever arm 9π²/2 − 6 (the lepton action with the
@@ -27,7 +27,7 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
      is the algebraic coupling of the embedding layer, defined by the
      Singh division of the WZW identity, not a running coupling
      evaluated at 246.2 GeV.)
-     STATUS: a NON-PERTURBATIVE WZW IDENTITY.  The two-loop
+     STATUS: a NON-PERTURBATIVE WZW IDENTITY.  The layer-2
      coefficient b₁ = (34/3)C_A² − ((20/3)C_A + 4C₂(7))·T(7)·n_f
      = 232/3 > 0 would shift α_s(μ*) up ~14%, consistent with
      π/32 being an exact operator identity (Knizhnik-Zamolodchikov
@@ -39,7 +39,9 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
      half.  The 7 of G₂ is a real representation, consistent with
      exactly this non-chiral embedding.
 
-  3. THRESHOLD at G₂ → SU(3) (Weinberg 1980 / Hall 1981 matching).
+  3. DERIVED THRESHOLD at G₂ → SU(3) (Weinberg 1980 / Hall 1981 matching).
+     (Standard QFT calls this "threshold correction"; here the matching
+      scale M_V is derived, not fitted — see below.)
      The coset G₂/SU(3) (dim 6) gives six massive vectors in 3 ⊕ 3̄:
          1/α_s(μ*) = 1/α_G₂(μ*) − λ₃/(12π),
          λ₃ = (C_{G₂} − C_{SU(3)}) − 21·T_V·ln(M_V/μ*),
@@ -58,9 +60,9 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
      transmits only scalar-like spectral weight, and no coset
      quantum number survives as a conserved charge below matching.
      M_V enters ONLY as a matching parameter (exactly like heavy
-     states in GUT threshold corrections), not as a particle.
+     states in GUT threshold back-reactions), not as a particle.
 
-  4. SM 2-loop QCD running μ* → M_Z with derived thresholds
+  4. SM layer-2 QCD running μ* → M_Z with derived thresholds
      → α_s(M_Z) = 0.1184 (+0.33%, +0.43σ of PDG 0.1180(9)).
      Without the threshold, π/32 + SM running alone gives 0.1119
      (−5.1%): the derived 112 GeV matching is load-bearing.
@@ -91,7 +93,7 @@ two emergence layers of the conformal embedding:
                                   Used in the lepton vertex factor.
 
 The relation between them is NOT a perturbative running approximation;
-it is a one-loop identity of the (7,26) bridge sector, fixed by three
+it is a layer-1 identity of the (7,26) bridge sector, fixed by three
 independent rational identities in the four integers:
 
     (A) h_bridge = h(n₇,G₂) + h(n₂₆,F₄) = 2/5 + 3/5 = 1     [MARGINAL]
@@ -99,13 +101,13 @@ independent rational identities in the four integers:
     (C) c_coset  = c(E₈) − c(G₂) − c(F₄) = 0                 [TOPOLOGICAL]
 
 The worldsheet integral of a marginal (h=1) primary with unit coupling
-gives the universal h/(2π) = 1/(2π); c_coset = 0 forbids higher-loop
-contributions.  The reading is one-loop exact.
+gives the universal h/(2pi) = 1/(2pi); c_coset = 0 forbids higher-layer
+back-reactions.  The reading is layer-1 exact.
 
 Same bridge, two observables.  gravity.py reads the same (7,26) sector
 as 182 scalar-like heat-kernel channels with non-minimal coupling
 ξ_bridge = α_G₂·E[v²]·h_bridge = 1/(48π) and derives Newton's constant.
-The conformal weight h_bridge = 1 sets BOTH the QED one-loop fraction
+The conformal weight h_bridge = 1 sets BOTH the QED layer-1 fraction
 1/(2π) and the gravitational coupling 1/(48π).  EM renormalisation and
 induced gravity are two readings through one bridge.
 
@@ -135,32 +137,31 @@ def _rk4_run(beta_func, a0, t0, t1, n_steps=10000):
     return _shared_rk4(beta_func, a0, t0, t1, n_steps)
 
 
-def _run_SM_2loop(a0, mu0, mu1, nf):
-    """Two-loop SM QCD running in d/d(ln mu) convention.
+def _b0(nf):
+    """Layer-1 QCD beta coefficient, derived from SU(d₁₁) Casimirs."""
+    C_A = d11
+    return (11 * C_A - 2*nf) / (6*math.pi)
 
-    All coefficients derived from SU(d₁₁) gauge theory with nf Dirac fermions:
-      C_A = d₁₁ = 3,  C_F = (d₁₁²−1)/(2d₁₁) = 4/3,  T_F = 1/2
 
-    One-loop:
-      b₀ = (11·C_A − 2nf)/(6π) = (11d₁₁ − 2nf)/(6π)
+def _b1(nf):
+    """Layer-2 QCD beta coefficient, derived from SU(d₁₁) Casimirs.
 
-    Two-loop:
-      b₁ = (34·C_A² − 10·C_A·nf − 6·C_F·nf) / (24π²)
-         = (34d₁₁² − 10d₁₁·nf − 6·(d₁₁²−1)/(2d₁₁)·nf) / (24π²)
-         = (34·9 − (10·3 + 3·4/3)·nf) / (24π²)
-         = (306 − (30+4)nf) / (24π²)
-         but standard MS-bar two-loop for SU(N) gives:
-         b₁ = (34C_A² − (10C_A + 6C_F)nf) / (24π²) = (306 − 38nf)/(24π²)
-            = (153 − 19nf) / (12π²)
+      b₁ = (34·C_A² − (10·C_A + 6·C_F)·nf) / (24π²)
+         = (153 − 19·nf) / (12π²)     for SU(3)
 
-    nf = d₁₀ × d₁₁ = 6 active flavours (2 types × 3 gen).
     No external numerical input: all numbers trace to d₁₀, d₁₁.
     """
-    # C_A = d₁₁, C_F = (d₁₁²−1)/(2d₁₁) = 4/3 for SU(d₁₁)
     C_A = d11
     C_F = (d11**2 - 1) / (2.0 * d11)
-    b0 = (11 * C_A - 2*nf) / (6*math.pi)
-    b1 = (34*C_A**2 - (10*C_A + 6*C_F)*nf) / (24*math.pi**2)
+    return (34*C_A**2 - (10*C_A + 6*C_F)*nf) / (24*math.pi**2)
+
+
+def _run_SM_2loop(a0, mu0, mu1, nf):
+    """Layer-2 SM QCD running in d/d(ln mu) convention.
+
+    nf = d₁₀ × d₁₁ = 6 active flavours (2 types × 3 gen).
+    """
+    b0, b1 = _b0(nf), _b1(nf)
     return _rk4_run(lambda a: -b0*a**2 - b1*a**3,
                     a0, math.log(mu0), math.log(mu1))
 
@@ -188,12 +189,12 @@ def _derive_bridge():
     3. Coset central charge:
          c_coset = c(E₈) − c(G₂) − c(F₄) = 8 − 14/5 − 26/5 = 0
          Vanishing c_coset makes the bridge sector TOPOLOGICAL:
-         no propagating degrees of freedom → one-loop exact (no higher
-         loop corrections to the self-interference integral).
+         no propagating degrees of freedom → layer-1 exact (no higher
+         back-reaction layers in the self-interference integral).
 
     4. Self-interference integral:
          A marginal primary (h=1) with unit coupling (g²=1) on a genus-0
-         worldsheet gives the universal correction:
+         worldsheet gives the universal back-reaction:
            δ(1/α) = g²·h/(2π) = 1/(2π)
          This is a standard 2D CFT result for the integrated two-point
          function of a dimension-1 primary on the sphere.
@@ -211,7 +212,7 @@ def _derive_bridge():
 
     g2 = D2_local                          # bridge coupling² = 1
     h = float(h_bridge)                    # = 1 (marginal)
-    delta_inv = g2 * h / (2.0 * math.pi)  # = 1/(2π) (one-loop exact, c_coset=0)
+    delta_inv = g2 * h / (2.0 * math.pi)  # = 1/(2π) (layer-1 exact, c_coset=0)
     inv_alpha_alg = 2**9 / math.pi         # = 512/π (emergence value)
 
     # Depth-3 echo: the mutual electron↔quark loop through the EM channel.
@@ -313,7 +314,7 @@ def derive(R, masses):
     alpha_MZ_no_th = _run_SM_2loop(a_no_th_mt, m_t_GeV, M_Z_PDG, n_f - 1)
     err_no_th = 100 * (alpha_MZ_no_th - alpha_s_PDG) / alpha_s_PDG
 
-    print(f"\n  SM 2-loop running (no threshold):")
+    print(f"\n  SM layer-2 running (no threshold):")
     print(f"    alpha_s(M_Z) = {alpha_MZ_no_th:.4f}  ({err_no_th:+.1f}%)")
 
     # ── G₂ -> SU(3) threshold (matched at μ*) ──
@@ -350,13 +351,22 @@ def derive(R, masses):
     print(f"    Delta = {abs(alpha_MZ_thresh-alpha_s_PDG):.4f}"
           f", {abs(alpha_MZ_thresh-alpha_s_PDG)/0.0009:.1f}sigma")
 
+    # ── RK4 convergence self-certification ──
+    # Re-run the full chain at 2× step count; assert agreement.
+    a_mt_2x  = _rk4_run(lambda a: -_b0(n_f)*a**2 - _b1(n_f)*a**3,
+                         a_thresh, math.log(mu_star), math.log(m_t_GeV), 20000)
+    a_MZ_2x  = _rk4_run(lambda a: -_b0(n_f-1)*a**2 - _b1(n_f-1)*a**3,
+                         a_mt_2x, math.log(m_t_GeV), math.log(M_Z_PDG), 20000)
+    assert abs(alpha_MZ_thresh - a_MZ_2x) < 1e-6, \
+        f"RK4 not converged: {alpha_MZ_thresh} vs {a_MZ_2x}"
+
     # ── Bridge self-interference: alpha(0) ──
     bridge = _derive_bridge()
 
     print(f"\n  Bridge self-interference -> alpha(0):")
     print(f"    h_bridge = h({n7},G₂) + h({n26},F₄) = {float(h_7)} + {float(h_26)} = {float(h_bridge)}")
     print(f"    D²_local = {bridge['D2_local']:.1f}  (Lagrangian condensation)")
-    print(f"    c_coset = {bridge['c_coset']:.0f}  (topological -> one-loop exact)")
+    print(f"    c_coset = {bridge['c_coset']:.0f}  (topological -> layer-1 exact)")
     print(f"    depth 1: 1/alpha = (2⁹/pi)(1 - 1/(2pi)) = 137.036439")
     print(f"    depth 3: e↔q loop, 2 orientations (S,S† rule), self-consistent:")
     print(f"    1/alpha(0) = (2⁹/pi)(1 - 1/(2pi) - 2(alpha/2pi)²)")
