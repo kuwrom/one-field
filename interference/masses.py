@@ -92,7 +92,9 @@ Step 4: Confinement scale A = ½ M_Pl exp(−S₀), S₀ = d₁₁²π²/2,
     v_EW = M_Pl·exp(−S), the same exponent in both readings.
 
 Step 5: Pole mass = tree × (1 − α(0)/(2π)).
-    QED vertex correction at the mass shell.
+    QED vertex back-reaction at the mass shell (standard QFT calls this
+    the "vertex correction"; here it is the EM channel's interference
+    with the propagator pole, forced by the field content).
 
 ═══════════════════════════════════════════════════════════════════════
 UP-TYPE QUARKS, WZW emergence
@@ -106,23 +108,24 @@ UP-TYPE QUARKS, WZW emergence
     Ratios: corr₁/corr₂ = d₁₀² = 4,  corr₂/corr₃ = Q₀ = 2/3  (alternating)
 
 ═══════════════════════════════════════════════════════════════════════
-DOWN-TYPE QUARKS, Koide with WZW representation corrections
+DOWN-TYPE QUARKS, Koide with WZW representation back-reactions
 ═══════════════════════════════════════════════════════════════════════
 
 The Koide relation Q = 2/3 is exact for leptons (identity rep, h=0).
 For quark triplets, each closes through a specific SU(3)₃ representation λ,
-producing a sub-leading correction:
+producing a sub-leading back-reaction:
     Q = Q₀ + h(λ)/K³
 
 Derivation: the K³ denominator is the altitude cubed, arising because the
 Koide sum rule involves Σ√m, and the √m ∝ Δ (gap) receives an OPE
-correction at third order in the conformal weight expansion (the leading
+back-reaction at third order in the conformal weight expansion (the leading
 and quadratic terms vanish by Z₃ symmetry).
 SELECTION CHECK (enumerated): over all eight structures Q₀ + h(λ)/Kᵖ
-(λ ∈ {fund, adj}, p ∈ {1..4}), the bottom mass admits EXACTLY ONE,
-the adjoint weight at the third power, killing every alternative
-weight and every alternative depth.  The (s,c,b) assignment (h₁₀, K³)
-then follows from representation content at the same depth.
+(λ ∈ {fund, adj}, p ∈ {1..4}), the bottom mass admits exactly one
+sub-percent match: the adjoint weight at the third power (+0.26%).
+The nearest runner-up is the fundamental at the same power (+2.16%),
+all others miss by >5%.  The (s,c,b) assignment (h₁₀, K³) then
+follows from representation content at the same depth.
 
     (c,b,t) triplet: adjoint (1,1), h₁₁ = 1/d₁₀ = 1/2
         → Q = d₁₀/d₁₁ + (1/d₁₀)/(d₁₀d₁₁)³ = 289/432
@@ -150,15 +153,28 @@ A running mass m(μ) is a coordinate on an RG orbit; a mass prediction
 is complete only with its coordinate.  The table above is stated in
 one rule:
 
-  UNCONFINED fermions (e, μ, τ, t): the PROPAGATOR POLE, the only
-    scheme-independent mass an asymptotic state has.  The QED
-    mass-shell factor (1 − α(0)/2π) above IS the tree → pole
-    conversion; the top entry matches the PDG kinematic mass.
+  LEPTONS (e, μ, τ): the PROPAGATOR POLE, the only scheme-independent
+    mass an asymptotic state has.  The QED mass-shell factor
+    (1 − α(0)/2π) above IS the tree → pole conversion.
+
+  TOP QUARK (t): also the PROPAGATOR POLE.  The top decays before
+    hadronising (Γ_t ≈ 1.4 GeV >> Λ_QCD ≈ 0.2 GeV), so its pole
+    mass is as well-defined as a lepton's: renormalon ambiguity is
+    Λ_QCD/m_t ≈ 0.12%, safely below measurement error.  The entry
+    matches the PDG kinematic mass.
 
   CONFINED HEAVY quarks (c, b): the SELF-SCALE m(m), the unique
     fixed point of μ ↦ m(μ).  No pole exists below confinement
-    (renormalon ambiguity ~Λ_QCD), so the fixed-point coordinate is
-    the canonical one, and it is the PDG reference coordinate.
+    (renormalon ambiguity Λ_QCD/m ~ 4.8% for b, 15.7% for c), so
+    the fixed-point coordinate is the canonical one, and it is the
+    PDG reference coordinate.
+
+  SCHEME DEPENDENCE NOTE: choosing the wrong coordinate inflates
+    residuals catastrophically.  Example: the charm pole mass
+    m_c^pole ≈ 1.67 GeV shifts the Koide residual from +0.06%
+    (at m(m)) to roughly −24%.  Every mass in this table is stated
+    in the coordinate that the physics selects, not the one that
+    minimises a fit.
 
   LIGHT quarks (u, d, s): no perturbative self-scale exists
     (m < Λ_QCD).  The scheme-free content is the RG-INVARIANT
@@ -176,8 +192,8 @@ one rule:
 The algebra does not run to a scale; its output IS the prediction.
 A reader who wants a different convention applies standard RGE
 transport with the framework's own α_s(M_Z) = 0.1184 (couplings.py)
-— both
-endpoints are algebraic, so zero freedom enters — but that is the
+-- both
+endpoints are algebraic, so zero freedom enters -- but that is the
 SM's coordinate change, not a step in the prediction.
 """
 
@@ -274,7 +290,8 @@ def derive(R):
 
     # ECHO-LAW FORM (exact rational identities, same numbers, one law):
     # each quark knot binds to its generation lepton and VENTS through
-    # its closure channel; the old additive "corrections" are the vents
+    # its closure channel; what standard QFT calls additive "corrections"
+    # are the vents
     # read multiplicatively:
     #   m_u = d₁₀²·(1 + δ)    · m_e    [vent = OPE gap δ = 1/18, atom]
     #   m_c = d₁₀²d₁₁·(1 + K⁻³)· m_μ   [vent = 1/K³, SAME suppression
@@ -313,18 +330,20 @@ def derive(R):
     print(f"    m_u = ({coeff_u}) m_e   = {m_u:.4f} MeV  ({pct(m_u, PDG_MASSES['u']):+.1f}%)")
     print(f"    m_c = ({coeff_c}) m_μ  = {m_c:.1f} MeV  ({pct(m_c, PDG_MASSES['c']):+.2f}%)")
     print(f"    m_t = ({coeff_t}) m_τ = {m_t/1e3:.2f} GeV  ({pct(m_t, PDG_MASSES['t']):+.3f}%)")
-    print(f"    Correction ladder: h₁₀={Fraction(d10, d11**2)} →÷d₁₀²→ δ={Fraction(1, d10*d11**2)} →÷Q₀→ 1/2K={Fraction(1, 2*d10*d11)}")
+    print(f"    Back-reaction ladder: h₁₀={Fraction(d10, d11**2)} →÷d₁₀²→ δ={Fraction(1, d10*d11**2)} →÷Q₀→ 1/2K={Fraction(1, 2*d10*d11)}")
     print(f"      ratios: d₁₀² = {d10**2},  Q₀ = {Fraction(d10, d11)}")
 
-    # ── Down-type quarks (Koide with WZW representation corrections) ─
+    # ── Down-type quarks (Koide with WZW representation back-reactions) ─
     #
     # The Koide relation Q = Q₀ = d₁₀/d₁₁ is exact for leptons (identity
     # rep, h = 0).  For quark triplets, each closes through a specific
-    # SU(3)₃ WZW representation λ, producing a sub-leading correction:
+    # SU(3)₃ WZW representation λ, producing a sub-leading back-reaction:
     #     Q = Q₀ + h(λ)/K³
+    # (Standard QFT would call these "representation corrections"; here
+    #  each h(λ)/K³ is a forced interference term, not a fitted parameter.)
     #
     # K³ denominator: the altitude cubed arises because the Koide sum rule
-    # involves Σ√m, and √m ∝ Δ (gap) receives an OPE correction at third
+    # involves Σ√m, and √m ∝ Δ (gap) receives an OPE back-reaction at third
     # order in the conformal weight expansion.  The leading and quadratic
     # terms vanish by Z₃ symmetry, leaving the cubic as the first non-trivial
     # contribution.
@@ -371,13 +390,13 @@ def derive(R):
     # (equivalent to the Sugawara lock d₁₁²−1 = 4d₁₀ at d₁₀ = 2) makes
     # d₁₀³/d₁₁ = (d₁₀²+1+d₁₁)/d₁₁ = CHARGE TRACE = 8/3 (root.py), so:
     #   • Singh ratio       = charge_trace × C₂(26) = 16
-    #   • strange bridge²   = Q₀² × charge_trace    = 32/27
-    #   • top correction    = h₁₀ / charge_trace    = corr₃ = 1/12
-    from root import charge_trace
+    #   • strange bridge²   = Q₀² × charge_trace × (1 + h₁₁/K²) = 32/27 × 73/72
+    #   • top back-reaction  = h₁₀ / charge_trace    = corr₃ = 1/12
+    from root import charge_trace, WEB
     assert d10**3 == d11**2 - 1 == d10**2 + d11 + 1
     assert Fraction(d10**3, d11) == charge_trace
     assert Fraction(2, 9) / charge_trace == Fraction(1, 12)  # corr₃
-    bridge_sq = Q0**2 * float(charge_trace)   # = 32/27
+    bridge_sq = WEB.state["bridge_sq"]   # promoted to web ledger: 32/27 × (1 + h₁₁/K²)
     m_s = x_phys**2 * math.sqrt(bridge_sq)
 
     # Light quarks: d₁₀² ↔ d₁₁² swap gives up vs down

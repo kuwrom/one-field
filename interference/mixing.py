@@ -37,7 +37,7 @@ Each parameter comes from a different face of the SU(3)₃ WZW structure:
       Follows directly from the ratio of imaginary to real parts.
 
 ═══════════════════════════════════════════════════════════════════════
-PMNS, democratic mixing + charged-lepton NLO correction
+PMNS, democratic mixing + charged-lepton back-reaction
 ═══════════════════════════════════════════════════════════════════════
 
   TBM base: the conjugation modular invariant Z_C of SU(3)₃ pairs each
@@ -45,7 +45,8 @@ PMNS, democratic mixing + charged-lepton NLO correction
   has a democratic (S₃-symmetric) structure, giving tribimaximal mixing.
   Credit: Harrison, Perkins, Scott (2002) for the TBM form.
 
-  NLO correction: U_PMNS = U_e† · U_TBM, where the charged-lepton
+  Charged-lepton back-reaction (standard QFT calls this "NLO correction"):
+  U_PMNS = U_e† · U_TBM, where the charged-lepton
   rotation U_e = R₂₃(−φ) · R₁₃(θ_C, δ) is parameterised by:
     φ = √(m_e/m_μ)/√d₁₀   (mass ratio from lepton sector)
     θ_C = arctan(h₁₀)      (same conformal weight as CKM λ)
@@ -242,14 +243,15 @@ def _derive_ckm():
 # ═══════════════════════════════════════════════════════════════════════
 
 def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
-    """Derive PMNS mixing from conjugation invariant + NLO correction.
+    """Derive PMNS mixing from conjugation invariant + charged-lepton back-reaction.
 
     The conjugation modular invariant Z_C of SU(3)₃ pairs each primary
     (l₁,l₂) with its conjugate (l₂,l₁).  The orbit structure under this
     Z₂ action determines the neutrino mixing matrix:
 
     1. Orbits of Z_C give the democratic nimrep J₃ → TBM base matrix
-    2. Charged-lepton rotation U_e provides NLO corrections:
+    2. Charged-lepton rotation U_e provides back-reaction (called "NLO
+       corrections" in standard convention):
          φ = √(m_e/m_μ)/√d₁₀  (lepton mass ratio, derived in masses.py)
          θ_C = h₁₀ = 2/9       (conformal weight = Cabibbo angle)
          δ = arccos(−λ_CKM)    (phase consistency)
@@ -302,9 +304,10 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
         [ 1/math.sqrt(6), -1/math.sqrt(3),  1/math.sqrt(2)],
     ], dtype=complex)
 
-    # ── NLO correction: U_e = R₂₃(−φ) · R₁₃(θ_C, δ) ──
+    # ── Charged-lepton back-reaction: U_e = R₂₃(−φ) · R₁₃(θ_C, δ) ──
+    # (Standard convention: "NLO correction to TBM.")
     # The charged-lepton mass matrix is not exactly diagonal in the
-    # TBM basis; the rotation U_e corrects for this.
+    # TBM basis; the rotation U_e accounts for this interference.
     #
     # φ = √(m_e/m_μ)/√d₁₀: lepton mass ratio suppression
     #   (m_e, m_μ derived from Koide Z₃ circulant in masses.py)
@@ -417,7 +420,7 @@ def derive(R, masses):
     m_mu = masses['m_mu']
     pmns = _derive_pmns(wzw, ckm['lam'], m_e, m_mu)
 
-    print(f"\n  PMNS (democratic + NLO from Z_C conjugation):")
+    print(f"\n  PMNS (democratic + charged-lepton back-reaction from Z_C conjugation):")
     print(f"    phi = sqrt(m_e/m_mu)/sqrt({d10}) = {math.sqrt(m_e/m_mu)/math.sqrt(float(d10)):.6f} rad")
     print(f"    theta_C = h₁₀ = {h10_frac} = {math.degrees(float(h10)):.3f} deg")
     print(f"    delta = arccos(-lambda) = {math.degrees(math.acos(-ckm['lam'])):.3f} deg")

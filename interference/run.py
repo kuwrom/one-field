@@ -71,6 +71,21 @@ words_data = words.derive()
 import dark_sector
 dark_data = dark_sector.derive(R, grav_data)
 
+# ═══════════════════════════════════════════════════════════════════════
+#  Step 8: Structural uniqueness proofs
+# ═══════════════════════════════════════════════════════════════════════
+import embedding_uniqueness
+embed_data = embedding_uniqueness.derive()
+
+import protected_forgetting
+pf_data = protected_forgetting.derive()
+
+# ═══════════════════════════════════════════════════════════════════════
+#  Step 9: Substrate dynamics (Z₃-NLS PDE)
+# ═══════════════════════════════════════════════════════════════════════
+import nls_soliton
+nls_data = nls_soliton.derive()
+
 
 # ═══════════════════════════════════════════════════════════════════════
 #  GLOBAL SCORECARD
@@ -148,7 +163,7 @@ print(f"\n  --- Gravity sector ---")
 print(f"  Bridge: {grav_data['N_bridge']} modes, xi = 1/(48pi)")
 print(f"  G_ind/G_N (UV)     = {grav_data['G_ratio_UV']:.6f}  ({grav_data['err_UV']:+.2f}%)")
 print(f"  G_ind/G_N (broken) = {grav_data['G_ratio_broken']:.6f}  ({grav_data['err_broken']:+.2f}%)")
-print(f"  G_ind/G_N (mid)    = {grav_data['G_ratio_mid']:.6f}")
+print(f"  G_ind/G_N CANONICAL = {grav_data['G_ratio_canonical']:.9f}")
 
 # ── Higgs ──
 print(f"\n  --- Higgs mass ---")
@@ -158,7 +173,7 @@ print(f"  m_H = {grav_data['mH_pred']:.2f} GeV  (expt: 125.20 +/- 0.11)")
 # ── Electroweak ──
 print(f"\n  --- Electroweak sector (3 predictions: sin²θ_W, M_Z, M_W) ---")
 sin2W = grav_data['sin2W']
-print(f"  sin²θ_W = 3/13 + h₇(α/2π) = {sin2W:.6f}  (PDG 2024 fit: 0.23129(4), pull {(sin2W-0.23129)/4e-5:+.2f}σ)")
+print(f"  sin²θ_W = 3/13 + Q₀²·α/(2π) = {sin2W:.6f}  (PDG 2024 fit: 0.23129(4), pull {(sin2W-0.23129)/4e-5:+.2f}σ)")
 print(f"  M_Z = {grav_data['M_Z_derived']:.4f} GeV  (PDG: {grav_data['M_Z_PDG']}, {pct(grav_data['M_Z_derived'], grav_data['M_Z_PDG']):+.4f}%)")
 print(f"  M_W = {grav_data['M_W_derived']:.4f} GeV  (PDG: {grav_data['M_W_PDG']}(13), pull {(grav_data['M_W_derived']-grav_data['M_W_PDG'])/0.0133:+.2f}σ)")
 
@@ -207,7 +222,7 @@ tree = f"""
     +-- F4 sector -> quarks + v_EW + Higgs
     |     v_EW = M_Pl * exp(-(9pi²/2 - 6 + 15/512))
     |     30 modes = 26 (F4 fund) + 4 (Higgs DOFs)
-    |     sin2W = d11/(d10²+d11²) = 3/13 = {sin2W:.5f}
+    |     sin2W = 3/13 + Q₀²·α/(2π) = {sin2W:.5f}
     |     M_Z = {grav_data['M_Z_derived']:.2f} GeV,  M_W = {grav_data['M_W_derived']:.2f} GeV  (derived)
     |     alpha(emergence) = pi/512,  alpha(0) = 1/137.035999050
     |       ^ bridge self-interference: h=1, D²=1, c=0
@@ -259,7 +274,7 @@ tree = f"""
   Mass: {n_sub1}/9 <= 1%, {n_sub2}/9 <= 2%, max {max_err:.1f}%
   CKM:  chi2/n = {chi2_ckm/n_ckm:.2f}  ({n_ckm} obs)
   PMNS: chi2/n = {chi2_pmns/3:.2f}  (3 obs)
-  G_N:  G_ind/G_N = {grav_data['G_ratio_mid']:.4f}
+  G_N:  G_ind/G_N = {grav_data['G_ratio_canonical']:.4f}
 """
 
 print(tree)

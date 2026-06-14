@@ -10,8 +10,8 @@ Two structures in the framework predict the dark sector:
    the universal materialization fraction 1/(2π), the same factor
    that converts α_alg = π/512 to α(0) = 1/137.035999050.
      f_baryonic = 1/(2π)     →  Ω_DM/Ω_b = 2π−1 ≈ 5.283
-   The c_coset = 0 property ensures one-loop exactness on the
-   worldsheet, so this is exact, no higher-order corrections.
+   The c_coset = 0 property ensures layer-1 exactness on the
+   worldsheet, so this is exact, no higher-layer back-reactions.
 
    Equivalently: Ω_m/Ω_b = 2π (total matter/baryon ratio).
 
@@ -39,7 +39,7 @@ import math
 from root import (d10, d11, n7, n26,
                   h_bridge, c_coset,
                   alpha_G2_WZW,
-                  M_Pl_GeV, pct)
+                  M_Pl_GeV, RHO_LAMBDA, PDG_COSMO, pct)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -105,13 +105,13 @@ def derive(R, grav_data):
 
     # ── Bridge self-interference → baryon/DM split ───────────────────
     #
-    # h_bridge = 1 (marginal), c_coset = 0 (one-loop exact on worldsheet)
+    # h_bridge = 1 (marginal), c_coset = 0 (layer-1 exact on worldsheet)
     # D²_local = 1 (Lagrangian condensation)
     # f_baryonic = h_bridge/(2π) = 1/(2π)
     # Ω_DM/Ω_b = (1 − f_b)/f_b = 2π − 1
     #
-    # c_coset = 0 ensures one-loop exactness, so this is the EXACT result.
-    # No vertex corrections, no external inputs, pure algebraic emergence.
+    # c_coset = 0 ensures layer-1 exactness, so this is the EXACT result.
+    # No vertex back-reactions, no external inputs, pure algebraic emergence.
 
     f_baryonic = 1.0 / (2.0 * math.pi)               # 1/(2π)
     f_dark = 1.0 - f_baryonic
@@ -128,7 +128,7 @@ def derive(R, grav_data):
     print(f"    f_baryon = 1/(2π) = {f_baryonic:.6f}")
     print(f"    Ω_DM/Ω_b = 2π−1 = {DM_baryon_ratio:.6f}")
     print(f"    Ω_m/Ω_b  = 2π   = {matter_baryon_ratio:.6f}")
-    print(f"    (Exact: c_coset = 0 ensures one-loop exactness)")
+    print(f"    (Exact: c_coset = 0 ensures layer-1 exactness)")
 
     # ── Comparison with CMB observations ─────────────────────────────
     #
@@ -204,17 +204,12 @@ def derive(R, grav_data):
     # diluting.  As Ω_Λ → 1, the observed value converges to the
     # prediction: standard cosmological evolution.
 
-    H_0_SI = PLANCK_2018['H_0_km_s_Mpc'] * 1e3 / 3.0856e22  # s⁻¹
-    hbar_SI = 1.0546e-34
-    GeV_per_J = 1.0 / 1.602e-10
-    H_0_GeV = H_0_SI * hbar_SI * GeV_per_J
-
-    rho_Lambda = 3.0 * H_0_GeV**2 * M_Pl_GeV**2 / (8.0 * math.pi)
+    rho_Lambda = RHO_LAMBDA     # derived in root.py: (3/8π) M_Pl² H₀²
     rho_naive = M_Pl_GeV**4
     CC_suppression = math.log10(rho_Lambda / rho_naive)
 
     # Current epoch comparison
-    Omega_Lambda = 0.685
+    Omega_Lambda = PDG_COSMO['Omega_Lambda']
     rho_Lambda_obs = Omega_Lambda * rho_Lambda
 
     print(f"\n  Cosmological constant (Volovik → Jacobson-Clausius → CKN):")

@@ -49,7 +49,8 @@ DERIVATION (three parts, all derived):
    facts say the terminal closure is VACUUM-ANCHORED: the orbit lands
    in the vacuum row; the paper assigns the top to the identity channel;
    and y_t ≈ 1 (the historical primary route m_t = v/√2) is precisely a
-   vacuum-normalised Yukawa.
+   vacuum-normalised interference strength (standard QFT: "Yukawa
+   coupling"; here it is a derived closure output, not a free parameter).
 
    DEFINITION (knot): a closure is a single knot circulating in ONE
    channel; its terminal zero-mode space is that channel's fusion
@@ -81,9 +82,9 @@ DERIVATION (three parts, all derived):
      on the boundary (n_(3,0) = I₆).  What remains:
      f⁴ ⊕ a⁴ = 16 + 81 = 97.
 
-   Independent check: the excluded words predict m_t = 64 GeV (f²a²)
-   and 139 GeV (f³a⊕fa³), both dead by >300σ; the tower sum gives
-   172.5 GeV (−0.03%).  Status: DERIVED (knot definition + conversion
+   Independent check: the excluded words predict m_t = 64 GeV (f²a²,
+   374σ) and 139 GeV (f³a⊕fa³, 117σ); the tower sum gives 172.5 GeV
+   (−0.03%).  Status: DERIVED (knot definition + conversion
    lemma + Z₂ orbit sum).
 
 MODULE-CATEGORY FORM (the same lemma in standard vocabulary).
@@ -123,7 +124,7 @@ MODULE-CATEGORY FORM (the same lemma in standard vocabulary).
    content is needed.
 
 Historical note: the identity channel's role at the terminus appears
-independently as the top's Yukawa anchor (y_t ≈ 1, the original primary
+independently as the top's interference anchor (y_t ≈ 1, the original primary
 route to m_t), and the candidate recursion b_{n+1} = b_n(b_n − b_{n−1})
 with seeds (1, 4) gives 1 → 4 → 12 → 96 (+1 identity at the terminus)
 -- observations, not used in canonical values.
@@ -244,9 +245,16 @@ def derive():
     print("  terminus candidates (length-4, Z₂-symmetric):")
     for name, b in mixed.items():
         mt = b * m_tau_GeV
-        verdict = ("SELECTED: pure-tower orbit sum" if b == 97
-                   else "EXCLUDED: vent-side (channel switch); data kill")
+        if b == 97:
+            verdict = "SELECTED: pure-tower orbit sum (knot + conversion lemma + Z₂)"
+        else:
+            verdict = ("EXCLUDED: vent-side (conversion lemma: channel switch"
+                       " = intertwiner, non-integer → not a base)")
         print(f"    {name} = {b:3d}  →  m_t ≈ {mt:6.1f} GeV   {verdict}")
+    print("  data consistency: excluded candidates predict 64 GeV (374σ)")
+    print("  and 139 GeV (117σ); the selected tower gives 172.5 GeV (−0.03%).")
+    print("  The exclusion is algebraic (conversion lemma); the data agreement")
+    print("  is a separate confirmation, not the selection criterion.")
     print("  terminus DERIVED: vacuum anchor (J³=1 row, identity-channel")
     print("  top, y_t≈1) + knot definition (one circulation = one channel)")
     print("  + conversion lemma (channel switch = intertwiner = interaction")
