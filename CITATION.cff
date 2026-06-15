@@ -1,45 +1,10 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the companion papers below: three in dependency order (leptons → quarks → gravity), plus the v0.2 algebraic foundation (rigidity of the four integers)."
-title: "one-field: end-to-end E_8(1) > G_2(1) x F_4(1) derivation of the Standard Model"
+message: "Cite the repository as 'one-field' and the relevant motivation papers listed in PAPERS.md."
+title: "one-field: end-to-end derivation of the Standard Model through E_8(1) > G_2(1) x F_4(1)"
 authors:
-  - family-names: Kahsay
-    given-names: Kibrom Kidane
+  - name: "one-field contributors"
+url: "https://github.com/kuwrom/one-field"
 license: MIT
 type: software
 version: "0.2"
 date-released: 2026-06-11
-doi: 10.5281/zenodo.20323890
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.20323890
-    description: Zenodo archive of this code release
-references:
-  - type: article
-    title: "The Innocent Lepton"
-    authors:
-      - family-names: Kahsay
-        given-names: Kibrom Kidane
-    year: 2026
-    doi: 10.5281/zenodo.19899091
-  - type: article
-    title: "One Substrate, Three Generations"
-    authors:
-      - family-names: Kahsay
-        given-names: Kibrom Kidane
-    year: 2026
-    doi: 10.5281/zenodo.20069456
-  - type: article
-    title: "The Echo of Standing Waves"
-    authors:
-      - family-names: Kahsay
-        given-names: Kibrom Kidane
-    year: 2026
-    doi: 10.5281/zenodo.20144381
-  - type: article
-    title: "The Octavian Coherence Gate: Rigidity of the Four Irreducible Integers of the E_8(1) ⊃ G_2(1) × F_4(1) Conformal Embedding"
-    authors:
-      - family-names: Kahsay
-        given-names: Kibrom Kidane
-    year: 2026
-    doi: 10.5281/zenodo.20493955
-    notes: "v0.2 algebraic foundation: proves the four integers (n_7, n_26, d_10, d_11) = (7, 26, 2, 3) are uniquely fixed."

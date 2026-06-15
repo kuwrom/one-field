@@ -220,7 +220,7 @@ tree = f"""
     |     (e, mu, tau): 3 masses
     |
     +-- F4 sector -> quarks + v_EW + Higgs
-    |     v_EW = M_Pl * exp(-(9pi²/2 - 6 + 15/512))
+    |     v_EW = M_Pl * exp(-(9pi²/2 - 6 + 15/512 - 16(a/2pi)²))
     |     30 modes = 26 (F4 fund) + 4 (Higgs DOFs)
     |     sin2W = 3/13 + Q₀²·α/(2π) = {sin2W:.5f}
     |     M_Z = {grav_data['M_Z_derived']:.2f} GeV,  M_W = {grav_data['M_W_derived']:.2f} GeV  (derived)
@@ -270,7 +270,7 @@ tree = f"""
        = {n_checks} numerical checks + {n_structural} structural (m1=0, ordering, CC scale)
        from the electron anchor alone (M_Pl derived), all couplings derived.
        Structural and polynomial identities are asserted in test_interference.py:
-           pytest -q   ->   58 tests including the canonical freeze table.
+           pytest -q   ->   62 tests including the canonical freeze table.
   Mass: {n_sub1}/9 <= 1%, {n_sub2}/9 <= 2%, max {max_err:.1f}%
   CKM:  chi2/n = {chi2_ckm/n_ckm:.2f}  ({n_ckm} obs)
   PMNS: chi2/n = {chi2_pmns/3:.2f}  (3 obs)

@@ -1,7 +1,9 @@
 # one-field
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20323890.svg)](https://doi.org/10.5281/zenodo.20323890)
+ 
 [![tests](https://github.com/kuwrom/one-field/actions/workflows/tests.yml/badge.svg)](https://github.com/kuwrom/one-field/actions/workflows/tests.yml)
+[![papers](https://img.shields.io/badge/papers-PAPERS.md-blue)](PAPERS.md)
+[![changelog](https://img.shields.io/badge/changelog-CHANGELOG.md-green)](CHANGELOG.md)
+[![watches](https://img.shields.io/badge/watches-REGISTRY.md-orange)](watches/REGISTRY.md)
 
 **End-to-end derivation of the Standard Model, Newton's constant, and the dark/baryon ratio through the conformal embedding `E₈(1) ⊃ G₂(1) × F₄(1)`.**
 
@@ -22,7 +24,7 @@ n₂₆ = 26  dim F₄ fundamental (traceless Albert algebra)
 x_{t+1} = b + W(x_t)
 ```
 
-where `W` is the derived-weight edge map. Every edge is a theorem (a polynomial in the four integers, or a known phase), so no numerology can enter through the recursion itself. The interaction kernel is **3-nilpotent**: `W³ = 0`, matching the Cayley–Dickson tower `R → C → H → O` (Hurwitz's theorem). The nilpotency is on the *shape* of the weight matrix, not on the iteration — the fixed-point solver runs freely until convergence, and back-reaction layers within each channel go as deep as the field content produces (up to layer 4 for the Higgs quartic). Octonions prove *why* the architecture has this shape; the computation itself is a classical fixed-point iteration with no depth limit. The four-number rigidity proof and the nilpotency are derived in *The Octavian Coherence Gate* (companion paper, below).
+where `W` is the derived-weight edge map. Every edge is a theorem (a polynomial in the four integers, or a known phase), so no numerology can enter through the recursion itself. The interaction kernel is **3-nilpotent**: `W³ = 0`, matching the Cayley–Dickson tower `R → C → H → O` (Hurwitz's theorem). The nilpotency is on the *shape* of the weight matrix, not on the iteration — the fixed-point solver runs freely until convergence, and back-reaction layers within each channel go as deep as the field content produces (up to layer 4 for the Higgs quartic). Octonions prove *why* the architecture has this shape; the computation itself is a classical fixed-point iteration with no depth limit. The four-number rigidity proof and the nilpotency are derived in *The Octavian Coherence Gate* (see [`PAPERS.md`](PAPERS.md)).
 
 **35 numerical checks plus 3 structural closure predictions.** Run it yourself:
 
@@ -70,7 +72,7 @@ All numbers below come from running the code as-is.
 
 **Structural predictions:** `m_ν₁ = 0` (rank-2 seesaw, two RH neutrinos in F₄), normal ordering, and the cosmological-constant scale `ρ_Λ ~ M_Pl² H₀²` (Volovik–Jacobson–CKN, the 10¹²³ problem structurally resolved).
 
-**The precision hierarchy is structural.** Leptons sit closest to the `Z₃` source and emerge cleanly (`m_μ`, `m_τ` predicted from `m_e` to 0.0012%). Quarks pass through additional layers (triality, generation scaling, confinement), and each layer adds residuals of order `α_s/π` (≤ 0.4%). The Newton-constant ledger closes internally to 8 × 10⁻⁸ under the face-split law; the phase readings (UV/broken) bracket it at 0.0–1.3%. The accuracy gradient is not noise. It is what the emergence depth predicts.
+**The precision hierarchy is structural.** The circulant form is Brannen's (2006); the parameters `B/A = √2` and `θ = 2/9` are algebraic outputs of the `G₂ → SU(3)` Clebsch–Gordan data, not fitted values. Leptons sit closest to the `Z₃` source and emerge cleanly (`m_μ`, `m_τ` predicted from `m_e` to 0.0012%). Quarks pass through additional layers (triality, generation scaling, confinement), and each layer adds residuals of order `α_s/π` (≤ 0.4%). The Newton-constant ledger closes internally to 8 × 10⁻⁸ under the face-split law; the phase readings (UV/broken) bracket it at 0.0–1.3%. The accuracy gradient is not noise. It is what the emergence depth predicts.
 
 ## The picture
 
@@ -98,7 +100,7 @@ The algebraic distinction is sharp. `G₂ = Aut(𝕆)` is the automorphism group
 
 This shows up in the energy scale. Leptons sit in the `F₄` singlet (Casimir = 0), so their standing wave closes at the confinement scale `Λ_conf ≈ 314 MeV`. Quarks sit in the **`26` of `F₄`** (Casimir = 6), and that Casimir shift moves their scale to the electroweak `v_EW = M_Pl · exp(−(9π²/2 − 6 + 15/512 − 16(α/2π)²)) ≈ 246 GeV`, every exponent term an echo with forced multiplicity. The factor of ~784 between `Λ_conf` and `v_EW` is the exponential of an algebraic constant, not a hierarchy that needs tuning.
 
-`Spin(8)` triality inside the `26` splits matter cleanly: `26 → 8_v ⊕ 8_s ⊕ 8_c ⊕ 2·1` becomes charged leptons, up-type quarks, down-type quarks, and two right-handed neutrinos. The same `Z₃` that gave three lepton generations gives three of each quark type, woven through triality.
+`SO(8)` triality inside the `26` splits matter cleanly: `26 → 8_v ⊕ 8_s ⊕ 8_c ⊕ 2·1` becomes charged leptons, up-type quarks, down-type quarks, and two right-handed neutrinos. The same `Z₃` that gave three lepton generations gives three of each quark type, woven through triality.
 
 Light quark masses follow the `d₁₀² ↔ d₁₁²` swap: `m_u/m_e = d₁₀² + h₁₀ = 38/9` (up-type carries the fundamental quantum dimension squared), `m_d/m_e = d₁₁² + h₁₀ = 83/9` (down-type the adjoint's). Heavy quarks follow `SU(3)₃` WZW emergence: `m_t = (1165/12) m_τ`, `m_c = (217/18) m_μ`, with `Q(c, b, t) = 289/432`. Same closure logic, deeper layer.
 
@@ -211,7 +213,7 @@ python interference/run.py    # full derivation, prints scorecard and emergence 
 pytest -q                      # 62 tests
 ```
 
-Requires Python 3.10+ and NumPy. Runs in about five seconds, dominated by the Planck-to-electroweak RGE integration in `gravity.py` (20 000-step RK4, iterated three times for self-consistency).
+Requires Python 3.10+ and NumPy. Runs in about twenty seconds, dominated by the NLS soliton simulation (`nls_soliton.py`) and the Planck-to-electroweak RGE integration in `gravity.py` (20 000-step RK4, iterated three times for self-consistency).
 
 ## Tests
 
@@ -230,17 +232,17 @@ If any modification to the algebra moves a prediction outside its tolerance band
 - **v0.2** (current): polynomial closure on four integers + recursive echo ledger. Eleven `derive()` modules plus the `run.py` driver in `interference/`, `m_e` as the sole dimensional anchor, `M_Pl` and `G` derived. Companion paper: *The Octavian Coherence Gate* ([doi:10.5281/zenodo.20493955](https://doi.org/10.5281/zenodo.20493955)). 35 numerical checks, 62 tests.
 - **v0.1.1**: final state of the per-layer `E8/` package (14 modules, layer-by-layer architecture). Preserved at tag [`v0.1.1`](https://github.com/kuwrom/one-field/releases/tag/v0.1.1).
 
-## Citing
+## Registered watches
 
-Companion papers, in dependency order:
+Seven falsifiable commitments, each with a stated kill condition, tracked in [`watches/REGISTRY.md`](watches/REGISTRY.md). Source of truth for the values: the code, frozen in the test suite.
 
-1. Kahsay, Kibrom Kidane (2026). *The Innocent Lepton*. Zenodo. [doi:10.5281/zenodo.19899091](https://doi.org/10.5281/zenodo.19899091)
-2. Kahsay, Kibrom Kidane (2026). *One Substrate, Three Generations*. Zenodo. [doi:10.5281/zenodo.20069456](https://doi.org/10.5281/zenodo.20069456)
-3. Kahsay, Kibrom Kidane (2026). *The Echo of Standing Waves*. Zenodo. [doi:10.5281/zenodo.20144381](https://doi.org/10.5281/zenodo.20144381)
+## Contributing
 
-v0.2 algebraic foundation (rigidity proof for the four integers):
+See [`CONTRIBUTING.md`](CONTRIBUTING.md). Short version: verification, critique, tooling, and candidate derivations meeting the promotion bar are welcome; corrections with anything adjustable in them are not, because there is nothing here to tune. Changes to canonical values are logged in [`CHANGELOG.md`](CHANGELOG.md).
 
-4. Kahsay, Kibrom Kidane (2026). *The Octavian Coherence Gate: Rigidity of the Four Irreducible Integers of the E₈(1) ⊃ G₂(1) × F₄(1) Conformal Embedding*. Zenodo. [doi:10.5281/zenodo.20493955](https://doi.org/10.5281/zenodo.20493955)
+## Papers
+
+See [`PAPERS.md`](PAPERS.md) for citation info and the motivation papers behind each commit.
 
 ## License
 
