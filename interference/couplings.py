@@ -21,9 +21,7 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
          1/α_G₂(μ*) = 24π − (32/3)/(2π)·(9π²/2 − 6) = 32/π  EXACTLY
      (the π² in the action cancels the 1/2π of the loop integral).
      So α_G₂(μ*) = π/32 = 0.09817, and the SM running below starts
-     at μ*.  (Historical note: earlier releases labeled this scale
-     v_EW; the conflation entered when the 30-mode vertex echo was
-     added to the v_EW exponent.  The α(0) chain is untouched: π/512
+     at μ*.  (The α(0) chain is separate: π/512
      is the algebraic coupling of the embedding layer, defined by the
      Singh division of the WZW identity, not a running coupling
      evaluated at 246.2 GeV.)
@@ -41,7 +39,7 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
 
   3. DERIVED THRESHOLD at G₂ → SU(3) (Weinberg 1980 / Hall 1981 matching).
      (Standard QFT calls this "threshold correction"; here the matching
-      scale M_V is derived, not fitted — see below.)
+      scale M_V is derived; see below.)
      The coset G₂/SU(3) (dim 6) gives six massive vectors in 3 ⊕ 3̄:
          1/α_s(μ*) = 1/α_G₂(μ*) − λ₃/(12π),
          λ₃ = (C_{G₂} − C_{SU(3)}) − 21·T_V·ln(M_V/μ*),
@@ -76,7 +74,7 @@ alpha(0):
     cycle, solved self-consistently in root.py).  Comparison, stated
     completely: Berkeley Cs 137.035999046(27) → +0.13σ; LKB Rb
     137.035999206(11) → −14σ; the two experiments disagree with each
-    other by 5.5σ, and the framework's pre-registered commitment is to
+    other by 5.5σ, and the framework's registered commitment is to
     Cs, with the Rb outcome as a registered kill condition.  The
     depth-1 TRUNCATION alone,
         (2⁹/pi)(1 − 1/(2pi)) = 2⁸(2pi−1)/pi² = 137.036439,
@@ -110,6 +108,12 @@ as 182 scalar-like heat-kernel channels with non-minimal coupling
 The conformal weight h_bridge = 1 sets BOTH the QED layer-1 fraction
 1/(2π) and the gravitational coupling 1/(48π).  EM renormalisation and
 induced gravity are two readings through one bridge.
+
+TRANSPORT.  The RGE running in this module (alpha_s to M_Z, the EW
+chain, thresholds) carries already-derived web values to their
+measurement scales.  The three layers are the graph (the web in
+root.py, masses.py, gravity.py), the projections (mixing.py), and
+transport (this module); transport never feeds back into the graph.
 
 Reference:
     Kahsay, Kibrom Kidane (2026). Three-paper series.

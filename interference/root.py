@@ -18,9 +18,7 @@ value tuned against measurement.  The Standard Model uses RGE running to
 dress free Yukawa couplings against data; this framework has no Yukawas
 to tune, so every factor here is itself an algebraic identity -- the echo
 law's terms at each depth are the algebra's OWN back-reaction through the
-channels that exist, not corrections applied to bare values.  Readers
-familiar with the per-layer v3_release format will see the same quantities
-here, but compressed: 14+ named identities reduce to one screen.
+channels that exist, not corrections applied to bare values.
 
 Gate anchors (see __init__.py for the full chain):
     Gate 1 (Hurwitz)         -> n₇ = 7 (octonion structure via Fano plane)
@@ -214,16 +212,28 @@ class EchoTerm:
 
     factor is either a float (constant edge) or a callable(state) that
     reads the current web state (state-dependent cycle edge).
+
+    kind is the edge taxonomy of the one graph:
+      'ratio':  the same wave multiplied through a dictionary integer
+                (ratios usually live in ledger bases computed in
+                dependency order; the kind appears on an edge only
+                when a base is a callable reading the state);
+      'echo':   a back-reaction ripple through a channel (default);
+      'vent':   a knot venting into a channel or the common mode
+                (dof columns, Casimir and vertex vents).
     """
 
-    def __init__(self, path, factor, depth, status="FORCED", note=""):
+    def __init__(self, path, factor, depth, status="FORCED", note="",
+                 kind="echo"):
         if depth > HURWITZ_DEPTH:
             raise ValueError(
                 f"HURWITZ GATE: depth {depth} > {HURWITZ_DEPTH}: deeper "
                 "paths require a new derived edge (a theorem), not a "
                 "deeper ledger, declare it explicitly.")
+        assert kind in ("ratio", "echo", "vent"), \
+            f"one-graph edge taxonomy: unknown kind {kind!r}"
         self.path, self.factor, self.depth = tuple(path), factor, depth
-        self.status, self.note = status, note
+        self.status, self.note, self.kind = status, note, kind
 
     def value(self, state=None):
         return self.factor(state) if callable(self.factor) else self.factor
@@ -236,6 +246,12 @@ class Ledger:
     mode='add': value = base + Σ factor          (actions, exponents)
     The value is the composed amplitude; the terms are the readable
     echo history (provenance of every ripple).
+
+    base is either a float (static amplitude) or a callable(state)
+    reading the current web state (a live base).  A live base is the
+    'ratio' edge of the one graph: the same wave reached through
+    another node (constraint nodes m_b, m_s; the anchor inversion
+    M_Pl; the column total G_ratio).
     """
 
     def __init__(self, name, base, mode="mul", unit=""):
@@ -243,13 +259,14 @@ class Ledger:
         self.terms = []
         self.web = None
 
-    def echo(self, path, factor, depth, status="FORCED", note=""):
-        self.terms.append(EchoTerm(path, factor, depth, status, note))
+    def echo(self, path, factor, depth, status="FORCED", note="",
+             kind="echo"):
+        self.terms.append(EchoTerm(path, factor, depth, status, note, kind))
         return self
 
     def value_at(self, state, max_depth=HURWITZ_DEPTH,
                  statuses=("FORCED",)):
-        v = self.base
+        v = self.base(state) if callable(self.base) else self.base
         for t in self.terms:
             if t.depth <= max_depth and t.status in statuses:
                 f = t.value(state)
@@ -262,9 +279,11 @@ class Ledger:
 
     def table(self):
         state = self.web.state if self.web is not None else None
-        rows = [f"    {self.name}: base = {self.base:.10g} {self.unit}"]
+        b = self.base(state) if callable(self.base) else self.base
+        rows = [f"    {self.name}: base = {b:.10g} {self.unit}"]
         for t in sorted(self.terms, key=lambda t: t.depth):
             rows.append(f"      depth {t.depth} [{t.status:<9s}] "
+                        f"[{t.kind:>5s}] "
                         f"{'→'.join(t.path):<28s} "
                         f"factor = {t.value(state):+.6e}  {t.note}")
         rows.append(f"    value(≤{HURWITZ_DEPTH}) = {self.value():.10g} "
@@ -275,6 +294,12 @@ class Ledger:
 class Web(dict):
     """The interference web: nodes (ledgers) + the kernel x ← b + W(x)."""
 
+    #  Constraint nodes (live bases) may be transiently unsolvable while
+    #  the state is away from the fixed point (Koide quadratic with a
+    #  negative discriminant, a missing key during seeding).  The kernel
+    #  keeps the previous value and iterates on.
+    _SOFT = (KeyError, ValueError, ZeroDivisionError)
+
     def __init__(self):
         super().__init__()
         self.state = {}
@@ -283,15 +308,29 @@ class Web(dict):
         super().__setitem__(name, ledger)
         if isinstance(ledger, Ledger):
             ledger.web = self
-            self.state.setdefault(name, ledger.base)
+            if name not in self.state:
+                if callable(ledger.base):
+                    try:
+                        self.state[name] = ledger.value_at(self.state)
+                    except self._SOFT:
+                        pass          # seeded by the next solve() sweep
+                else:
+                    self.state[name] = ledger.base
 
     def solve(self, iters=300, tol=1e-15):
         """Joint fixed point of the kernel: classical Jacobi-style
         fixed-point iteration (a standard numerical method; no
         machine-learning machinery is involved anywhere)."""
         for _ in range(iters):
-            new = {n: led.value_at(self.state)
-                   for n, led in self.items() if isinstance(led, Ledger)}
+            new = {}
+            for n, led in self.items():
+                if not isinstance(led, Ledger):
+                    continue
+                try:
+                    new[n] = led.value_at(self.state)
+                except self._SOFT:
+                    if n in self.state:
+                        new[n] = self.state[n]
             drift = max((abs(new[n] - self.state.get(n, new[n]))
                          for n in new), default=0.0)
             self.state.update(new)
@@ -351,6 +390,17 @@ class Web(dict):
 
 #  The web: ledgers for the framework's echoed quantities, built at root
 #  level so every module computes WITH the echo law, not before it.
+#
+#  READING ORDER IS EMERGENCE ORDER.  The chain executes the story:
+#    1. the coupling closes on itself         (inv_alpha cycle, here)
+#    2. the anchor sets the ruler             (m_e -> M_Pl, here)
+#    3. one standing wave, three windings     (leptons, masses.py)
+#    4. quarks = words on the generator       (walk counts, masses.py)
+#    5. every knot vents into the common mode (Sigma, gravity.py)
+#    6. gravity is the column total           (G = 6pi/Sigma)
+#    7. the unread remainder                  (dark_ratio = 2pi - 1)
+#  A reading of an observable is its value at the minimal prefix of
+#  this order that closes it.
 WEB = Web()
 
 _inv0 = 2**9 / math.pi
@@ -413,7 +463,7 @@ assert abs(_x**3 - (2**9/math.pi)*((1.0 - 1.0/(2*math.pi))*_x**2
                                    - 1.0/(2.0*math.pi**2))) < 1e-6
 assert abs(QED_factor - (1.0 - alpha_phys/(2.0*math.pi))) < 1e-15
 
-# ── sin²θ_W promoted to Web ledger ──────────────────────────────────
+# ── sin²θ_W as a Web ledger ──────────────────────────────────
 #
 # Tree: sin²θ_W = h∨(SU(3))/(h∨(G₂)+h∨(F₄)) = d₁₁/(d₁₀²+d₁₁²) = 3/13
 #
@@ -441,7 +491,7 @@ WEB["sin2W"] = (
           2, "FORCED",
           "h₇·(h₁₀/d₁₀) cross-echo through fundamental WZW"))
 
-# ── bridge² promoted to Web ledger ──────────────────────────────────
+# ── bridge² as a Web ledger ──────────────────────────────────
 #
 # Base: Q₀² · charge_trace = (d₁₀/d₁₁)² · d₁₀³/d₁₁ = 32/27
 #   Albert algebra trace norm × Dynkin Z₂ orientation factor.
@@ -524,6 +574,22 @@ _F_e = 0.5 * math.exp(-S_lepton) * _Delta_e**2 * QED_factor * _vent_e
 M_Pl_MeV = M_E_ANCHOR_MEV / _F_e
 M_Pl_GeV = M_Pl_MeV / 1e3
 
+#  The ruler as a graph node (live base, the anchor inversion read
+#  from the state): perturbing the web and re-solving returns M_Pl
+#  to the same fixed point.  The constant is stored nowhere; it is
+#  where the recursion lands.
+def _F_e_of(state):
+    a = _alpha_of(state)
+    qed = 1.0 - a / (2*math.pi)
+    vent = 1.0 - (d11**3 / d10) * (a / (2*math.pi))**2 * _Delta_e
+    return 0.5 * math.exp(-S_lepton) * _Delta_e**2 * qed * vent
+
+WEB["M_Pl_MeV"] = Ledger("M_Pl_MeV",
+                         lambda s: M_E_ANCHOR_MEV / _F_e_of(s),
+                         "mul", "MeV")
+WEB.solve()
+assert abs(WEB.state["M_Pl_MeV"] / M_Pl_MeV - 1.0) < 1e-14
+
 #  Newton's constant becomes a PREDICTION:  G = ħc/M_Pl²
 G_PRED = G_CODATA * (M_PL_CODATA_GEV / M_Pl_GeV)**2
 #  sanity: the derived Planck mass sits within G's experimental band
@@ -558,9 +624,11 @@ delta_S = N_vertex * alpha_EM / (2 * math.pi)  # = 15/512
 WEB["S_quark"] = (
     Ledger("S_quark(action)", S_lepton, "add")
     .echo(["F4-knot(26)"], -float(C2_26), 1,
-          "FORCED", "Casimir vent of the 26 into the instanton background")
+          "FORCED", "Casimir vent of the 26 into the instanton background",
+          kind="vent")
     .echo(["EM(alg)"], delta_S, 1,
-          "FORCED", f"{N_vertex}-mode vertex echo = 15/512")
+          "FORCED", f"{N_vertex}-mode vertex echo = 15/512",
+          kind="vent")
     # FORCED depth-3 vent (vertex composition rule): the action's own
     # depth-1 vertices compose across the e↔q loop,
     # charge_trace × C₂(26) = (8/3)·6 = 16 (= the Singh ratio = d₁₀⁴).
@@ -572,9 +640,23 @@ WEB["S_quark"] = (
           "FORCED", "vertex rule: charge_trace × C₂(26) = 16"))
 
 #  - Higgs boundary ledger: the bridge echoes into the scalar channel -
-WEB["lambda_MPl"] = Ledger("lambda(M_Pl)", 0.0, "add").echo(
-    ["bridge", "Higgs"], -(n7 * n26) * alpha_G2_Pl**2 * float(E_v2), 1,
-    "FORCED", "N_bridge·α_G₂²·E[v²] bridge→Higgs echo")
+#  Depth-2 vent: the fundamental-channel share of the bridge vents
+#  into the condensate and does not reach the scalar, deflating the
+#  edge by (1 − h₁₀).  The 7 of G₂ decomposes 3 ⊕ 3̄ ⊕ 1 under the
+#  confined SU(3); the triality-charged share cannot cross a
+#  confining interface (N-ality superselection, words.py), and a
+#  selection rule carries no altitude factor (vent, like the Casimir
+#  vent above).  The blocked share in the weight metric is h₁₀.
+#  Registered provenance, the single-count derivation program, and
+#  kill conditions: registry.PROMOTIONS, registry.DERIVATION_PROGRAMS.
+WEB["lambda_MPl"] = (
+    Ledger("lambda(M_Pl)", 0.0, "add")
+    .echo(["bridge", "Higgs"], -(n7 * n26) * alpha_G2_Pl**2 * float(E_v2), 1,
+          "FORCED", "N_bridge·α_G₂²·E[v²] bridge→Higgs echo")
+    .echo(["WZW(fund)-vent"],
+          (n7 * n26) * alpha_G2_Pl**2 * float(E_v2) * float(h10), 2,
+          "FORCED", "fundamental-share vent (1−h₁₀); "
+                    "registry.PROMOTIONS", kind="vent"))
 
 #  re-run the kernel so the new nodes join the solved state
 WEB.solve()
@@ -658,7 +740,7 @@ PDG_EW = {
     # framework's own predictions and verified compatible within the
     # quoted errors (executable audit in gravity.py).  The only
     # data-driven ingredient is the dispersive hadronic VP inside
-    # Delta-r0, spectral MEASUREMENT, not a fit parameter.
+    # Delta-r0, a spectral measurement of the web.
     'dr_hat_W': 0.06937,   # ± 0.00006   PDG 2024 Eq. (10.26) text
     'rho_hat':  1.01016,   # ± 0.00009   PDG 2024 (incl. bosonic loops)
 }

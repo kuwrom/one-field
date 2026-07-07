@@ -5,7 +5,7 @@ End-to-end runner: every prediction from (d₁₀, d₁₁, n₇, n₂₆) + pi 
 
 Calls root -> masses -> mixing -> couplings -> gravity (incl. Higgs,
 baryogenesis, neutrinos) in dependency order, then prints a compact
-scorecard matching the v3_release format.
+scorecard.
 
 Usage:
     python run.py
@@ -91,12 +91,12 @@ nls_data = nls_soliton.derive()
 #  GLOBAL SCORECARD
 # ═══════════════════════════════════════════════════════════════════════
 #
-# The structural and polynomial identities previously certified by
-# proofs.py (d_11^2-1=4 d_10, C_2 factorisations, h_bridge=1, c_coset=0,
-# the Fraction ratios 38/9, 217/18, 1165/12, 289/432, 32/27, 649/972,
-# sin^2 theta_W = 3/13, N_vertex=30, etc.) are now asserted directly in
-# test_interference.py and by inline asserts inside each module's derive()
-# function.  The test suite is the certificate.
+# The structural and polynomial identities (d_11^2-1 = 4 d_10, the C_2
+# factorisations, h_bridge = 1, c_coset = 0, the Fraction ratios 38/9,
+# 217/18, 1165/12, 289/432, 32/27, 649/972, sin^2 theta_W = 3/13,
+# N_vertex = 30, ...) are asserted in test_interference.py and by inline
+# asserts inside each module's derive().  The test suite is the
+# certificate.
 
 n_checks = 35   # 9 masses + 15 CKM + 3 PMNS + 1 alpha_s + 1 Higgs + 1 G_N + 1 eta_B + 3 EW + 1 DM/baryon
 n_structural = 3  # m₁=0, normal ordering, CC scale 10⁻¹²³
@@ -234,7 +234,7 @@ tree = f"""
     |
     |     Q = Q₀+h₁₁/K³ = 289/432 -> m_b = {m_b:.1f} MeV
     |     m_s = {m_s:.1f} MeV  (Q₀+h₁₀/K³ + √(d₁₀³Q₀²/d₁₁) bridge)
-    |     lambda(M_Pl) = -delta_bridge -> m_H = {grav_data['mH_pred']:.1f} GeV
+    |     lambda(M_Pl) = -delta_bridge·(1−h₁₀) -> m_H = {grav_data['mH_pred']:.1f} GeV
     |
     +-- SU(3)_3 / D(6) -> CKM
     |     lambda = tan(2/9),  A = sqrt(2/3),  etabar = pi/9,  rhobar = sqrt(2)/9
@@ -270,7 +270,7 @@ tree = f"""
        = {n_checks} numerical checks + {n_structural} structural (m1=0, ordering, CC scale)
        from the electron anchor alone (M_Pl derived), all couplings derived.
        Structural and polynomial identities are asserted in test_interference.py:
-           pytest -q   ->   62 tests including the canonical freeze table.
+           pytest -q   ->   116 tests (110 fast + 6 slow) including the canonical freeze table.
   Mass: {n_sub1}/9 <= 1%, {n_sub2}/9 <= 2%, max {max_err:.1f}%
   CKM:  chi2/n = {chi2_ckm/n_ckm:.2f}  ({n_ckm} obs)
   PMNS: chi2/n = {chi2_pmns/3:.2f}  (3 obs)

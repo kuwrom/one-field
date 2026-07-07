@@ -46,11 +46,70 @@ standing waves: three generations.  Mass is that pattern.  G_2 has
 trivial centre and trivial pi_1, so every quantum number is emergent;
 when G_2 breaks to SU(3) the Z_3 centre crystallises.
 
+THE SEARCHLIGHT.  The octonions scoped the search: at most three
+foldings, seven directions.  That is why the closing loop was
+findable at all; the observation was targeted and guided.  The
+octonions are the reason we look in 3 loops.  The universe is the
+standing wave the search found.
+
+SEARCH ORDER.  The octonions' suggestion said only: structure needs
+a loop, and the smallest loop is 3, so start there.  Had nothing
+matched the anchors at 3, the search would have continued to 4, to 5.
+The minimality axioms are the order any searcher must proceed in,
+with the anchor match as the stopping rule; the match at 3 is the
+contingent fact.
+
+SELECTION BY TREE LENGTH.  Partial closures exist: lanes that make
+electron-like things with ratios that fail to continue, quark-like
+things that never bind.  They are eliminated for failing to continue.
+The survivor is the lane with the longest emergence tree, the one
+whose every closure enables the next, from the first loop to
+chemistry.  The seven-branch gauntlet is the computed record of the
+shorter trees.
+
 This is NOT a top-down Lagrangian theory of the form "write an action,
 solve it, get particles."  It is a SELECTION PRINCIPLE applied to a
 substrate that hosts blind self-interference.  The question is not
 "what is the Lagrangian?" but "given self-interference, which patterns
 close?"  The answer is: exactly one lane.
+
+OBSERVATION AND CORROBORATION.  The framework observes the pattern.
+The established theorems it cites (Witten quantization, anomaly
+matching, Callan-Harvey/Jackiw-Rossi zero modes, boundary-condition-
+changing operator theory) are other observers' compressions of the
+same regularities, reached from the Lagrangian side.  Citation is
+corroboration: two observation logs of one pattern, one of them
+written by people who had never seen this engine.
+
+THE GATES ARE CONSISTENCY CONDITIONS WITHIN OUR LANE.  Given a
+three-cycle closure, the level, the circulant, and the E_8 coherence
+follow.  At loop 3 the surviving lane is unique: that is the computed
+content of "exactly one lane" (the seven-branch gauntlet below).
+Whether loop 3 itself was necessary or contingent is open (SEARCH
+ORDER above: the match at 3 is the contingent fact), and the anchor
+m_e is the fingerprint of which lane we are in.  The four integers
+are readings of observed structure: counts.
+
+THE HORIZON.  n_7 = 7 is the event horizon of self-knowledge: the
+maximum number of directions a self-checking record can distinguish
+(Hurwitz).  Whatever folds beyond it cannot hold an identity and is
+visible in exactly one way: as amount without identity.  That is the
+gravity sector (PvP = 0, Pv^2P = (1/2)P; the 182 bridge channels as
+one unreadable ensemble), and the dark ratio reads accordingly:
+f_baryonic = 1/(2 pi), the nameable fraction of being is one part in
+a full turn.  The scorecard is the complete table of nameable things;
+"no fourth generation" is absolute (a fourth would be a nameable
+identity); unnameable structure is expected, with gravity as its only
+face.
+
+ONE LOTTERY, THEN ARITHMETIC.  The selector question, which
+configuration closes, is asked exactly once, at the first a->b->c
+loop.  For every later sector the question changes character: what
+can form, and it is pre-solved: any configuration that produces the
+leptons automatically produces these quarks and this gravity, because
+they emerge from the SAME E_8 -> G_2 x F_4 structure.  The universe
+doesn't have to get lucky twice.  This is why the mass sector is one
+generator plus a grammar.
 
 The dynamical equation IS written down.  It is Eq. (2.1) of the gravity
 paper ("The Echo of Standing Waves"): the Z_3-symmetric coupled NLS
@@ -131,14 +190,38 @@ Gate 6, Three-layer closure selection (gates L/Q/G =
     executable as gravity.py's Sigma.)
 
 ================================================================================
+The closure
+================================================================================
+
+    14  +  52  +  182  =  248  =  dim(E_8)
+    gauge   matter   bridge
+            + Higgs  -> gravity
+
+Every degree of freedom of E_8 has a physical job.  Nothing is left
+over.  At each layer, the observables are fully determined by that
+layer's algebraic data: leptons on G_2, quarks and mixing on
+G_2 x F_4 via the embedding, gravity on the mixed bridge.  No free
+parameters at any layer, and no parameters inherited from above.
+This is the closure, and the falsification gate.
+
+The precision hierarchy is structural.  Leptons sit closest to the
+Z_3 source and emerge cleanly (m_mu, m_tau predicted from m_e to
+0.0012%).  Quarks pass through additional layers (triality,
+generation scaling, confinement), and each layer adds residuals of
+order alpha_s/pi (<= 0.3%).  Gravity sits two layers further out, at
+0.0-1.3%.  The accuracy gradient is what the emergence depth
+predicts.
+
+================================================================================
 All couplings derived: methodological consequence
 ================================================================================
 
 The framework has no dimensionless tunable inputs.  The electron mass
 sets the unit system and nothing else (the first closure anchors the
-ruler; M_Pl, G, m_mu, m_tau, v_EW are outputs of the FORCED chain).  Every coupling, mass ratio, mixing
-angle, threshold, and Newton normalisation is a polynomial or rational
-function of (d_10, d_11, n_7, n_26) + pi.
+ruler; M_Pl, G, m_mu, m_tau, v_EW are outputs of the FORCED chain).
+Every coupling, mass ratio, mixing angle, threshold, and Newton
+normalisation is a polynomial or rational function of
+(d_10, d_11, n_7, n_26) + pi.
 
 This has a strict consequence for how the code reads.  In the Standard
 Model, RGE running and matching are tools for tuning free interference
@@ -156,7 +239,7 @@ emergence layer -- the layer determines the factor, not the other way
 around.
 
 The unified expression makes this manifest: instead of per-layer
-modules each with its own physical motivation (the v3_release format),
+modules each with its own physical motivation,
 all named algebraic quantities reduce to closed-form polynomials in
 (d_10, d_11, n_7, n_26).  Among others:
 
@@ -238,7 +321,37 @@ words.py     | Generation word lemma, executable and fully derived:
              | superselection (neutral lane); knot definition +
              | conversion lemma (terminus); exclusions killed by data.
 run.py       | End-to-end driver, scorecard, agreement summary.
-test_interference.py | The falsifiability suite: every claim is an assertion.
+nls_soliton.py | The substrate equation (Z_3 coupled NLS), split-step
+             | evolution, soliton stability.
+protected_forgetting.py | PvP = 0, Pv^2P = (1/2)P: the forgetting that
+             | separates matter readings from the common mode.
+embedding_uniqueness.py | The E_8 > G_2 x F_4 embedding singled out
+             | among the rank-8 candidates.
+tests/probes/ | Analyses OF the theory, run on its own equations:
+             | zero_mode.py (V-A computed: handedness = winding sign),
+             | bookkeeping.py (WZ level = 3 counted; theta = 2/9 is the
+             | sector-changer), mtc_spectrum.py (three-line spectrum at
+             | the MTC layer), theta_menu.py (the data permits only 2/9),
+             | selector_theorem.py ({Haar, delta_e} dichotomy),
+             | orientation_bit.py (one handedness datum),
+             | winding_texture.py (3D pi_3 texture), knot.py (formation,
+             | control-proven G_2 binding), stationary.py (persistence),
+             | spectrum.py (spectroscopy), universality.py (standing
+             | character), dynamics.py (bias erosion + shadow),
+             | bell.py (local non-realist: the rejected assumption
+             | is the +/-1 value assignment, not locality; exact
+             | Tsirelson), ew_internal.py (EW imports reclassified),
+             | wiring_scan.py (the wiring found by residual search,
+             | four integers never input).
+tests/       | The falsifiability suite: every claim is an assertion.
+             | test_interference.py freezes the NUMBERS (scorecard,
+             | freeze tables, attractor); test_probes.py freezes the
+             | MECHANISMS (each probe's registered conclusion; the
+             | substrate-dynamics arc behind pytest -m slow).
+
+Register (repo root): interference/registry.py, the single ledger: live
+watches, registered predictions with kill conditions, and the closure
+record of the four structural questions.
 
 Quickstart:   python3 run.py        (full chain + scorecard)
               python3 -m pytest -q  (the test suite)
@@ -270,154 +383,39 @@ cap).  Octonions are the proof of the
 architecture's shape, not its substance.
 
 ================================================================================
-PREDICTIONS (frozen 2026-06-11; falsifiable bets with kill conditions)
+The bets, the coordinate, and the closed ledger
 ================================================================================
 
 Sole dimensional input: the electron mass (CODATA, +-0.3 ppb).  M_Pl
 and G are OUTPUTS.  No depth-4 term exists to retune anything: the
 no-further-edge theorem (root.py) closes the EM channel outright.
 
-CANONICAL:
- 1. 1/alpha(0) = root of x^3 = (512/pi)[(1 - 1/2pi)x^2 - 1/2pi^2]
-    = 137.035999050, sides with Berkeley Cs 137.035999046(27)
-    [+0.13 sigma] in the live >5-sigma Cs/Rb dispute (Rb: -14 sigma).
-    FINAL; a Rb resolution falsifies the sector-node or orientation
-    rule outright.
- 2. delta_CP = 76.9 deg (DUNE/Hyper-K decide; NuFit best fit ~194 deg
-   , a declared long-shot).
- 3. m_1 = 0 exactly, normal ordering, sum m_nu ~ 59 meV.
- 4. Omega_DM/Omega_b = 2pi - 1 = 5.2832 (between Planck and ACT today).
- 5. alpha_s(M_Z) = 0.1184 (matched at mu* = M_Pl e^{-(9pi^2/2-6)}
-    = v_EW e^{15/512} = 253.5 GeV, the gauge lever-arm endpoint where
-    the WZW cancellation is exact; pre-migration releases quoted
-    0.1177 by starting the run at v_EW = 246.2 under the old scale
-    label -- see the matching-scale note in couplings.py).
- 6. G_ind/G_N = 0.999999917 canonical (UV venting forced by the
-    bookkeeping decision theorem; the former -0.58% open vent is
-    CLOSED by the FACE-SPLIT LAW: the bridge's one self-echo unit
-    re-absorbs onto the two faces in the h-dual metric, the same
-    metric that defines sin^2 theta_W, and the F4 (metric) face's
-    own share, 9/13 x 1/(2pi), cannot dilute 1/G (no-self-dilution).
-    Metric uniqueness: 6 natural splits tested, only h-dual matches
-    (1.4e-5; runner-up off by 6.5e-2).  Residual -8e-8 is below the
-    (alpha/2pi)^2 depth-2 scale: depth-complete.
- 7. sin^2 theta_W(M_Z) = 3/13 + h_7 (alpha/2pi) = 0.2312338
-    (-1.4 sigma vs the PDG 2024 global fit 0.23129(4); subset fits
-    span 0.23118-0.23134; the tree value alone is -13 sigma).  Same
-    law, emission side: emission echoes carry conformal weights, and
-    the emitting face is G2 with h_7 = 2/5.
-    PRE-REGISTERED DISCRIMINATION: the altitude-share form 5/13 gives
-    0.2312161 (-1.9 sigma); h_7 is currently favoured on the global
-    fit and on M_Z; FCC-ee Z-pole (sigma ~ 1e-5) decides outright.
-    The grammar bets on h_7.
-
-PRECISION BLOCK (promoted by the vertex composition rule):
- A. G = 6.674003e-11 m^3 kg^-1 s^-2 (-2.0 sigma CODATA; framework
-    precision limited only by m_e).  KILL: improved G confirms CODATA
-    central at <= 1e-5.
- B. m_mu = 105.6583758 MeV, predicted to ppb (+0.12 sigma CODATA).
- C. m_tau = 1776.9092814 MeV (PDG -0.23 sigma; Belle II decides).
- D. v_EW = 246.219645 GeV vs G_F 246.219651 (-0.1 sigma at 1e-7;
-    zero freedom consumed, the chain's out-of-sample confirmation).
- E. M_Pl = 1.2209171e19 GeV (output).
-
-PRE-REGISTERED WATCH (the 4/13 absence test): the symmetric
-no-self-dilution rule predicts NO anomalous gauge back-reaction --
-the G2-absorbed share of the bridge self-echo is invisible to gauge
-observables.  Decidable at ~0.03% alpha_s precision (lattice
-trajectory): alpha_s(M_Z) = 0.1184 (no back-reaction, the law's bet,
-matched at mu*) vs 0.1177 / 0.1191 (a +-(4/13)/(2pi) anomalous
-back-reaction, which would falsify the symmetry).  PDG 0.1180(9)
-cannot yet distinguish.
-DISCLOSURE (matching-scale degeneracy -- CRITICAL TRANSPARENCY NOTE).
-The mu* migration shifts 1/alpha_s by (32/3)(15/512)/(2pi) = 0.0497,
-numerically almost identical to the 4/13 back-reaction unit
-(4/13)/(2pi) = 0.0490.  The coincidence is uncomfortable: the two
-effects differ by only 1.4% in 1/alpha, meaning the migration and the
-back-reaction are NEARLY DEGENERATE and cannot be distinguished at
-current PDG precision (0.1180 +/- 0.0009 spans both).
-  Pre-migration (2026-06, v_EW-start convention):
-    no-back-reaction → alpha_s = 0.1177;  with back-reaction → 0.1184.
-  Post-migration (mu*-start, current):
-    no-back-reaction → alpha_s = 0.1184;  with back-reaction → 0.1191.
-The migration is FORCED: the WZW cancellation is an exact identity and
-terminates at mu* = M_Pl e^{-(9pi^2/2-6)}, not at v_EW (couplings.py).
-The formula is unchanged; only the scale identification was corrected.
-But the near-degeneracy means that the pre-migration no-back-reaction
-value (0.1177) and the post-migration no-back-reaction value (0.1184)
-swap positions relative to the PDG central value.  Any future
-discrimination must fix the matching scale FIRST (done: mu*) and then
-test for the back-reaction on top.  Decidable at ~0.03% alpha_s
-precision (lattice trajectory).  History preserved deliberately; this
-note is the audit trail.
+Every registered number lives in ONE place.  The bets, kill
+conditions, supersession history, and the closure record of the four
+structural questions: interference/registry.py.  The frozen values the
+code must reproduce: tests/test_interference.py.  This file states
+the claim taxonomy and the forward rule; it quotes no number the
+register owns.
 
 THE MASS COORDINATE (back-reaction, not running).  A running mass
-m_q(mu) is a coordinate on an RG orbit, not an observable; no
-zero-parameter framework owes "the quark mass" until a comparison
-coordinate is chosen.
-
-The strongest quark-sector tests are the COORDINATE-FREE observables,
-which carry no scheme dependence at all:
-    m_u/m_d = 38/83 = 0.45783        PDG 2024: 0.473(17)  (-0.9 sigma)
-    m_s/m_ud = 27.130                PDG 2024: 27.30(8)   (-2.1 sigma)
-    Q_ellipse = 22.229               dispersive: 22.1(7) (+0.2 sigma)
-                                     lattice: 23.4(6) (-2.0 sigma; the
-                                     two data determinations disagree,
-                                     PDG quark-masses review Sec. 60)
-These ratios test the algebra directly.  The -2.1 sigma on m_s/m_ud
-is the sharpest mass-sector pull, watched alongside m_b.
-
-For absolute masses, the comparison coordinate follows the standard
-PDG primary conventions (masses.py):  leptons (e, mu, tau) at the
-propagator pole; top at the pole (decays before hadronisation,
-Gamma_t >> Lambda_QCD, renormalon ambiguity ~0.1% of m_t); confined
-heavy quarks (c, b) at the self-scale m(m) (Lambda_QCD/m is ~5% for
-b and ~16% for c, so no pole exists below confinement); light quarks
-(u, d, s) via RG-invariant ratios (above).  The absolute light
-entries are quoted in the PDG MS-bar(2 GeV) coordinate, a declared
-dictionary entry -- not a fitted one.  Choosing the wrong coordinate
-inflates residuals catastrophically: the charm pole mass shifts the
-Koide residual from +0.06% to roughly -24%.
-The algebra does not run to a scale; its output IS the prediction.  A
-reader who wants a different convention applies standard RGE transport
-with the framework's own alpha_s (also algebraic): both endpoints
-fixed, zero freedom enters -- but that is the SM's coordinate change,
-not a step in the prediction.
-
-PRE-REGISTERED WATCH (not a claim): the quark sector is currently
-noise-compatible (chi^2 = 2.74/6 with PDG errors); only m_b at
-+1.6 sigma.  IF a down-type vent exists it is +-(9/4)(alpha/2pi),
-9/4 = dim J3(O)/FPdim(C0), epsilon-orientation signs (+d, -s, +b).
-Decided when m_b tightens: persists at >3 sigma -> vent confirmed at
-the pre-registered value; converges to 4194.1 MeV -> no vent.
+m_q(mu) is a coordinate on an RG orbit, not an observable; a mass
+prediction is complete only with its coordinate.  Leptons and top at
+the propagator pole; confined heavy quarks (c, b) at the self-scale
+m(m); light quarks via the RG-invariant ratios, which carry no
+coordinate at all.  The algebra does not run to a scale; its output
+IS the prediction.  Full treatment: masses.py.
 
 THE LEDGER IS CLOSED.  Every canonical claim is exactly one of:
 DERIVED (the algebraic chain), ENUMERATED (words lemma, K^3
 selection, metric uniqueness), CROSS-PINNED (shared dictionary
-objects measured in independent observables), or a CITED IMPORT
-WITH A STATED BAND, where every import is itself decomposed and
-AUDITED (gravity.py): data-driven ingredients are measurements,
-parameter dependencies are recalculated from the framework's own
-values and verified compatible, and pure loop integrals are
-mathematics fixed by the field content.  Nothing is dressed -- every
-non-trivial factor is a back-reaction through an existing channel;
-nothing is tuned (Delta-r-hat_W, rho-hat at one loop; the Higgs
-prescription, SM 2-loop RGE + tree matching + lambda(M_Pl) =
--delta_bridge, with its ±1 GeV truncation band containing the
-measurement; NNLO upgrade is tooling, not theory).  The words-lemma
-terminus is stated and verified in module-category vocabulary
-(words.py: U(C) = Z3 universal grading, C_ad trivial component,
-bases as Hom-space ranks, conversion vertex as amplitude).
-The EW sector is CLOSED at one loop with
-two declared imports (PDG 2024: Delta-r-hat_W = 0.06937(6),
-rho-hat = 1.01016(9)): A0 = sqrt(pi alpha(0)) v_EW = 37.28038 GeV
-matches PDG 37.28038(1) at 0.1 ppm; M_W = 80.365 (-0.33 sigma);
-M_Z = 91.196 (+0.009%, +1.6 sigma of the import band, carrying the
-data's own W/Z tension structure).  (The former "locate the 4/13"
-item is RESOLVED by the symmetric no-self-dilution rule: each face's
-absorbed share is invisible to its own ledgers; the law predicts the
-ABSENCE of anomalous gauge back-reaction, consistent with alpha_s at
-+0.43 sigma.
+objects measured in independent observables), or a CITED IMPORT WITH
+A STATED BAND, where every import is decomposed and audited
+(gravity.py, tests/probes/ew_internal.py): data-driven ingredients
+measurements, parameter dependencies are recalculated from the
+framework's own values and verified compatible, and pure loop
+integrals are mathematics fixed by the field content.  Nothing is
+dressed; every non-trivial factor is a back-reaction through an
+existing channel; nothing is tuned.
 
 HURWITZ FINALITY (the forward rule).  The echo grammar is closed:
 depth <= 3, edges only along the sector graph, multiplicities only by
@@ -425,5 +423,5 @@ the orientation, sector-node, vertex-composition and face-split
 rules.  No new term may be added after a comparison.  Consequently
 every canonical residual is BOUNDED: a deviation that exceeds the
 next-depth echo unit of its sector falsifies the rule that produced
-it, there is no deeper term to absorb a miss.
+it; there is no deeper term to absorb a miss.
 """ 

@@ -20,6 +20,8 @@ import pytest
 # bootstraps the chain.
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "interference")))
+# Add tests/ itself so the mechanism probes import as `probes.*`
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 import root
 import masses
