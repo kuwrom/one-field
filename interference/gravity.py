@@ -3,6 +3,30 @@ Gravity + Higgs + Baryogenesis + Neutrinos from (d₁₀, d₁₁, n₇, n₂₆
 + the electron anchor (M_Pl is DERIVED in root.py from m_e).
 
 ═══════════════════════════════════════════════════════════════════════
+WHAT GRAVITY IS (gravity paper)
+═══════════════════════════════════════════════════════════════════════
+
+A standing wave is a soliton: it has to keep exchanging with the
+substrate around it to stay coherent.  Being stable costs it a
+continuous circulation.  To circulate, the soliton carves a
+coherently biased region into the substrate around it, shaped to
+keep the substrate flowing through.
+
+That carved region lives in the part of the substrate every standing
+wave shares.  The substrate has three components, and the Z₃ Fourier
+split separates them into the q = 1, 2 relative modes (where standing
+waves lock in: matter) and the q = 0 common mode (shared by all
+three: geometry).  Two Fourier sectors of one substrate, one sourcing
+the other.
+
+When a standing wave forms in the relative sector, it sources a
+depletion in the common mode.  The soliton casts a shadow.  The
+substrate is passive: it just carries what the soliton put there.
+
+Gravity is the shape matter carves into the background while
+ventilating itself, and the bias other matter rides into.
+
+═══════════════════════════════════════════════════════════════════════
 WHY GRAVITY AT ALL: the common-mode memory (gravity paper, summary)
 ═══════════════════════════════════════════════════════════════════════
 
@@ -37,8 +61,9 @@ Gravity (bridge sector):
     Heat kernel -> G_N
 
 Higgs:
-    lambda(M_Pl) = -delta_bridge = -N_bridge * alpha_G₂² * E[v²]
-    SM RGE -> m_H
+    lambda(M_Pl) = -delta_bridge = -N_bridge * alpha_G₂² * E[v²] * (1 − h₁₀)
+    (fundamental-share vent; provenance in registry.PROMOTIONS)
+    SM RGE -> m_H = 125.30 GeV
 
 Baryogenesis (three Sakharov conditions ↔ three algebraic factors):
     eta_B = n₇ × J_lep × exp(−h∨(G₂)π²/2) = 7 · J_ℓ · e^{−2π²}
@@ -68,6 +93,17 @@ Neutrinos:
 ═══════════════════════════════════════════════════════════════════════
 Why the bridge contributes a SCALAR sign (not a vector sign)
 ═══════════════════════════════════════════════════════════════════════
+
+The bridge sector has 182 channels, far more than the 8 dimensions of
+the octonion fiber, the deepest internal structure self-reference can
+sustain (Hurwitz again).  Tracking all 182 as one coherent
+multi-layer object would require a normed division algebra that does
+not exist.  If we knew what was inside each channel ("this one is
+amplitude, that one is delay"), we could keep some of them complex.
+We don't, so the bridge has to be treated as one ensemble, and every
+mode contributes as a real scalar.  Reading the same channels as
+vectors would give −1/6 and reverse the sign: gravity repulsive,
+matter never binds.
 
 The heat-kernel a₁ coefficient for each bridge channel is
     a₁/R = +1/6 − xi_bridge   (scalar, ATTRACTIVE)
@@ -149,7 +185,7 @@ def _beta_sm(y):
     d₁₀×d₁₁ quark flavors, 1 Higgs doublet), and representation
     Casimirs.  No free parameters enter at any back-reaction layer.
 
-    The five couplings are NOT independent inputs — they are derived
+    The five couplings are NOT independent inputs, they are derived
     quantities (g_i from α_em + sin²θ_W, yt = √2·m_t/v_EW, λ from
     the Planck boundary) whose scale dependence is governed by the
     virtual back-reaction of all E₈-derived particle species.
@@ -158,13 +194,13 @@ def _beta_sm(y):
     are the nth layer of virtual back-reaction on the Chladni plate):
       Layer 1: single virtual pair modifies each coupling
       Layer 2: virtual pairs interact among themselves
-      Layer 3+: back-reaction on back-reaction — the pattern stabilises
+      Layer 3+: back-reaction on back-reaction, the pattern stabilises
     All known layers are summed; no truncation parameter exists.
     The series self-certifies: successive layers shift m_H by ≤35 MeV
     (< 0.03%).  The interference pattern has stabilised.
 
     Coupling betas: two layers (Casimirs of SU(d₁₁), SU(d₁₀),
-    U(1) — pure representation theory, no free coefficients).
+    U(1), pure representation theory, no free coefficients).
     Layer-3 gauge/top: not yet derived in the framework's own scheme.
 
     Quartic beta: four layers, framework's back-reaction convention
@@ -304,7 +340,7 @@ def _beta_sm(y):
     # No truncation parameter.  Every layer the machine produces is
     # included; the series self-certifies convergence (Chladni
     # persistence: layer-3 quartic shifts m_H by ~35 MeV, layer-4
-    # by ~35 MeV further — the pattern has stabilised).
+    # by ~35 MeV further, the pattern has stabilised).
     L3 = L1**3
     L4 = L1**4
     dg1 = L1*dg1_1 + L2*dg1_2
@@ -472,7 +508,8 @@ def derive(R, masses, mixing, couplings):
         led = Ledger(name, 0.0, "add")
         for path, n_dof, a1, note in sector_terms:
             led.echo([path], n_dof * a1, 1, "FORCED",
-                     f"{n_dof} dof × a₁ = {a1:+.4f}  {note}")
+                     f"{n_dof} dof × a₁ = {a1:+.4f}  {note}",
+                     kind="vent")
         WEB[name] = led
         return led
 
@@ -520,6 +557,8 @@ def derive(R, masses, mixing, couplings):
                   _face_split, 1, "FORCED",
                   "face-split law: no self-dilution of the metric face")
 
+    WEB.solve()          # gravity nodes join the solved web state
+
     Sigma_bridge = N_bridge * a1_bridge
     Sigma_total_UV = led_Sigma_UV.value()
     Sigma_total_broken = led_Sigma_br.value()
@@ -537,7 +576,7 @@ def derive(R, masses, mixing, couplings):
     #     G_ind/G_N = 0.999999917   (canonical; face-split law)
     # The broken-phase counting is retained as a diagnostic only (it
     # counts IR-phase dof whose contribution under Λ² is negligible).
-    # The former −0.58% declared open vent is CLOSED by the face-split
+    # The face-split (no-self-dilution) law closes the UV ledger
     # law above; the remaining −8e-8 is below the (α/2π)² depth-2
     # echo scale, the ledger is depth-complete here.
 
@@ -546,6 +585,13 @@ def derive(R, masses, mixing, couplings):
     G_ratio_UV = target / Sigma_total_UV
     G_ratio_broken = target / Sigma_total_broken
     G_ratio_canonical = G_ratio_UV
+
+    # ── gravity as a graph node (live ratio base): G = 6π/Σ ─────────
+    # The column total of everyone's venting, read from the state.
+    WEB["G_ratio"] = Ledger(
+        "G_ratio", lambda s: 6.0 * math.pi / s["Sigma_vent(UV)"], "mul")
+    WEB.solve()          # gravity nodes join the solved web state
+    assert abs(WEB.state["G_ratio"] / G_ratio_canonical - 1.0) < 1e-12
     err_UV = 100.0 * (G_ratio_UV - 1.0)
     err_broken = 100.0 * (G_ratio_broken - 1.0)
 
@@ -557,7 +603,7 @@ def derive(R, masses, mixing, couplings):
     print(f"    G_ind/G_N CANONICAL = {G_ratio_canonical:.9f}  (UV: venting")
     print(f"      localizes at the cutoff, where EW is unbroken; broken-")
     print(f"      phase value {G_ratio_broken:.6f} is diagnostic only;")
-    print(f"      former -0.58% vent CLOSED by the face-split law)")
+    print(f"      face-split no-self-dilution law)")
 
     # Cosmological constant: Volovik → Jacobson-Clausius → CKN
     #
@@ -609,7 +655,13 @@ def derive(R, masses, mixing, couplings):
     #      α_G₂(M_Pl) = 1/(24π) (topological bootstrap, see root.py)
     #      E[v²] = 1/2 (protected forgetting: Pv²P = ½P)
     #
-    # Combined: λ(M_Pl) = 0 − δ_bridge = −δ_bridge
+    # 3. Fundamental-share vent (registry.PROMOTIONS): the triality-
+    #    charged 3 ⊕ 3̄ share of the bridge 7 cannot cross into the
+    #    condensing channel (N-ality superselection, words.py); the
+    #    blocked share in the weight metric is h₁₀ → factor (1 − h₁₀).
+    #    Derivation program 3, interference/registry.py.
+    #
+    # Combined: λ(M_Pl) = −δ_bridge·(1 − h₁₀)  [vent lives in the WEB edge]
     #
     # SINGLE SOURCE OF TRUTH: the bridge→Higgs edge lives in the web
     # (root.py WEB['lambda_MPl']); no second computation here (K3 dedup).
@@ -617,7 +669,8 @@ def derive(R, masses, mixing, couplings):
     delta_bridge = -lam_Pl_tree
 
     print(f"    F₄ fusion: lambda_F₄ = 0  [(26×26)_local = 1]")
-    print(f"    delta_bridge = {N_bridge} * (1/(24pi))² * 1/2 = {delta_bridge:.6f}")
+    print(f"    delta_bridge = {N_bridge} * (1/(24pi))² * 1/2 * (1 − h₁₀) = {delta_bridge:.6f}")
+    print(f"      [fundamental-share vent (1−h₁₀) = 7/9; registry.PROMOTIONS]")
     print(f"    lambda(M_Pl) = -{delta_bridge:.6f}")
 
     # Derive EW couplings at the derived M_Z scale
@@ -625,7 +678,7 @@ def derive(R, masses, mixing, couplings):
     quark_masses = [masses['m_u'], masses['m_d'], masses['m_s'],
                     masses['m_c'], masses['m_b'], masses['m_t']]
 
-    # sin²θ_W from the Web ledger (promoted from one-shot in root.py).
+    # sin²θ_W from the Web ledger (root.py).
     # Tree 3/13, depth-1 h₇·α/(2π), depth-2 (h₇/d₁₁²)·α/(2π).
     # Combined echo coefficient: Q₀² = 4/9 (Koide parameter squared).
     sin2W = WEB.state["sin2W"]

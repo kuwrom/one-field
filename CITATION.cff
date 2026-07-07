@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Cite the repository as 'one-field' and the relevant motivation papers listed in PAPERS.md."
+message: "Cite the repository as 'one-field' and the relevant motivation papers listed in interference/registry.py (PAPERS)."
 title: "one-field: end-to-end derivation of the Standard Model through E_8(1) > G_2(1) x F_4(1)"
 authors:
   - name: "one-field contributors"

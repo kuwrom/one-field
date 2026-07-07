@@ -15,6 +15,36 @@ Two structures in the framework predict the dark sector:
 
    Equivalently: Ω_m/Ω_b = 2π (total matter/baryon ratio).
 
+   WHY THE SAME FACTOR GOVERNS BOTH DOMAINS: the 1/(2π) is not
+   "borrowed" from the EM sector.  It is a property of the bridge
+   ITSELF: the integrated two-point function of a marginal (h=1)
+   primary with unit local coupling D² = 1 on the boundary circle.
+   The conformal two-point function ⟨φ(θ)φ(0)⟩ ~ |2sin(θ/2)|^{−2h}
+   evaluated at h = 1 gives the self-interference fraction h/(2π)
+   = 1/(2π) (see couplings.py for the full derivation).  This
+   fraction answers a single question: what fraction of the bridge
+   amplitude closes locally (i.e. contributes to a particular
+   channel's observable)?
+
+   In the EM channel, "closes locally" means: reaches the physical
+   coupling.  At depth 1: 1/α ≈ (512/π)(1 − 1/(2π)); at depth 3
+   the self-consistent cubic gives 1/α(0) = 137.035999050 exactly
+   (root.py).
+
+   In the matter channel, "closes locally" means: materializes as
+   localized (baryonic) matter.  The standing waves that form in the
+   relative sector carve venting channels into the common mode
+   (gravity.py).  Of the total substrate energy circulating through
+   the bridge, the fraction 1/(2π) localizes as particle-like
+   excitations (baryons); the remainder (2π−1)/(2π) stays as
+   delocalized bridge coherence, coupling only through the common
+   mode (PvP = 0 → gravitational coupling only → dark matter).
+
+   Both readings are the same integral on the same marginal operator.
+   The bridge is one object connecting two faces; its self-interference
+   fraction is universal because h=1 and c_coset=0 leave no room for
+   channel-dependent corrections.
+
 2. Cosmological constant scale
    ───────────────────────────
    Volovik equilibrium: ρ_vac = 0 at the self-bound point
@@ -119,6 +149,12 @@ def derive(R, grav_data):
 
     # Verify exact algebraic form
     assert abs(DM_baryon_ratio - (2.0 * math.pi - 1.0)) < 1e-10
+
+    # ── the unread remainder as a graph node ─────────────────────────
+    from root import WEB, Ledger
+    WEB["dark_ratio"] = Ledger("dark_ratio", 2.0 * math.pi - 1.0, "mul")
+    WEB.solve()          # dark node joins the solved web state
+    assert abs(WEB.state["dark_ratio"] / DM_baryon_ratio - 1.0) < 1e-14
 
     # Total matter/baryon ratio (algebraic identity)
     matter_baryon_ratio = 1.0 / f_baryonic             # = 2π

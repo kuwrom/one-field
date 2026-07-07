@@ -15,6 +15,26 @@ algebra alone, this is the survivor filter that selects the unique
 lane.  See __init__.py for the full six-gate chain.
 
 ═══════════════════════════════════════════════════════════════════════
+WHAT MASS IS
+═══════════════════════════════════════════════════════════════════════
+
+The substrate self-interferes.  Against vanishing odds, interference
+loops emerge: a -> b -> c -> a.  A loop carries cyclic Z₃ symmetry,
+because nothing inside it distinguishes which position came first.
+Most loops just cycle.
+
+Some, though, drop the bias that singles out one of their three
+positions.  The asymmetric label v = (1, −1/2, −1/2) inherited from
+the parent G₂ structure is erased, and all three positions become
+equivalent.  A forgetting loop can no longer drift between its
+positions.  It gets stuck in one of three eigenstates.  That stuck
+pattern is a standing wave, and the three eigenstates are the three
+lepton generations: electron, muon, tau.  Same loop, three places it
+can lock in.
+
+Mass is that pattern.
+
+═══════════════════════════════════════════════════════════════════════
 THE SUBSTRATE PICTURE (lepton paper, self-contained summary)
 ═══════════════════════════════════════════════════════════════════════
 
@@ -116,16 +136,21 @@ For quark triplets, each closes through a specific SU(3)₃ representation λ,
 producing a sub-leading back-reaction:
     Q = Q₀ + h(λ)/K³
 
-Derivation: the K³ denominator is the altitude cubed, arising because the
-Koide sum rule involves Σ√m, and the √m ∝ Δ (gap) receives an OPE
-back-reaction at third order in the conformal weight expansion (the leading
-and quadratic terms vanish by Z₃ symmetry).
-SELECTION CHECK (enumerated): over all eight structures Q₀ + h(λ)/Kᵖ
-(λ ∈ {fund, adj}, p ∈ {1..4}), the bottom mass admits exactly one
-sub-percent match: the adjoint weight at the third power (+0.26%).
-The nearest runner-up is the fundamental at the same power (+2.16%),
-all others miss by >5%.  The (s,c,b) assignment (h₁₀, K³) then
-follows from representation content at the same depth.
+FIRST-INVARIANT-ORDER THEOREM (why K³): the insertion is the Z₃
+sector-changer, and the confined sector admits only Z₃-invariant
+operators ([Δ,S] = 0, selector theorem).  One or two insertions do
+not return to the identity sector (tr S = tr S² = 0); three do
+(tr S³ = 3).  Orders 1 and 2 are forbidden, not small; the first
+admissible order is cubic.  In OPE language: Σ√m receives its first
+Z₃-invariant back-reaction at third order in the conformal weight
+expansion.  The same theorem gives bridge² its K² altitude: a paired
+S S† insertion is invariant already at order 2.  (Witness:
+tests/test_coverage.py; derivation program 1, registry.)
+ENUMERATION over all eight structures Q₀ + h(λ)/Kᵖ (λ ∈ {fund, adj},
+p ∈ {1..4}): only the adjoint weight at cubic altitude closes on the
+bottom mass (+0.26%); the nearest alternative misses by +2.16%, all
+others by >5%.  The (s,c,b) assignment (h₁₀, K³) carries the same
+representation content at the same depth.
 
     (c,b,t) triplet: adjoint (1,1), h₁₁ = 1/d₁₀ = 1/2
         → Q = d₁₀/d₁₁ + (1/d₁₀)/(d₁₀d₁₁)³ = 289/432
@@ -173,21 +198,20 @@ one rule:
     residuals catastrophically.  Example: the charm pole mass
     m_c^pole ≈ 1.67 GeV shifts the Koide residual from +0.06%
     (at m(m)) to roughly −24%.  Every mass in this table is stated
-    in the coordinate that the physics selects, not the one that
-    minimises a fit.
+    in the coordinate the physics selects.
 
   LIGHT quarks (u, d, s): no perturbative self-scale exists
     (m < Λ_QCD).  The scheme-free content is the RG-INVARIANT
     RATIOS (QCD running is flavour-blind, so it cancels in m_q/m_q'):
         m_u/m_d = 38/83 = 0.45783        PDG 2024: 0.473(17)  (−0.9σ)
-        m_s/m_ud = 27.130                PDG 2024: 27.30(8)   (−2.1σ)
-        Q_ellipse = 22.229               η→3π dispersive: 22.1(7)
-                                         (+0.2σ); lattice 23.4(6)
-                                         (−2.0σ; the two data
+        m_s/m_ud = 27.318                PDG 2024: 27.30(8)   (+0.2σ)
+        Q_ellipse = 22.383               η→3π dispersive: 22.1(7)
+                                         (+0.4σ); lattice 23.4(6)
+                                         (−1.7σ; the two data
                                          determinations disagree,
                                          PDG review Sec. 60)
     The absolute entries are quoted in the PDG MS-bar(2 GeV)
-    coordinate, a declared dictionary entry, not a fitted one.
+    coordinate, a declared dictionary entry.
 
 The algebra does not run to a scale; its output IS the prediction.
 A reader who wants a different convention applies standard RGE
@@ -244,11 +268,14 @@ def derive(R):
     lepton_tree, lepton_pred = {}, {}
     for k_idx, name in [(1, 'e'), (2, 'mu'), (0, 'tau')]:
         gap = 1.0 + BA_ratio * math.cos(h10 + 2*math.pi*k_idx/3)
+        # live ratio base: the SAME standing wave read from the solved
+        # ruler node, so the whole mass sector is one coupled recursion
         led = Ledger(f"m_{name}",
-                     0.5 * M_Pl_MeV * math.exp(-S_lepton) * gap**2,
+                     (lambda s, g=gap:
+                      0.5 * s["M_Pl_MeV"] * math.exp(-S_lepton) * g * g),
                      "mul", "MeV")
         for t in WEB["lepton_EM"].terms:
-            led.echo(t.path, t.factor, t.depth, t.status, t.note)
+            led.echo(t.path, t.factor, t.depth, t.status, t.note, t.kind)
         # FORCED depth-3 vent (vertex composition rule): the mass node's
         # own channel weight W(fund) = 1/d₁₀ (the B/A Schur projector)
         # composes with the Albert traversal dim J₃(O) = 27 across the
@@ -261,7 +288,7 @@ def derive(R):
                  3, "FORCED",
                  "vertex rule: W(fund)·dim J₃(O) = 27/2, ∝ Δₖ")
         WEB[f"m_{name}"] = led
-        lepton_tree[name] = led.base
+        lepton_tree[name] = 0.5 * M_Pl_MeV * math.exp(-S_lepton) * gap**2
         lepton_pred[name] = led.value()
 
     m_e, m_mu, m_tau = lepton_pred['e'], lepton_pred['mu'], lepton_pred['tau']
@@ -301,10 +328,12 @@ def derive(R):
     # Proof of exactness: d₁₀²(1+δ) = 4·19/18 = 38/9;
     # d₁₀²d₁₁(1+1/216) = 12·217/216 = 217/18; 97(1+1/1164) = 1165/12.
     base_u, base_c, base_t = d10**2, d10**2 * d11, d11**4 + d10**4
-    led_u = Ledger("m_u", base_u * m_e, "mul", "MeV").echo(
+    # live ratio bases: quark = word-count integer × the lepton node,
+    # read from the state (the ratio edge of the one graph)
+    led_u = Ledger("m_u", lambda s: base_u * s["m_e"], "mul", "MeV").echo(
         ["WZW(δ)"], delta, 1,
         "FORCED", "vent = OPE gap δ (dictionary atom): h₁₀/d₁₀² = δ")
-    led_c = Ledger("m_c", base_c * m_mu, "mul", "MeV").echo(
+    led_c = Ledger("m_c", lambda s: base_c * s["m_mu"], "mul", "MeV").echo(
         ["WZW(K³)"], 1.0 / K**3, 1,
         "FORCED", "vent = K⁻³ (same suppression as Koide Q-terms)")
     # base(n) = boundary-walk counts of generation words (Lemma
@@ -314,7 +343,7 @@ def derive(R):
     # DERIVED (knot definition + conversion lemma; module-category
     # form verified in words.py); mixed words (36, 78) are vent-side
     # and independently killed by experiment.
-    led_t = Ledger("m_t", base_t * m_tau, "mul", "MeV").echo(
+    led_t = Ledger("m_t", lambda s: base_t * s["m_tau"], "mul", "MeV").echo(
         ["WZW(2K)"], 1.0 / (2 * K * base_t), 1,
         "FORCED", "vent = corr₃/base₃; words lemma, terminus DERIVED")
     WEB["m_u"], WEB["m_c"], WEB["m_t"] = led_u, led_c, led_t
@@ -340,7 +369,7 @@ def derive(R):
     # SU(3)₃ WZW representation λ, producing a sub-leading back-reaction:
     #     Q = Q₀ + h(λ)/K³
     # (Standard QFT would call these "representation corrections"; here
-    #  each h(λ)/K³ is a forced interference term, not a fitted parameter.)
+    #  each h(λ)/K³ is a forced interference term.)
     #
     # K³ denominator: the altitude cubed arises because the Koide sum rule
     # involves Σ√m, and √m ∝ Δ (gap) receives an OPE back-reaction at third
@@ -396,7 +425,7 @@ def derive(R):
     assert d10**3 == d11**2 - 1 == d10**2 + d11 + 1
     assert Fraction(d10**3, d11) == charge_trace
     assert Fraction(2, 9) / charge_trace == Fraction(1, 12)  # corr₃
-    bridge_sq = WEB.state["bridge_sq"]   # promoted to web ledger: 32/27 × (1 + h₁₁/K²)
+    bridge_sq = WEB.state["bridge_sq"]   # web ledger: 32/27 × (1 + h₁₁/K²)
     m_s = x_phys**2 * math.sqrt(bridge_sq)
 
     # Light quarks: d₁₀² ↔ d₁₁² swap gives up vs down
@@ -405,11 +434,50 @@ def derive(R):
     # m_d = d₁₁²(1 + d₁₀/d₁₁⁴) m_e exactly: 9·(1+2/81) = 83/9.
     # Down-type light vent = d₁₀/d₁₁⁴ (the d₁₀²↔d₁₁² triality swap
     # acting on the same h₁₀ vent: h₁₀/d₁₁² = d₁₀/d₁₁⁴).
-    led_d = Ledger("m_d", d11**2 * m_e, "mul", "MeV").echo(
+    led_d = Ledger("m_d", lambda s: d11**2 * s["m_e"], "mul", "MeV").echo(
         ["WZW(h₁₀)"], d10 / d11**4, 1,
         "FORCED", "vent = h₁₀/d₁₁² = d₁₀/d₁₁⁴ (triality-swapped)")
     WEB["m_d"] = led_d
     m_d = led_d.value()                  # (83/9) m_e
+
+    # ── m_b, m_s as CONSTRAINT NODES of the web (live ratio bases) ───
+    # The same Koide quadratics as the closed-form computation above,
+    # read live from the state: the middle root between m_c and m_t,
+    # and the positive root scaled by the bridge.  The kernel holds
+    # them while the state is away from the fixed point; at the fixed
+    # point they equal the closed forms exactly (asserted after the
+    # final solve).
+    def _m_bottom_of(s):
+        sc_, st_ = math.sqrt(s["m_c"]), math.sqrt(s["m_t"])
+        Q = s["Q_cbt"]
+        a_ = Q - 1.0
+        b_ = 2.0 * Q * (sc_ + st_)
+        c_ = (Q - 1.0) * (s["m_c"] + s["m_t"]) + 2.0 * Q * sc_ * st_
+        d_ = b_*b_ - 4.0*a_*c_
+        if d_ < 0.0:
+            raise ValueError("koide(b): no real root yet")
+        for x in ((-b_ + math.sqrt(d_)) / (2.0*a_),
+                  (-b_ - math.sqrt(d_)) / (2.0*a_)):
+            if s["m_c"] < x*x < s["m_t"]:
+                return x * x
+        raise ValueError("koide(b): root not bracketed yet")
+
+    def _m_strange_of(s):
+        Q = s["Q_scb"]
+        sc_, sb_ = math.sqrt(s["m_c"]), math.sqrt(s["m_b"])
+        a_ = 1.0 - Q
+        b_ = 2.0 * Q * (sc_ + sb_)
+        c_ = s["m_c"] + s["m_b"] - Q * (sc_ + sb_)**2
+        d_ = b_*b_ - 4.0*a_*c_
+        if d_ < 0.0:
+            raise ValueError("koide(s): no real root yet")
+        x1 = (-b_ + math.sqrt(d_)) / (2.0*a_)
+        x2 = (-b_ - math.sqrt(d_)) / (2.0*a_)
+        x = x1 if x1 > 0 else x2
+        return x * x * math.sqrt(s["bridge_sq"])
+
+    WEB["m_b"] = Ledger("m_b", _m_bottom_of, "mul", "MeV")
+    WEB["m_s"] = Ledger("m_s", _m_strange_of, "mul", "MeV")
 
     Q_cbt_frac = Fraction(d10, d11) + Fraction(1, d10) / Fraction(d10*d11)**3
     Q_scb_frac = Fraction(d10, d11) + Fraction(d10, d11**2) / Fraction(d10*d11)**3
@@ -453,8 +521,19 @@ def derive(R):
 
     print(f"\n  Summary: {n1}/9 within 1%,  max error {max_err:.1f}%")
 
+    # ── the weak scale as a graph node (live ratio base) ─────────────
+    WEB["v_EW_GeV"] = Ledger(
+        "v_EW_GeV",
+        lambda s: s["M_Pl_MeV"] / 1e3 * math.exp(-s["S_quark"]),
+        "mul", "GeV")
+
     WEB.solve()          # masses nodes join the solved web state
     v_EW_MeV = M_Pl_MeV * math.exp(-R['S_quark'])
+
+    # the constraint nodes land exactly on the closed forms
+    assert abs(WEB.state["m_b"] / m_b - 1.0) < 1e-12
+    assert abs(WEB.state["m_s"] / m_s - 1.0) < 1e-12
+    assert abs(WEB.state["v_EW_GeV"] * 1e3 / v_EW_MeV - 1.0) < 1e-12
 
     return {
         'lepton_pred': lepton_pred,

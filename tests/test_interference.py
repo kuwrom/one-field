@@ -122,9 +122,11 @@ def test_pmns_delta_cp_prediction(res):
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_higgs_mass(res):
-    """m_H from F_4(1) fusion (lambda(M_Pl) = -delta_bridge) + SM RGE."""
+    """m_H from F_4(1) fusion + fundamental-share vent
+    (lambda(M_Pl) = -delta_bridge*(1-h10); registry.PROMOTIONS) + SM RGE.
+    The prediction sits at +0.08% of 125.20(11); band 0.2%."""
     mH = res["g"]["mH_pred"]
-    assert err_pct(mH, 125.20) < 1.0
+    assert err_pct(mH, 125.20) < 0.2
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -133,7 +135,7 @@ def test_higgs_mass(res):
 
 def test_newton_constant_UV(res):
     """G_ind/G_N (UV bookkeeping) within 1% of unity."""
-    # face-split law closes the former -0.58% open vent to <1e-7
+    # face-split (no-self-dilution) law
     assert abs(res["g"]["G_ratio_UV"] - 1.0) < 1e-6
 
 
@@ -530,7 +532,7 @@ def test_mass_coordinate_invariants(res):
 
 
 def test_canonical_freeze(res):
-    """The frozen canonical table (2026-06-11, ledger closed)."""
+    """The frozen canonical table (ledger closed)."""
     R, m, g, c = res["R"], res["m"], res["g"], res["c"]
     import root as _r
 
@@ -555,7 +557,7 @@ def test_canonical_freeze(res):
     # (gauge lever-arm endpoint; pre-migration label was v_EW)
     assert abs(c["mu_star_GeV"] - 253.534) < 1e-2
     assert abs(c["alpha_s_MZ_thresh"] - 0.118385) < 1e-5
-    assert abs(g["mH_pred"] - 124.00) < 0.05
+    assert abs(g["mH_pred"] - 125.2965) < 0.05  # (1−h₁₀) vent; registry.PROMOTIONS
 
     # words lemma bases (integer ranks, exact)
     import words as _w
@@ -606,5 +608,144 @@ def test_nls_soliton_stability():
     with contextlib.redirect_stdout(io.StringIO()):
         result = nls_soliton.derive()
     assert result['conservation'] < 1e-6
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  The canonical mass freeze (full 9-mass table, high precision)
+# ═══════════════════════════════════════════════════════════════════════
+
+FROZEN_MASSES_MEV = {
+    'm_e': 0.51099895069,        # anchor, exact by construction
+    'm_mu': 105.6583758,
+    'm_tau': 1776.9092814,
+    'm_u': 2.157551125,
+    'm_d': 4.712545879,
+    'm_s': 93.8395306,           # depth-2 bridge update (registry.WATCHES 3)
+    'm_c': 1273.770419,
+    'm_b': 4193.80675,
+    'm_t': 172508.2761,
+}
+
+
+@pytest.mark.parametrize("key,val", sorted(FROZEN_MASSES_MEV.items()))
+def test_frozen_mass_table(res, key, val):
+    """Every mass the structure produces, frozen to 10 digits."""
+    assert abs(res["m"][key] / val - 1.0) < 1e-9
+
+
+def test_frozen_web_nodes(res):
+    """The graph nodes' fixed-point values, frozen."""
+    from root import WEB
+    st = WEB.state
+    assert abs(st["lambda_MPl"] - (-0.012450153)) < 1e-8  # ×(7/9): fundamental-share vent
+    assert abs(st["G_ratio"] - 0.999999917) < 1e-8
+    assert abs(st["dark_ratio"] - (2.0 * math.pi - 1.0)) < 1e-12
+    assert abs(st["v_EW_GeV"] - 246.219645) < 1e-5
+    assert abs(st["M_Pl_MeV"] / 1e3 - 1.220917145e19) < 1e11
+
+
+def test_scale_landmarks(res):
+    """The derived scale ladder: Lambda_conf, mu*, M_V, M_R."""
+    import root as _r
+    Lambda_conf = (1.0 / _r.d10) * _r.M_Pl_GeV * math.exp(-_r.S_lepton)
+    assert abs(Lambda_conf - 0.3138) < 1e-3
+    assert abs(res["c"]["mu_star_GeV"] - 253.534) < 1e-2
+    assert abs(res["c"]["M_V_derived"] - 111.648) < 1e-2
+    M_R = _r.M_Pl_GeV * math.exp(-2.0 * math.pi**2)
+    assert abs(M_R / 3.27e10 - 1.0) < 0.01
+
+
+def test_np_splitting_qcd_part(res):
+    """m_d - m_u = 5 m_e exactly; the lattice QCD part of m_n - m_p
+    (BMW, Science 347:1452 (2015): 2.52 +/- 0.23 MeV)."""
+    m = res["m"]
+    dmq = m["m_d"] - m["m_u"]
+    assert abs(dmq / (5.0 * m["m_e"]) - 1.0) < 1e-12
+    pull = (dmq - 2.52) / 0.23
+    assert abs(pull) < 2.0          # currently +0.15 sigma
+
+
+def test_diquark_channel_ordering():
+    """3 x 3 = 3bar + 6 forced; h(3bar) = 2/9 < h(6) = 5/9, so the
+    nucleon (good diquark) sits below the Delta, forced."""
+    import mixing as _mx
+    w = _mx._compute_wzw()
+    IDX, NF, P = w['IDX'], w['N_fus'], w['PRIMARIES']
+    channels = [c for c in P if NF[IDX[(1, 0)], IDX[(1, 0)], IDX[c]]]
+    assert sorted(channels) == [(0, 1), (2, 0)]
+
+    def h(l1, l2):
+        C2 = Fraction(l1*l1 + l2*l2 + l1*l2 + 3*l1 + 3*l2, 3)
+        return C2 / 6
+
+    assert h(0, 1) == Fraction(2, 9)
+    assert h(2, 0) == Fraction(5, 9)
+    assert h(0, 1) < h(2, 0)
+
+
+def test_no_fourth_generation():
+    """Windings are mod 3: a fourth label does not exist."""
+    import root as _r
+    def gap(k):
+        return 1.0 + math.sqrt(_r.d10) * math.cos(
+            float(_r.h10) + 2.0 * math.pi * k / 3.0)
+    for k in range(3):
+        assert abs(gap(k + 3) - gap(k)) < 1e-14
+
+
+def test_neutrino_spectrum(res):
+    """m1 = 0 (rank-2 seesaw) + measured splittings -> the registered
+    kinematic spectrum: sum, m_beta, m_bb band."""
+    import root as _r
+    pmns = res["mx"]
+    s12sq = pmns.get('sin2_12', pmns.get('pmns_sin2_12'))
+    s13sq = pmns.get('sin2_13', pmns.get('pmns_sin2_13'))
+    m2 = math.sqrt(_r.NUFIT_OSCILLATION['dm2_21'][0])
+    m3 = math.sqrt(_r.NUFIT_OSCILLATION['dm2_31'][0])
+    c13sq = 1.0 - s13sq
+    m_beta = math.sqrt(c13sq * s12sq * m2**2 + s13sq * m3**2)
+    t2, t3 = s12sq * c13sq * m2, s13sq * m3
+    assert abs((m2 + m3) * 1e3 - 58.78) < 0.05
+    assert abs(m_beta * 1e3 - 8.81) < 0.05
+    assert abs(abs(t2 - t3) * 1e3 - 1.51) < 0.05
+    assert abs((t2 + t3) * 1e3 - 3.70) < 0.05
+
+
+def test_bell_fork():
+    """The local realist reading (outcomes as assigned +/-1 facts) is
+    capped at 2; the framework's local non-realist reading (the
+    ledger) sits exactly at the Tsirelson bound."""
+    from probes import bell
+    S_local = bell.chsh_local_bound(n_strategies=2000, n_lambda=200)
+    assert S_local <= 2.0 + 1e-12
+    assert abs(bell.chsh_ledger() - 2.0 * math.sqrt(2.0)) < 1e-12
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  Attractor (Chladni) property of the web
+# ═══════════════════════════════════════════════════════════════════════
+
+def test_web_attractor(res):
+    """Perturb every web node by up to ±50% and re-solve: the whole web
+    returns to its fixed point (machine precision, 5/5 trials).  The
+    constants are stored nowhere; they are where the recursion lands.
+    Chladni figures, in code."""
+    import random
+    from root import WEB
+
+    WEB.solve()                      # ensure the state IS the fixed point
+    baseline = dict(WEB.state)
+    random.seed(3)
+    try:
+        for _ in range(5):
+            WEB.state = {k: v * (1.0 + random.uniform(-0.5, 0.5))
+                         for k, v in baseline.items()}
+            WEB.solve(iters=2000)
+            dev = max(abs(WEB.state[k] / baseline[k] - 1.0)
+                      for k in baseline if baseline[k] != 0.0)
+            assert dev < 1e-10, f"web did not return: max dev {dev:.2e}"
+    finally:
+        WEB.state = dict(baseline)
+        WEB.solve()
 
 

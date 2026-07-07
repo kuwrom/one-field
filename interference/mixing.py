@@ -15,12 +15,21 @@ Each parameter comes from a different face of the SU(3)₃ WZW structure:
       for the fundamental (1,0) primary.  The tangent arises because the
       CKM mixing angle θ₁₂ is the real part of the boundary operator's
       OPE coefficient in the local coordinate on the unit disk.
+      WHY tan AND NOT sin OR h₁₀ ITSELF: the boundary-condition-changing
+      operator of SU(3)₃ lives on the unit disk (Cardy states); its OPE
+      coefficient in the LOCAL flat coordinate z = tan(θ/2) is tan(h₁₀).
+      On the upper half-plane the coefficient would be sin(h₁₀) = 0.22040
+      (miss: −6.8σ); on the strip it would be h₁₀ itself = 0.22222
+      (miss: −4.1σ).  The unit disk is forced because it is the
+      canonical coordinate for boundary states (Cardy 1989).
       Credit: Wolfenstein (1983) for the parameterisation.
 
   A = √Q₀ = √(d₁₀/d₁₁) = √(2/3)             , ALGEBRAIC face (nimrep)
       The D⁶ nimrep of SU(3)₃ has off-diagonal entries proportional to
-      √Q₀ = √(d₁₀/d₁₁).  This counts the fraction of inter-generation
-      fusion channels: d₁₀ channels out of d₁₁ total at each vertex.
+      √Q₀ = √(d₁₀/d₁₁).  The square root is forced: nimrep entries are
+      AMPLITUDES (Clebsch-Gordan coefficients of the fusion category),
+      not probabilities; d₁₀ inter-generation channels out of d₁₁ total
+      gives a probability Q₀ = d₁₀/d₁₁ = 2/3 whose amplitude is √Q₀.
 
   η̄ = π/d₁₁² = π/9                            , MODULAR face (S-matrix)
       The Kac-Peterson S-matrix phase for the fundamental primary is
@@ -35,6 +44,15 @@ Each parameter comes from a different face of the SU(3)₃ WZW structure:
 
   γ = arctan(η̄/ρ̄) = arctan(π/√d₁₀)           , CP phase (derived)
       Follows directly from the ratio of imaginary to real parts.
+
+  COMPRESSION: the four Wolfenstein parameters are NOT four independent
+  choices.  The unitarity-triangle apex is ONE complex number:
+      apex = ρ̄ + iη̄ = (h₁₀/√d₁₀)·(1 + iπ/√d₁₀)
+  so η̄ and ρ̄ (plus γ and J) are a single algebraic object: the Ocneanu
+  cell amplitude h₁₀/√d₁₀ rotated by the universal phase π/√d₁₀.  The
+  effective independent parameters are TWO: λ = tan(h₁₀) and the apex,
+  both fully fixed by h₁₀ and d₁₀, which are already determined by the
+  conformal embedding.  No new dictionary entries are introduced for CKM.
 
 ═══════════════════════════════════════════════════════════════════════
 PMNS, democratic mixing + charged-lepton back-reaction

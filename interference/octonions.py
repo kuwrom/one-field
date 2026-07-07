@@ -17,6 +17,10 @@ Derivation chain:
 The ratio |C₃̄|/|C₁| = √2 is frame-independent (Schur's lemma:
 both maps are unique up to phase).
 
+The octonions here are the searchlight (see __init__.py).  This
+module corroborates the wiring: the computed CG ratio matches what
+the standing wave displays.
+
 Reference:
     Kahsay, Kibrom Kidane (2026). Three-paper series.
     Zenodo. https://doi.org/10.5281/zenodo.20144381

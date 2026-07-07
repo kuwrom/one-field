@@ -27,7 +27,7 @@ DERIVATION (three parts, all derived):
    grows by one letter per generation.
 
 2. STEP LETTER = adjoint (forced by the neutral lane, now DERIVED).
-   N-ALITY SUPERSELECTION THEOREM (closes the old Layer-7.5d item):
+   N-ALITY SUPERSELECTION THEOREM:
    confinement IS unbroken centre symmetry (⟨Polyakov⟩ = 0 is the
    order parameter, 't Hooft / Svetitsky-Yaffe); an unbroken-centre
    interface transmits only zero-N-ality excitations, since charged
@@ -123,11 +123,10 @@ MODULE-CATEGORY FORM (the same lemma in standard vocabulary).
    bookkeeping already executable below; no further categorical
    content is needed.
 
-Historical note: the identity channel's role at the terminus appears
-independently as the top's interference anchor (y_t ≈ 1, the original primary
-route to m_t), and the candidate recursion b_{n+1} = b_n(b_n − b_{n−1})
-with seeds (1, 4) gives 1 → 4 → 12 → 96 (+1 identity at the terminus)
--- observations, not used in canonical values.
+Observations (not used in canonical values): the identity channel's
+role at the terminus appears independently as the top's interference
+anchor (y_t ≈ 1), and the candidate recursion b_{n+1} = b_n(b_n − b_{n−1})
+with seeds (1, 4) gives 1 → 4 → 12 → 96 (+1 identity at the terminus).
 
 Reference:
     Kahsay, Kibrom Kidane (2026). Three-paper series.
