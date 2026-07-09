@@ -1,31 +1,52 @@
 """
-Octonionic Clebsch-Gordan verification: B/A = √d₁₀ from first principles.
+Octonionic Clebsch-Gordan construction used by the B/A channel map in
+the gate-selected SU(3)₃ MTC.
 
-Constructive proof that the Koide amplitude ratio B/A = √2 = √d₁₀
-follows from the Fano-plane multiplication table of the octonions
-plus the quantum Schur lemma in SU(3)₃.
+The Fano-plane multiplication table computes the Clebsch-Gordan ratio
+√2.  Gate 3 supplies the SU(3)₃ modular data and their canonical positive
+spherical trace.  The channel-to-circulant map combines these values with
+the orientation count and returns B/A = √2 = √d₁₀.
 
 Derivation chain:
     1. Build Im(O) ≅ R⁷ cross product from Fano-plane triples
     2. Holomorphic basis: z_α = (e_{2α-1} − i e_{2α})/√2, α=1,2,3
     3. Singlet channel:  z_α × z̄_β = i δ_{αβ} e₇  →  |C₁| = 1
     4. Triplet channel:  z_α × z_β = √2 ε_{αβγ} z̄_γ  →  |C₃̄| = √2
-    5. Channel weight:   W(3̄) = 1/d(fund) = 1/d₁₀ = 1/2
-    6. Assembly:         B/A = 2|C₃̄|·W(3̄)/|C₁| = 2√2·(1/2)/1 = √2
+    5. Channel weight:   W(3̄) = 1/d(1,0) = 1/d₁₀ = 1/2.  Status,
+       stated in three separable parts (executable lemma in
+       _check_projector_normalization, quantum dimension computed
+       in-file by su3_qdim):
+         (a) STRUCTURE (proved here): the channel composite obeys
+             L² = λL with spectrum {0, λ}, so 1/(loop value) is the
+             UNIQUE idempotent normalisation.
+         (b) VALUES (computed here): the CLASSICAL loop value of the
+             raw Fano composite is λ = 4; the QUANTUM (MTC) loop
+             value is the quantum dimension d(1,0) = 2, computed
+             from the Weyl/Kac-Peterson formula at level 3.
+         (c) TRACE DATA: the canonical positive spherical trace of the
+             selected SU(3)₃ modular data has loop value d(1,0) = 2.
+             The ordinary Fano composite has classical loop value 4.
+    6. Channel map:      B/A = 2|C₃̄|·W(3̄)/|C₁| = 2√2·(1/2)/1 = √2
     7. Koide:            Q₀ = 1/3 + |B/A|²/6 = 1/3 + 2/6 = 2/3 = d₁₀/d₁₁
 
 The ratio |C₃̄|/|C₁| = √2 is frame-independent (Schur's lemma:
 both maps are unique up to phase).
 
+The octonions here are the searchlight (see __init__.py).  This
+module corroborates the wiring: the computed CG ratio matches what
+the standing wave displays.
+
 Reference:
-    Kahsay, Kibrom Kidane (2026). Three-paper series.
+    Etingof, Nikshych and Ostrik (2005), On fusion categories,
+    Proposition 8.23 (canonical positive spherical structure).
+    Kahsay, Kibrom Kidane (2026). Trilogy.
     Zenodo. https://doi.org/10.5281/zenodo.20144381
 """
 
 import math
 import numpy as np
 
-from root import d10, d11
+from ..root import d10, d11
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -75,19 +96,19 @@ def _cross_complex(a, b):
 #  quantum mechanics is EXACTLY linear.  Resolution in three steps:
 #
 #  (i)  The emergent state is the LEDGER, not the displacement.  A
-#       knot's state is its phase-of-phase record; records compose by
+#       knot's state is its phase-of-phase record. Records compose by
 #       the division-algebra product, which is BILINEAR with
 #       |xy| = |x||y| (Hurwitz).  Composition acts by left
 #       multiplication L_x: a linear, norm-preserving operator.
 #       Linearity is an exactness property of the bookkeeping.
 #       [checked: _check_linearity]
 #
-#  (ii) Norm multiplicativity IS probability conservation, and it is
-#       selected: a branch whose records composed
-#       nonlinearly would have path-dependent norms, loop accounting
-#       that does not close, and by the selection principle it cannot
-#       bind.  By Wigner's theorem norm-preserving composition forces
-#       unitary (linear) evolution.  The Hurwitz gate is executable:
+#  (ii) Norm multiplicativity IS the ledger's probability-conservation
+#       criterion, while bilinearity makes every left-composition map
+#       L_x linear. For unit x, |xy|=|y| then makes L_x an isometry.
+#       Thus linearity and norm preservation follow directly from the
+#       selected algebraic structure; no appeal to Wigner's theorem is
+#       needed. The Hurwitz gate is executable:
 #       one Cayley-Dickson doubling past O produces ZERO DIVISORS,
 #       |xy| = 0 with |x|,|y| ≠ 0, the bookkeeping fails.
 #       [checked: _check_hurwitz_gate]
@@ -96,15 +117,16 @@ def _cross_complex(a, b):
 #       selection rule (q₁+q₂+q₃ ≡ 0 mod 3) sends the leading cubic
 #       response into the common mode, the nonlinearity that would
 #       deform matter superposition is exactly the part that becomes
-#       gravity; residual relative-sector couplings are interactions
+#       gravity. Residual relative-sector couplings are interactions
 #       and echoes (operators on a linear state space), never
 #       superposition violations.  [checked: _check_z3_selection]
 #
 #  REMARK (Born rule, conjectural): protected forgetting erases linear
-#  ledger entries (PvP = 0) and retains second moments (Pv²P = ½P);
+#  ledger entries (PvP = 0) and retains second moments (per-mode
+#  E[v²] = ½, total Pv²P = P).
 #  measurement statistics are web memories, so outcome frequencies can
 #  only read |amplitude|², the same structure that fixes m = Δ².
-#  Recorded as a conjecture, not used in canonical values.
+#  Recorded as a verification target, not used in canonical values.
 
 def _oct_mul(x, y):
     """Full octonion product on R⁸ (basis 1, e₁..e₇) from Fano triples."""
@@ -145,25 +167,41 @@ def _check_linearity(rng):
     return True
 
 
-def _check_hurwitz_gate(rng):
-    """(ii) the 4th doubling fails: sedenions have zero divisors."""
+def _check_hurwitz_gate(*, census=False):
+    """(ii) the 4th doubling fails: sedenions have zero divisors.
+
+    Exhibits the witness (e₁ + e₁₀)(e₃ − e₁₂) = 0 in this Fano
+    convention.  With census=True, additionally enumerates ALL
+    zero-divisor pairs of the form (e_i ± e_j)(e_k ± e_l) on the
+    unit-coefficient lattice and asserts the count: 336 ordered =
+    168 unordered pairs (the "one of 168" is computed, not quoted).
+    """
     sed_mul = _cd_double(_oct_mul)
-    # norm multiplicativity FAILS one doubling past O: exhibit a zero
-    # divisor (in this Fano convention): (e₁ + e₁₀)(e₃ − e₁₂) = 0,
-    # one of 168 such pairs on the unit-coefficient lattice.
     e = np.eye(16)
     zd1, zd2 = e[1] + e[10], e[3] - e[12]
     prod = sed_mul(zd1, zd2)
     assert np.linalg.norm(zd1) > 1 and np.linalg.norm(zd2) > 1
     assert np.linalg.norm(prod) < 1e-12, "sedenion zero divisor expected"
+    if census:
+        vecs = [e[i] + s * e[j]
+                for i in range(1, 16) for j in range(i + 1, 16)
+                for s in (1, -1)]
+        ordered = sum(1 for v1 in vecs for v2 in vecs
+                      if np.linalg.norm(sed_mul(v1, v2)) < 1e-12)
+        assert ordered == 336, f"zero-divisor census: {ordered} != 336"
     return True
 
 
 def _check_e8_lattice_gate():
-    """Rank-8 coherence gate (gate paper, executable): among the rank-8
-    candidates, only E₈ is simultaneously EVEN (all squared norms even),
-    UNIMODULAR (det Gram = 1), and positive definite.  I₈ is unimodular
-    but odd; A₈ and D₈ are even but not unimodular."""
+    """Rank-8 coherence gate: explicit witnesses, cited classification.
+
+    What runs here: four explicit Gram matrices (I₈, A₈, D₈, E₈) are
+    checked for even / unimodular / positive definite; only E₈ passes
+    all three.  What is CITED, not computed: the statement that these
+    exhaust the possibilities is the even-unimodular lattice
+    classification in rank 8 (E₈ is the unique even unimodular
+    positive-definite rank-8 lattice; Griess).  The four matrices are
+    executable witnesses of the gate, not a re-proof of the theorem."""
     I8 = np.eye(8)
     A8 = 2*np.eye(8) - np.diag(np.ones(7), 1) - np.diag(np.ones(7), -1)
     D8 = A8.copy(); D8[7, 6] = D8[6, 7] = 0; D8[7, 5] = D8[5, 7] = -1
@@ -183,6 +221,65 @@ def _check_e8_lattice_gate():
     return True
 
 
+def su3_qdim(a, b, k=3):
+    """Quantum dimension of the SU(3)_k primary (a, b), computed from
+    the Weyl / Kac-Peterson formula with q-numbers at kappa = k + 3:
+
+        [n] = sin(n pi / kappa) / sin(pi / kappa)
+        d(a,b) = [a+1][b+1][a+b+2] / [2]
+
+    Computed in-file so that the categorical value d(1,0) = 2 used by
+    the channel-weight identification is executable here, not quoted
+    from a table."""
+    kappa = k + 3
+    q = lambda n: math.sin(math.pi * n / kappa) / math.sin(math.pi / kappa)
+    return q(a + 1) * q(b + 1) * q(a + b + 2) / q(2)
+
+
+def _check_projector_normalization():
+    """The channel-weight lemma, in three separable parts.
+
+    (a) STRUCTURE, proved on the raw Fano CG data with no
+        normalisation put in anywhere: the channel composite
+        L = T^dag T built from the un-normalised 3 x 3 -> 3bar
+        intertwiner satisfies L^2 = lam * L with spectrum {0, lam}
+        (checked below), so the UNIQUE nonzero coefficient c making
+        cL a projector is c = 1/lam.  "1/(loop value)" is forced.
+    (b) VALUES, computed: the CLASSICAL loop value of this composite
+        is lam = 4 (returned).  The QUANTUM (MTC) loop value is the
+        quantum dimension d(1,0) = 2, computed by su3_qdim above.
+        These are different numbers, and the code that assembles
+        B/A uses the quantum one.
+    (c) TRACE DATA: gate 3 supplies the SU(3)₃ modular data and their
+        canonical positive spherical trace.  Its loop value is d(1,0) = 2.
+        The ordinary Fano composite has classical loop value 4.
+
+    Returns (schur_ok, forced_ok, lam_classical), where forced_ok now
+    certifies the real uniqueness content: the spectrum of L is
+    exactly {0, lam}, hence 1/lam is the only idempotent scaling."""
+    z = np.zeros((3, 7), dtype=complex)
+    for alpha in range(3):
+        z[alpha, 2 * alpha] = 1.0 / math.sqrt(2)
+        z[alpha, 2 * alpha + 1] = -1j / math.sqrt(2)
+    zbar = z.conj()
+    T = np.zeros((3, 9), dtype=complex)       # raw intertwiner
+    for a in range(3):
+        for b in range(3):
+            prod = _cross_complex(z[a], z[b])
+            for g in range(3):
+                T[g, 3 * a + b] = np.vdot(zbar[g], prod)
+    L = T.conj().T @ T                         # channel composite
+    eigs = np.linalg.eigvalsh((L + L.conj().T) / 2)
+    lam = float(eigs.max())
+    schur_ok = np.allclose(L @ L, lam * L, atol=1e-10)
+    # uniqueness content: spectrum is exactly {0, lam} (here 6 zeros
+    # and 3 lam's), so cL idempotent and nonzero  <=>  c = 1/lam
+    forced_ok = bool(np.all((np.abs(eigs) < 1e-10)
+                            | (np.abs(eigs - lam) < 1e-10))
+                     and np.any(np.abs(eigs - lam) < 1e-10))
+    return schur_ok, forced_ok, lam
+
+
 def _check_z3_selection():
     """(iii) cubic vertices vanish unless q₁+q₂+q₃ ≡ 0 (mod 3)."""
     w = np.exp(2j*np.pi/3)
@@ -200,15 +297,15 @@ def _check_z3_selection():
 # ═══════════════════════════════════════════════════════════════════════
 
 def derive():
-    """Verify B/A = √d₁₀ from the octonionic Clebsch-Gordan coefficients.
+    """Evaluate the B/A channel map from octonionic and MTC data.
 
     Returns dict with C1, C3bar, BA_ratio, Q0.
     """
     print("\n" + "=" * 78)
-    print("  OCTONIONIC CG VERIFICATION: B/A = √d₁₀ from Fano plane")
+    print("  OCTONIONIC/MTC CHANNEL MAP: B/A = √d₁₀")
     print("=" * 78)
 
-    # ── Holomorphic basis on SU(3) six-plane ─────────────────────────
+    ## Holomorphic basis on SU(3) six-plane ############
     # z_α = (e_{2α-1} − i e_{2α})/√2,  α = 1,2,3
     # z̄_α = conjugate
     # e₇ = SU(3)-invariant direction
@@ -222,7 +319,7 @@ def derive():
 
     print(f"\n  Holomorphic basis: z_α = (e_{{2α-1}} − i e_{{2α}})/√2")
 
-    # ── Singlet channel: 3 ⊗ 3̄ → 1 ──────────────────────────────────
+    ## Singlet channel: 3 ⊗ 3̄ → 1 ##
     # z_α × z̄_β = i δ_{αβ} e₇  →  |C₁| = 1
 
     print(f"\n  Singlet channel (3⊗3̄ → 1):")
@@ -240,7 +337,7 @@ def derive():
     assert abs(C1 - 1.0) < 1e-10, f"|C₁| = {C1}, expected 1"
     print(f"  |C₁| = {C1:.6f}  ✓")
 
-    # ── Antisymmetric channel: 3 ⊗ 3 → 3̄ ────────────────────────────
+    ## Antisymmetric channel: 3 ⊗ 3 → 3̄ ##
     # z_α × z_β = √2 ε_{αβγ} z̄_γ  →  |C₃̄| = √2
 
     print(f"\n  Triplet channel (3⊗3 → 3̄):")
@@ -260,36 +357,64 @@ def derive():
     assert abs(C3bar - math.sqrt(2)) < 1e-10, f"|C₃̄| = {C3bar}, expected √2"
     print(f"  |C₃̄| = {C3bar:.6f} = √d₁₀  ✓")
 
-    # ── Frame independence ───────────────────────────────────────────
+    ## Frame independence ##
     ratio_CG = C3bar / C1
     print(f"\n  |C₃̄|/|C₁| = {ratio_CG:.6f} = √{d10}")
     print(f"  Frame-independent (Schur's lemma: both maps unique up to phase)")
 
-    # ── Channel weight and B/A assembly ──────────────────────────────
-    # W(3̄) = 1/d(fund) = 1/d₁₀ (quantum Schur lemma in SU(3)₃ MTC)
+    ## Channel weight and B/A assembly ##
+    # W(3̄) = 1/d(1,0) = 1/d₁₀.  Three separable parts (see the
+    # _check_projector_normalization docstring): the 1/(loop value)
+    # STRUCTURE is proved; the classical (λ = 4) and quantum
+    # (d(1,0) = 2, su3_qdim) loop VALUES are both computed; the
+    # TRACE DATA: the selected SU(3)₃ modular data use the canonical
+    # positive spherical trace with loop value d(1,0) = 2.  The ordinary
+    # Fano composite has classical loop value 4.
     # B/A = 2|C₃̄|·W(3̄)/|C₁| = 2√2·(1/2)/1 = √2 = √d₁₀
 
+    schur_ok, forced_ok, lam_cl = _check_projector_normalization()
+    assert schur_ok and forced_ok
+    d_q10 = su3_qdim(1, 0)
+    d_q11 = su3_qdim(1, 1)
+    assert abs(d_q10 - d10) < 1e-9 and abs(d_q11 - d11) < 1e-9
+    print(f"\n  Projector lemma, in three parts:")
+    print(f"    STRUCTURE (proved): L² = {lam_cl:.1f}·L, spectrum {{0, λ}} →")
+    print(f"      the unique idempotent normalisation is 1/(loop value)")
+    print(f"    VALUES (computed): classical loop value λ = {lam_cl:.1f};")
+    print(f"      quantum loop value d(1,0) = {d_q10:.6f} (Weyl/Kac-Peterson,")
+    print(f"      su3_qdim, in-file)")
+    print(f"    TRACE DATA: canonical positive spherical loop value = 2")
+    print(f"      ordinary Fano composite loop value = 4")
+
     d_fund = d10                           # quantum dimension d(1,0) = 2
-    W_fund = 1.0 / d_fund                  # = 1/2
+    W_fund = 1.0 / d_fund                  # = 1/2 under the quantum reading
     BA_derived = 2.0 * C3bar * W_fund / C1  # = √2
+
+    # the excluded classical alternative, printed for the record
+    BA_classical = 2.0 * C3bar * (1.0 / lam_cl) / C1
+    Q0_classical = 1.0 / 3.0 + BA_classical ** 2 / 6.0
+    assert abs(BA_classical - 1.0 / math.sqrt(2)) < 1e-10
+    assert abs(Q0_classical - 5.0 / 12.0) < 1e-10
 
     print(f"\n  Quantum Schur suppression:")
     print(f"    d(fund) = d₁₀ = {d_fund},  W(3̄) = 1/d₁₀ = {W_fund}")
     print(f"    B/A = 2|C₃̄|·W(3̄)/|C₁| = 2×{C3bar:.4f}×{W_fund}÷{C1:.4f}")
     print(f"        = {BA_derived:.6f} = √{d10}  ✓")
+    print(f"    (classical-trace comparison: "
+          f"B/A = {BA_classical:.6f}, Q₀ = {Q0_classical:.6f})")
     assert abs(BA_derived - math.sqrt(d10)) < 1e-10
 
-    # ── Koide parameter ──────────────────────────────────────────────
+    ## Koide parameter ##
     # Q₀ = 1/3 + |B/A|²/6 = 1/3 + d₁₀/6 = 2/3 = d₁₀/d₁₁
 
     Q0 = 1.0/3.0 + BA_derived**2 / 6.0
     assert abs(Q0 - float(d10)/float(d11)) < 1e-10
     print(f"\n  Q₀ = 1/3 + |B/A|²/6 = 1/3 + {d10}/6 = {Q0:.10f} = d₁₀/d₁₁  ✓")
 
-    # ── Linearity from closure (executable §linearity) ───────────────
+    ## Linearity from closure (executable §linearity) ##
     rng = np.random.default_rng(7)
     ok_lin = _check_linearity(rng)
-    ok_gate = _check_hurwitz_gate(rng)
+    ok_gate = _check_hurwitz_gate()
     ok_sel = _check_z3_selection()
     ok_e8 = _check_e8_lattice_gate()
     print(f"\n  Linearity from closure:")
@@ -302,7 +427,7 @@ def derive():
     print(f"    rank-8 gate: only E₈ is even+unimodular+positive "
           f"(I₈ odd, A₈ det 9, D₈ det 4)  {'✓' if ok_e8 else '✗'}")
     print(f"    → superposition is exact because only norm-multiplicative")
-    print(f"      bookkeeping composes; the substrate nonlinearity is the")
+    print(f"      bookkeeping composes. The substrate nonlinearity is the")
     print(f"      q=0 venting (gravity), not a deformation of QM")
 
     return {

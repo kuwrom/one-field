@@ -1,18 +1,19 @@
 """
 E₈ conformal embedding uniqueness: the coherence gate (gravity paper, Sec. IX).
 
-CLAIM.  Among ALL rank-8 simple Lie algebras at level 1, E₈(1) ⊃
-G₂(1) × F₄(1) is the UNIQUE conformal embedding G(1) × F(1) satisfying
-all six coherence gates:
+CLAIM.  Among the rank-8 parents and factor pairs in the invariant table,
+E₈(1) ⊃ G₂(1) × F₄(1) is the UNIQUE unordered survivor satisfying all six
+coherence gates.  The surviving embedding is independently known; this
+numerical scan does not compute branching rules or embedding indices.
 
-  (a) c_coset = c_parent − c_G − c_F = 0  (topological bridge sector),
-  (b) h_bridge = h(fund_G) + h(fund_F) = 1  (marginal, worldsheet-exact),
+  (a) c_coset = c_parent − c_G − c_F = 0  (no coset Virasoro sector),
+  (b) h_bridge = h(fund_G) + h(fund_F) = 1  (dimension-one extension),
   (c) dim(parent) = dim(G) + dim(F) + dim(fund_G)·dim(fund_F)
       (every mode assigned: gauge + matter + bridge, no leftovers),
   (d) bridge dimension n_G·n_F > 0  (non-trivial matter sector),
   (e) parent is self-adjoint: fund = adjoint  (self-encoding: the parent
       theory IS its own deepest representation, no external structure),
-  (f) both factors have trivial centre  (all quantum numbers emergent;
+  (f) both factors have trivial centre  (all quantum numbers emergent.
       a non-trivial centre would pre-inscribe charges onto the vacuum).
 
 Gates (a)-(d) are the numerical conformal embedding conditions.
@@ -20,7 +21,28 @@ Gates (e)-(f) are the physics requirements from the framework's
 ontology: the substrate is self-present (e), and quantum numbers
 crystallise upon breaking, they are not pre-inscribed (f).
 
-This module tests every candidate exhaustively.
+WHERE THE CLOSURE ACTUALLY HAPPENS (measured by this scan, stated
+up front rather than left to the reader): gate (e) alone eliminates
+every non-E₈ parent (A₈, B₈, C₈, D₈ are not self-adjoint), and gate
+(f) alone eliminates the one genuine contender, E₈ ⊃ E₇ × A₁, which
+passes (a)-(e) in full (c_coset = 0, h_bridge = 1, 133 + 3 + 112 =
+248, bridge 56×2 > 0) and fails only on centres (Z₂ × Z₂).  The
+conformal gates (a)-(d) narrow the field; the two framework closure gates do
+the decisive work.  The scan prints the contender so this is auditable, and
+derive() returns it.
+
+SCOPE OF THE SCAN (what "exhaustive" means here): the scan is
+exhaustive over the DATA TABLE below, all pairs of simple algebras
+with rank(G) + rank(F) ≤ 8 tested against the six gates by their
+numerical invariants.  It does NOT verify that a candidate pair is
+actually a subalgebra of the parent (no branching rules, no
+embedding indices are computed); a pair passing the numerical gates
+without being an embedding would survive the scan.  For the one
+survivor this is settled by the literature (E₈ ⊃ G₂ × F₄ is a known
+maximal conformal embedding), and the scan's role is to show that
+no OTHER candidate even passes the numerical gates.  Isomorphic
+low-rank duplicates in the table (D₃ ≅ A₃, C₂ ≅ B₂) are skipped in
+the scan so the candidate count is over distinct algebras.
 
 ═══════════════════════════════════════════════════════════════════════
 THE FIVE RANK-8 CANDIDATES
@@ -29,31 +51,32 @@ THE FIVE RANK-8 CANDIDATES
 At rank 8 there are exactly five simple Lie algebras:
     A₈ = SU(9),  B₈ = SO(17),  C₈ = Sp(16),  D₈ = SO(16),  E₈
 
-For each, we enumerate all conformal sub-pairs (G, F) at level 1 where
-G and F are simple and the embedding saturates the central charge.  The
-conformal embedding condition c_coset = 0 fixes the decomposition
-uniquely (when it exists); the bridge marginality h_bridge = 1 and the
-mode count then serve as independent checks.
+For each, we enumerate all sub-pairs (G, F) of table entries at level
+1 whose central charges saturate the parent's (c_coset = 0).  That
+condition alone does not close the field (the scan finds a hundred
+such pairs); it is the conjunction of all six gates that closes on
+one embedding up to ordering, with gates (e) and (f) doing the
+decisive work (see above).
 
 ═══════════════════════════════════════════════════════════════════════
 WHY THESE GATES MATTER
 ═══════════════════════════════════════════════════════════════════════
 
-c_coset = 0:  the coset between the parent and the sub-pair is
-  topological -- no propagating degrees of freedom live there.  This
-  means the bridge sector is NOT a dynamical gauge field; it is a
-  coherence channel of the parent theory.  Without this, the bridge
-  modes would need their own Faddeev-Popov ghosts and their heat-kernel
-  sign would flip from scalar (+1/6 − ξ) to vector (−1/6), destroying
-  the induced-gravity calculation.
+c_coset = 0:  in the unitary embedding, the coset between the parent and
+  sub-pair has no independent Virasoro sector. This identity alone does
+  not determine the heat-kernel spin assignment; the separate
+  non-adjoint representation routing assigns the bridge as a scalar-like
+  coherence channel rather than a dynamical gauge field.
 
-h_bridge = 1:  the bridge primary is exactly marginal on the worldsheet.
-  Its self-interference fraction 1/(2π) is layer-1 exact (c_coset = 0
-  kills higher loops), giving α(0) = (π/512)(1 − 1/(2π)) = 1/137.036...
-  and Ω_DM/Ω_b = 2π − 1 ≈ 5.28.  Any h ≠ 1 breaks both predictions.
+h_bridge = 1:  the bridge is a dimension-one extension current; that fact
+  alone is not a proof of an exactly marginal (1,1) deformation.  Under the
+  framework's single normalized-current definition its factor is 1/(2π),
+  giving α(0) and Ω_DM/Ω_b = 2π − 1.  In the unitary embedding,
+  c_coset = 0 removes an independent coset Virasoro sector; registered Web
+  edges control later responses.  Any h ≠ 1 breaks both predictions.
 
 Reference:
-    Kahsay, Kibrom Kidane (2026). Three-paper series.
+    Kahsay, Kibrom Kidane (2026). Trilogy.
     Zenodo. https://doi.org/10.5281/zenodo.20144381
 """
 
@@ -136,7 +159,7 @@ def _lie_data():
         algebras[name] = {
             'dim': dim_g, 'hv': hv, 'rank': n,
             'fund_dim': fund, 'C2_fund': C2_fund,
-            'centre_order': 4 if n % 2 == 1 else 4,  # |Z₂×Z₂| = 4 too
+            'centre_order': 4,  # Z₄ (n odd) or Z₂×Z₂ (n even): order 4 both
             'family': 'D'
         }
 
@@ -192,10 +215,11 @@ def h_fund(name):
 
 def derive():
     """
-    Exhaustive coherence gate test over all rank-8 simple Lie algebras.
+    Exhaustive coherence-gate test over the declared invariant table.
 
-    For each rank-8 algebra P, test all pairs (G, F) of simple sub-algebras
-    with rank(G) + rank(F) ≤ rank(P) for the four coherence conditions.
+    For each rank-8 algebra P, test all table pairs (G, F) with
+    rank(G) + rank(F) ≤ rank(P) for all six conditions.  Pair membership
+    as an actual subalgebra is outside this numerical scan.
     """
     print("\n" + "=" * 78)
     print("  E₈ CONFORMAL EMBEDDING UNIQUENESS (coherence gate)")
@@ -203,11 +227,16 @@ def derive():
 
     rank8 = {name: data for name, data in ALGEBRAS.items()
              if data['rank'] == 8}
+    # skip isomorphic duplicates so the pair count is over DISTINCT
+    # algebras: D3 ≅ A3, C2 ≅ B2 (both remain in the table for data
+    # completeness; only one representative each enters the scan)
+    _ISO_DUPES = {'D3', 'C2'}
     sub_candidates = {name: data for name, data in ALGEBRAS.items()
-                      if data['rank'] <= 8}
+                      if data['rank'] <= 8 and name not in _ISO_DUPES}
 
     results = {}
     survivors = []
+    near_misses = []     # pairs failing EXACTLY one gate
 
     for p_name, p_data in sorted(rank8.items(),
                                   key=lambda x: x[1]['dim']):
@@ -233,7 +262,7 @@ def derive():
                     continue
                 c_F = central_charge(f_name)
 
-                # ── Gate (a): c_coset = 0 ──
+                # # Gate (a): c_coset = 0 #
                 c_coset = c_P - c_G - c_F
                 if c_coset != 0:
                     continue
@@ -248,10 +277,10 @@ def derive():
                 bridge_dim = n_G * n_F
                 dim_total = g_data['dim'] + f_data['dim'] + bridge_dim
 
-                # ── Gate (e): parent self-adjoint ──
+                # # Gate (e): parent self-adjoint #
                 self_adj = (p_data['fund_dim'] == p_data['dim'])
 
-                # ── Gate (f): both factors have trivial centre ──
+                # # Gate (f): both factors have trivial centre #
                 trivial_centres = (g_data['centre_order'] == 1
                                    and f_data['centre_order'] == 1)
 
@@ -280,30 +309,53 @@ def derive():
                 results[key] = gates
                 if all_pass:
                     survivors.append(key)
+                elif sum(1 for v in gates.values() if not v) == 1:
+                    failed_gate = next(k for k, v in gates.items()
+                                       if not v)
+                    near_misses.append((key, failed_gate))
                 found = True
 
         if not found:
             print("    no conformal sub-pair with c_coset = 0 found")
 
-    # ── Verdict ──
+    # # Verdict (computed from the scan, not asserted as literals) #
     print(f"\n  {'─' * 70}")
-    print(f"  SURVIVORS (all four gates): {len(survivors)}")
+    print(f"  SURVIVORS (all six gates): {len(survivors)}")
     for s in survivors:
         print(f"    {s[0]} ⊃ {s[1]} × {s[2]}")
+    print(f"  CONTENDERS (fail exactly one gate): {len(near_misses)}")
+    for (p, g, f), failed in near_misses:
+        print(f"    {p} ⊃ {g} × {f}   fails only {failed}")
 
-    assert len(survivors) == 2, (
-        f"expected exactly 2 survivors (G₂×F₄ and F₄×G₂), "
-        f"got {len(survivors)}")
-    # The two survivors are the same embedding in both orderings
-    assert set(survivors[0][1:]) == set(survivors[1][1:])
+    # unordered survivor sets: the scan sees both orderings of a pair
+    unordered = {(p, frozenset((g, f))) for p, g, f in survivors}
+
+    assert len(unordered) == 1, (
+        f"expected exactly 1 embedding up to ordering, got "
+        f"{sorted(unordered)}")
+    parent, pair = next(iter(unordered))
+    survivor = (parent,) + tuple(sorted(pair, key=lambda n:
+                                        ALGEBRAS[n]['dim']))
+    # the one genuine contender: E7 × A1 passes (a)-(e), fails only
+    # the trivial-centre gate (f).  Surfaced and frozen so the decisive
+    # framework closure requirement remains visible.
+    nm_keys = {(p, frozenset((g, f))): failed
+               for (p, g, f), failed in near_misses}
+    assert nm_keys.get(('E8', frozenset(('E7', 'A1')))) \
+        == '(f) trivial centres', (
+        "E8 > E7 x A1 must appear as the gate-(f) contender")
     print(f"  (both orderings of the same unique embedding)")
-    print(f"  UNIQUENESS ESTABLISHED: E₈(1) ⊃ G₂(1) × F₄(1)")
+    print(f"  UNIQUENESS ESTABLISHED: {parent}(1) ⊃ "
+          f"{survivor[1]}(1) × {survivor[2]}(1) through all six gates; "
+          f"contender table above")
 
     return {
         'n_rank8_tested': len(rank8),
         'n_pairs_tested': len(results),
-        'n_survivors': 1,  # unique up to ordering
-        'survivor': ('E8', 'G2', 'F4'),
+        'n_survivors': len(unordered),
+        'survivor': survivor,
+        'near_misses': [(p, g, f, failed)
+                        for (p, g, f), failed in near_misses],
     }
 
 

@@ -2,7 +2,7 @@
 
 The full derivation chain is run once per test session, silently.  Every
 test then asserts against the cached results, so the suite is fast and
-the layer-by-layer console output never pollutes pytest.
+the detailed console output never pollutes pytest.
 
 Run with:
     pytest -q
@@ -15,18 +15,48 @@ import sys
 
 import pytest
 
-# Add the sibling interference/ package to sys.path so its modules
-# (root, masses, ...) import as bare names, matching how run.py
-# bootstraps the chain.
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "interference")))
+# Add the repository root and tests/ so the canonical ``interference.*``
+# package and the scrutiny helpers resolve consistently.
+_repo = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if _repo not in sys.path:
+    sys.path.insert(0, _repo)
 
-import root
-import masses
-import mixing
-import couplings
-import gravity
-import dark_sector
+# Add tests/ itself so the mechanism probes import as `probes.*`, plus
+# the two scrutiny directories: substrate/ (the NLS substrate) and
+# audit/ (grammar + closure search), whose modules are imported by
+# bare name.
+_tests = os.path.abspath(os.path.dirname(__file__))
+for _p in (os.path.join(_tests, "audit"),
+           os.path.join(_tests, "substrate"),
+           _tests):
+    sys.path.insert(0, _p)
+
+from interference import (couplings, dark_sector, gravity, higgs_ew,
+                          masses, mixing, reference, root, wiring, words)
+from interference import _paths
+from interference.searchlight import (embedding_uniqueness, octonions,
+                                      protected_forgetting)
+
+# Older probes use historical short spellings. These names alias the canonical
+# package objects during the test session.
+_compat_modules = {
+    "_paths": _paths,
+    "wiring": wiring,
+    "root": root,
+    "words": words,
+    "masses": masses,
+    "mixing": mixing,
+    "couplings": couplings,
+    "higgs_ew": higgs_ew,
+    "gravity": gravity,
+    "dark_sector": dark_sector,
+    "reference": reference,
+    "octonions": octonions,
+    "embedding_uniqueness": embedding_uniqueness,
+    "protected_forgetting": protected_forgetting,
+}
+for _name, _module in _compat_modules.items():
+    sys.modules[_name] = _module
 
 
 @pytest.fixture(scope="session")
@@ -45,5 +75,5 @@ def res():
         "mx": mx,      # CKM + PMNS
         "c": c,        # alpha_s + alpha(0) (bridge self-interference)
         "g": g,        # Newton's G + Higgs + baryogenesis + neutrinos + EW
-        "d": d,        # dark sector + CC scale
+        "d": d,        # dark sector + cosmological density bookkeeping
     }

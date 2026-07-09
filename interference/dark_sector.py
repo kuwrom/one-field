@@ -1,27 +1,71 @@
 """
-Dark sector: Ω_DM/Ω_b and cosmological constant scale
-from (d₁₀, d₁₁, n₇, n₂₆, π), all couplings derived, zero external inputs.
+Dark sector: Ω_DM/Ω_b and cosmological density bookkeeping.
 
-Two structures in the framework predict the dark sector:
+The matter ratio uses the algebraic bridge data. The density display uses
+the observational H₀ anchor and distinguishes the Friedmann critical
+density from the current dark-energy density.
+
+Two structures are reported with different statuses:
 
 1. Bridge self-interference → DM/baryon ratio
-   ───────────────────────────────────────────
-   The bridge (h=1, c_coset=0, D²=1) self-interference gives
-   the universal materialization fraction 1/(2π), the same factor
+   The bridge (h=1, c_coset=0, D²=1) uses the single normalized response
+   R(1)=1/(2π), the same factor
    that converts α_alg = π/512 to α(0) = 1/137.035999050.
      f_baryonic = 1/(2π)     →  Ω_DM/Ω_b = 2π−1 ≈ 5.283
-   The c_coset = 0 property ensures layer-1 exactness on the
-   worldsheet, so this is exact, no higher-layer back-reactions.
+   The registered matter ledger contains one bridge response; no separate
+   materialization coefficient is introduced.
 
    Equivalently: Ω_m/Ω_b = 2π (total matter/baryon ratio).
 
-2. Cosmological constant scale
-   ───────────────────────────
+   WHY THE SAME FACTOR GOVERNS BOTH DOMAINS: the 1/(2π) is not
+   "borrowed" from the EM sector.  It is the bridge's canonical
+   closed-loop response: the weight sum h(7,G₂) + h(26,F₄) = 1 fixes
+   h, and the framework's chosen unit-normalized current basis defines
+   R(h)=h/(2π) once for every consumer. Thus R(1)=1/(2π). It is not
+   the raw integral of the singular separated-point two-point kernel. This
+   fraction answers a single question: what fraction of the bridge
+   amplitude closes locally (i.e. contributes to a particular
+   channel's observable)?
+
+   In the EM channel, "closes locally" means: reaches the physical
+   coupling. At depth 1: 1/α ≈ (512/π)(1 − 1/(2π)). At web depth 4
+   the self-consistent cubic gives 1/α(0) = 137.035999050 exactly
+   (root.py).
+
+   In the matter channel, "closes locally" means: materializes as
+   localized (baryonic) matter.  The standing waves that form in the
+   relative sector carve venting channels into the common mode
+   (gravity.py).  Of the total substrate energy circulating through
+   the bridge, the fraction 1/(2π) localizes as particle-like
+   excitations (baryons). The remainder (2π−1)/(2π) stays as
+   delocalized bridge coherence, coupling only through the common
+   mode (PvP = 0 → gravitational coupling only → dark matter).
+
+   Both readings use the same normalized response of the same operator.
+   The bridge is one object connecting two faces, so no independent
+   channel coefficient is introduced. The identity c_coset=0 removes an
+   independent unitary coset Virasoro sector; the registered Web controls
+   later responses.
+
+   WHAT ENDS THIS.  Ω_DM/Ω_b = 2π−1 = 5.2832 is exact in the registered
+   matter ledger, with no coefficient to adjust.  It sits
+   between Planck (−1.3σ) and ACT (+1.2σ); both datasets converging
+   away from 5.283 kills it, and CMB-S4-class data decides.
+   The dark sector is bridge coherence, not a particle: it couples
+   only through the common mode (PvP = 0), so all direct, indirect
+   and collider dark-matter searches return null indefinitely.  Any
+   confirmed non-gravitational dark-matter detection kills it.
+
+2. Cosmological density scale
    Volovik equilibrium: ρ_vac = 0 at the self-bound point
-   (thermodynamic identity, not fine-tuning).
-   de Sitter departure + Jacobson-Clausius:
-     ρ_Λ = (3/8π) M_Pl² H₀²
-   Resolves the 10¹²³ CC problem: ρ ~ M_Pl²H₀² not M_Pl⁴.
+   (imported thermodynamic relation).
+   Friedmann critical-density identity:
+     ρ_crit = (3/8π) M_Pl² H₀²
+   Current dark-energy density:
+     ρ_Λ = Ω_Λ ρ_crit
+   Jacobson's thermodynamic derivation leaves Λ as an integration
+   constant; CKN saturation is an identification hypothesis, not a
+   derivation of the observed value.
 
 Note on Z₃ coupling eigenvalues:
    The Z₃ substrate has coupling eigenvalues λ₀ = g₀(1+√d₁₀) and
@@ -30,39 +74,27 @@ Note on Z₃ coupling eigenvalues:
    energy-density fractions.
 
 Reference:
-    Kahsay, Kibrom Kidane (2026). Three-paper series.
+    Kahsay, Kibrom Kidane (2026). Trilogy.
     Zenodo. https://doi.org/10.5281/zenodo.20144381
 """
 
 import math
 
-from root import (d10, d11, n7, n26,
-                  h_bridge, c_coset,
-                  alpha_G2_WZW,
-                  M_Pl_GeV, RHO_LAMBDA, PDG_COSMO, pct)
+from . import wiring
+
+from .root import (d10, d11,
+                   h_bridge, c_coset,
+                   M_Pl_GeV, RHO_CRIT_MAPPED, PDG_COSMO, pct)
 
 
 # ═══════════════════════════════════════════════════════════════════════
 #  Observational reference values (comparison only, not inputs)
+#  Centralized in audit/reference.py, imported via root like every
+#  other reference block, inside the blindness firewall's
+#  perturbation set.
 # ═══════════════════════════════════════════════════════════════════════
 
-# Planck 2018 TT,TE,EE+lowE+lensing (Table 2, arXiv:1807.06209)
-# Primary CMB observables, ratio Ω_c h²/Ω_b h² is H₀-independent
-PLANCK_2018 = {
-    'Omega_b_h2':     0.02237,     # ± 0.00015
-    'Omega_b_h2_err': 0.00015,
-    'Omega_c_h2':     0.1200,      # ± 0.0012
-    'Omega_c_h2_err': 0.0012,
-    'H_0_km_s_Mpc':   67.4,       # ± 0.5  (used only for CC scale display)
-}
-
-# ACT DR6 + CMB lensing + DESI DR1 (arXiv:2503.14452, March 2025)
-ACT_DR6 = {
-    'Omega_b_h2':     0.0226,      # ± 0.0001
-    'Omega_b_h2_err': 0.0001,
-    'Omega_c_h2':     0.118,       # ± 0.001
-    'Omega_c_h2_err': 0.001,
-}
+from .root import PLANCK_2018, ACT_DR6  # noqa: E402
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -71,20 +103,26 @@ ACT_DR6 = {
 
 def derive(R, grav_data):
     """
-    Derive dark sector predictions purely from the framework.
+    Evaluate the algebraic matter ratio and cosmological density map.
 
     R         : dict from root.derive()
     grav_data : dict from gravity.derive()
+
+    DAG POSITION: both parameters are accepted for the runner's
+    uniform signature and neither is consumed; everything here needs
+    only root-level constants (π, d₁₀, h_bridge, ρ_crit), so this
+    module's place in the dependency graph is directly after root.
+    run.py keeps it late for narrative order only.
     """
     print("\n" + "=" * 78)
-    print("  DARK SECTOR: DM/baryon ratio + CC scale  (zero external inputs)")
+    print("  DARK SECTOR: algebraic DM/baryon ratio + density bookkeeping")
     print("=" * 78)
 
     sd = math.sqrt(d10)
 
-    # ── Z₃ coupling eigenvalue structure (algebraic) ─────────────────
+    # Z₃ coupling eigenvalue structure (algebraic) ########
     #
-    # g₁/g₀ = 1/√d₁₀  (the G₂ constraint on the Z₃ NLS substrate;
+    # g₁/g₀ = 1/√d₁₀  (the G₂ identification on the Z₃ NLS substrate.
     # see masses.py substrate section, same g₀, g₁ as the BdG layer)
     # λ₀ = g₀(1+√d₁₀)   [common mode → geometry]
     # λ₁ = g₀(1−1/√d₁₀) [relative modes → matter]
@@ -97,28 +135,34 @@ def derive(R, grav_data):
     assert abs(denom - float(d11)) < 1e-10, f"denom = {denom}, expected {d11}"
 
     print(f"\n  Z₃ coupling eigenvalue structure:")
-    print(f"    g₁/g₀ = 1/√d₁₀ = 1/√{d10}  [G₂ constraint]")
+    print(f"    g₁/g₀ = 1/√d₁₀ = 1/√{d10}  [G₂ identification]")
     print(f"    λ₀ = 1+√{d10} = {lam0:.6f}  [common → geometry]")
     print(f"    λ₁ = 1−1/√{d10} = {lam1:.6f}  [relative → matter]")
     print(f"    λ₀+2λ₁ = d₁₁ = {denom:.1f}  [Sugawara identity]")
     print(f"    (Coupling strengths, not energy-density fractions)")
 
-    # ── Bridge self-interference → baryon/DM split ───────────────────
+    # Bridge self-interference → baryon/DM split #########
     #
-    # h_bridge = 1 (marginal), c_coset = 0 (layer-1 exact on worldsheet)
+    # h_bridge = 1 (dimension one); c_coset = 0 removes the coset sector
     # D²_local = 1 (Lagrangian condensation)
     # f_baryonic = h_bridge/(2π) = 1/(2π)
     # Ω_DM/Ω_b = (1 − f_b)/f_b = 2π − 1
     #
-    # c_coset = 0 ensures layer-1 exactness, so this is the EXACT result.
-    # No vertex back-reactions, no external inputs, pure algebraic emergence.
+    # The registered matter ledger contains one bridge response.
+    # No external inputs or adjustable coefficients enter.
 
-    f_baryonic = 1.0 / (2.0 * math.pi)               # 1/(2π)
+    f_baryonic = wiring.normalized_current_response(h_bridge)  # 1/(2π)
     f_dark = 1.0 - f_baryonic
     DM_baryon_ratio = f_dark / f_baryonic              # = 2π − 1
 
     # Verify exact algebraic form
     assert abs(DM_baryon_ratio - (2.0 * math.pi - 1.0)) < 1e-10
+
+    # the unread remainder as a graph node ############
+    from .root import WEB, Ledger
+    WEB["dark_ratio"] = Ledger("dark_ratio", 2.0 * math.pi - 1.0, "mul")
+    WEB.solve()          # dark node joins the solved web state
+    assert abs(WEB.state["dark_ratio"] / DM_baryon_ratio - 1.0) < 1e-14
 
     # Total matter/baryon ratio (algebraic identity)
     matter_baryon_ratio = 1.0 / f_baryonic             # = 2π
@@ -128,9 +172,9 @@ def derive(R, grav_data):
     print(f"    f_baryon = 1/(2π) = {f_baryonic:.6f}")
     print(f"    Ω_DM/Ω_b = 2π−1 = {DM_baryon_ratio:.6f}")
     print(f"    Ω_m/Ω_b  = 2π   = {matter_baryon_ratio:.6f}")
-    print(f"    (Exact: c_coset = 0 ensures layer-1 exactness)")
+    print(f"    (Exact: c_coset = 0 closes the bridge response)")
 
-    # ── Comparison with CMB observations ─────────────────────────────
+    # Comparison with CMB observations ##############
     #
     # The DM/baryon MASS ratio Ω_c h²/Ω_b h² is H₀-independent and
     # measured directly from the CMB power spectrum.  No external
@@ -171,63 +215,47 @@ def derive(R, grav_data):
     print(f"    Sits between: {abs(DM_baryon_ratio - DM_b_planck):.3f} from Planck, {abs(DM_baryon_ratio - DM_b_ACT):.3f} from ACT")
     print(f"\n    Ω_m/Ω_b = 2π = {matter_baryon_ratio:.4f}  (Planck: {m_b_planck:.4f}, {err_m_b:+.2f}%)")
 
-    # ── Cosmological constant: Volovik → Jacobson → CKN ────────────
+    # Cosmological density bookkeeping
     #
-    # Three-step derivation resolving the 10¹²³ CC problem.
-    # H₀ is a unit-setting scale (same role M_Pl plays for the matter
-    # sector), fixed by the algebra.  The framework derives the
-    # SCALING ρ_Λ ~ M_Pl²H₀² and the COEFFICIENT 3/(8π).
+    # H₀ is an observational scale anchor.  The code evaluates the
+    # Friedmann identity ρ_crit = (3/8π) M_Pl²H₀².
     #
     # Step 1, Volovik equilibrium:
-    #   Self-bound condensate: Gibbs-Duhem identity gives ρ_vac(eq) = 0.
-    #   The 10⁷⁶ GeV⁴ zero-point energies are absorbed by the chemical
-    #   potential, exactly as in superfluid helium.  Thermodynamic
-    #   identity, not fine-tuned cancellation.
+    #   The imported Gibbs-Duhem relation gives ρ_vac(eq) = 0 for a
+    #   self-bound condensate.
     #
-    # Step 2, de Sitter departure + Jacobson-Clausius:
-    #   Nonzero Λ arises only when the condensate departs equilibrium.
-    #   Acoustic Hawking temperature T_dS = H/(2π), horizon entropy
-    #   S = A/(4G), plus Raychaudhuri kinematics yield:
-    #     ρ_Λ = (3/8π) M_Pl² H²
-    #   Coefficient 3/(8π) derived from (T, S, Raychaudhuri), not
-    #   assumed from the Friedmann equation.
+    # Step 2, Jacobson-Clausius:
+    #   Jacobson's local thermodynamic argument recovers Einstein's
+    #   equation of state but leaves Lambda as an integration constant.
+    #   It does not determine rho_Lambda.
     #
     # Step 3, CKN saturation:
-    #   Cohen-Kaplan-Nelson bound ρ_vac ≤ M_Pl²H² is saturated
-    #   because all four Jacobson conditions are structurally satisfied:
-    #   (A) acoustic Hawking T, (B) area-law entropy, (C) local Lorentz
-    #   invariance at r ≫ ξ₀, (D) Raychaudhuri kinematics.
+    #   Saturating the UV/IR bound is an identification hypothesis.
     #
-    # The current observed ρ_Λ(obs) = Ω_Λ × ρ_crit differs from the
-    # framework value by Ω_Λ ≈ 0.685 because the universe has not yet
-    # reached asymptotic de Sitter equilibrium, matter is still
-    # diluting.  As Ω_Λ → 1, the observed value converges to the
-    # prediction: standard cosmological evolution.
-
-    rho_Lambda = RHO_LAMBDA     # derived in root.py: (3/8π) M_Pl² H₀²
+    rho_crit_mapped = RHO_CRIT_MAPPED
     rho_naive = M_Pl_GeV**4
-    CC_suppression = math.log10(rho_Lambda / rho_naive)
+    critical_density_suppression = math.log10(rho_crit_mapped / rho_naive)
 
     # Current epoch comparison
     Omega_Lambda = PDG_COSMO['Omega_Lambda']
-    rho_Lambda_obs = Omega_Lambda * rho_Lambda
+    rho_Lambda_current = Omega_Lambda * rho_crit_mapped
 
-    print(f"\n  Cosmological constant (Volovik → Jacobson-Clausius → CKN):")
-    print(f"    Step 1: Volovik equilibrium, ρ_vac(eq) = 0  (thermodynamic identity)")
-    print(f"    Step 2: Jacobson-Clausius , ρ_Λ = (3/8π) M_Pl² H₀²")
-    print(f"           Coefficient 3/(8π) derived, not assumed from Friedmann")
-    print(f"    Step 3: CKN saturation   , structurally guaranteed")
-    print(f"    ρ_Λ(framework)  = {rho_Lambda:.2e} GeV⁴  (asymptotic dS equilibrium)")
-    print(f"    ρ_Λ(observed)   = {rho_Lambda_obs:.2e} GeV⁴  (current epoch, Ω_Λ = {Omega_Lambda})")
+    print(f"\n  Cosmological density bookkeeping:")
+    print(f"    Step 1: Volovik equilibrium map, ρ_vac(eq) = 0")
+    print(f"    Step 2: Jacobson leaves Lambda as an integration constant")
+    print(f"    Step 3: CKN saturation is an identification hypothesis")
+    print(f"    ρ_crit(H₀)       = {rho_crit_mapped:.2e} GeV⁴")
+    print(f"    ρ_Λ(current)     = {rho_Lambda_current:.2e} GeV⁴  "
+          f"(Ω_Λ = {Omega_Lambda})")
     print(f"    ρ_naive = M_Pl⁴ = {rho_naive:.1e} GeV⁴")
-    print(f"    Scale: 10^{CC_suppression:.0f} improvement (CC problem resolved)")
-    print(f"    Current epoch: Ω_Λ < 1 because matter still diluting (cosmological evolution)")
+    print(f"    Critical-density ratio: 10^{critical_density_suppression:.0f}")
 
-    # ── Status ───────────────────────────────────────────────────────
+    # # Status ###########################
 
-    print(f"\n  Status (pure framework, zero external inputs):")
+    print(f"\n  Status:")
     print(f"    Ω_DM/Ω_b = 2π−1:  {abs(err_planck):.2f}% from Planck ({abs(pull_planck):.2f}σ)  [algebraic]")
-    print(f"    CC scale ~10⁻¹²³:  resolved (Volovik + Jacobson + CKN)  [structural]")
+    print(f"    Dark-energy density status: current ρ_Λ uses measured Ω_Λ; "
+          "CKN is an IH")
 
     return {
         # Z₃ coupling eigenvalue structure
@@ -241,7 +269,8 @@ def derive(R, grav_data):
         'DM_baryon_ratio_obs': DM_b_planck,
         'err_DM_baryon': err_planck,
         'pull_DM_baryon': pull_planck,
-        # CC
-        'rho_Lambda': rho_Lambda,
-        'CC_suppression': CC_suppression,
+        # Cosmological densities
+        'rho_crit_mapped': rho_crit_mapped,
+        'rho_Lambda_current': rho_Lambda_current,
+        'critical_density_suppression': critical_density_suppression,
     }

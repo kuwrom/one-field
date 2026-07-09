@@ -1,248 +1,191 @@
 # one-field
- 
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20323890.svg)](https://doi.org/10.5281/zenodo.20323890)
 [![tests](https://github.com/kuwrom/one-field/actions/workflows/tests.yml/badge.svg)](https://github.com/kuwrom/one-field/actions/workflows/tests.yml)
-[![papers](https://img.shields.io/badge/papers-PAPERS.md-blue)](PAPERS.md)
-[![changelog](https://img.shields.io/badge/changelog-CHANGELOG.md-green)](CHANGELOG.md)
-[![watches](https://img.shields.io/badge/watches-REGISTRY.md-orange)](watches/REGISTRY.md)
 
-**End-to-end derivation of the Standard Model, Newton's constant, and the dark/baryon ratio through the conformal embedding `E₈(1) ⊃ G₂(1) × F₄(1)`.**
+To be is, minimally, to be self-present. Anything that exists already affects itself by being there. Interference is the physical image of this. What is said to exist is what carries non-zero interference weight. The framework observes what emerges from interference.
 
-**Zero dimensionless free parameters.** Every prediction in this package is a polynomial or rational function of four irreducible integers plus `π`:
+**A substrate self-interferes. Exactly one family of standing-wave patterns closes to give our universe: the Standard Model, gravity, and the dark sector.**
 
-```
-d₁₀ = 2   quantum dimension of SU(3)₃ fundamental (1, 0)
-d₁₁ = 3   quantum dimension of SU(3)₃ adjoint     (1, 1)
-n₇  = 7   dim G₂ fundamental (Fano-plane lines)
-n₂₆ = 26  dim F₄ fundamental (traceless Albert algebra)
-```
+Concretely, from one dimensional anchor (the electron mass) and the closure demand whose unique solution is the algebra, the code produces the other eight fermion masses, the CKM and PMNS scorecards, the electroweak scale, the fine-structure and strong couplings, Newton's constant, the baryon asymmetry, and the dark-matter fraction, with zero tunable dimensionless parameters. Each result carries an explicit epistemic tag: theorem, enumeration, identification hypothesis, coordinate convention, arithmetic observation, or cited import with a stated band. The runner prints the scorecard and derivation graph. The substrate simulations are the physical-realization program: they test emergence and supply no scorecard input.
 
-**`m_e` is the sole dimensional input.** The electron mass anchors the scale (the first closure anchors the ruler). `M_Pl`, `G`, `v_EW`, `m_μ`, `m_τ`, and every other dimensional quantity are *outputs* of the forced chain.
-
-**Deeper layers compose through one recursion.** Deeper interference layers are tracked by the `EchoTerm`/`Ledger`/`Web` machinery in `root.py`: a `Ledger` node is a base amplitude plus a stack of `EchoTerm` ripples, composed by the kernel
-
-```
-x_{t+1} = b + W(x_t)
-```
-
-where `W` is the derived-weight edge map. Every edge is a theorem (a polynomial in the four integers, or a known phase), so no numerology can enter through the recursion itself. The interaction kernel is **3-nilpotent**: `W³ = 0`, matching the Cayley–Dickson tower `R → C → H → O` (Hurwitz's theorem). The nilpotency is on the *shape* of the weight matrix, not on the iteration — the fixed-point solver runs freely until convergence, and back-reaction layers within each channel go as deep as the field content produces (up to layer 4 for the Higgs quartic). Octonions prove *why* the architecture has this shape; the computation itself is a classical fixed-point iteration with no depth limit. The four-number rigidity proof and the nilpotency are derived in *The Octavian Coherence Gate* (see [`PAPERS.md`](PAPERS.md)).
-
-**35 numerical checks plus 3 structural closure predictions.** Run it yourself:
-
-```bash
-python interference/run.py    # full derivation
-pytest -q                      # 62 tests including the canonical freeze table
-```
-
-## The scorecard
-
-All numbers below come from running the code as-is.
-
-### Masses (9/9 within 1%, max error 0.4%)
-
-| Particle | Predicted | PDG | Error | Method |
-|---:|---:|---:|---:|:---|
-| e | 0.5109990 MeV | 0.5109990 MeV | anchor | CODATA, sole dimensional input |
-| μ | 105.6584 MeV | 105.6584 MeV | +0.0000% | Brannen Z₃ (predicted) |
-| τ | 1776.909 MeV | 1776.930 MeV | −0.0012% | Brannen Z₃ (predicted) |
-| u | 2.158 MeV | 2.16 MeV | −0.1% | (38/9) m_e |
-| d | 4.713 MeV | 4.70 MeV | +0.3% | (83/9) m_e |
-| s | 93.8 MeV | 93.5 MeV | +0.4% | Q₀+h₁₀/K³ + bridge |
-| c | 1273.8 MeV | 1273 MeV | +0.06% | (217/18) m_μ |
-| b | 4193.8 MeV | 4183 MeV | +0.3% | Q = Q₀ + h₁₁/K³ |
-| t | 172.51 GeV | 172.57 GeV | −0.036% | (1165/12) m_τ |
-
-**Mass coordinates.** Unconfined fermions (leptons, top) are at the propagator pole; confined heavy quarks (c, b) at the self-scale `m(m)`; light quarks (u, d, s) at the PDG `MS-bar(2 GeV)` coordinate. The scheme-free content of the light sector is the RG-invariant ratios, which carry no coordinate at all: `m_u/m_d = 38/83` (−0.9σ vs PDG 0.473(17)), `m_s/m_ud = 27.318` (+0.2σ vs 27.30(8)), `Q_ellipse = 22.383` (+0.4σ dispersive, −1.7σ lattice; the two references disagree). See `masses.py` for the full treatment.
-
-### Mixing, couplings, gravity, baryogenesis, dark sector
-
-| Sector | Result | Reference | Status |
-|:---|:---|:---|:---|
-| Electroweak scale `v_EW` | 246.21965 GeV | 246.21965 GeV (from G_F) | −0.04 ppm |
-| Fine structure `1/α(0)` | 137.035999050 | Berkeley Cs 137.035999046(27) | pull +0.13σ (Cs commitment, Rb kill condition registered) |
-| Higgs mass `m_H` | 124.00 GeV | 125.20 GeV | −0.96% (back-reaction band) |
-| CKM (15 observables) | χ²/n = 0.69 | PDG 2024 | max pull 1.4σ |
-| PMNS (3 observables) | χ²/n = 0.00 | NuFit 6.0 | predicts δ_CP = 76.9° |
-| Strong coupling `α_s(M_Z)` | 0.1184 | PDG 0.1180(9) | +0.33% (+0.4σ; π/32 exact at μ* = 253.5 GeV) |
-| Weinberg angle `sin²θ_W` | 0.231285 | PDG 0.23129(4) | pull −0.11σ |
-| W mass `M_W` | 80.356 GeV | 80.3692(133) world avg | pull −1.00σ |
-| Z mass `M_Z` | 91.189 GeV | 91.188 GeV | +0.0010% |
-| Newton's constant `G_ind/G_N` | 0.999999917 (face-split) | 1 | 8.3e-08 internal; phase readings 1.0000 (UV) – 1.0134 (broken) |
-| Baryon asymmetry `η_B` | 6.177e-10 | Planck 6.12e-10 | +0.9% |
-| Dark / baryon ratio `Ω_DM/Ω_b` | `2π − 1` = 5.2832 | Planck 5.364 | pull −1.26σ |
-
-**Structural predictions:** `m_ν₁ = 0` (rank-2 seesaw, two RH neutrinos in F₄), normal ordering, and the cosmological-constant scale `ρ_Λ ~ M_Pl² H₀²` (Volovik–Jacobson–CKN, the 10¹²³ problem structurally resolved).
-
-**The precision hierarchy is structural.** The circulant form is Brannen's (2006); the parameters `B/A = √2` and `θ = 2/9` are algebraic outputs of the `G₂ → SU(3)` Clebsch–Gordan data, not fitted values. Leptons sit closest to the `Z₃` source and emerge cleanly (`m_μ`, `m_τ` predicted from `m_e` to 0.0012%). Quarks pass through additional layers (triality, generation scaling, confinement), and each layer adds residuals of order `α_s/π` (≤ 0.4%). The Newton-constant ledger closes internally to 8 × 10⁻⁸ under the face-split law; the phase readings (UV/broken) bracket it at 0.0–1.3%. The accuracy gradient is not noise. It is what the emergence depth predicts.
-
-## The picture
-
-### There is a substrate
-
-To be is, minimally, to be self-present: anything that exists already affects itself by being there. Interference is the physical image of this: a single photon traversing both slits is a substrate whose fluctuations reference their own history. This framework doesn't model what the substrate is made of. It tracks what the substrate *does* when it references itself.
-
-### Why octonions
-
-A real number records the amplitude of a wave. A complex number records the amplitude and its phase. A quaternion records the phase of a phase. An octonion adds one more layer: **the phase of a phase of a phase**. These aren't what the wave "is made of". They're the accounting ledger for tracking how interference patterns reference their own history. The octonion algebra is the deepest ledger that stays consistent. A fourth doubling would introduce zero divisors and the bookkeeping would contradict itself (Hurwitz's theorem). This proves the *shape* of the echo kernel — the weight matrix is 3-nilpotent — but doesn't cap the computation: the fixed-point iteration converges freely, and back-reaction layers within each channel are summed to convergence (the series self-certifies). The automorphism group of the octonions is the Lie group `G₂ = Aut(𝕆)`, and it labels exactly the interference patterns that form closed loops through three layers of self-referencing record.
-
-### What mass is
-
-The substrate self-interferes. Against vanishing odds, **interference loops emerge**: `a → b → c → a`. A loop carries cyclic `Z₃` symmetry, because nothing inside it distinguishes which position came first. **Most loops just cycle.**
-
-Some, though, **drop the bias** that singles out one of their three positions. The asymmetric label `v = (1, −½, −½)` inherited from the parent `G₂` structure is erased, and all three positions become equivalent. A forgetting loop can no longer drift between its positions. It gets **stuck in one of three eigenstates**. That stuck pattern is a standing wave, and the three eigenstates are the three lepton generations: electron, muon, tau. Same loop, three places it can lock in.
-
-**Mass is that pattern.**
-
-The lepton mass formula is fixed entirely by the algebra of the loop and the octonionic `G₂/SU(3)` Clebsch–Gordan data: `B/A = √d₁₀ = √2`, `θ = d₁₀/d₁₁² = 2/9`, and the Koide identity `Q₀ = d₁₀/d₁₁ = 2/3` is the algebraic shadow of this closure. `m_μ` and `m_τ` are then determined by `m_e` alone.
-
-When `G₂` breaks to `SU(3)`, the three-label structure crystallizes into three lepton generations. But `G₂` doesn't sit alone. There is exactly one place it can sit, the unique exceptional conformal embedding `E₈(1) ⊃ G₂(1) × F₄(1)`. The `F₄` companion gives the rest of matter.
-
-The algebraic distinction is sharp. `G₂ = Aut(𝕆)` is the automorphism group of a single octonion, and the `G₂` factor carries the leptons: **single-direction fluctuations**. `F₄ = Aut(J₃(𝕆))` is the automorphism group of the Albert algebra of 3×3 Hermitian octonion matrices, and the `F₄` factor carries the quarks: **fluctuations entangling all three triality sectors of the Albert algebra simultaneously**. Leptons are simple. Quarks are woven.
-
-This shows up in the energy scale. Leptons sit in the `F₄` singlet (Casimir = 0), so their standing wave closes at the confinement scale `Λ_conf ≈ 314 MeV`. Quarks sit in the **`26` of `F₄`** (Casimir = 6), and that Casimir shift moves their scale to the electroweak `v_EW = M_Pl · exp(−(9π²/2 − 6 + 15/512 − 16(α/2π)²)) ≈ 246 GeV`, every exponent term an echo with forced multiplicity. The factor of ~784 between `Λ_conf` and `v_EW` is the exponential of an algebraic constant, not a hierarchy that needs tuning.
-
-`SO(8)` triality inside the `26` splits matter cleanly: `26 → 8_v ⊕ 8_s ⊕ 8_c ⊕ 2·1` becomes charged leptons, up-type quarks, down-type quarks, and two right-handed neutrinos. The same `Z₃` that gave three lepton generations gives three of each quark type, woven through triality.
-
-Light quark masses follow the `d₁₀² ↔ d₁₁²` swap: `m_u/m_e = d₁₀² + h₁₀ = 38/9` (up-type carries the fundamental quantum dimension squared), `m_d/m_e = d₁₁² + h₁₀ = 83/9` (down-type the adjoint's). Heavy quarks follow `SU(3)₃` WZW emergence: `m_t = (1165/12) m_τ`, `m_c = (217/18) m_μ`, with `Q(c, b, t) = 289/432`. Same closure logic, deeper layer.
-
-### What gravity is
-
-A standing wave is a soliton: it has to keep exchanging with the substrate around it to stay coherent. *Being* stable costs it a continuous circulation. To circulate, the soliton **carves a coherently biased region into the substrate around it**, shaped to keep the substrate flowing through.
-
-That carved region lives in the part of the substrate every standing wave shares. The substrate has three components, and the `Z₃` Fourier split separates them into the `q = 1, 2` *relative* modes (where standing waves lock in: matter) and the `q = 0` *common* mode (shared by all three: geometry). Two Fourier sectors of one substrate, one sourcing the other.
-
-When a standing wave forms in the relative sector, it sources a depletion in the common mode. **The soliton casts a shadow.** The substrate is passive: it just carries what the soliton put there.
-
-A depletion is a deficit, and a deficit is a pull. Any other soliton drifting through the region is drawn into the shadow, into a bias already shaped to receive it. The pull doesn't care what the first soliton is, only that something is there. The shadow's shape has **forgotten** which `Z₃` sector the source belongs to (`PvP = 0`) but it **records** that some knot is present (`Pv²P = ½ P`).
-
-Those two equations describe the shadow:
-
-- `PvP = 0`: every soliton casts the same kind of shadow regardless of which `Z₃` sector its source is from. The **equivalence principle stated as algebra**.
-- `Pv²P = ½ P`: only the *amount* of standing-wave activity goes into the shadow. Coupling strength depends on how much substrate is locked into being a standing wave, not on what kind.
-
-### Gravity is additive, when it forms at all
-
-Multiple shadows compose. The Madelung response for the common mode, projected onto `q = 0`, is a linear screened Poisson equation:
-
-```
-(1 − ξ₀²∇²) R₀(x) = −(c_*/λ₀ρ₀) · H_matter(x)
-```
-
-Every soliton imprints its shadow on the *same* field `R₀`. A planet's worth of solitons makes one planet-sized shadow, a unified ventilation pattern the whole planet breathes through. **Gravitational mass is additive because the shadows compose on a shared substrate**, not because each particle carries a separate charge.
-
-But forming a standing wave is not enough. The shadow has to be coherent with everyone else's, or it will not add up. The gravity paper tests seven candidate branches against three independent gates (lepton closure, quark closure, gravity closure). Six fail: standing waves whose shadows are misshaped, or whose bridge reading reverses sign and would make gravity repulsive. **Only one branch closes all three gates: protected `G₂` forgetting applied exactly once.** This is the falsification gauntlet.
-
-The screening length is the Planck healing length `ξ₀ = ℓ_Pl/2`, so the bare scalar channel is suppressed by `exp(−r/ξ_Pl) < 10⁻³⁰⁰` at any observable distance (invisible). What survives macroscopically is the induced spin-2 sector: matter standing waves propagating on the common acoustic metric.
-
-Two independent routes converge on the Einstein equations with the same coefficient: a Sakharov induced-gravity calculation (heat-kernel sum over the 182 bridge channels), and a Jacobson–Clausius construction from horizon thermodynamics. Newton's `G` closes to 8 × 10⁻⁸ internally once the face-split no-self-dilution law is applied (the UV and broken-phase readings bracket it at 0.0–1.3%).
-
-The same machinery fixes the cosmological constant. The naive QFT estimate of the vacuum energy is 10¹²³ times the observed value. **The bulk vacuum energy vanishes exactly by the Gibbs–Duhem identity** (Volovik's mechanism), not by fine-tuning. Only the de Sitter departure from equilibrium sets the scale.
-
-The Volovik–Jacobson–CKN chain gives `ρ_Λ = (3/8π) M_Pl² H₀² ≈ 3.7 × 10⁻⁴⁷ GeV⁴`, where `H₀` plays the same role for the Λ sector that `M_Pl` plays for matter: a measured reference, not a free parameter. The observed `ρ_Λ ≈ 2.5 × 10⁻⁴⁷` is lower than the equilibrium prediction by `1/Ω_Λ ≈ 1.46`, because the universe has not yet reached asymptotic de Sitter. **The 10¹²³ cosmological-constant problem is structurally resolved.** The residual factor is cosmological, not algebraic.
-
-### Why scalar
-
-The bridge sector has 182 channels, far more than the 8 dimensions of the octonion fiber, the deepest internal structure self-reference can sustain (Hurwitz again). Tracking all 182 as one coherent multi-layer object would require a normed division algebra that *does not exist*. If we knew what was inside each channel ("this one is amplitude, that one is delay"), we could keep some of them complex. We don't, so the bridge has to be treated as one ensemble, and every mode contributes as a real scalar.
-
-The vanishing coset charge `c(E₈) − c(G₂) − c(F₄) = 8 − 14/5 − 26/5 = 0` makes that scalar decomposition exact. Each channel contributes the heat-kernel coefficient `+1/6 − ξ`, which is positive and makes gravity *attractive*. Reading the same channels as vectors would give `−1/6` and reverse the sign: gravity repulsive, matter never binds.
-
-**Gravity is not a fifth force layered on top of matter. It is the shape matter carves into the background while ventilating itself, and the bias other matter rides into.**
-
-### The closure
-
-```
-14  +  52  +  182  =  248  =  dim(E₈)
-gauge   matter   bridge
-        + Higgs  → gravity
-```
-
-Every degree of freedom of `E₈` has a physical job. Nothing is left over. At each layer, the observables are fully determined by that layer's algebraic data: leptons on `G₂`, quarks and mixing on `G₂ × F₄` via the embedding, gravity on the mixed bridge. **No free parameters at any layer, and no parameters inherited from above.** This is the closure, and the falsification gate. If any of the 35 numerical checks broke, the structure would break with it. They don't.
-
-## The dependency tree
-
-Central charges `c(G₂) = 14/5` and `c(F₄) = 26/5` sum exactly to `c(E₈) = 8`. The adjoint branches as `248 → (14, 1) ⊕ (1, 52) ⊕ (7, 26)`. The chain is realized as:
-
-```
-E₈(1) → G₂(1) × F₄(1)
-  │
-  ├── G₂ sector → leptons        (Brannen Z₃: B/A = √d₁₀ = √2, θ = d₁₀/d₁₁² = 2/9, Q₀ = d₁₀/d₁₁ = 2/3)
-  ├── F₄ sector → quarks + v_EW + Higgs
-  │                              v_EW = M_Pl·exp(−(9π²/2 − 6 + 15/512 − 16(α/2π)²))
-  │                              α(emergence) = π/512,  α(0) = 1/137.035999050
-  ├── SU(3)₃ / D⁽⁶⁾ → CKM        (λ = tan 2/9, A = √(2/3), η̄ = π/9, ρ̄ = √2/9)
-  ├── SU(3)₃ / Z_C → PMNS        (tribimaximal + corrections, predicts δ_CP = 76.9°)
-  ├── F₄ singlets → ν masses     (m₁ = 0 structurally, normal ordering)
-  ├── Embedding index → α_s
-  ├── G₂ instanton → η_B
-  ├── (7, 26) bridge → gravity   (182 modes, ξ = 1/(48π))
-  └── Bridge self-interference → dark sector  (Ω_DM/Ω_b = 2π − 1)
-```
-
-## Architecture
-
-The package lives in [`interference/`](interference/). Each derivation module exposes one `derive(...) → dict` function; [`interference/run.py`](interference/run.py) calls them in dependency order.
-
-| Module | Role |
-|:---|:---|
-| `root.py` | Algebraic root: four integers `(d₁₀, d₁₁, n₇, n₂₆)`, embedding, Casimirs, central charges, the `EchoTerm`/`Ledger`/`Web` echo machinery (Hurwitz depth gate), `M_Pl` from the `m_e` anchor (Newton's `G` becomes a prediction), PDG reference data |
-| `masses.py` | All nine masses from `m_e` anchor: Brannen Z₃ leptons, F₄ quarks, `v_EW` instanton suppression |
-| `mixing.py` | CKM (four Wolfenstein parameters from four WZW faces) and PMNS (conjugation invariant, tribimaximal + corrections) |
-| `octonions.py` | Octonionic `G₂/SU(3)` Clebsch–Gordan verification: `|C₁| = 1`, `|C_3̄| = √2` from Fano plane |
-| `couplings.py` | `α_s` via exact WZW cancellation at the gauge-matching scale `μ* = M_Pl·e^−(9π²/2 − 6) ≈ 253.5 GeV` + G₂ → SU(3) threshold; bridge self-interference `α(0)`: depth-1 `π²/(256(2π − 1))`, closed at depth 3 to `1/α(0) = (512/π)(1 − 1/(2π) − 2(α/2π)²) = 137.035999050` |
-| `gravity.py` | Sakharov + Jacobson induced gravity, `(7, 26)` heat kernel, protected forgetting, electroweak chain (`sin²θ_W`, `M_W`, `M_Z`), Higgs mass, `η_B`, neutrinos |
-| `dark_sector.py` | `Ω_DM/Ω_b = 2π − 1` from bridge venting |
-| `words.py` | Generation word lemma: boundary-walk word counts on the D⁽⁶⁾ nimrep `(4, 9, 12, 97)` `→` the integer bases of the quark mass ratios `(38/9, 83/9, 217/18, 1165/12)` |
-| `embedding_uniqueness.py` | Exhaustive proof that `E₈(1) ⊃ G₂(1) × F₄(1)` is the unique conformal embedding passing all six gates |
-| `protected_forgetting.py` | Verifies `PvP = 0`, `Pv²P = 1/2` for the `G₂` harmonic `v = (1, −½, −½)` and its Weyl orbit uniqueness |
-| `nls_soliton.py` | Z₃-coupled NLS simulation: BdG linearization, soliton stability, number conservation, Madelung sourcing |
-| `run.py` | End-to-end runner, prints scorecard and emergence tree |
-
-Tests live at the repo root in [`tests/`](tests/) (standard layout):
-
-| File | Role |
-|:---|:---|
-| `tests/conftest.py` | Session-scoped fixture that runs the full derivation chain once, silently |
-| `tests/test_interference.py` | 62 tests including the canonical freeze table |
-
-## Install and run
+## Run it
 
 ```bash
 git clone https://github.com/kuwrom/one-field.git
 cd one-field
 pip install -r requirements.txt
-python interference/run.py    # full derivation, prints scorecard and emergence tree
-pytest -q                      # 62 tests
+python3 interference/run.py   # full derivation, prints scorecard and derivation graph
+pytest -q                     # 170 tests (155 fast + 15 slow behind -m slow)
 ```
 
-Requires Python 3.10+ and NumPy. Runs in about twenty seconds, dominated by the NLS soliton simulation (`nls_soliton.py`) and the Planck-to-electroweak RGE integration in `gravity.py` (20 000-step RK4, iterated three times for self-consistency).
+Python 3.10+, NumPy, SciPy. Twenty seconds to a minute on one core.
 
-## Tests
+## Masses (one anchor in, eight out, max error 0.4%)
 
-The scorecard is encoded as a `pytest` suite in [`tests/test_interference.py`](tests/test_interference.py). 62 tests cover the 35 numerical checks, the 3 structural predictions, and the algebraic identities that link them (polynomial relations, Casimir values, central-charge sums, octonionic CG, nimrep eigenvalues, freeze-table integers).
+| Particle | Predicted | PDG | Error | Method | Status |
+|---:|---:|---:|---:|:---|:---|
+| e | 0.5109990 MeV | 0.5109990 MeV | anchor | CODATA, sole dimensional input | input |
+| μ | 105.6584 MeV | 105.6584 MeV | +0.0000% | Brannen Z₃ (predicted) | Thm + IH |
+| τ | 1776.909 MeV | 1776.930 MeV | −0.0012% | Brannen Z₃ (predicted) | Thm + IH |
+| u | 2.158 MeV | 2.16 MeV | −0.1% | (38/9) m_e | Thm + IH + conv |
+| d | 4.713 MeV | 4.70 MeV | +0.3% | (83/9) m_e | Thm + IH + conv |
+| s | 93.8 MeV | 93.5 MeV | +0.4% | Q₀+h₁₀/K³ + bridge | Thm + IH + conv |
+| c | 1273.8 MeV | 1273 MeV | +0.06% | (217/18) m_μ | Thm + IH + conv |
+| b | 4193.8 MeV | 4183 MeV | +0.3% | Q = Q₀ + h₁₁/K³ | Thm + IH + conv |
+| t | 172.51 GeV | 172.57 GeV | −0.036% | (1165/12) m_τ | Thm + IH |
+
+<details>
+<summary><b>Fine print: mass coordinates and status labels</b></summary>
+
+**Status labels.** Thm = executable theorem in this repo. IH = identification hypothesis (a mathematical object matched with a physical one, separately falsifiable). conv = stated scheme convention. Full taxonomy in [What is derived vs identified](#what-is-derived-vs-identified).
+
+The framework produces one completed reading per fermion, every echo included. It does not run to a scale, so each comparison names the coordinate attached to the external reference. Unconfined fermions (leptons, top) sit at the propagator pole. Confined heavy quarks (c, b) sit at the self-scale `m(m)`. Light quarks (u, d, s) sit at the PDG `MS-bar(2 GeV)` coordinate. The alternative charm reference near 1.67 GeV moves the charm Koide residual from +0.06% to roughly −24% without any change to the framework, and the Koide relation among the measured lepton masses, transported to `M_Z`, holds only at the 0.17% level. The claim is always the completed reading at its stated coordinate, never a relation at every scale. The invariant content of the light sector is its RG-invariant ratios, which carry no coordinate at all: `m_u/m_d = 38/83` (−0.9σ vs PDG 0.473(17)), `m_s/m_ud = 27.318` (+0.2σ vs 27.30(8)), `Q_ellipse = 22.383` (+0.4σ dispersive, −1.7σ lattice, and the two references disagree). See `masses.py` for the full treatment.
+
+</details>
+
+**Lepton mass chain.** The calculation uses Brannen's 2006 circulant form. The `G₂ → SU(3)` Fano-plane calculation gives the Clebsch-Gordan ratio `√2`. The closing lane's `SU(3)₃` modular data have canonical positive spherical dimension `d(1,0) = 2`. The channel-reading map combines these data with two cycle orientations and gives `B/A = √2`. The circulant identity then gives `Q₀ = 2/3`. The lightest triality-changing primary has Sugawara weight `h = 2/9`, and the mass-phase map sets `θ = h`. This is the sole positive, nondegenerate value in the committed angle menu. The reading is one ledger, every interference layer included: the forced depth-4 EM backreaction, flavour-dependent so it survives in the mass ratios, contributes −9.8 ppm on the μ/e ratio, and the measurement resolves it ([`masses.py`](interference/masses.py)). The framework computes the physical particle with its electromagnetic self-interference included, which is why the propagator-pole entry is the comparison coordinate. The Koide relation and Brannen parameterization predate this implementation, so the lepton scorecard is postdictive. With `m_e` as the dimensional anchor, the calculation reproduces `m_μ` to 0.0000003% and `m_τ` to 0.0012%.
+
+## What mass is
+
+A particle is a self-trapped patch of the substrate, a lump whose internal phase circulates at one fixed frequency. That rate is the mass, `E = ħω`. A heavier particle is a faster internal clock, and nothing else about it is "heavy".
+
+The mass construction has three clock settings because it uses three child labels with `Z₃` cyclic symmetry (`a → b → c → a`). A graph can of course also have self-loops or two-cycles (the Web uses both), so three is a framework commitment, not a graph-theoretic minimum. When the bias that singles out one child label is erased (protected forgetting), the resulting `Z₃`-circulant has three eigenstates identified with the electron, muon, and tau generations. The circulant fixes the mass ratios. The electron fixes their dimensional unit. `m_μ` and `m_τ` are then determined by `m_e` alone.
+
+Any configuration that closes to give the leptons automatically produces quarks and gravity from the same structure. The universe does not have to get lucky twice. The lepton standing wave closes without engaging the embedding and sits at the confinement scale. The quark standing wave closes through the embedding and sits at the electroweak scale. Three generations of each are the same `Z₃`, not triality. The mass sector is one generator plus a grammar: the lepton circulant is the generator, and the quark masses are arithmetic on it. The full mass chain is in [`interference/__init__.py`](interference/__init__.py).
+
+## Why octonions
+
+The searchlight is organized around the three-label closure. Its starting premise is that a closed record is a finite-dimensional unital real composition algebra: records compose bilinearly and their positive-definite norm, read as probability weight, is multiplicative. Hurwitz's classification then leaves exactly `R`, `C`, `H`, and `O`. Relative to the real-amplitude baseline, the three non-real stages `C`, `H`, and `O` give searchlight depths 1–3. The next Cayley–Dickson algebra fails the criterion through zero divisors. This is a complete derivation from the framework's ledger premise, not a claim that Hurwitz, in isolation, is a theorem about physical self-reference. [`searchlight/octonions.py`](interference/searchlight/octonions.py) verifies bilinearity, norm multiplicativity, the explicit sedenion zero divisor, and the Fano/MTC channel map. The canonical Web then carries an explicit depth-3 `e↔q` loop ledger, and every depth-4 backreaction names and actually reads that parent.
+
+## Mixing, couplings, gravity, baryogenesis, dark sector
+
+| Sector | Result | Reference | Status |
+|:---|:---|:---|:---|
+| Electroweak scale `v_EW` | 246.219645 GeV | 246.219651 GeV (from G_F) | −0.02 ppm |
+| Fine structure `1/α(0)` | 137.035999050 | Berkeley Cs 137.035999046(27) | +0.13σ vs Cs, **−14σ vs Rb 2020**. The commitment is to the Cs side of the 5.5σ dispute. The dispute resolving toward Rb kills it |
+| Higgs transport | `lambda(m_t) = 0.12651` | Internal transport | Candidate bridge boundary in the imported beta coordinate. The depth-4 Web reading is unassigned |
+| CKM (15 comparison coordinates, correlations unmodeled) | diagonal pull score/coordinate = 0.21 | PDG 2024 | max marginal pull 0.7σ. The reference block mixes correlated global-fit outputs with a separately quoted phase constraint. Without a joint covariance model this is a descriptive score, not χ². Where mixing lives is itself an executable theorem: two `Z₃`-equivariant transports commute, giving `V = 1` exactly, so mixing is not a sector transport. It enters as four readings of the solved `D⁽⁶⁾*` boundary, one per face, rigid engine constants with no continuous freedom ([`mixing_z3_dichotomy.py`](tests/probes/mixing_z3_dichotomy.py)). Each reading carries its own grade, from computed (`η̄ = π/9`, the braiding monodromy) through enumerated (`λ`, the unique 1σ hit over the engine's echo menu, frozen in CI) to identified (the attachment to the physical Wolfenstein coordinates). The per-face grading is in [`mixing.py`](interference/mixing.py) |
+| PMNS (3 correlated angles) | diagonal pull score/angle = 0.00 | Frozen NuFit 6.0 NO snapshot, IC19 without SK atmospheric data | Identified conjugation-orbit TBM map with `U_e = R₂₃(−φ)R₁₃(θ_C,δ)`. The construction consumes no new engine numbers: the TBM block is computed from the conjugation-orbit-compressed fusion matrices, and the corrections are functions of the derived mass spectrum, `φ = √(m_e/m_μ)/√d₁₀`, and the echoed `λ`. Symmetric marginal errors and no covariance make this descriptive rather than χ². The current `−arg(U_e3) = 77.0°` is convention-dependent and is not reported as the physical `δ_CP` |
+| Strong coupling `α_s(M_Z)` | 0.1184 | PDG 0.1180(9) | +0.4σ (π/32 exact at μ* = 253.5 GeV) |
+| Weinberg angle `sin²θ_W` | 0.231285 | PDG 0.23129(4) | pull −0.11σ |
+| W mass `M_W` | 80.356 GeV | 80.3692(133) world avg | pull −1.00σ |
+| Z mass `M_Z` | 91.189 GeV | 91.188 GeV | +0.0010% |
+| Newton's constant `G_ind/G_N` | 0.999999917 (apportioned) | 1 | Internal closure under the Planck/healing-length identification: `Σ_target = 2πd₁₁ = 6π`. The probe's two factorizations are the same cutoff identity. Phase readings: 1.0000 (UV), 1.0134 (broken) |
+| Baryon asymmetry `η_B` | 6.178e-10 | Planck 6.12e-10 | +0.9% |
+| Dark / baryon ratio `Ω_DM/Ω_b` | `2π − 1` = 5.2832 | Planck 5.364 | pull −1.26σ |
+
+**Joint cosmology closure.** The two cosmology channels are derived independently (`η_B` from the G₂ instanton, `Ω_DM/Ω_b` from bridge venting) but they must agree jointly with the absolute dark-matter density. They do. `η_B = 6.178e-10 → Ω_b h² = 0.02256` (+1.2σ vs Planck), and `Ω_DM h² = (2π−1) · Ω_b h² = 0.1192` (−0.7σ vs Planck 0.1200(12)). Two independent channels, one consistent cosmology. The BBN conversion η₁₀ = 273.9 Ω_b h² is cited, not derived: it is a change of coordinate on a printed number, and no engine step consumes it.
+
+**Conditional structural constraint and cosmology bookkeeping.** If the two F₄ singlets are right-handed neutrinos and the mass mechanism is a minimal type-I seesaw with no other light-neutrino mass operators, then the light mass matrix has rank at most two. Under that assumption at least one state is massless. The ordering remains unselected (`m₁ = 0` for normal or `m₃ = 0` for inverted). Separately, `(3/8π) M_Pl² H₀²` is the Friedmann critical density, not `ρ_Λ`. The current dark-energy density is `Ω_Λ` times it. Jacobson's thermodynamic derivation leaves Λ as an integration constant, and CKN saturation is an identification hypothesis.
+
+## What gravity is
+
+Mass, above, was a clock. Gravity is the price of the ticking, seen from outside. In a standing wave the substrate circulates in place. That circulation takes up room in the shared background and depletes it, and the knot and its depletion form together (`tests/probes/skyrmion_3d.py`). **The soliton casts a shadow.** A depletion is a deficit, and a deficit is a pull. Every standing wave pushes on the same shared background, and their depletions compose: a planet's worth of circulations makes one giant shadow, a unified ventilation that all the particles in the planet breathe through. Having mass and sourcing gravity are one event.
+
+**Gravity is not a fifth force layered on top of matter. It is the shape matter carves into the background while ventilating itself, and the bias other matter rides into.** The full treatment is in [`gravity.py`](interference/gravity.py) and [`interference/__init__.py`](interference/__init__.py).
+
+The normalisation is audited from both directions. The minimal matter spectrum alone gives the wrong sign, `Σ_min ≈ −10.2`, repulsive gravity. The 182 bridge channels, a count forced by the wiring winner and entering linearly with no adjustable multiplicity, supply the `+29.126` that closes `G_ind/G_N` to `8×10⁻⁸`. The unfactored cutoff schemes miss on their own: `t₀ = ξ₀²` gives `G_ind/G_N = 1/12`, `2ξ₀²` gives `1/6`, `ℓ_Pl²` gives `1/3`, so the target `Σ = 2πd₁₁` sits on no unfactored scheme. The closure is internal, and its one measured contact is the derived `M_Pl` at +22 ppm ([`sakharov_normalisation.py`](tests/probes/sakharov_normalisation.py)).
+
+## What closes
+
+A substrate self-interferes, and many patterns form. Most do not close: lanes that make electron-like things whose ratios fail to continue, quark-like things that never bind. Six consistency gates eliminate them. Only one lane closes all six: protected `G₂` forgetting applied exactly once. The gates and their scan are the searchlight's bookkeeping, not a mechanism. The substrate closes or fails to close, and the scan is the computed record that nothing else passes, run on Lie-table invariants alone with its one genuine contender, `E₈ ⊃ E₇ × A₁`, printed beside the winner ([`embedding_uniqueness.py`](interference/searchlight/embedding_uniqueness.py)). The seven-branch gauntlet is the computed record of the shorter trees. The 504 hits reported later are mass grammar realizations within this fixed lane, not additional closure lanes.
+
+That surviving lane sits inside one algebra:
 
 ```
-$ pytest -q
-..............................................................
-62 passed in 18.73s
+14  +  52  +  182  =  248  =  dim(E₈)          E₈(1) ⊃ G₂(1) × F₄(1)
+gauge   matter   bridge                         c: 14/5 + 26/5 = 8, exact
+        + Higgs  → gravity                      248 → (14,1) ⊕ (1,52) ⊕ (7,26)
 ```
 
-If any modification to the algebra moves a prediction outside its tolerance band, the suite fails. This is the operational form of the closure claim *("if any of the 35 numerical checks broke, the structure would break with it")* reduced to one command.
+Every degree of freedom of `E₈` has a physical job. Nothing is left over. The audit is in [`interference/__init__.py`](interference/__init__.py).
 
-## Version history
+## Quantum numbers
 
-- **v0.2** (current): polynomial closure on four integers + recursive echo ledger. Eleven `derive()` modules plus the `run.py` driver in `interference/`, `m_e` as the sole dimensional anchor, `M_Pl` and `G` derived. Companion paper: *The Octavian Coherence Gate* ([doi:10.5281/zenodo.20493955](https://doi.org/10.5281/zenodo.20493955)). 35 numerical checks, 62 tests.
-- **v0.1.1**: final state of the per-layer `E8/` package (14 modules, layer-by-layer architecture). Preserved at tag [`v0.1.1`](https://github.com/kuwrom/one-field/releases/tag/v0.1.1).
+The `E₈ → G₂ × F₄` representation theory derives the Standard Model quantum numbers directly ([`root.py`](interference/root.py)):
 
-## Registered watches
+```
+Q_u  = d₁₀/d₁₁ = 2/3         (up-type electric charge)
+Q_d  = 1/d₁₁   = 1/3         (down-type electric charge)
+N_c  = d₁₁     = 3           (colour multiplicity)
+sin²θ_W = d₁₁/(d₁₀²+d₁₁²) = 3/13   (Weinberg angle, at the embedding scale)
+```
 
-Seven falsifiable commitments, each with a stated kill condition, tracked in [`watches/REGISTRY.md`](watches/REGISTRY.md). Source of truth for the values: the code, frozen in the test suite.
+The charge trace `Σ Q² N_c = (d₁₀²+1+d₁₁)/d₁₁ = 8/3` gives the Singh ratio `(8/3)·C₂(26) = 16` that converts the `G₂` coupling to the electromagnetic one: `α_EM = α_G₂/16 = π/512`.
+
+**CP violation** traces to the oriented Fano plane: seven directed lines select one orientation sign. Reversing it flips `η̄`, `J_CKM`, `J_lep`, and `η_B` together while leaving CP-even quantities unchanged ([`tests/probes/orientation_bit.py`](tests/probes/orientation_bit.py)). One global CP-orientation bit, not several independently inserted signs.
+
+**Strong CP**: the index-one `G₂ → SU(3)_c` embedding preserves winding. In the no-Lagrangian ontology, the physical angle is the complete matter-coupled character `θ̄`, and the full record rule makes that character act on the vacuum record algebra `A = 1 + B`. Multiplication leaves only the trivial phase automorphism, so `θ̄ = 0 mod 2π`. This conclusion follows within that ontology rather than from local MTC data alone. A measured neutron EDM attributable to `θ̄ ≠ 0` kills it ([derivation](interference/couplings.py), [supporting probe](tests/probes/strong_cp.py)).
+
+## Derivation flow
+
+The scorecard is an executable dependency pipeline, run in order by [`interference/run.py`](interference/run.py):
+
+1. [`wiring.py`](interference/wiring.py) scans the finite candidate menus (lattices, conformal pairs, levels) and finds the unique closure. The depth-3 searchlight reads `d₁₀ = 2`, `d₁₁ = 3`, `n₇ = 7`, `n₂₆ = 26`, and `α_G₂(M_Pl) = 1/(24π)` off the winner. [`root.py`](interference/root.py) consumes that vocabulary, and `run.py` asserts that both stages share the same wiring record.
+2. [`root.py`](interference/root.py) builds the recursive web, its couplings and scales, and derives `M_Pl` by inverting the electron anchor.
+3. [`words.py`](interference/words.py) derives the generation walk counts. [`masses.py`](interference/masses.py) derives the nine fermion masses and `v_EW`.
+4. [`mixing.py`](interference/mixing.py) computes the WZW data, exact D⁽⁶⁾* connection, and mixing scorecards. [`couplings.py`](interference/couplings.py) computes `α_s` and `α(0)`.
+5. [`gravity.py`](interference/gravity.py) computes the induced-gravity, baryogenesis, and neutrino outputs. [`higgs_ew.py`](interference/higgs_ew.py) computes the Higgs quartic boundary and electroweak observables (SM RGE transport, M_W, M_Z). [`dark_sector.py`](interference/dark_sector.py) computes the cosmological ratios.
+
+The substrate is the physical realization of this chain. Its probes test emergence. They do not supply scorecard inputs.
+
+## Architecture
+
+The derivation lives in the [`interference/`](interference/) package as one dependency chain. Package-relative imports produce one canonical module graph and one Web singleton. The scrutiny lives in [`tests/`](tests/): freezes pin the numbers, probes cover mechanisms and falsifiers, and the substrate and audit instruments provide numerical checks. Each derivation module exposes one `derive(...) → dict`, and [`run.py`](interference/run.py) calls them in dependency order. The full narrative follows that order in [`interference/__init__.py`](interference/__init__.py).
+
+| Module | Role |
+|:---|:---|
+| `run.py` | End-to-end runner: `python3 interference/run.py` |
+| `root.py` | Embedding, Casimirs, central charges, the recursive echo web, `M_Pl` from the `m_e` anchor. The four integers are the depth-3 searchlight's vocabulary, read from `wiring.py` |
+| `masses.py` | All nine masses: Brannen Z₃ leptons, F₄ quarks, `v_EW` |
+| `mixing.py` | WZW/D⁽⁶⁾ boundary data, braiding phase, CKM parameter map, PMNS conjugation-orbit TBM construction |
+| `couplings.py` | `α_s` (WZW cancellation at μ*), `α(0)` from bridge self-interference |
+| `gravity.py` | Induced-gravity ledger, target factorizations, `η_B`, neutrinos |
+| `higgs_ew.py` | SM RGE transport, Higgs quartic boundary, M_W, M_Z, import audit |
+| `dark_sector.py` | `Ω_DM/Ω_b = 2π − 1` from bridge venting |
+| `words.py` | Generation word lemma: nimrep walk counts → quark mass bases |
+| `wiring.py` | Closure-residual scan over the candidate menus. The four integers are never an input |
+| `reference.py` | Comparison data, single home, quarantined by `tests/test_blindness.py` |
+| `searchlight/` | The octonions: `G₂/SU(3)` CG verification, embedding uniqueness through all six gates, protected forgetting. The one subdirectory, and the engine never imports it |
+| `tests/substrate/` | Z₃-NLS substrate: BdG, stability, Madelung sourcing, and the same equation in 3D |
+| `tests/audit/` | The committed grammar, and the grammar run as a generator: blind gates first, data contact once |
+
+
+## Physics FAQ
+
+The derivation probes in [`tests/probes/`](tests/probes/) answer standard physics objections. Each states its own verdict and kill condition. The table below is the discoverability map.
+
+| Question | Answer | Code | Status |
+|:---|:---|:---|:---|
+| Why 3+1 dimensions? | The `Z₃` relative sector is `C²`, so the order parameter space is `S³`. `π₃(S³) = Z` first permits winding in 3 spatial dimensions. Topology-changing zeros of a four-real-component field have codimension 4, making them point-events exactly in `D = 4` | [`dimensionality.py`](tests/probes/dimensionality.py) | Derived |
+| Why are solitons stable? | The bare NLS unwinds (intentional negative result in [`knot_charge.py`](tests/probes/knot_charge.py)). The Faddeev-Skyrme quartic stabilising term is then constructively derived from the framework's own energy functional | [`effective_action.py`](tests/probes/effective_action.py) | Derived |
+| Is there confinement? | Vortex proliferation is measured, the area-law fit beats the perimeter-law fit decisively, and the Gaussian excitation spectrum is gapped | [`confined_phase.py`](tests/probes/confined_phase.py) | Classical confinement signature and Gaussian gap computed |
+| How does gravity enter? | The exact Z₃ split isolates the common mode. Its sourced response and long-wavelength dispersion are computed. Given the declared common-mode/acoustic-geometry and Planck/healing-length identifications, the standard acoustic-metric and DeWitt–Seeley heat-kernel theorems produce the induced Einstein–Hilbert term, whose coefficient is evaluated by the venting ledger | [`gravity.py`](interference/gravity.py), [`sakharov_normalisation.py`](tests/probes/sakharov_normalisation.py) | Complete derivation within the stated identifications |
+| What about chirality/CP? | Closure leaves the mass-protected chiral branch, dimensionality gives 3+1D, and the embedding branch supplies the gauge representations. The radial Skyrmion–Dirac operator is built on the repository's actual `π₃` hedgehog and exhibits the single localized crossing associated with unit winding. Its scanned coupling is a spectral-family coordinate, not a fitted or additional framework parameter. Independently, reversing the Fano orientation flips every computed CP-odd sign and preserves CP-even magnitudes. These branches compose under the stated fermion/knot and representation identifications | [`zero_mode.py`](tests/probes/zero_mode.py), [`orientation_bit.py`](tests/probes/orientation_bit.py), [`dimensionality.py`](tests/probes/dimensionality.py) | Complete derivation within the stated identifications. Knot spectral flow computed |
+| Are EW quantities secretly fitted? | Import audit: top contribution from the framework's own `G_F`, `m_t`. Hadronic VP classified as measurement data, higher-order pieces as loop mathematics. No free theory parameters enter | [`ew_internal.py`](tests/probes/ew_internal.py) | Audited |
+| Is the algebraic wiring arbitrary? | `(7,26)` bridge is the unique nontrivial boson of `G₂(1) × F₄(1)`. Face channels confined. Sector graph and cycle inventory derived from the modular tensor category | [`wiring_theorem_probe.py`](tests/probes/wiring_theorem_probe.py) | Derived |
+| Can comparison data leak into predictions? | `test_blindness.py` perturbs reference values and requires predictions to remain identical. AST audit of `reference.py` access patterns | [`test_blindness.py`](tests/test_blindness.py) | Enforced |
+| Does the knot form in 3D? | Relative-mode RMS grows ×15.6 under `G₂` coupling, flat under `g₁ = 0` control. Common-mode shadow forms at the core | [`skyrmion_3d.py`](tests/probes/skyrmion_3d.py) | Derived |
+| What does the classical substrate claim, exactly? | The layer scoping: the classical field supplies the slots (a stable loop, three bound modes, channel lifting). The quantized bookkeeping supplies the ratios. A classical measurement of `Q = 2/3` falsifies the scoping | [`circulant_normalization.py`](tests/probes/circulant_normalization.py) | Committed with falsifier |
+
+## Where the questions end
+
+The engine takes one number, and even that number is a unit name rather than physics: the ratio `m_e/M_Pl` is itself derived, so the dimensionless output takes no input at all. How strongly the substrate interferes is not a second input either. It is the thing being derived, one channel at a time. What the axiom cannot reach is why the amplitude is nonzero at all. Self-presence is universal, not conditional: the empty world is present to itself too, and precisely because it is nothing the self-touching generates no amplitude. That is not an exception to the axiom but its trivial fixed point, the zero orbit of `x = b + W(x)`, zero in and zero out. Nothing does not escape the axiom. It just does not close down the road.
+
 
 ## Contributing
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md). Short version: verification, critique, tooling, and candidate derivations meeting the promotion bar are welcome; corrections with anything adjustable in them are not, because there is nothing here to tune. Changes to canonical values are logged in [`CHANGELOG.md`](CHANGELOG.md).
+Verification, critique, tooling, and candidate derivations meeting the promotion bar (a committed edge menu and stated kill conditions) are welcome. Corrections with anything adjustable in them are not, because there is nothing here to tune.
 
 ## Papers
 
-See [`PAPERS.md`](PAPERS.md) for citation info and the motivation papers behind each commit.
+- The Innocent Lepton ([10.5281/zenodo.19899091](https://doi.org/10.5281/zenodo.19899091))
+- One Substrate, Three Generations ([10.5281/zenodo.20069456](https://doi.org/10.5281/zenodo.20069456))
+- The Echo of Standing Waves ([10.5281/zenodo.20144381](https://doi.org/10.5281/zenodo.20144381))
+- The Octavian Coherence Gate: The Four Irreducible Integers of the E₈⁽¹⁾ ⊃ G₂⁽¹⁾ × F₄⁽¹⁾ Conformal Embedding ([10.5281/zenodo.20493955](https://doi.org/10.5281/zenodo.20493955))
+
+Cite as: Kahsay, Kibrom Kidane (2026). One-field. https://github.com/kuwrom/one-field (the repository supersedes the papers as the living canon). See also [`CITATION.cff`](CITATION.cff).
 
 ## License
 
