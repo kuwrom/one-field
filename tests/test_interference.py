@@ -123,8 +123,8 @@ def test_pmns_delta_cp_prediction(res):
 
 def test_higgs_mass(res):
     """m_H from F_4(1) fusion + fundamental-share vent
-    (lambda(M_Pl) = -delta_bridge*(1-h10); registry.PROMOTIONS) + SM RGE.
-    The prediction sits at +0.08% of 125.20(11); band 0.2%."""
+    (lambda(M_Pl) = -delta_bridge*(1-h10). registry.PROMOTIONS) + SM RGE.
+    The prediction sits at +0.08% of 125.20(11). Band 0.2%."""
     mH = res["g"]["mH_pred"]
     assert err_pct(mH, 125.20) < 0.2
 
@@ -194,7 +194,7 @@ def test_M_Z_derived(res):
 
 
 def test_M_W_derived(res):
-    """M_W at layer-1 (A from alpha(0),v_EW; dr_hat_W declared import):
+    """M_W at layer-1 (A from alpha(0),v_EW. dr_hat_W declared import):
     within 2 sigma of PDG 80.3692(133)."""
     M_W = res["g"]["M_W_derived"]
     M_W_PDG = res["g"]["M_W_PDG"]
@@ -427,7 +427,7 @@ def test_alpha_bridge_chain_is_one_loop_exact(res):
     assert math.isclose(bridge["D2_local"], 1.0, abs_tol=1e-12)
     assert math.isclose(bridge["g_bridge_sq"], 1.0, abs_tol=1e-12)
     assert math.isclose(bridge["c_coset"], 0.0, abs_tol=1e-12)
-    # Depth-1 closed form 256(2 pi - 1)/pi^2 is the truncation; the full
+    # Depth-1 closed form 256(2 pi - 1)/pi^2 is the truncation. The full
     # value includes the FORCED depth-3 two-orientation e<->q loop and
     # solves the cubic  x^3 = (512/pi)[(1 - 1/(2 pi)) x^2 - 1/(2 pi^2)].
     x = bridge["inv_alpha_phys"]
@@ -452,7 +452,7 @@ def test_alpha_phys_agrees_with_pdg(res):
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_generation_words_are_walk_counts():
-    """base(n) = (4, 12, 97) as boundary-walk counts; Z2 split u/d."""
+    """base(n) = (4, 12, 97) as boundary-walk counts. Z2 split u/d."""
     import words
     w = words.derive()
     assert w["base"] == (4, 12, 97)
@@ -463,7 +463,7 @@ def test_generation_words_are_walk_counts():
 
 
 def test_linearity_from_closure():
-    """L_x linear + |xy|=|x||y| on O; sedenion zero divisor; Z3 rule."""
+    """L_x linear + |xy|=|x||y| on O. Sedenion zero divisor. Z3 rule."""
     import numpy as np
     import octonions as oc
     rng = np.random.default_rng(11)
@@ -554,10 +554,10 @@ def test_canonical_freeze(res):
 
     # couplings + Higgs (declared imports, banded)
     # alpha_s matched at mu* = M_Pl e^{-(9pi^2/2-6)} = v_EW e^{15/512}
-    # (gauge lever-arm endpoint; pre-migration label was v_EW)
+    # (gauge lever-arm endpoint. Pre-migration label was v_EW)
     assert abs(c["mu_star_GeV"] - 253.534) < 1e-2
     assert abs(c["alpha_s_MZ_thresh"] - 0.118385) < 1e-5
-    assert abs(g["mH_pred"] - 125.2965) < 0.05  # (1−h₁₀) vent; registry.PROMOTIONS
+    assert abs(g["mH_pred"] - 125.2965) < 0.05  # (1−h₁₀) vent. registry.PROMOTIONS
 
     # words lemma bases (integer ranks, exact)
     import words as _w
@@ -656,7 +656,7 @@ def test_scale_landmarks(res):
 
 
 def test_np_splitting_qcd_part(res):
-    """m_d - m_u = 5 m_e exactly; the lattice QCD part of m_n - m_p
+    """m_d - m_u = 5 m_e exactly. The lattice QCD part of m_n - m_p
     (BMW, Science 347:1452 (2015): 2.52 +/- 0.23 MeV)."""
     m = res["m"]
     dmq = m["m_d"] - m["m_u"]
@@ -666,7 +666,7 @@ def test_np_splitting_qcd_part(res):
 
 
 def test_diquark_channel_ordering():
-    """3 x 3 = 3bar + 6 forced; h(3bar) = 2/9 < h(6) = 5/9, so the
+    """3 x 3 = 3bar + 6 forced. h(3bar) = 2/9 < h(6) = 5/9, so the
     nucleon (good diquark) sits below the Delta, forced."""
     import mixing as _mx
     w = _mx._compute_wzw()
@@ -713,7 +713,7 @@ def test_neutrino_spectrum(res):
 
 def test_bell_fork():
     """The local realist reading (outcomes as assigned +/-1 facts) is
-    capped at 2; the framework's local non-realist reading (the
+    capped at 2. The framework's local non-realist reading (the
     ledger) sits exactly at the Tsirelson bound."""
     from probes import bell
     S_local = bell.chsh_local_bound(n_strategies=2000, n_lambda=200)
@@ -728,7 +728,7 @@ def test_bell_fork():
 def test_web_attractor(res):
     """Perturb every web node by up to ±50% and re-solve: the whole web
     returns to its fixed point (machine precision, 5/5 trials).  The
-    constants are stored nowhere; they are where the recursion lands.
+    constants are stored nowhere. They are where the recursion lands.
     Chladni figures, in code."""
     import random
     from root import WEB

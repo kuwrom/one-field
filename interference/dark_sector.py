@@ -27,7 +27,7 @@ Two structures in the framework predict the dark sector:
    channel's observable)?
 
    In the EM channel, "closes locally" means: reaches the physical
-   coupling.  At depth 1: 1/α ≈ (512/π)(1 − 1/(2π)); at depth 3
+   coupling.  At depth 1: 1/α ≈ (512/π)(1 − 1/(2π)). At depth 3
    the self-consistent cubic gives 1/α(0) = 137.035999050 exactly
    (root.py).
 
@@ -36,12 +36,12 @@ Two structures in the framework predict the dark sector:
    relative sector carve venting channels into the common mode
    (gravity.py).  Of the total substrate energy circulating through
    the bridge, the fraction 1/(2π) localizes as particle-like
-   excitations (baryons); the remainder (2π−1)/(2π) stays as
+   excitations (baryons). The remainder (2π−1)/(2π) stays as
    delocalized bridge coherence, coupling only through the common
    mode (PvP = 0 → gravitational coupling only → dark matter).
 
    Both readings are the same integral on the same marginal operator.
-   The bridge is one object connecting two faces; its self-interference
+   The bridge is one object connecting two faces. Its self-interference
    fraction is universal because h=1 and c_coset=0 leave no room for
    channel-dependent corrections.
 
@@ -114,7 +114,7 @@ def derive(R, grav_data):
 
     # ── Z₃ coupling eigenvalue structure (algebraic) ─────────────────
     #
-    # g₁/g₀ = 1/√d₁₀  (the G₂ constraint on the Z₃ NLS substrate;
+    # g₁/g₀ = 1/√d₁₀  (the G₂ constraint on the Z₃ NLS substrate.
     # see masses.py substrate section, same g₀, g₁ as the BdG layer)
     # λ₀ = g₀(1+√d₁₀)   [common mode → geometry]
     # λ₁ = g₀(1−1/√d₁₀) [relative modes → matter]
@@ -250,7 +250,7 @@ def derive(R, grav_data):
 
     print(f"\n  Cosmological constant (Volovik → Jacobson-Clausius → CKN):")
     print(f"    Step 1: Volovik equilibrium, ρ_vac(eq) = 0  (thermodynamic identity)")
-    print(f"    Step 2: Jacobson-Clausius , ρ_Λ = (3/8π) M_Pl² H₀²")
+    print(f"    Step 2: Jacobson-Clausius, ρ_Λ = (3/8π) M_Pl² H₀²")
     print(f"           Coefficient 3/(8π) derived, not assumed from Friedmann")
     print(f"    Step 3: CKN saturation   , structurally guaranteed")
     print(f"    ρ_Λ(framework)  = {rho_Lambda:.2e} GeV⁴  (asymptotic dS equilibrium)")

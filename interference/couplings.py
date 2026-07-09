@@ -38,15 +38,15 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
      exactly this non-chiral embedding.
 
   3. DERIVED THRESHOLD at G₂ → SU(3) (Weinberg 1980 / Hall 1981 matching).
-     (Standard QFT calls this "threshold correction"; here the matching
-      scale M_V is derived; see below.)
+     (Standard QFT calls this "threshold correction". Here the matching
+      scale M_V is derived. See below.)
      The coset G₂/SU(3) (dim 6) gives six massive vectors in 3 ⊕ 3̄:
          1/α_s(μ*) = 1/α_G₂(μ*) − λ₃/(12π),
          λ₃ = (C_{G₂} − C_{SU(3)}) − 21·T_V·ln(M_V/μ*),
      with C_{G₂} − C_{SU(3)} = 4 − 3 = 1 and T_V = T(3)+T(3̄) = 1.
      M_V is DERIVED: the G₂-breaking scalar lives in the
-     7 → 3 ⊕ 3̄ ⊕ 1; the singlet takes the VEV v_break = v_EW/√2
-     (canonical complex-scalar normalisation; G₂→SU(3) breaking
+     7 → 3 ⊕ 3̄ ⊕ 1. The singlet takes the VEV v_break = v_EW/√2
+     (canonical complex-scalar normalisation. G₂→SU(3) breaking
      identified with EWSB).  The Casimir sum rule
          Σ_a M_a² = g² v_break² C₂(7) = 2 g² v_break²
      over six degenerate bosons gives
@@ -72,8 +72,8 @@ alpha(0):
            = 137.035999050
     (depth-1 self-echo 1/(2pi) + the FORCED depth-3 e↔q two-orientation
     cycle, solved self-consistently in root.py).  Comparison, stated
-    completely: Berkeley Cs 137.035999046(27) → +0.13σ; LKB Rb
-    137.035999206(11) → −14σ; the two experiments disagree with each
+    completely: Berkeley Cs 137.035999046(27) → +0.13σ. LKB Rb
+    137.035999206(11) → −14σ. The two experiments disagree with each
     other by 5.5σ, and the framework's registered commitment is to
     Cs, with the Rb outcome as a registered kill condition.  The
     depth-1 TRUNCATION alone,
@@ -90,8 +90,8 @@ two emergence layers of the conformal embedding:
   * alpha(0) = pi²/(2⁸(2pi-1))    at the IR pole-mass scale.
                                   Used in the lepton vertex factor.
 
-The relation between them is NOT a perturbative running approximation;
-it is a layer-1 identity of the (7,26) bridge sector, fixed by three
+The relation between them is NOT a perturbative running approximation.
+It is a layer-1 identity of the (7,26) bridge sector, fixed by three
 independent rational identities in the four integers:
 
     (A) h_bridge = h(n₇,G₂) + h(n₂₆,F₄) = 2/5 + 3/5 = 1     [MARGINAL]
@@ -99,7 +99,7 @@ independent rational identities in the four integers:
     (C) c_coset  = c(E₈) − c(G₂) − c(F₄) = 0                 [TOPOLOGICAL]
 
 The worldsheet integral of a marginal (h=1) primary with unit coupling
-gives the universal h/(2pi) = 1/(2pi); c_coset = 0 forbids higher-layer
+gives the universal h/(2pi) = 1/(2pi). c_coset = 0 forbids higher-layer
 back-reactions.  The reading is layer-1 exact.
 
 Same bridge, two observables.  gravity.py reads the same (7,26) sector
@@ -111,9 +111,9 @@ induced gravity are two readings through one bridge.
 
 TRANSPORT.  The RGE running in this module (alpha_s to M_Z, the EW
 chain, thresholds) carries already-derived web values to their
-measurement scales.  The three layers are the graph (the web in
+measurement scales.  The three stages are the graph (the web in
 root.py, masses.py, gravity.py), the projections (mixing.py), and
-transport (this module); transport never feeds back into the graph.
+transport (this module). Transport never feeds back into the graph.
 
 Reference:
     Kahsay, Kibrom Kidane (2026). Three-paper series.
@@ -231,7 +231,7 @@ def _derive_bridge():
     # equivalently the real root of
     #     x³ = (512/π)[(1 − 1/(2π))x² − 1/(2π²)]
     # SINGLE SOURCE OF TRUTH: the kernel's solved web state (root.py).
-    # The fixed point of x ← b + W(x) already resums this cycle; no
+    # The fixed point of x ← b + W(x) already resums this cycle. No
     # second solver is kept here (dedup, task K3).
     inv_alpha = inv_alpha_phys
     alpha = alpha_phys
@@ -304,7 +304,7 @@ def derive(R, masses):
     print(f"\n  alpha_G₂(mu*) = pi/2⁵ = pi/32 = {alpha_s_mu_star:.6f}")
     print(f"    mu* = M_Pl·e^-(9pi²/2-6) = {mu_star:.3f} GeV")
     print(f"        = v_EW·e^(15/512 - 16(a/2pi)²)  (the EM complement)")
-    print(f"    (gauge lever arm endpoint; the 15/512 vertex echo is EM")
+    print(f"    (gauge lever arm endpoint. The 15/512 vertex echo is EM")
     print(f"     physics below mu* and does not feed the G₂ running)")
     print(f"    b₀(G₂) = (11/3)·4 − (4/3)·3 = 32/3  [C_A=h∨(G₂)=4, 3 Dirac in 7]")
     print(f"    Cancellation algebra:")
@@ -329,7 +329,7 @@ def derive(R, masses):
     # log is referenced to the matching scale μ*.
     M_V = g_G2 * v_EW / math.sqrt(float(C2_26))        # = pi*v_EW/(2*sqrt(12))
 
-    # Dictionary forms (were bare floats): T_V = T(3)+T(3̄) = 2h₁₁ = 1;
+    # Dictionary forms (were bare floats): T_V = T(3)+T(3̄) = 2h₁₁ = 1.
     # C_diff = C_A(G₂) − C_A(SU3) = d₁₀² − d₁₁ = 1.
     T_V = 2.0 * float(h11)                 # Dynkin index of coset vectors
     C_diff = float(d10**2 - d11)           # matching constant
@@ -356,7 +356,7 @@ def derive(R, masses):
           f", {abs(alpha_MZ_thresh-alpha_s_PDG)/0.0009:.1f}sigma")
 
     # ── RK4 convergence self-certification ──
-    # Re-run the full chain at 2× step count; assert agreement.
+    # Re-run the full chain at 2× step count. Assert agreement.
     a_mt_2x  = _rk4_run(lambda a: -_b0(n_f)*a**2 - _b1(n_f)*a**3,
                          a_thresh, math.log(mu_star), math.log(m_t_GeV), 20000)
     a_MZ_2x  = _rk4_run(lambda a: -_b0(n_f-1)*a**2 - _b1(n_f-1)*a**3,
@@ -381,7 +381,7 @@ def derive(R, masses):
           f"{(bridge['inv_alpha_phys']-137.035999206)/11e-9:+.2f}σ")
     print(f"    CODATA blend:        137.035999177(21)   "
           f"{(bridge['inv_alpha_phys']-137.035999177)/21e-9:+.2f}σ")
-    print(f"    The two recoil experiments disagree by >5σ (unresolved);")
+    print(f"    The two recoil experiments disagree by >5σ (unresolved).")
     print(f"    the framework lands on the cesium side, falsifiable call.")
 
     return {

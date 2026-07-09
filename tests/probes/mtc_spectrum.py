@@ -45,7 +45,7 @@ def su3_qdims(k):
 
 def octonion_cg():
     """Fano CG (computed): the octonions module's derivation, run
-    silently; returns C1, C3bar, BA_ratio, Q0."""
+    silently. Returns C1, C3bar, BA_ratio, Q0."""
     import io
     import contextlib
     import octonions

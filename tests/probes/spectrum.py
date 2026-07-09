@@ -10,12 +10,12 @@ PRE-STATED MEANINGS (written before looking):
   (a) three lines with ratios ~ Delta_k of the circulant fringe
       (0.040 : 0.580 : 2.379, i.e. 1 : 14.4 : 59) -> the mass
       spectrum is dynamical: the framework's strongest possible
-      result;
+      result.
   (b) one line + its harmonics -> the 1D lump is a single-mode
-      oscillator; the circulant spectrum lives at the MTC layer,
+      oscillator. The circulant spectrum lives at the MTC layer,
       and the literal-PDE reading is constrained (NOT a kill: the
-      papers derive the spectrum at the topological layer);
-  (c) broadband -> turbulent state, inconclusive; a true stationary
+      papers derive the spectrum at the topological layer).
+  (c) broadband -> turbulent state, inconclusive. A true stationary
       profile is needed first.
 
 Usage: python3 spectrum.py   (~35 s)
@@ -95,7 +95,7 @@ def run(report=print):
     report("-" * 66)
     report("  reference ratios: circulant fringe Delta_k = "
            f"{FRINGE[0]:.4f} : {FRINGE[1]:.4f} : {FRINGE[2]:.4f}")
-    report("  (pre-stated meanings in the docstring; interpret against")
+    report("  (pre-stated meanings in the docstring. Interpret against")
     report("   (a) three-line fringe / (b) single-mode / (c) broadband)")
 
 

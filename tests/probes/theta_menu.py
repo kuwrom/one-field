@@ -1,21 +1,24 @@
 """
-theta_menu.py: the phase is the sector-changer's weight, and the
-data selects it uniquely from the MTC's natural menu.
+theta_menu.py: the MECHANISM selects the phase. The data confirms
+the menu is unique.
 
-MECHANISM: boundary-condition-CHANGING
+MECHANISM (the selector): boundary-condition-CHANGING
 operators carry transition physics with their conformal weight as
 the datum (Ising precedent: free->fixed = h(1/16), up->down =
-h(1/2); Affleck-Ludwig).  The mass insertion connects adjacent Z3
-sectors, i.e. it IS a sector-changing operator; the lightest field
+h(1/2). Affleck-Ludwig).  The mass insertion connects adjacent Z3
+sectors, i.e. It IS a sector-changing operator. The lightest field
 implementing a unit Z3 jump in SU(3)_3 is the FUNDAMENTAL, so the
 insertion is the h = 2/9 operator and theta = h(fund) is the
-operator's identity.
+operator's identity.  That is the selection: theta = 2/9 before any
+mass is consulted.
 
-DISCRIMINATION COMPUTATION: with B/A = sqrt(2) fixed (computed from
-the Fano CG), the mass ratios depend on theta alone.  Scan the
-complete natural angle menu of the MTC, the weights of all ten
-primaries and their standard multiples, and measure each
+UNIQUENESS CHECK (the data's role): with B/A = sqrt(2) fixed
+(computed from the Fano CG), the mass ratios depend on theta alone.
+Scan the complete natural angle menu of the MTC, the weights of all
+ten primaries and their standard multiples, and measure each
 candidate's deviation from the PDG anchors m_mu/m_e and m_tau/m_e.
+The scan does not choose theta. It confirms that the mechanism's
+choice is the only angle on the menu with a physical spectrum.
 
 Usage: python3 theta_menu.py
 """
@@ -48,7 +51,8 @@ def run(report=print):
         menu[f"h{name} = {h:.4f}"] = h
         menu[f"2*pi*h{name}"] = 2*math.pi*h
         menu[f"pi*h{name}"] = math.pi*h
-    report("THETA MENU: which natural MTC angle does the data pick?")
+    report("THETA MENU: mechanism selects h(fund) = 2/9. The scan "
+           "checks uniqueness")
     report("=" * 70)
     report(f"  {'candidate':<22s} {'mu/e':>10s} {'tau/e':>10s} "
            f"{'dev(mu/e)':>10s}")
@@ -78,7 +82,7 @@ def run(report=print):
         report(f"  next DISTINCT candidate ({nn}): off by 10^{dd:.2f}")
     report(f"  EVERY other natural angle leaves the positive branch:")
     report(f"  no physical spectrum exists there AT ALL.  The data does")
-    report(f"  not prefer 2/9; it PERMITS only 2/9.")
+    report(f"  not prefer 2/9. It PERMITS only 2/9.")
     assert n0.startswith("h(0,1)") or n0.startswith("h(1,0)"), \
         "the winning angle must be the fundamental's weight"
     assert abs(m0 - PDG_MU_E) / PDG_MU_E < 1e-4

@@ -1,46 +1,50 @@
 """
 wiring_scan.py: the wiring, found rather than stated.
 
-The closure demand (exist with zero free parameters) is run as
-residual functions over three candidate spaces in sequence, then the
-dictionary is COMPUTED from the winner:
+A closure-residual scan over the CLASSIFIED candidate menus
+(lattices, conformal pairs, levels): the closure demand (exist with
+zero free parameters) is evaluated as residual functions over each
+finite, pre-classified menu in sequence, and the dictionary is then
+COMPUTED from the winner.  Nothing is searched against data. The
+residuals are structural closure conditions, and each menu is a
+complete classification, not a tuned candidate pool:
 
     stage W1: lattice        -> E8            (unique zero residual)
     stage W2: sub-algebra    -> G2(1) x F4(1) (unique zero residual)
     stage W3: level          -> k = 3         (unique zero residual)
     stage W4: constants      -> n7, n26 from the winner's fundamental
-              representations (Lie data of the attractor); d10, d11
+              representations (Lie data of the attractor). d10, d11
               from the Kac-Peterson S-matrix of the emergent SU(3)_3
               (quantum dimensions d(lambda) = S[0,lambda]/S[0,0]).
 
 No four integers are input anywhere.  Octonions are never mentioned:
-if you want to know what the attractor "is", ask a mathematician;
-the answer will involve Aut(O) and Aut(J3(O)), which is the
+if you want to know what the attractor "is", ask a mathematician.
+The answer will involve Aut(O) and Aut(J3(O)), which is the
 attractor's NAME, not this program's premise.
 
 The candidate spaces:
 
   1. LATTICES (rank <= 16): integrality, evenness, unimodularity,
      positive-definiteness, irreducibility, minimal rank.  (Rank-8
-     candidates are checked by direct computation on Gram matrices;
-     the rank-16 classification, E8+E8 and D16+ being the only even
+     candidates are checked by direct computation on Gram matrices.
+     The rank-16 classification, E8+E8 and D16+ being the only even
      unimodular lattices there (Witt/Milnor), enters only through the
      minimal-rank axiom.)
 
   2. CONFORMAL SUB-ALGEBRA PAIRS of E8(1): the complete classified
      list (Schellekens, Bais-Bouwknegt).  Conditions: an EMERGENT Z3
-     (a maximal SU(3) inside a trivial-centre factor; a factor with
+     (a maximal SU(3) inside a trivial-centre factor. A factor with
      its own centre inherits the label instead of emerging it), and a
      non-pointed topological sector to carry quantum dimensions.
 
   3. WZW LEVEL for the emergent Z3: the simple current J = (k,0) has
-     h_J = k/3; a modular extension needs h_J integer, and a CURRENT
+     h_J = k/3. A modular extension needs h_J integer, and a CURRENT
      (Lie-algebra, h = 1) extension rather than a W-algebra generator
      (h >= 2, which imports a free normalisation and re-opens a
      parameter).  Zero-parameter closure therefore demands h_J = 1.
 
 Complements embedding_uniqueness.py (which scans all rank-8 parents
-through the six coherence gates); this probe scans E8's own conformal
+through the six coherence gates). This probe scans E8's own conformal
 pairs and the level, and reads the dictionary off the winner.
 
 Usage: python3 wiring_scan.py
@@ -56,7 +60,7 @@ import numpy as np
 FUND_DIM = {"G2": 7, "F4": 26}
 
 
-# ── 1. Lattice candidates (rank 8, computed; rank 16 via minimality) ──
+# ── 1. Lattice candidates (rank 8, computed. Rank 16 via minimality) ──
 
 def _gram_I8():
     return np.eye(8)
@@ -106,7 +110,7 @@ def lattice_residual(cand, min_rank=8):
         if not np.all(np.linalg.eigvalsh(G) > 0):
             bad += 1                                   # positivity
     else:
-        # rank-16 entries are even+unimodular by classification;
+        # rank-16 entries are even+unimodular by classification.
         # E8+E8 additionally fails irreducibility (free relative
         # normalisation between summands = a parameter).
         if name == "E8+E8":
@@ -120,14 +124,14 @@ def lattice_residual(cand, min_rank=8):
 
 PAIRS = [
     # name,                emergent_Z3, non_pointed, note
-    ("G2(1) x F4(1)",      True,  True,  "both factors trivial centre; "
+    ("G2(1) x F4(1)",      True,  True,  "both factors trivial centre. "
                                          "G2 > SU(3) maximal, Z3 emerges"),
     ("SU(2)1 x E7(1)",     False, False, "centres Z2 x Z2: labels "
                                          "inherited, and pointed at level 1"),
     ("SU(3)1 x E6(1)",     False, False, "SU(3) carries its own Z3: "
-                                         "inherited, not emergent; pointed"),
-    ("SU(5)1 x SU(5)1",    False, False, "centres Z5; pointed"),
-    ("SU(9)1",             False, False, "centre Z9: inherited; pointed"),
+                                         "inherited, not emergent. Pointed"),
+    ("SU(5)1 x SU(5)1",    False, False, "centres Z5. Pointed"),
+    ("SU(9)1",             False, False, "centre Z9: inherited. Pointed"),
     ("SO(16)1",            False, True,  "centre Z2 x Z2: no Z3 at all"),
 ]
 
@@ -147,9 +151,21 @@ def pair_residual(cand):
 def level_residual(k):
     """h_J = k/3 must be exactly 1 (a current, not a W-generator).
 
-    h_J not integer -> no modular extension at all (2 violations);
+    h_J not integer -> no modular extension at all (2 violations).
     h_J integer but >= 2 -> W-algebra extension, imports a free
-    normalisation (1 violation); h_J = 1 -> closes (0).
+    normalisation (1 violation). h_J = 1 -> closes (0).
+
+    R3-FROM-R1 (why k = 3 is a LEMMA, not a hypothesis): the only
+    axiom in play is R1, zero free parameters.  The simple current
+    J = (k,0) of SU(3)_k has h_J = k/3.  A modular extension needs
+    h_J integer, so k = 3, 6, 9, .... For k > 3 the extending field
+    has h_J >= 2, i.e. It is a W-algebra generator, and a W-algebra
+    extension re-imports a free normalisation (the generator's
+    coupling is not fixed by current algebra), excluded by the very
+    zero-parameter demand being scanned.  k = 3 is therefore the
+    unique zero-residual output of R1, not an independent input.
+    The assertion in run() freezes this: exactly {3} survives over
+    k in 1..12.
     """
     if (k % 3) != 0:
         return 2
@@ -220,8 +236,12 @@ def run(report=print):
     scored, zero = survivors(list(range(1, 13)), level_residual)
     report("stage W3 (level): residuals " +
            " ".join(f"k={k}:{r}" for r, k in scored))
-    assert zero == [3]
-    report("    -> unique survivor: k = 3")
+    assert zero == [3], \
+        "R3 is a lemma of R1: k = 3 must be the unique zero residual " \
+        "(k > 3 extends by a W-generator, re-importing a free " \
+        "normalisation. Excluded by the zero-parameter demand itself)"
+    report("    -> unique survivor: k = 3 (a lemma of the "
+           "zero-parameter demand, not a hypothesis)")
 
     n7, n26 = FUND_DIM["G2"], FUND_DIM["F4"]
     d = su3_qdims(3)

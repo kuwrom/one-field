@@ -15,10 +15,10 @@ exactly what remains in classes [1] and [3].
             Remainder: bosonic/higher loops (~0.0008) = class [3].
 
   dr_hat_W: dominant content is Delta_r0 = 1 - alpha(0)/alpha_hat(M_Z),
-            driven by the DISPERSIVE hadronic vacuum polarization , 
+            driven by the DISPERSIVE hadronic vacuum polarization,
             e+e- spectral DATA, class [1], same admissibility as PDG
             masses.  The framework's internal VP (free quarks +
-            Lambda_conf cutoff) approximates it; the gap below
+            Lambda_conf cutoff) approximates it. The gap below
             measures exactly how far the internal computation reaches.
             Remainder: EW loop remainder (~0.0029) = class [3].
 
@@ -124,17 +124,17 @@ def run(report=print):
     report(f"  Delta_r0 (internal VP) = {dr0_int:.5f}   vs dispersive "
            f"{dr0_disp:.5f}  (gap {dr0_int-dr0_disp:+.5f})")
     report(f"  dr_hat_W import     = {dr_import:.5f} -> EW remainder "
-           f"{ew_rem:+.5f} [class 3]; hadronic VP itself is DATA"
+           f"{ew_rem:+.5f} [class 3]. Hadronic VP itself is DATA"
            f" [class 1]")
 
     report("-" * 64)
     report("  VERDICT: rho_hat is retirable up to +0.0008 of pure loop")
-    report("  mathematics; dr_hat_W is irreducibly data-bounded through")
+    report("  mathematics. dr_hat_W is irreducibly data-bounded through")
     report("  the hadronic VP (class 1, same admissibility as the PDG")
     report("  masses), the internal VP reaches it to "
            f"{100*abs(dr0_int/dr0_disp-1):.1f}%.  The imports are")
     report("  hereby RECLASSIFIED (measurement + loop-math), not free")
-    report("  parameters; full retirement needs a dispersive-grade")
+    report("  parameters. Full retirement needs a dispersive-grade")
     report("  internal VP, which is a data question, not a theory one.")
     return {"G_F": G_F, "d_rho_t": d_rho_t, "dr0_int": dr0_int}
 

@@ -4,7 +4,7 @@ The algebraic root: four irreducible numbers fix everything.
 The conformal embedding E₈(1) ⊃ G₂(1) × F₄(1) determines four
 irreducible integers.  Every dimensionless coupling, mass ratio, and
 mixing angle in the framework is a polynomial or rational function of
-these four plus π; the electron mass anchors the scale (M_Pl, G, and
+these four plus π. The electron mass anchors the scale (M_Pl, G, and
 all dimensionful values are derived).
 
     d₁₀ = 2     quantum dimension of SU(3)₃ fundamental (1,0)
@@ -15,7 +15,7 @@ all dimensionful values are derived).
 Back-reaction, not dressing.  Each derived quantity below is a CLOSED-FORM
 polynomial or rational in the four integers (and π), not a renormalised
 value tuned against measurement.  The Standard Model uses RGE running to
-dress free Yukawa couplings against data; this framework has no Yukawas
+dress free Yukawa couplings against data. This framework has no Yukawas
 to tune, so every factor here is itself an algebraic identity -- the echo
 law's terms at each depth are the algebra's OWN back-reaction through the
 channels that exist, not corrections applied to bare values.
@@ -53,7 +53,7 @@ assert d11**2 - 1 == 4 * d10, "Sugawara consistency: d₁₁² − 1 = 4d₁₀"
 #  SOLE DIMENSIONAL INPUT: THE ELECTRON ANCHORS THE SCALE
 # ═══════════════════════════════════════════════════════════════════════
 #
-#  The first closure sets the ruler; everything later is measured
+#  The first closure sets the ruler. Everything later is measured
 #  against it.  The electron mass is the most precisely measured mass
 #  in physics (0.3 ppb), five orders of magnitude sharper than G
 #  (22 ppm), which is the only route to M_Pl.  With the depth-3 lepton
@@ -61,7 +61,7 @@ assert d11**2 - 1 == 4 * d10, "Sugawara consistency: d₁₁² − 1 = 4d₁₀"
 #  the lepton formula inverts exactly: m_e fixes M_Pl, and therefore
 #  G, m_mu, m_tau, v_EW all become PREDICTIONS.
 #
-#  M_Pl is DERIVED below (after the dimensionless web is solved); the
+#  M_Pl is DERIVED below (after the dimensionless web is solved). The
 #  CODATA value is kept only for the G comparison.
 
 M_E_ANCHOR_MEV = 0.51099895069       # CODATA 2022, ±1.6e-10 (0.3 ppb)
@@ -78,7 +78,7 @@ H_0_KM_S_MPC = 67.4                  # Planck 2018, ± 0.5
 H_0_SI  = H_0_KM_S_MPC * 1e3 / 3.0856775814913673e22  # s⁻¹
 H_0_GEV = H_0_SI * HBAR_SI * GEV_PER_J                # GeV
 
-# placeholders, assigned by the anchor inversion further down
+# assigned by the anchor inversion below (not free placeholders)
 M_Pl_GeV = None
 M_Pl_MeV = None
 
@@ -114,8 +114,12 @@ h11    = Fraction(1, d10)                # h(1,1)  = 1/2
 # Since d₁₁²−2d₁₀² = 1 (Sugawara), this simplifies to 1/(d₁₀d₁₁²).
 delta  = Fraction(1, d10 * d11**2)       # OPE gap = 1/18
 
-# Koide parameter
-Q0     = Fraction(d10, d11)              # = 2/3
+# Koide parameter, derived form first: Q0 = 1/3 + d10/6 (the 1/3
+# floor is one over the sector count. d10/6 is the variance term).
+# Q0 = d10/d11 is an IDENTITY at the actual values (d11 = 3 happens
+# to equal the sector count), not the derivation.  Status: obs.
+Q0     = Fraction(1, 3) + Fraction(d10, 6)   # = 2/3
+assert Q0 == Fraction(d10, d11)              # the identity, frozen
 
 # - Bridge sector (7,26) -
 N_bridge = n7 * n26                      # = 182
@@ -125,9 +129,9 @@ h_bridge = h_7 + h_26                    # = 1  (marginal)
 assert h_bridge == 1
 # FACE-SPLIT LAW (conservation): the bridge's one self-echo unit is
 # re-absorbed by the two faces in the h∨ metric, the same metric
-# that defines sin²θ_W below.  G₂: 4/13, F₄: 9/13; the shares sum to
+# that defines sin²θ_W below.  G₂: 4/13, F₄: 9/13. The shares sum to
 # the full marginal weight (nothing lost).  Emission echoes carry
-# conformal weights (h_7, h_26, h_bridge); absorption ledgers carry
+# conformal weights (h_7, h_26, h_bridge). Absorption ledgers carry
 # h∨ shares.  Applications: gravity.py (Σ no-self-dilution, FORCED)
 # and sin²θ_W(M_Z) (G₂-face emission echo, FORCED).
 # NO-SELF-DILUTION IS SYMMETRIC: each face's absorbed share returns
@@ -136,7 +140,7 @@ assert h_bridge == 1
 # and the G₂ share cannot back-react on the gauge couplings.  The
 # conservation is therefore complete internally: the law PREDICTS
 # THE ABSENCE of any anomalous gauge back-reaction (α_s carries no
-# ±(4/13)-unit shift; a future α_s anomaly of that size would
+# ±(4/13)-unit shift. A future α_s anomaly of that size would
 # falsify the symmetry).
 assert Fraction(hv_G2, hv_G2 + hv_F4) + Fraction(hv_F4, hv_G2 + hv_F4) == h_bridge
 
@@ -203,7 +207,7 @@ HURWITZ_DEPTH = 3
 #  SCALAR and lossless.  Two properties are automatic at the fixed
 #  point, not imposed: constant edges apply exactly once (idempotent),
 #  and state-dependent cycle edges resum self-consistently.  Depth
-#  labels are path metadata; a NEW depth requires a NEW edge, and every
+#  labels are path metadata. A NEW depth requires a NEW edge, and every
 #  edge is a theorem, nothing numerological can enter through the
 #  recursion itself.
 
@@ -216,9 +220,9 @@ class EchoTerm:
     kind is the edge taxonomy of the one graph:
       'ratio':  the same wave multiplied through a dictionary integer
                 (ratios usually live in ledger bases computed in
-                dependency order; the kind appears on an edge only
-                when a base is a callable reading the state);
-      'echo':   a back-reaction ripple through a channel (default);
+                dependency order. The kind appears on an edge only
+                when a base is a callable reading the state).
+      'echo':   a back-reaction ripple through a channel (default).
       'vent':   a knot venting into a channel or the common mode
                 (dof columns, Casimir and vertex vents).
     """
@@ -244,14 +248,14 @@ class Ledger:
 
     mode='mul': value = base · Π(1 + factor)    (masses, couplings)
     mode='add': value = base + Σ factor          (actions, exponents)
-    The value is the composed amplitude; the terms are the readable
+    The value is the composed amplitude. The terms are the readable
     echo history (provenance of every ripple).
 
     base is either a float (static amplitude) or a callable(state)
     reading the current web state (a live base).  A live base is the
     'ratio' edge of the one graph: the same wave reached through
-    another node (constraint nodes m_b, m_s; the anchor inversion
-    M_Pl; the column total G_ratio).
+    another node (constraint nodes m_b, m_s. The anchor inversion
+    M_Pl. The column total G_ratio).
     """
 
     def __init__(self, name, base, mode="mul", unit=""):
@@ -319,7 +323,7 @@ class Web(dict):
 
     def solve(self, iters=300, tol=1e-15):
         """Joint fixed point of the kernel: classical Jacobi-style
-        fixed-point iteration (a standard numerical method; no
+        fixed-point iteration (a standard numerical method. No
         machine-learning machinery is involved anywhere)."""
         for _ in range(iters):
             new = {}
@@ -340,12 +344,12 @@ class Web(dict):
 
 
 #  THE ORIENTATION RULE (multiplicity of an echo term).
-#  Every closed echo cycle contributes once per orientation; open paths
+#  Every closed echo cycle contributes once per orientation. Open paths
 #  contribute once per mode.  This rule is already in the framework:
 #    • circulant amplitude B = 2ρ: the Z₃ step S and its reverse S† are
 #      the two orientations of one cycle, the published factor 2 in
-#      B/A = 2|C₃̄|/(|C₁|d₁₀) IS orientation counting;
-#    • bridge self-echo: a self-loop has one orientation → coefficient 1;
+#      B/A = 2|C₃̄|/(|C₁|d₁₀) IS orientation counting.
+#    • bridge self-echo: a self-loop has one orientation → coefficient 1.
 #    • 30-mode vertex echo: open 1-paths → multiplicity = mode count.
 #  Applied at depth 3: the mutual electron↔quark echo loop through the
 #  EM channel is a 2-cycle (e→q→e and q→e→q), so its multiplicity is
@@ -360,10 +364,10 @@ class Web(dict):
 #  existing vertices, they never invent new ones.  The multiplicity is
 #  the product of the two endpoint weights:
 #    • coupling node (1/α): no matter vertices (back-reacts on itself) →
-#      orientation count alone = 2  (S,S† pair);
+#      orientation count alone = 2  (S,S† pair).
 #    • action node (S): its depth-1 vertices are the charge trace
 #      (inside α_alg = α_G₂/16, the 30-mode vent) and the Casimir
-#      C₂(26) (the −6 vent) → 8/3 × 6 = 16 = the Singh ratio;
+#      C₂(26) (the −6 vent) → 8/3 × 6 = 16 = the Singh ratio.
 #    • amplitude node (m): its own channel weight is the Schur
 #      projector W(fund) = 1/d₁₀ (the same 1/2 that fixes B/A), and
 #      the q-side traversal is the Albert composition, dim J₃(O) = 27
@@ -380,7 +384,7 @@ class Web(dict):
 #  one bridge, (7,26): it connects the G₂ sector to the F₄ sector as one
 #  bi-fundamental, not as 3 generations × colors of separate wires.
 #  Species multiplicity lives INSIDE a channel's own data (the 30-mode
-#  vertex counts the modes OF one channel; the Singh ratio's 8/3 is the
+#  vertex counts the modes OF one channel. The Singh ratio's 8/3 is the
 #  charge trace WITHIN the EM channel), it never multiplies the number
 #  of loops.  So the depth-3 echo graph has two nodes (G₂-knot sector,
 #  F₄-knot sector), one edge (the EM channel carrying the bridge
@@ -392,13 +396,13 @@ class Web(dict):
 #  level so every module computes WITH the echo law, not before it.
 #
 #  READING ORDER IS EMERGENCE ORDER.  The chain executes the story:
-#    1. the coupling closes on itself         (inv_alpha cycle, here)
-#    2. the anchor sets the ruler             (m_e -> M_Pl, here)
-#    3. one standing wave, three windings     (leptons, masses.py)
+#    1. The coupling closes on itself         (inv_alpha cycle, here)
+#    2. The anchor sets the ruler             (m_e -> M_Pl, here)
+#    3. One standing wave, three windings     (leptons, masses.py)
 #    4. quarks = words on the generator       (walk counts, masses.py)
-#    5. every knot vents into the common mode (Sigma, gravity.py)
+#    5. Every knot vents into the common mode (Sigma, gravity.py)
 #    6. gravity is the column total           (G = 6pi/Sigma)
-#    7. the unread remainder                  (dark_ratio = 2pi - 1)
+#    7. The unread remainder                  (dark_ratio = 2pi - 1)
 #  A reading of an observable is its value at the minimal prefix of
 #  this order that closes it.
 WEB = Web()
@@ -414,7 +418,7 @@ def _alpha_of(state):
 #  - EM coupling ledger: born at 2⁹/π, additive bracket -
 #  depth 1: bridge self-interference (marginal h=1, D²=1, c_coset=0)
 #  depth 3: two-orientation electron↔quark loop, a state-dependent
-#  cycle edge; the kernel's fixed point resums it automatically
+#  cycle edge. The kernel's fixed point resums it automatically
 #
 #  NO-FURTHER-EDGE THEOREM (closes the depth-4 question).  Echo paths
 #  run along channels between SECTOR nodes (the sector-node rule), and
@@ -426,7 +430,7 @@ def _alpha_of(state):
 #  its only cycles are traversals of the single 2-cycle, and ALL
 #  repeated traversals are already resummed by the kernel's
 #  self-consistency (α appears inside its own bracket).  Hence no
-#  (α/2π)³ edge exists; the cubic below is EXACT AND FINAL, and the
+#  (α/2π)³ edge exists. The cubic below is EXACT AND FINAL, and the
 #  framework's commitment to the Berkeley Cs value is total: if the
 #  Cs/Rb dispute resolves toward Rb, there is no deeper term to add,
 #  the sector-node rule or the orientation rule is falsified outright.
@@ -528,7 +532,7 @@ E_v2 = Fraction(1, 2)                   # Pv²P = ½P
 # D²_eff = FPdim(C₀) = d₁₀²d₁₁ = 12 (the neutral sector {1,J,J²,8}).
 # The embedding reading gives π·(h∨(E₈) − C₂(26)).  They agree because
 #     h∨(E₈) − C₂(26) = d₁₀ · FPdim(C₀)        (30 − 6 = 2·12),
-# i.e. the embedding sees the neutral-sector dimension counted once per
+# i.e. The embedding sees the neutral-sector dimension counted once per
 # orientation of the e↔q loop (the same d₁₀ = 2 as the orientation
 # rule).  Asserted below as a polynomial identity of the dictionary.
 _D2_eff = d10**2 * d11                       # FPdim(C₀) = 12
@@ -576,7 +580,7 @@ M_Pl_GeV = M_Pl_MeV / 1e3
 
 #  The ruler as a graph node (live base, the anchor inversion read
 #  from the state): perturbing the web and re-solving returns M_Pl
-#  to the same fixed point.  The constant is stored nowhere; it is
+#  to the same fixed point.  The constant is stored nowhere. It is
 #  where the recursion lands.
 def _F_e_of(state):
     a = _alpha_of(state)
@@ -608,7 +612,7 @@ RHO_LAMBDA = 3.0 * H_0_GEV**2 * M_Pl_GeV**2 / (8.0 * math.pi)
 #   −C₂(26) = −d₁₀d₁₁ = −6:  functional determinant shift from quarks
 #       living in the 26 of F₄ (Casimir of 26-dimensional representation)
 #   δS = N_vertex · α_EM / (2π):  't Hooft vertex one-loop back-reaction
-#       (standard QFT: "one-loop correction"; here forced by the mode count)
+#       (standard QFT: "one-loop correction". Here forced by the mode count)
 #       N_vertex = n₂₆ + h∨(G₂) = 26 + 4 = 30 modes
 #       (26 from F₄ fundamental + 4 real Higgs DOFs = h∨(G₂) = d₁₀²)
 #       α_EM = π/512 (derived above)
@@ -619,7 +623,7 @@ delta_S = N_vertex * alpha_EM / (2 * math.pi)  # = 15/512
 
 #  - quark-layer action ledger: ALL departures from the lepton action
 #  are echoes.  The F4 knot vents its Casimir into the instanton
-#  background (−C₂(26)); the 30 vertex modes vent through the EM
+#  background (−C₂(26)). The 30 vertex modes vent through the EM
 #  channel at its emergence reading (+Nα/2π).  One law, two channels.
 WEB["S_quark"] = (
     Ledger("S_quark(action)", S_lepton, "add")
@@ -643,7 +647,7 @@ WEB["S_quark"] = (
 #  Depth-2 vent: the fundamental-channel share of the bridge vents
 #  into the condensate and does not reach the scalar, deflating the
 #  edge by (1 − h₁₀).  The 7 of G₂ decomposes 3 ⊕ 3̄ ⊕ 1 under the
-#  confined SU(3); the triality-charged share cannot cross a
+#  confined SU(3). The triality-charged share cannot cross a
 #  confining interface (N-ality superselection, words.py), and a
 #  selection rule carries no altitude factor (vent, like the Casimir
 #  vent above).  The blocked share in the weight metric is h₁₀.
@@ -655,7 +659,7 @@ WEB["lambda_MPl"] = (
           "FORCED", "N_bridge·α_G₂²·E[v²] bridge→Higgs echo")
     .echo(["WZW(fund)-vent"],
           (n7 * n26) * alpha_G2_Pl**2 * float(E_v2) * float(h10), 2,
-          "FORCED", "fundamental-share vent (1−h₁₀); "
+          "FORCED", "fundamental-share vent (1−h₁₀). "
                     "registry.PROMOTIONS", kind="vent"))
 
 #  re-run the kernel so the new nodes join the solved state
@@ -678,7 +682,7 @@ bridge_sq_phys = WEB.state["bridge_sq"]  # 32/27 × (1 + h₁₁/K²)
 #
 # Then Q₀ = 1/3 + d₁₀/6 = 2/3 = d₁₀/d₁₁.
 #
-# Credit: Koide (1982) for the empirical relation;
+# Credit: Koide (1982) for the empirical relation.
 #         Brannen (2006) for the parameterisation.
 # Derivation: Z₃ circulant algebra + octonionic CG + quantum Schur lemma.
 #
@@ -690,9 +694,9 @@ BA_ratio = math.sqrt(d10)               # |B/A| = √d₁₀ = √2
 # ═══════════════════════════════════════════════════════════════════════
 # Leptons: pole masses (physical observables).
 # Quarks: PDG 2024 conventional coordinates --
-#   u, d, s: MS-bar at μ = 2 GeV;  c, b: MS-bar at μ = m;
+#   u, d, s: MS-bar at μ = 2 GeV.  c, b: MS-bar at μ = m.
 #   t: direct-measurement pole mass.
-# The algebra produces one value per fermion; it does not run to a
+# The algebra produces one value per fermion. It does not run to a
 # scale.  The PDG coordinate each value matches is an observable
 # consequence, not a choice.
 
@@ -733,10 +737,10 @@ PDG_EW = {
     'sin2W_MSbar': 0.23129, 'sin2W_err': 0.00004,   # global SM fit 2024
     'm_H': 125.20, 'alpha_s_MZ': 0.1180,
     # MS-bar radiative back-reaction imports (DECLARED, cited).
-    # (Standard QFT: "radiative corrections"; here they are back-reactions
+    # (Standard QFT: "radiative corrections". Here they are back-reactions
     # whose inputs are all re-derived from the framework.)
     # ZERO-PARAMETER DISCIPLINE: these are functions of (G_F, m_t,
-    # m_H, alpha-hat(M_Z)); every ingredient is RECALCULATED from the
+    # m_H, alpha-hat(M_Z)). Every ingredient is RECALCULATED from the
     # framework's own predictions and verified compatible within the
     # quoted errors (executable audit in gravity.py).  The only
     # data-driven ingredient is the dispersive hadronic VP inside
@@ -790,7 +794,8 @@ def derive():
     print(f"    h∨(G₂) = d₁₀² = {hv_G2},  h∨(F₄) = d₁₁² = {hv_F4}")
     print(f"    h∨(E₈) = dim(E₈)/c(E₈)−1 = {dim_E8}/{_c_E8}−1 = {hv_E8}")
     print(f"    C₂(7)  = d₁₀  = {C2_7},   C₂(26) = d₁₀d₁₁ = {C2_26}")
-    print(f"    K = d₁₀d₁₁ = {K},  Q₀ = d₁₀/d₁₁ = {Q0}")
+    print(f"    K = d₁₀d₁₁ = {K},  Q₀ = 1/3 + d₁₀/6 = {Q0} "
+          f"(= d₁₀/d₁₁, identity at these values)")
     print(f"    dim: G₂={dim_G2}, F₄={dim_F4}, E₈={dim_E8}")
     print(f"    N_bridge = {n7}×{n26} = {N_bridge}")
 

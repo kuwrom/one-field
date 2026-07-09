@@ -6,12 +6,12 @@ Continues probes/knot.py: seed the winding lump, let the instability
 saturate (t ~ 8-10), then evolve long (t = 40) and measure
 
   1. persistence: relative peak and width, sampled every 5 time units
-     (a knot is a lump that breathes without dying);
+     (a knot is a lump that breathes without dying).
   2. winding purity: integral of |rho_q1|^2 vs |rho_q2|^2, does the
-     structure stay in its winding class;
+     structure stay in its winding class.
   3. internal frequency: the phase of the q=1 amplitude at the lump's
      core, unwrapped and fitted, the knot's circulation rate omega.
-     (m = hbar*omega is the framework's mass-as-rotation claim; this
+     (m = hbar*omega is the framework's mass-as-rotation claim. This
      is the first measured number on the road to the spectrum test.)
 
 Usage: python3 stationary.py   (~25 s)
@@ -83,11 +83,11 @@ def run(report=print):
            f"(formation was at t ~ 8): "
            f"{'YES' if peak > 0.5 else 'NO'}")
     w_rel = w_fit + mu     # subtract the condensate's own -mu rotation
-    report(f"  raw core phase rate = {w_fit:+.4f}; condensate rate = {-mu:+.4f}")
+    report(f"  raw core phase rate = {w_fit:+.4f}. Condensate rate = {-mu:+.4f}")
     report(f"  INTERNAL circulation (relative to condensate): "
            f"omega_rel = {w_rel:+.4f}")
     report(f"  scale |lambda_1| rho0 = {g1*rho0/2:.4f}: the knot")
-    report(f"  oscillates below the natural scale; leakage empirically")
+    report(f"  oscillates below the natural scale. Leakage empirically")
     report(f"  weak (persistence).  NOTE: low-omega relative waves exist")
     report(f"  above the instability band, so this is suppression, not")
     report(f"  strict spectral absence.")

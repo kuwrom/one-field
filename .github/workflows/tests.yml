@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"   # weekly: the substrate-dynamics arc
 
 jobs:
   test:
@@ -16,3 +18,17 @@ jobs:
           python-version: "3.x"
       - run: pip install -r requirements.txt
       - run: pytest -v
+
+  slow:
+    # the substrate-dynamics arc (3D probes: knot_charge, skyrmion_3d,
+    # confined_phase, knot_spectrum + the 1D probes): minutes of PDE
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: pip install -r requirements.txt
+      - run: pytest -v -m slow

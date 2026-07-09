@@ -1,9 +1,15 @@
 cff-version: 1.2.0
 message: "Cite the repository as 'one-field' and the relevant motivation papers listed in interference/registry.py (PAPERS)."
-title: "one-field: end-to-end derivation of the Standard Model through E_8(1) > G_2(1) x F_4(1)"
+title: "one-field: the Standard Model constant table from the E_8(1) > G_2(1) x F_4(1) interference web"
+abstract: "Derivation of the Standard Model constant table, gravity, and the dark sector from a recursive interference web on four integers. Not claimed as end-to-end by the repo's own labels: fermionic statistics routes through the cited WZ step and the open confined-phase program (interference/registry.py, DERIVATION_PROGRAMS #4)."
 authors:
-  - name: "one-field contributors"
+  - family-names: "Kahsay"
+    given-names: "Kibrom Kidane"
 url: "https://github.com/kuwrom/one-field"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.20323890
+    description: "Zenodo archive of this repository"
 license: MIT
 type: software
 version: "0.2"

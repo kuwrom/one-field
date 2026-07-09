@@ -14,22 +14,36 @@ reasons having nothing to do with statistics.  Three is odd:
 
     exchange phase = exp(3 pi i) = -1  ->  FERMIONS.
 
-The level is forced, not cited: Witten quantization makes the WZ
-coefficient an integer, and 't Hooft anomaly matching fixes it to the
-number of fermion species in the loop, the d11 = 3 Dirac fermions in
-the 7 (the same matter content the alpha_s derivation uses).  Two
+The honest split (mirrored in winding_texture.py): the LEVEL is
+derived by counting, and the PRESENCE of the WZ term is FORCED
+GIVEN the confined phase.  't Hooft matching requires the IR
+effective theory to reproduce the UV global anomaly, and the WZ
+term at the matched level is the unique local functional that does
+(Wess-Zumino consistency. Witten's construction).  The citation is
+corroboration-grade, an established theorem like Hurwitz. The
+single open premise behind BOTH halves is the confined phase
+itself (SUBSTRATE_CONJECTURES #1).  On the level: Witten
+quantization makes the WZ coefficient an integer, and 't Hooft
+anomaly matching fixes it to the number of fermion species in the
+loop, the d11 = 3 Dirac fermions in the 7 (the same matter content
+the alpha_s derivation uses).  Two
 deep things follow at once: spin-statistics is free (the same
 topological term gives half-integer spin), and "k odd" becomes a
 retrodiction: the level that generates three generations and the
 level that makes matter fermionic are the SAME integer.  Generations
 and statistics share one origin.
 
-WHY THE KNOT IS CHARGED (persistence => charge).  In a topological
-sector the only protection is charge; an uncharged lump is
-contractible, a transient.  Being a knot and unit Z3 winding are one
-property.  Negative evidence from our own 1D data: without
-topological protection the windings mix (probes/stationary.py),
-exactly what unprotected labels do.
+WHY THE KNOT IS CHARGED (persistence => charge, a CONFINED-PHASE
+statement).  In a topological sector the only protection is charge.
+An uncharged lump is contractible, a transient.  Being a knot and
+unit Z3 winding are one property THERE.  At the bare substrate level
+the converse was measured (knot_charge.py): a persistent B = 0
+density lump exists and the charge unwinds, so this argument binds
+in the confined phase, where the topological sector lives, not in
+the linear substrate field (DERIVATION_PROGRAMS #4).  Negative
+evidence from our own 1D data: without topological protection the
+windings mix (probes/stationary.py), exactly what unprotected
+labels do.
 
 WZ level: the anomaly bookkeeping of the branched matter.
   (a) CONSISTENCY: the child SU(3) cubic gauge anomaly of the
@@ -39,13 +53,13 @@ WZ level: the anomaly bookkeeping of the branched matter.
       child-charged copies circulating per family loop, the quark
       analog of "WZ level = N_c".  Per family, the branched 7
       contributes ONE child triplet (with its conjugate as the Dirac
-      partner); three families -> coefficient 3 = d11 = Gate 3's k.
-      (Counting-level verification; the full triangle diagram is the
+      partner). Three families -> coefficient 3 = d11 = Gate 3's k.
+      (Counting-level verification. The full triangle diagram is the
       cited standard result.)
 
 Theta: the Cardy-level check that the lightest Z3
   SECTOR-CHANGING primary is the fundamental.  Changing the Z3
-  sector requires NONZERO TRIALITY t = (l1 + 2 l2) mod 3; the
+  sector requires NONZERO TRIALITY t = (l1 + 2 l2) mod 3. The
   identity family {1, J, J^2} (t = 0) preserves sectors.  Among the
   triality-charged primaries the minimum weight is h = 2/9, the
   fundamental pair, so the sector-changing insertion IS the h = 2/9
@@ -70,7 +84,7 @@ def run(report=print):
     # P1(a): child gauge anomaly of the branched 7
     branch = ["3", "3bar", "1"]                     # 7 -> 3 + 3bar + 1
     A = sum(cubic_anomaly_su3(r) for r in branch)
-    report(f"  P1a: 7 -> 3 + 3bar + 1;  child cubic anomaly "
+    report(f"  P1a: 7 -> 3 + 3bar + 1.  Child cubic anomaly "
            f"A = {A}   ({'CONSISTENT' if A == 0 else 'BROKEN'})")
     assert A == 0
 
@@ -80,7 +94,7 @@ def run(report=print):
     level = n_families * triplets_per_family
     report(f"  P1b: WZ coefficient = child-charged copies per family")
     report(f"       loop x families = {triplets_per_family} x "
-           f"{n_families} = {level}  (= d11 = Gate-3 k; ODD -> fermion)")
+           f"{n_families} = {level}  (= d11 = Gate-3 k. ODD -> fermion)")
     assert level == 3
 
     # theta: lightest sector-changing primary of SU(3)_3
@@ -100,7 +114,7 @@ def run(report=print):
            f"(next: {changers[2][0]})")
     assert h0 == Fraction(2, 9) and p0 in [(1, 0), (0, 1)]
     report("-" * 64)
-    report("  child theory anomaly-consistent; WZ level = 3 by")
+    report("  child theory anomaly-consistent. WZ level = 3 by")
     report("      counting: generations and statistics, one integer.")
     report("  the Z3 sector-changer is the h = 2/9 operator,")
     report("      uniquely: theta is the insertion's identity.")

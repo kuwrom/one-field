@@ -1,16 +1,16 @@
 """
 orientation_bit.py: chirality/V-A, ONE orientation bit
-propagates coherently; no second handedness datum exists.
+propagates coherently. No second handedness datum exists.
 
 THE COMPUTATION: build the octonion cross product from the Fano
 plane in BOTH orientations (all seven line directions reversed),
 recompute everything handed, and verify:
 
   (i)   CP-EVEN data are invariant: |C1| = 1, |C3bar| = sqrt(2),
-        hence B/A, masses, mixing-angle magnitudes;
+        hence B/A, masses, mixing-angle magnitudes.
   (ii)  CP-ODD data flip SIGN TOGETHER: the epsilon of the triplet
         channel, hence eta_bar -> -eta_bar, hence J_CKM -> -J_CKM,
-        J_lep -> -J_lep, hence eta_B -> -eta_B (matter <-> antimatter);
+        J_lep -> -J_lep, hence eta_B -> -eta_B (matter <-> antimatter).
   (iii) therefore weak-handedness, CP sign, and baryon-excess sign
         are ONE propagated bit, the forced correlation of the
         one-orientation-bit argument, verified at the algebra level.
@@ -71,7 +71,7 @@ def run(report=print):
            f"|C3bar| = {C3r:.6f}, epsilon sign = {epsr:+.0f}")
     assert abs(C1f - C1r) < 1e-12 and abs(C3f - C3r) < 1e-12
     assert epsf == -epsr
-    report("  -> CP-even data INVARIANT; epsilon FLIPS.")
+    report("  -> CP-even data INVARIANT. Epsilon FLIPS.")
 
     # propagate the flip through the handed observables
     eta_bar = math.pi / 9
@@ -87,10 +87,14 @@ def run(report=print):
     report("  VERDICT: the framework contains exactly ONE handedness")
     report("  datum.  Reversing it flips CP sign and matter excess")
     report("  TOGETHER and touches nothing else.  Weak-handedness,")
-    report("  CP sign, and baryogenesis sign are one propagated bit;")
+    report("  CP sign, and baryogenesis sign are one propagated bit.")
     report('  "why left" is the name of the bit, not a free choice.')
     report("  LABELED REMAINDER: the Lorentz-chiral (V-A) form of the")
-    report("  4d vertex itself, the one derivation still open.")
+    report("  4d vertex itself.  The 4d mechanism is the cited")
+    report("  Callan-Harvey inflow (corroboration-grade). What remains")
+    report("  is the substrate's emergent Lorentz structure, a")
+    report("  substrate-layer item (SUBSTRATE_CONJECTURES #2), not a")
+    report("  web gap.")
     return {"C3": C3f, "flip_coherent": True}
 
 

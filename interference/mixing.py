@@ -16,10 +16,10 @@ Each parameter comes from a different face of the SU(3)₃ WZW structure:
       CKM mixing angle θ₁₂ is the real part of the boundary operator's
       OPE coefficient in the local coordinate on the unit disk.
       WHY tan AND NOT sin OR h₁₀ ITSELF: the boundary-condition-changing
-      operator of SU(3)₃ lives on the unit disk (Cardy states); its OPE
+      operator of SU(3)₃ lives on the unit disk (Cardy states). Its OPE
       coefficient in the LOCAL flat coordinate z = tan(θ/2) is tan(h₁₀).
       On the upper half-plane the coefficient would be sin(h₁₀) = 0.22040
-      (miss: −6.8σ); on the strip it would be h₁₀ itself = 0.22222
+      (miss: −6.8σ). On the strip it would be h₁₀ itself = 0.22222
       (miss: −4.1σ).  The unit disk is forced because it is the
       canonical coordinate for boundary states (Cardy 1989).
       Credit: Wolfenstein (1983) for the parameterisation.
@@ -28,7 +28,7 @@ Each parameter comes from a different face of the SU(3)₃ WZW structure:
       The D⁶ nimrep of SU(3)₃ has off-diagonal entries proportional to
       √Q₀ = √(d₁₀/d₁₁).  The square root is forced: nimrep entries are
       AMPLITUDES (Clebsch-Gordan coefficients of the fusion category),
-      not probabilities; d₁₀ inter-generation channels out of d₁₁ total
+      not probabilities. d₁₀ inter-generation channels out of d₁₁ total
       gives a probability Q₀ = d₁₀/d₁₁ = 2/3 whose amplitude is √Q₀.
 
   η̄ = π/d₁₁² = π/9                            , MODULAR face (S-matrix)
@@ -179,7 +179,7 @@ def _derive_ckm():
     #     apex = ρ̄ + iη̄ = (h₁₀/√d₁₀)·(1 + iπ/√d₁₀)
     # the cell amplitude h₁₀/√d₁₀ rotated by the universal phase
     # direction π/√d₁₀.  All CP structure (η̄, ρ̄, γ, J) is this single
-    # number; γ = arg(apex) = arctan(π/√d₁₀) is then automatic.
+    # number. γ = arg(apex) = arctan(π/√d₁₀) is then automatic.
     apex = complex(rho, eta)
     assert abs(apex - (float(h10)/math.sqrt(d10))
                * complex(1.0, math.pi/math.sqrt(d10))) < 1e-15
@@ -295,7 +295,7 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
 
     # Orbit nimrep, LOAD-BEARING CHECK: the generation-triplet block
     # of the folded adjoint nimrep must be DEMOCRATIC (S₃-symmetric,
-    # all entries equal, eigenvalues {3,0,0}); this is what licenses
+    # all entries equal, eigenvalues {3,0,0}). This is what licenses
     # the TBM base below.  Computed from the Verlinde data, asserted.
     idx_11 = IDX[(1, 1)]
     n11_fold = np.zeros((N_orb, N_orb))
@@ -325,7 +325,7 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
     # ── Charged-lepton back-reaction: U_e = R₂₃(−φ) · R₁₃(θ_C, δ) ──
     # (Standard convention: "NLO correction to TBM.")
     # The charged-lepton mass matrix is not exactly diagonal in the
-    # TBM basis; the rotation U_e accounts for this interference.
+    # TBM basis. The rotation U_e accounts for this interference.
     #
     # φ = √(m_e/m_μ)/√d₁₀: lepton mass ratio suppression
     #   (m_e, m_μ derived from Koide Z₃ circulant in masses.py)

@@ -33,9 +33,9 @@ WHY GRAVITY AT ALL: the common-mode memory (gravity paper, summary)
 The substrate is the Z₃-symmetric coupled NLS system (masses.py).
 In Madelung variables ψ_k = √ρ_k e^{iS_k/ħ}, perturbations decompose
 under the Z₃ Fourier transform into:
-    q = 0    the COMMON mode, shared by all three components;
+    q = 0    the COMMON mode, shared by all three components.
     q = 1,2  the RELATIVE modes, they distinguish components.
-q = 1,2 carry the matter-like standing waves; q = 0 carries the
+q = 1,2 carry the matter-like standing waves. q = 0 carries the
 gravitational memory.  This resolves the Barceló-Liberati-Visser
 "two roles of ρ" obstruction of analogue gravity: matter and
 geometry are different Fourier projections of ONE substrate.
@@ -52,7 +52,7 @@ is the INDUCED SPIN-2 channel (Sakharov): matter standing waves
 propagate on the common acoustic metric, and integrating them out
 generates the Einstein-Hilbert term (Sakharov induction).  The minimal
 matter spectrum alone gives the WRONG-SIGN normalisation
-(Σ_min ≈ −10.2); the 182 bridge channels supply the positive
+(Σ_min ≈ −10.2). The 182 bridge channels supply the positive
 back-reaction (+29.126).  That repair is this module.
 
 Gravity (bridge sector):
@@ -62,7 +62,7 @@ Gravity (bridge sector):
 
 Higgs:
     lambda(M_Pl) = -delta_bridge = -N_bridge * alpha_G₂² * E[v²] * (1 − h₁₀)
-    (fundamental-share vent; provenance in registry.PROMOTIONS)
+    (fundamental-share vent. Provenance in registry.PROMOTIONS)
     SM RGE -> m_H = 125.30 GeV
 
 Baryogenesis (three Sakharov conditions ↔ three algebraic factors):
@@ -81,7 +81,7 @@ Baryogenesis (three Sakharov conditions ↔ three algebraic factors):
     instanton level, it is a topological count, not a decay-era
     process.  The Majorana scale M_R = M_Pl e^{−2π²} >> T_EW means
     the B−L asymmetry is frozen in before any thermal washout era
-    exists; the Boltzmann/washout machinery of thermal leptogenesis
+    exists. The Boltzmann/washout machinery of thermal leptogenesis
     describes a different mechanism and does not apply here.
 
 Neutrinos:
@@ -145,7 +145,7 @@ The (7,26) bridge carries TWO predictions through the SAME h_bridge = 1:
     = 1/(48π).  With the face-split self-echo (9/13 of the marginal
     unit, no-self-dilution) the UV sum gives G_ind/G_N = 0.999999917.
   * QED:    The same h_bridge = 1 makes the bridge a marginal worldsheet
-    primary; its self-interference fraction is h_bridge/(2π)
+    primary. Its self-interference fraction is h_bridge/(2π)
     = 1/(2π), giving (1 − 1/(2π)) that converts alpha_em = pi/2⁹ into
     alpha(0) = 1/137.035999050.  See couplings.py.
 Same sector, same h_bridge, two observables.
@@ -190,12 +190,12 @@ def _beta_sm(y):
     the Planck boundary) whose scale dependence is governed by the
     virtual back-reaction of all E₈-derived particle species.
 
-    Back-reaction layers (standard QFT calls these 'n-loop'; here they
+    Back-reaction layers (standard QFT calls these 'n-loop'. Here they
     are the nth layer of virtual back-reaction on the Chladni plate):
       Layer 1: single virtual pair modifies each coupling
       Layer 2: virtual pairs interact among themselves
       Layer 3+: back-reaction on back-reaction, the pattern stabilises
-    All known layers are summed; no truncation parameter exists.
+    All known layers are summed. No truncation parameter exists.
     The series self-certifies: successive layers shift m_H by ≤35 MeV
     (< 0.03%).  The interference pattern has stabilised.
 
@@ -205,7 +205,7 @@ def _beta_sm(y):
 
     Quartic beta: four layers, framework's back-reaction convention
     (no separate closure or threshold matching).
-    Sources: Bednyakov-Pikelner-Velizhanin 2012-13; Martin 2015;
+    Sources: Bednyakov-Pikelner-Velizhanin 2012-13. Martin 2015.
     Chetyrkin-Zoller 2016.
     """
     g1, g2, g3, yt, lam = y
@@ -338,7 +338,7 @@ def _beta_sm(y):
 
     # ── Sum all machine-derived back-reaction layers ────────────────────
     # No truncation parameter.  Every layer the machine produces is
-    # included; the series self-certifies convergence (Chladni
+    # included. The series self-certifies convergence (Chladni
     # persistence: layer-3 quartic shifts m_H by ~35 MeV, layer-4
     # by ~35 MeV further, the pattern has stabilised).
     L3 = L1**3
@@ -542,7 +542,7 @@ def derive(R, masses, mixing, couplings):
     # only the h∨ split matches the ledger, dev 1.4e-5, runner-up
     # misses by 6.5e-2 (4600x separation).
     # NO-SELF-DILUTION (the sign): induced gravity dilutes, 1/G ∝ Σ.
-    # The F₄ face IS the metric face (J₃(O)); the share of the echo
+    # The F₄ face IS the metric face (J₃(O)). The share of the echo
     # re-absorbed by the metric face is the metric's own amplitude
     # returning, it cannot count as dilution of itself.  The G₂
     # share is absorbed by the OTHER face (cross-face back-reaction
@@ -573,11 +573,11 @@ def derive(R, masses, mixing, couplings):
     # electroweak condensate (v_EW/M_Pl ~ 10⁻¹⁷), so the spectrum that
     # vents is the SYMMETRIC-phase spectrum.  The UV bookkeeping is
     # therefore forced:
-    #     G_ind/G_N = 0.999999917   (canonical; face-split law)
+    #     G_ind/G_N = 0.999999917   (canonical. Face-split law)
     # The broken-phase counting is retained as a diagnostic only (it
     # counts IR-phase dof whose contribution under Λ² is negligible).
     # The face-split (no-self-dilution) law closes the UV ledger
-    # law above; the remaining −8e-8 is below the (α/2π)² depth-2
+    # law above. The remaining −8e-8 is below the (α/2π)² depth-2
     # echo scale, the ledger is depth-complete here.
 
     # Gravity = the memory of the total coherent venting
@@ -601,14 +601,14 @@ def derive(R, masses, mixing, couplings):
     print(f"    G_ind/G_N (UV)     = {G_ratio_UV:.6f}  ({err_UV:+.2f}%)")
     print(f"    G_ind/G_N (broken) = {G_ratio_broken:.6f}  ({err_broken:+.2f}%)")
     print(f"    G_ind/G_N CANONICAL = {G_ratio_canonical:.9f}  (UV: venting")
-    print(f"      localizes at the cutoff, where EW is unbroken; broken-")
-    print(f"      phase value {G_ratio_broken:.6f} is diagnostic only;")
+    print(f"      localizes at the cutoff, where EW is unbroken. Broken-")
+    print(f"      phase value {G_ratio_broken:.6f} is diagnostic only.")
     print(f"      face-split no-self-dilution law)")
 
     # Cosmological constant: Volovik → Jacobson-Clausius → CKN
     #
     # (1) Volovik: self-bound condensate → ρ_vac(eq) = 0 (Gibbs-Duhem
-    #     identity, not fine-tuning; same mechanism as superfluid helium).
+    #     identity, not fine-tuning. Same mechanism as superfluid helium).
     # (2) Jacobson-Clausius: de Sitter departure from equilibrium.
     #     Acoustic Hawking T = H/(2π), horizon entropy S = A/(4G),
     #     plus Raychaudhuri kinematics yield:
@@ -657,20 +657,20 @@ def derive(R, masses, mixing, couplings):
     #
     # 3. Fundamental-share vent (registry.PROMOTIONS): the triality-
     #    charged 3 ⊕ 3̄ share of the bridge 7 cannot cross into the
-    #    condensing channel (N-ality superselection, words.py); the
+    #    condensing channel (N-ality superselection, words.py). The
     #    blocked share in the weight metric is h₁₀ → factor (1 − h₁₀).
     #    Derivation program 3, interference/registry.py.
     #
     # Combined: λ(M_Pl) = −δ_bridge·(1 − h₁₀)  [vent lives in the WEB edge]
     #
     # SINGLE SOURCE OF TRUTH: the bridge→Higgs edge lives in the web
-    # (root.py WEB['lambda_MPl']); no second computation here (K3 dedup).
+    # (root.py WEB['lambda_MPl']). No second computation here (K3 dedup).
     lam_Pl_tree = WEB["lambda_MPl"].value()
     delta_bridge = -lam_Pl_tree
 
     print(f"    F₄ fusion: lambda_F₄ = 0  [(26×26)_local = 1]")
     print(f"    delta_bridge = {N_bridge} * (1/(24pi))² * 1/2 * (1 − h₁₀) = {delta_bridge:.6f}")
-    print(f"      [fundamental-share vent (1−h₁₀) = 7/9; registry.PROMOTIONS]")
+    print(f"      [fundamental-share vent (1−h₁₀) = 7/9. registry.PROMOTIONS]")
     print(f"    lambda(M_Pl) = -{delta_bridge:.6f}")
 
     # Derive EW couplings at the derived M_Z scale
@@ -684,7 +684,7 @@ def derive(R, masses, mixing, couplings):
     sin2W = WEB.state["sin2W"]
     cos2W = 1.0 - sin2W
 
-    # ── M_W and M_Z (MS-bar; TWO declared imports) ─────────────────
+    # ── M_W and M_Z (MS-bar. TWO declared imports) ─────────────────
     # PDG 2024 EW review (Erler-Freitas), Eq. (10.26):
     #     M_W = A₀ / [ŝ_Z (1 − Δr̂_W)^½],   M_Z = M_W / (ρ̂^½ ĉ_Z)
     # A₀ = [πα(0)/(√2 G_F)]^½ = 37.28038(1) GeV, and BOTH inputs of
@@ -694,8 +694,8 @@ def derive(R, masses, mixing, couplings):
     # imported radiative back-reactions [DECLARED, PDG 2024]
     # (standard QFT: "radiative corrections" Δr̂_W, ρ̂):
     #     Δr̂_W = 0.06937(6),   ρ̂ = 1.01016(9)
-    # Results: M_W = 80.365 GeV (−0.33σ of the 80.3692(133) average);
-    #          M_Z = 91.196 GeV (+0.009%; +1.6σ of the import band,
+    # Results: M_W = 80.365 GeV (−0.33σ of the 80.3692(133) average).
+    #          M_Z = 91.196 GeV (+0.009%. +1.6σ of the import band,
     #          the W/Z tension structure of the data itself).
     # The face-split echo does real work here: tree 3/13 would give
     # M_W off by +0.12%.
@@ -709,7 +709,7 @@ def derive(R, masses, mixing, couplings):
     # α_EM at the derived M_Z (for the RGE initial conditions)
     alpha_em_MZ = _derive_alpha_em(lepton_masses, quark_masses, M_Z_derived)
 
-    # PDG reference values (comparison only; single source root.PDG_EW)
+    # PDG reference values (comparison only. Single source root.PDG_EW)
     M_Z_PDG = PDG_EW['M_Z']
     M_W_PDG = PDG_EW['M_W']
     sin2W_PDG = PDG_EW['sin2W_MSbar']
@@ -717,10 +717,10 @@ def derive(R, masses, mixing, couplings):
 
     print(f"    alpha_em(M_Z) = 1/{1.0/alpha_em_MZ:.3f}")
     print(f"    sin²theta_W = 3/13 + Q₀²·(α/2π) = {sin2W:.6f}  [tree 3/13 + depth-1 h₇ + depth-2 h₇/d₁₁²]")
-    print(f"    PDG 2024 global fit: {sin2W_PDG}(4)  (pull: {(sin2W - sin2W_PDG)/PDG_EW['sin2W_err']:+.2f}σ; depth-1 only: −1.4σ)")
+    print(f"    PDG 2024 global fit: {sin2W_PDG}(4)  (pull: {(sin2W - sin2W_PDG)/PDG_EW['sin2W_err']:+.2f}σ. Depth-1 only: −1.4σ)")
     print(f"    M_W = A₀/(ŝ√(1−Δr̂_W)) = {M_W_derived:.4f} GeV  (PDG: {M_W_PDG}(133), pull {(M_W_derived-M_W_PDG)/0.0133:+.2f}σ)")
-    print(f"    M_Z = M_W/(ρ̂^½ĉ)      = {M_Z_derived:.4f} GeV  (PDG: {M_Z_PDG}, {pct(M_Z_derived, M_Z_PDG):+.4f}%; +1.6σ of import band)")
-    print(f"      [A₀ = √(πα(0))·v_EW = {A_EW:.5f} GeV vs PDG 37.28038(1): 0.1 ppm;")
+    print(f"    M_Z = M_W/(ρ̂^½ĉ)      = {M_Z_derived:.4f} GeV  (PDG: {M_Z_PDG}, {pct(M_Z_derived, M_Z_PDG):+.4f}%. +1.6σ of import band)")
+    print(f"      [A₀ = √(πα(0))·v_EW = {A_EW:.5f} GeV vs PDG 37.28038(1): 0.1 ppm.")
     print(f"       imports Δr̂_W = 0.06937(6), ρ̂ = 1.01016(9), PDG 2024 Eq. (10.26)]")
 
     # SM RGE initial conditions at derived M_Z
@@ -787,8 +787,8 @@ def derive(R, masses, mixing, couplings):
     # level yt matching produces the correct m_H directly.
     #
     # CONVERGENCE (Chladni self-certification): layer-3 quartic shifts
-    # m_H by ~35 MeV; layer-4 (QCD-dominant) shifts it by ~35 MeV
-    # further.  The series is stable; additional layers contribute
+    # m_H by ~35 MeV. Layer-4 (QCD-dominant) shifts it by ~35 MeV
+    # further.  The series is stable. Additional layers contribute
     # < 35 MeV.  The remaining ~1% gap to experiment (125.20 GeV)
     # is the current precision of the machine-derived system.
     print(f"    m_H (F₄ only, lambda=0):   {mH_F4_only:.1f} GeV  ({err_F4:+.2f}%)")
@@ -805,7 +805,7 @@ def derive(R, masses, mixing, couplings):
     #   G_F : framework 1/(√2 v_EW²) = measured to < 1 ppm  [checked]
     #   m_t : ρ̂'s quadratic m_t term (PDG Eq. 10.23) shifts by 0.07σ
     #         of the import error under fw m_t vs fit m_t  [checked]
-    #   m_H : the imports' m_H dependence is logarithmic; fw 124.0
+    #   m_H : the imports' m_H dependence is logarithmic. Fw 124.0
     #         vs fit 125.2 is dln = -0.010  [checked]
     #   α̂(M_Z): the DOMINANT Δr̂_W ingredient is Δr₀ = 1 − α/α̂(M_Z)
     #         = 0.06646(6), driven by the dispersive hadronic VP,
@@ -815,11 +815,11 @@ def derive(R, masses, mixing, couplings):
     #         INTERNAL VP (free quarks + Λ_conf cutoff) reproduces it
     #         to 0.34% (1/128.37 vs 1/127.93), an approximation used
     #         ONLY for the Higgs-RGE initial conditions (effect on m_H
-    #         far inside the import band); it must never be used at
+    #         far inside the import band). It must never be used at
     #         sub-0.5% precision, and the guard below enforces the
     #         approximation stays within its declared quality.
     # TAXONOMY (what an import IS, for a zero-parameter model):
-    #   [1] data-driven ingredients  -> measurements (dispersive VP;
+    #   [1] data-driven ingredients  -> measurements (dispersive VP.
     #       same admissibility as the PDG masses)        [classified]
     #   [2] parameter dependencies   -> recalculated from framework
     #       values, compatible within quoted errors      [verified]
@@ -828,15 +828,15 @@ def derive(R, masses, mixing, couplings):
     #       0.00291 in Δr̂_W, the bosonic 0.00082 in ρ̂), the same
     #       status as the Machacek-Vaughn beta functions used for
     #       the Higgs RGE.  No fine-tuning enters at any point:
-    #       nothing is adjusted; everything is checked.
+    #       nothing is adjusted. Everything is checked.
     _GF_fw = 1.0 / (math.sqrt(2.0) * v_EW**2)
     assert abs(_GF_fw / 1.1663788e-5 - 1.0) < 1e-6
     _drho_mt = 0.00934 * abs((m_t_GeV/172.61)**2 - (172.57/172.61)**2)
     assert _drho_mt < 9e-5                      # < 1 sigma of rho-hat
     assert abs(math.log(mH_pred / 125.20)) < 0.05
     assert abs((1.0/alpha_em_MZ)/127.929 - 1.0) < 0.005
-    print(f"    import audit: G_F fw/meas −1 = {1e6*(_GF_fw/1.1663788e-5-1):+.2f} ppm;"
-          f" δρ̂(m_t) = {_drho_mt:.1e} ({_drho_mt/9e-5:.2f}σ);")
+    print(f"    import audit: G_F fw/meas −1 = {1e6*(_GF_fw/1.1663788e-5-1):+.2f} ppm."
+          f" δρ̂(m_t) = {_drho_mt:.1e} ({_drho_mt/9e-5:.2f}σ).")
     print(f"      internal VP α̂(M_Z) = 1/{1.0/alpha_em_MZ:.3f} vs dispersive 1/127.929"
           f" ({100*((1.0/alpha_em_MZ)/127.929-1):+.2f}%, RGE-only approximation)")
 
@@ -898,7 +898,7 @@ def derive(R, masses, mixing, couplings):
 
     # Structural predictions only, no external Δm² input needed.
     # The absolute neutrino mass scale is not predicted by the algebraic
-    # framework; what IS predicted is the rank (m₁=0) and ordering (normal).
+    # framework. What IS predicted is the rank (m₁=0) and ordering (normal).
     print(f"    m₁ = 0 (structural prediction: rank-{n_singlets} seesaw)")
     print(f"    Ordering: normal (m₁ < m₂ < m₃)")
     print(f"    Testable by: KATRIN endpoint, 0νββ non-observation, cosmological Σmν")

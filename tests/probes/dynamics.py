@@ -14,8 +14,8 @@ G2 constraint g1 = g0/sqrt(2)), 1D, split-step Fourier:
     norm), its constancy certifies the regime is linear (no mode
     mixing), and it does NOT yet test selectivity.  A genuine
     selectivity test needs a superposition of independent relative
-    patterns (v and w = (0, 1, -1)) with their decay rates compared;
-    that is the next experiment.
+    patterns (v and w = (0, 1, -1)) with their decay rates compared.
+    That is the next experiment.
 
   TEST 2 (a knot and its shadow):
     a dark-bright vector structure stays localized and its
@@ -23,7 +23,7 @@ G2 constraint g1 = g0/sqrt(2)), 1D, split-step Fourier:
 
 STATUS (honest): bias erosion and shadow formation are OBSERVED
 (qualitative).  Strict stability of a gapped knot is NOT yet
-demonstrated, the trial ansatz broadens; the open task is the true
+demonstrated, the trial ansatz broadens. The open task is the true
 stationary profile (imaginary-time solver) and a 2D run where
 windings are topological.
 
@@ -89,7 +89,7 @@ def run(report=print):
         report(f"  {t:4d} {bias_c:13.5f} {ratio:14.4f} {shadow:+11.6f}")
     eroded = out[-1][1] < 0.6 * out[0][1]
     shadowed = out[-1][3] < 0.0
-    report(f"  bias erosion: {'OBSERVED' if eroded else 'NOT OBSERVED'};"
+    report(f"  bias erosion: {'OBSERVED' if eroded else 'NOT OBSERVED'}."
            f"  persistent shadow: {'OBSERVED' if shadowed else 'NOT OBSERVED'}")
 
     # ── TEST 2: dark-bright trial knot ──────────────────────────────

@@ -14,7 +14,7 @@ selectors exist:
 Proof sketch (also checked numerically): in Z3 Fourier space,
 convolution is multiplication, so idempotence means p_hat(q)^2 =
 p_hat(q), i.e. p_hat(q) in {0, 1}.  Normalisation forces
-p_hat(0) = 1; reality forces p_hat(1) = p_hat(2).  The only choices
+p_hat(0) = 1. Reality forces p_hat(1) = p_hat(2).  The only choices
 are (1,0,0) = Haar and (1,1,1) = delta_e.  QED.
 
 WHY IDEMPOTENT IS THE RIGHT CLASS (the one labeled definition):
@@ -25,7 +25,7 @@ the example: not idempotent, hence not a selector.
 
 THE CLOSURE: the delta_e branch is the label-keeping branch,
 and the three-gate survivor gauntlet already KILLED it on
-observables (fails lepton closure; "localize G2 first" family).
+observables (fails lepton closure. "localize G2 first" family).
 Haar = protected forgetting is therefore the UNIQUE viable selector,
 not by preference, but because the alternative set has exactly one
 other element and it is excluded by computation.

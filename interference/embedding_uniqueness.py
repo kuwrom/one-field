@@ -12,7 +12,7 @@ all six coherence gates:
   (d) bridge dimension n_G·n_F > 0  (non-trivial matter sector),
   (e) parent is self-adjoint: fund = adjoint  (self-encoding: the parent
       theory IS its own deepest representation, no external structure),
-  (f) both factors have trivial centre  (all quantum numbers emergent;
+  (f) both factors have trivial centre  (all quantum numbers emergent.
       a non-trivial centre would pre-inscribe charges onto the vacuum).
 
 Gates (a)-(d) are the numerical conformal embedding conditions.
@@ -32,7 +32,7 @@ At rank 8 there are exactly five simple Lie algebras:
 For each, we enumerate all conformal sub-pairs (G, F) at level 1 where
 G and F are simple and the embedding saturates the central charge.  The
 conformal embedding condition c_coset = 0 fixes the decomposition
-uniquely (when it exists); the bridge marginality h_bridge = 1 and the
+uniquely (when it exists). The bridge marginality h_bridge = 1 and the
 mode count then serve as independent checks.
 
 ═══════════════════════════════════════════════════════════════════════
@@ -41,7 +41,7 @@ WHY THESE GATES MATTER
 
 c_coset = 0:  the coset between the parent and the sub-pair is
   topological -- no propagating degrees of freedom live there.  This
-  means the bridge sector is NOT a dynamical gauge field; it is a
+  means the bridge sector is NOT a dynamical gauge field. It is a
   coherence channel of the parent theory.  Without this, the bridge
   modes would need their own Faddeev-Popov ghosts and their heat-kernel
   sign would flip from scalar (+1/6 − ξ) to vector (−1/6), destroying

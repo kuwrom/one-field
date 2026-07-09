@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 End-to-end runner: every prediction from (d₁₀, d₁₁, n₇, n₂₆) + pi + m_e
-(the electron anchors the scale; M_Pl and G are outputs).
+(the electron anchors the scale. M_Pl and G are outputs).
 
 Calls root -> masses -> mixing -> couplings -> gravity (incl. Higgs,
 baryogenesis, neutrinos) in dependency order, then prints a compact
@@ -270,7 +270,7 @@ tree = f"""
        = {n_checks} numerical checks + {n_structural} structural (m1=0, ordering, CC scale)
        from the electron anchor alone (M_Pl derived), all couplings derived.
        Structural and polynomial identities are asserted in test_interference.py:
-           pytest -q   ->   116 tests (110 fast + 6 slow) including the canonical freeze table.
+           pytest -q   ->   127 tests (117 fast + 10 slow) including the canonical freeze table.
   Mass: {n_sub1}/9 <= 1%, {n_sub2}/9 <= 2%, max {max_err:.1f}%
   CKM:  chi2/n = {chi2_ckm/n_ckm:.2f}  ({n_ckm} obs)
   PMNS: chi2/n = {chi2_pmns/3:.2f}  (3 obs)

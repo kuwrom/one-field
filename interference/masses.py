@@ -1,6 +1,6 @@
 """
 Masses: from (d₁₀, d₁₁, n₇, n₂₆, π) + the electron anchor.
-m_e is the sole dimensional input (M_Pl is derived in root.py);
+m_e is the sole dimensional input (M_Pl is derived in root.py).
 m_μ, m_τ and the six quark masses are predictions.
 
 All derivations are self-contained, every formula traces to the four
@@ -47,13 +47,13 @@ Schrödinger system for three child condensates ψ_k:
 A lepton is a Z₃-equivariant Bogoliubov-de Gennes (BdG) standing
 wave on this system.  Closure imposes cyclicity [Δ, S] = 0 on the
 BdG mass-amplitude matrix (the "forgetting" that erases which of
-the three layers the loop came from); the surviving spectrum is the
+the three phases the loop came from). The surviving spectrum is the
 circulant gap Δₖ below, and the mass is the gap squared: mₖ = Δₖ².
 
 BdG/KOIDE IDENTITY (theorem): for any real Z₃-equivariant positive
 triplet Δₖ = A + B cos(θ + 2πk/3) with mₖ = Δₖ²,
-    Q ≡ Σmₖ/(Σ√mₖ)² = 1/3 + B²/(6A²)  exactly;
-on the positive branch Q = 2/3 ⟺ |B/A| = √2.  So the Koide
+    Q ≡ Σmₖ/(Σ√mₖ)² = 1/3 + B²/(6A²)  exactly.
+On the positive branch Q = 2/3 ⟺ |B/A| = √2.  So the Koide
 relation is an algebraic identity of the branch.
 
 ═══════════════════════════════════════════════════════════════════════
@@ -72,7 +72,7 @@ Step 1: Z₃ circulant structure (derives the Koide relation).
     Using Σ cos(θ+2πk/3) = 0 and Σ cos²(θ+2πk/3) = 3/2:
         Q ≡ Σmₖ / (Σ√mₖ)² = 1/3 + |B/A|²/6
     This is a mathematical identity of ANY Z₃-equivariant spectrum.
-    Credit: Koide (1982) for the empirical observation; Brannen (2006)
+    Credit: Koide (1982) for the empirical observation. Brannen (2006)
     for the parameterisation.  The derivation is from Z₃ circulant algebra.
 
 Step 2: B/A = √d₁₀ (derives the Koide value Q₀ = 2/3).
@@ -105,15 +105,15 @@ Step 4: Confinement scale A = ½ M_Pl exp(−S₀), S₀ = d₁₁²π²/2,
     with M_Pl DERIVED from the electron anchor (root.py inversion).
     The absolute scale chain (lepton paper): α_G₂(M_Pl) = |Z₃|/(2π
     D²_tot) = 1/(24π) from the SU(3)₃ modular tensor category
-    (executable in root.py), trace-lift normalisation c_eff = 1/2;
+    (executable in root.py), trace-lift normalisation c_eff = 1/2.
     S₀ = h∨(F₄)·π²/2 is the F₄ instanton action.  The quark layer
     then vents the action to S = 9π²/2 − 6 + 15/512 (Casimir vent
-    −C₂(26), 30-mode vertex echo +15/512; root.py ledger), giving
+    −C₂(26), 30-mode vertex echo +15/512. root.py ledger), giving
     v_EW = M_Pl·exp(−S), the same exponent in both readings.
 
 Step 5: Pole mass = tree × (1 − α(0)/(2π)).
     QED vertex back-reaction at the mass shell (standard QFT calls this
-    the "vertex correction"; here it is the EM channel's interference
+    the "vertex correction". Here it is the EM channel's interference
     with the propagator pole, forced by the field content).
 
 ═══════════════════════════════════════════════════════════════════════
@@ -139,16 +139,16 @@ producing a sub-leading back-reaction:
 FIRST-INVARIANT-ORDER THEOREM (why K³): the insertion is the Z₃
 sector-changer, and the confined sector admits only Z₃-invariant
 operators ([Δ,S] = 0, selector theorem).  One or two insertions do
-not return to the identity sector (tr S = tr S² = 0); three do
-(tr S³ = 3).  Orders 1 and 2 are forbidden, not small; the first
+not return to the identity sector (tr S = tr S² = 0). Three do
+(tr S³ = 3).  Orders 1 and 2 are forbidden, not small. The first
 admissible order is cubic.  In OPE language: Σ√m receives its first
 Z₃-invariant back-reaction at third order in the conformal weight
 expansion.  The same theorem gives bridge² its K² altitude: a paired
 S S† insertion is invariant already at order 2.  (Witness:
-tests/test_coverage.py; derivation program 1, registry.)
+tests/test_coverage.py. Derivation program 1, registry.)
 ENUMERATION over all eight structures Q₀ + h(λ)/Kᵖ (λ ∈ {fund, adj},
 p ∈ {1..4}): only the adjoint weight at cubic altitude closes on the
-bottom mass (+0.26%); the nearest alternative misses by +2.16%, all
+bottom mass (+0.26%). The nearest alternative misses by +2.16%, all
 others by >5%.  The (s,c,b) assignment (h₁₀, K³) carries the same
 representation content at the same depth.
 
@@ -174,7 +174,7 @@ LIGHT QUARKS, d₁₀² ↔ d₁₁² swap
 THE MASS COORDINATE, one rule over three dynamical classes
 ═══════════════════════════════════════════════════════════════════════
 
-A running mass m(μ) is a coordinate on an RG orbit; a mass prediction
+A running mass m(μ) is a coordinate on an RG orbit. A mass prediction
 is complete only with its coordinate.  The table above is stated in
 one rule:
 
@@ -206,14 +206,14 @@ one rule:
         m_u/m_d = 38/83 = 0.45783        PDG 2024: 0.473(17)  (−0.9σ)
         m_s/m_ud = 27.318                PDG 2024: 27.30(8)   (+0.2σ)
         Q_ellipse = 22.383               η→3π dispersive: 22.1(7)
-                                         (+0.4σ); lattice 23.4(6)
-                                         (−1.7σ; the two data
+                                         (+0.4σ). Lattice 23.4(6)
+                                         (−1.7σ. The two data
                                          determinations disagree,
                                          PDG review Sec. 60)
     The absolute entries are quoted in the PDG MS-bar(2 GeV)
     coordinate, a declared dictionary entry.
 
-The algebra does not run to a scale; its output IS the prediction.
+The algebra does not run to a scale. Its output IS the prediction.
 A reader who wants a different convention applies standard RGE
 transport with the framework's own α_s(M_Z) = 0.1184 (couplings.py)
 -- both
@@ -264,7 +264,7 @@ def derive(R):
     # Each lepton is born as a LEDGER: the knot's circulating amplitude
     # plus its echo stack.  Charged knots vent through the EM channel, so
     # they inherit the lepton_EM echo from the web, the old explicit
-    # "× QED_factor" is gone; the echo law produces it.
+    # "× QED_factor" is gone. The echo law produces it.
     lepton_tree, lepton_pred = {}, {}
     for k_idx, name in [(1, 'e'), (2, 'mu'), (0, 'tau')]:
         gap = 1.0 + BA_ratio * math.cos(h10 + 2*math.pi*k_idx/3)
@@ -317,16 +317,16 @@ def derive(R):
 
     # ECHO-LAW FORM (exact rational identities, same numbers, one law):
     # each quark knot binds to its generation lepton and VENTS through
-    # its closure channel; what standard QFT calls additive "corrections"
+    # its closure channel. What standard QFT calls additive "corrections"
     # are the vents
     # read multiplicatively:
     #   m_u = d₁₀²·(1 + δ)    · m_e    [vent = OPE gap δ = 1/18, atom]
     #   m_c = d₁₀²d₁₁·(1 + K⁻³)· m_μ   [vent = 1/K³, SAME suppression
     #                                   as the down-type Koide terms]
-    #   m_t = base₃·(1 + 1/(2K·base₃))·m_τ  [base₃ = d₁₁⁴+d₁₀⁴ = 97;
+    #   m_t = base₃·(1 + 1/(2K·base₃))·m_τ  [base₃ = d₁₁⁴+d₁₀⁴ = 97.
     #                                   vent rule pending base(n) task]
-    # Proof of exactness: d₁₀²(1+δ) = 4·19/18 = 38/9;
-    # d₁₀²d₁₁(1+1/216) = 12·217/216 = 217/18; 97(1+1/1164) = 1165/12.
+    # Proof of exactness: d₁₀²(1+δ) = 4·19/18 = 38/9.
+    # d₁₀²d₁₁(1+1/216) = 12·217/216 = 217/18. 97(1+1/1164) = 1165/12.
     base_u, base_c, base_t = d10**2, d10**2 * d11, d11**4 + d10**4
     # live ratio bases: quark = word-count integer × the lepton node,
     # read from the state (the ratio edge of the one graph)
@@ -340,12 +340,12 @@ def derive(R):
     # 'Generation words', words.py): w₁=ff (4),
     # w₂=ffa (12, step letter forced by the neutral lane C₀ = C_ad),
     # w₃=f⁴⊕a⁴ (97, Z₂-orbit terminus at J³=1).  The terminus is
-    # DERIVED (knot definition + conversion lemma; module-category
-    # form verified in words.py); mixed words (36, 78) are vent-side
+    # DERIVED (knot definition + conversion lemma. Module-category
+    # form verified in words.py). Mixed words (36, 78) are vent-side
     # and independently killed by experiment.
     led_t = Ledger("m_t", lambda s: base_t * s["m_tau"], "mul", "MeV").echo(
         ["WZW(2K)"], 1.0 / (2 * K * base_t), 1,
-        "FORCED", "vent = corr₃/base₃; words lemma, terminus DERIVED")
+        "FORCED", "vent = corr₃/base₃. words lemma, terminus DERIVED")
     WEB["m_u"], WEB["m_c"], WEB["m_t"] = led_u, led_c, led_t
 
     m_u, m_c, m_t = led_u.value(), led_c.value(), led_t.value()
@@ -368,7 +368,7 @@ def derive(R):
     # rep, h = 0).  For quark triplets, each closes through a specific
     # SU(3)₃ WZW representation λ, producing a sub-leading back-reaction:
     #     Q = Q₀ + h(λ)/K³
-    # (Standard QFT would call these "representation corrections"; here
+    # (Standard QFT would call these "representation corrections". Here
     #  each h(λ)/K³ is a forced interference term.)
     #
     # K³ denominator: the altitude cubed arises because the Koide sum rule
@@ -444,7 +444,7 @@ def derive(R):
     # The same Koide quadratics as the closed-form computation above,
     # read live from the state: the middle root between m_c and m_t,
     # and the positive root scaled by the bridge.  The kernel holds
-    # them while the state is away from the fixed point; at the fixed
+    # them while the state is away from the fixed point. At the fixed
     # point they equal the closed forms exactly (asserted after the
     # final solve).
     def _m_bottom_of(s):
@@ -508,7 +508,7 @@ def derive(R):
     print(f"    Q_ellipse = {Q_ellipse:.3f}           dispersive 22.1(7)"
           f" ({(Q_ellipse-22.1)/0.7:+.1f}σ), lattice 23.4(6)"
           f" ({(Q_ellipse-23.4)/0.6:+.1f}σ)")
-    print(f"    (the two Q determinations disagree; PDG review Sec. 60)")
+    print(f"    (the two Q determinations disagree. PDG review Sec. 60)")
 
     # ── Summary ──────────────────────────────────────────────────────
 

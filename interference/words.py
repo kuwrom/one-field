@@ -29,39 +29,39 @@ DERIVATION (three parts, all derived):
 2. STEP LETTER = adjoint (forced by the neutral lane, now DERIVED).
    N-ALITY SUPERSELECTION THEOREM:
    confinement IS unbroken centre symmetry (⟨Polyakov⟩ = 0 is the
-   order parameter, 't Hooft / Svetitsky-Yaffe); an unbroken-centre
+   order parameter, 't Hooft / Svetitsky-Yaffe). An unbroken-centre
    interface transmits only zero-N-ality excitations, since charged
    ones are confined (area law, infinite isolation energy).  The
    zero-triality subsector of SU(3)₃ is EXACTLY
    C₀ = {(0,0), (3,0), (0,3), (1,1)} = {1, J, J², 8}, FPdim = 12
    (verified executably below).  So, GIVEN confinement, the input
    assumption of the whole branch, the interface selects C₀ with no
-   further choice.  Within C₀: the identity gives trivial walks; the
+   further choice.  Within C₀: the identity gives trivial walks. The
    simple current acts as the identity on boundary states
-   (n_(3,0) = I₆); the unique neutral channel with a nontrivial nimrep
+   (n_(3,0) = I₆). The unique neutral channel with a nontrivial nimrep
    is the adjoint.  Hence w₂ = ffa.  (The seed pair ff is charged with
-   triality −1; the observable M = Δ†Δ is neutral, so the seed charge
+   triality −1. The observable M = Δ†Δ is neutral, so the seed charge
    cancels between Δ and Δ† while steps must be individually neutral.)
 
 3. TERMINUS  w₃ = f⁴ ⊕ a⁴ (DERIVED: definition + grammar lemma).
-   At n = 3 the simple-current orbit completes (J³ = 1; the D⁽⁶⁾ vacuum
+   At n = 3 the simple-current orbit completes (J³ = 1. The D⁽⁶⁾ vacuum
    row is {1, J, J²}, witness M₁,J = 1).  Three independent project
    facts say the terminal closure is VACUUM-ANCHORED: the orbit lands
-   in the vacuum row; the paper assigns the top to the identity channel;
-   and y_t ≈ 1 (the historical primary route m_t = v/√2) is precisely a
+   in the vacuum row. The paper assigns the top to the identity channel.
+   And y_t ≈ 1 (the historical primary route m_t = v/√2) is precisely a
    vacuum-normalised interference strength (standard QFT: "Yukawa
-   coupling"; here it is a derived closure output, not a free parameter).
+   coupling". Here it is a derived closure output, not a free parameter).
 
    DEFINITION (knot): a closure is a single knot circulating in ONE
-   channel; its terminal zero-mode space is that channel's fusion
+   channel. Its terminal zero-mode space is that channel's fusion
    tower x^⊗(n+1), of dimension d_x^(n+1) (the pure-word walk count).
    This is not a premise, it is what "knot" means in the framework
-   (a circulation has a channel; that is its identity).
+   (a circulation has a channel. That is its identity).
 
    CONVERSION LEMMA (channel switch = interaction): converting channel
    mid-circulation requires an intertwiner insertion Hom(x⊗x, a), an
-   OPE vertex.  A base is a scheme-independent INTEGER state count;
-   an intertwiner insertion carries the OPE normalisation (conformal-
+   OPE vertex.  A base is a scheme-independent INTEGER state count.
+   An intertwiner insertion carries the OPE normalisation (conformal-
    weight-dependent, non-integer).  A mixed-word contribution to a
    base would therefore import weight-dependent factors into pure
    counting, contradiction.  Mixed words (f²a², f³a⊕fa³) are
@@ -74,22 +74,22 @@ DERIVATION (three parts, all derived):
 
    • At the terminus there is no next rung (the Z₃ orbit is complete),
      so no step letters exist: the word must be a pure knot tower x⁴
-     (length 4 by the length rule; tower by the knot definition;
-     purity by the conversion lemma).
-   • The residual symmetry at orbit completion is Z₂ = S₃/Z₃; the
+     (length 4 by the length rule. Tower by the knot definition.
+     Purity by the conversion lemma).
+   • The residual symmetry at orbit completion is Z₂ = S₃/Z₃. The
      terminal object carries it as the orbit sum over the available
-     knot towers.  Identity tower: trivial walks; J-tower: invisible
+     knot towers.  Identity tower: trivial walks. J-tower: invisible
      on the boundary (n_(3,0) = I₆).  What remains:
      f⁴ ⊕ a⁴ = 16 + 81 = 97.
 
    Independent check: the excluded words predict m_t = 64 GeV (f²a²,
-   374σ) and 139 GeV (f³a⊕fa³, 117σ); the tower sum gives 172.5 GeV
+   374σ) and 139 GeV (f³a⊕fa³, 117σ). The tower sum gives 172.5 GeV
    (−0.03%).  Status: DERIVED (knot definition + conversion
    lemma + Z₂ orbit sum).
 
 MODULE-CATEGORY FORM (the same lemma in standard vocabulary).
    Let C = Rep(SU(3)₃) (a modular fusion category) and let M be the
-   D⁽⁶⁾ module category over C; boundary states = simple objects of
+   D⁽⁶⁾ module category over C. Boundary states = simple objects of
    M, and each primary x acts on K₀(M) by its nimrep matrix n_x.
    Then the framework's objects are textbook structures:
 
@@ -102,7 +102,7 @@ MODULE-CATEGORY FORM (the same lemma in standard vocabulary).
      the grading is exactly {1, J, J², 8}: it is fusion-closed and
      GENERATED by the adjoint.  [Both verified below.]  The N-ality
      superselection theorem then reads: a confining interface
-     transmits only the trivial grade, i.e. only C_ad steps.
+     transmits only the trivial grade, i.e. Only C_ad steps.
      Within C_ad the invertibles {1, J, J²} (the simple currents)
      act trivially on K₀(M) (n_J = I₆, verified), so the adjoint is
      the unique nontrivial stepper: w₂ = ffa.
@@ -113,14 +113,14 @@ MODULE-CATEGORY FORM (the same lemma in standard vocabulary).
 
    • CONVERSION LEMMA = RANK vs AMPLITUDE.  A channel conversion
      mid-circulation inserts an intertwiner from Hom_C(f ⊗ f̄, a)
-     (one-dimensional, verified below; triality 1+2 ≡ 0 ✓).  Its
+     (one-dimensional, verified below. Triality 1+2 ≡ 0 ✓).  Its
      CONTRIBUTION carries the associator/6j normalisation of that
      vertex, an amplitude, not a rank.  A mixed word therefore
      cannot contribute to a base (an integer rank) without importing
      non-integer normalisations: bases must be pure towers.
 
    What remains beyond this translation is only the choice-free
-   bookkeeping already executable below; no further categorical
+   bookkeeping already executable below. No further categorical
    content is needed.
 
 Observations (not used in canonical values): the identity channel's
@@ -161,7 +161,7 @@ def derive():
     # ── graph facts the lemma uses ──────────────────────────────────
     evN = np.linalg.eigvals(N)
     evA = np.linalg.eigvals(A)
-    # Perron-Frobenius principal eigenvalue is real positive; filter to
+    # Perron-Frobenius principal eigenvalue is real positive. Filter to
     # real before taking max (N has three magnitude-2 eigenvalues: +2 and
     # the complex pair -1 ± i√3, so plain max(key=abs) is order-dependent).
     real_evN = evN[np.abs(evN.imag) < 1e-9].real
@@ -169,8 +169,8 @@ def derive():
     assert {round(x.real) for x in evA} == {d11, -1}  # spec(A) = {3, −1}
     assert np.allclose(N @ A, A @ N), "nimreps must commute"
     assert set(N.sum(1)) == {float(d10)} and set(A.sum(1)) == {float(d11)}
-    print(f"  nimreps commute; regular: row sums (d₁₀, d₁₁) = "
-          f"({d10}, {d11});  spec(N) ∋ 2,  spec(A) = {{3,−1}}")
+    print(f"  nimreps commute. Regular: row sums (d₁₀, d₁₁) = "
+          f"({d10}, {d11}).  spec(N) ∋ 2,  spec(A) = {{3,−1}}")
 
     # ── part 1: length rule seed (protected forgetting) ─────────────
     u = np.ones(3) / math.sqrt(3.0)
@@ -178,7 +178,7 @@ def derive():
     assert abs(u @ (v * u)) < 1e-15                 # PvP = 0
     assert abs(u @ (v * v * u) - 0.5) < 1e-15       # Pv²P = ½
     print("  length rule: PvP = 0 (single insertions invisible), "
-          "Pv²P = ½ → |w₁| = 2;")
+          "Pv²P = ½ → |w₁| = 2.")
     print("               one Z₃-cycle step per generation → |wₙ| = n+1")
 
     # ── part 2: step letter (neutral lane via N-ality superselection) ─
@@ -194,7 +194,7 @@ def derive():
     assert FP_C0 == d10**2 * d11        # = base(2): the neutral sector
     print(f"  step letter: N-ality superselection (confinement = unbroken")
     print(f"    centre) → zero-triality subsector = C₀ = {{1,J,J²,8}},")
-    print(f"    FPdim = {FP_C0} = base(2); n_(3,0) = I₆ → the adjoint is")
+    print(f"    FPdim = {FP_C0} = base(2). n_(3,0) = I₆ → the adjoint is")
     print(f"    the only neutral channel that steps")
 
     # ── module-category form: the standard-vocabulary checks ────────
@@ -216,8 +216,8 @@ def derive():
     assert sorted(_gen) == sorted(_C0)
     # E3: the conversion vertex Hom(f⊗f̄, a) is exactly one-dimensional
     assert _NF[_IDX[(1, 0)], _IDX[(0, 1)], _IDX[(1, 1)]] == 1
-    print("  module-category form: U(C) = Z₃ grading verified (10³ triples);")
-    print("    C_ad = {1,J,J²,8} fusion-closed & adjoint-generated;")
+    print("  module-category form: U(C) = Z₃ grading verified (10³ triples).")
+    print("    C_ad = {1,J,J²,8} fusion-closed & adjoint-generated.")
     print("    conversion vertex dim Hom(f⊗f̄,a) = 1, amplitude, not rank")
 
     # ── word counts (the lemma's claim) ─────────────────────────────
@@ -251,8 +251,8 @@ def derive():
                        " = intertwiner, non-integer → not a base)")
         print(f"    {name} = {b:3d}  →  m_t ≈ {mt:6.1f} GeV   {verdict}")
     print("  data consistency: excluded candidates predict 64 GeV (374σ)")
-    print("  and 139 GeV (117σ); the selected tower gives 172.5 GeV (−0.03%).")
-    print("  The exclusion is algebraic (conversion lemma); the data agreement")
+    print("  and 139 GeV (117σ). The selected tower gives 172.5 GeV (−0.03%).")
+    print("  The exclusion is algebraic (conversion lemma). The data agreement")
     print("  is a separate confirmation, not the selection criterion.")
     print("  terminus DERIVED: vacuum anchor (J³=1 row, identity-channel")
     print("  top, y_t≈1) + knot definition (one circulation = one channel)")

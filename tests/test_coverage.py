@@ -10,7 +10,7 @@ Three claims are frozen here:
 
 2. CROSS-BRACING.  Constants are entered once and consumed by several
    unrelated observables.  These tests recompute each consumer from
-   the shared entry; a "fit" that adjusted one consumer independently
+   the shared entry. A "fit" that adjusted one consumer independently
    would break the identity and fail here.
 
 3. GRAMMAR VERIFICATION.  Every FORCED echo multiplicity used by the
@@ -74,7 +74,7 @@ def test_koide_selection_check_is_unique(res):
     subpct = [key for key, mb in menu.items()
               if abs(mb - pdg_b) / pdg_b < 0.01]
     assert subpct == [("adj", 3)]
-    # runner-up (fund, 3) misses by ~2%; all others by > 2%
+    # runner-up (fund, 3) misses by ~2%. All others by > 2%
     others = sorted(abs(mb - pdg_b) / pdg_b
                     for key, mb in menu.items() if key != ("adj", 3))
     assert others[0] > 0.02
@@ -107,7 +107,7 @@ def test_words_lemma_outputs(res):
     boundary-walk counts, the down seed, the neutral-sector FPdim,
     and the exclusion set.  words.derive() internally re-verifies the
     Z3 universal grading (10^3 fusion triples), C_ad fusion closure,
-    and dim Hom(f x fbar, a) = 1; any failure raises."""
+    and dim Hom(f x fbar, a) = 1. Any failure raises."""
     import contextlib, io
     import words
     with contextlib.redirect_stdout(io.StringIO()):
@@ -120,8 +120,8 @@ def test_words_lemma_outputs(res):
 
 def test_vew_multiplicity_resolution(res):
     """The 16(alpha/2pi)^2 term steps v_EW by ~1.35e-6 per unit of
-    multiplicity; the achieved residual against the G_F value is a
-    small fraction of one step (i.e. the integer landed, it was not
+    multiplicity. The achieved residual against the G_F value is a
+    small fraction of one step (i.e. The integer landed, it was not
     merely bracketed)."""
     alpha = 1.0 / res["c"]["inv_alpha_phys"]
     step = (alpha / (2 * math.pi))**2
@@ -159,8 +159,10 @@ def test_bridge_marginality_three_consumers():
 
 
 def test_vertex_mode_count_identity():
-    """N_vertex = n26 + hv(G2) = 30 = hv(E8): the Higgs-DOF count is
-    pinned by an independent E8 identity, not free."""
+    """N_vertex = n26 + hv(G2) = 30 = hv(E8), an arithmetic
+    observation (status: obs).  The counts coincide and this test
+    freezes the coincidence. A structural derivation of WHY they
+    coincide is not claimed."""
     from root import N_vertex, n26, hv_G2, hv_E8
     assert N_vertex == n26 + hv_G2 == 30 == hv_E8
 
@@ -183,8 +185,8 @@ def test_inv_alpha_closed_form(res):
 
 def test_quark_action_closed_form(res):
     """S_quark = 9pi^2/2 - 6 + 15/512 - 16(alpha/2pi)^2, every term a
-    dictionary polynomial: 9pi^2/2 = hv(F4) pi^2/2; 6 = C2(26) =
-    d10*d11; 15/512 = 30*(pi/512)/(2pi); 16 = charge_trace*C2(26)."""
+    dictionary polynomial: 9pi^2/2 = hv(F4) pi^2/2. 6 = C2(26) =
+    d10*d11. 15/512 = 30*(pi/512)/(2pi). 16 = charge_trace*C2(26)."""
     alpha = 1.0 / res["c"]["inv_alpha_phys"]
     S = (9 * math.pi**2 / 2 - 6 + 15 / 512
          - 16 * (alpha / (2 * math.pi))**2)
@@ -211,15 +213,15 @@ def test_bridge_sq_closed_form(res):
 
 # ═══════════════════════════════════════════════════════════════════════
 #  4. Derivation-program witnesses (registry.DERIVATION_PROGRAMS)
-#     The three open theorems, each reduced to executable components
-#     already present in the repo.  These tests freeze the witnesses;
+#     The four open theorems, each reduced to executable components
+#     already present in the repo.  These tests freeze the witnesses.
 #     the symbolic proofs are the papers' job.
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_first_invariant_order_theorem():
     """Program 1 (why K^3): the Koide insertion is the Z3
-    sector-changer S (masses.py: h10 = the unique lightest changer);
-    the confined sector admits only Z3-invariant operators
+    sector-changer S (masses.py: h10 = the unique lightest changer).
+    The confined sector admits only Z3-invariant operators
     ([Delta, S] = 0, the selector theorem).  The invariant content of
     n insertions is tr(S^n)/3: zero for n = 1, 2, first nonzero at
     n = 3 -> the back-reaction enters at cubic altitude, K^3.  The
@@ -243,7 +245,7 @@ def test_conversion_vertex_irrationality_witness():
     (octonions.py).  Each excluded terminus word carries an ODD number
     of channel switches, so its amplitude is sqrt(2)^odd x rational =
     irrational, and an irrational number cannot contribute to an
-    integer rank.  Witnesses frozen; the symbolic proof obligation is
+    integer rank.  Witnesses frozen. The symbolic proof obligation is
     reduced to bookkeeping of the switch parity."""
     import contextlib, io
     import octonions
@@ -260,7 +262,7 @@ def test_conversion_vertex_irrationality_witness():
 def test_vent_share_witnesses():
     """Program 3 (why h10, why K^0, why the scalar channel): the 7 of
     G2 decomposes under confined SU(3) as 3 + 3bar + 1 with trialities
-    (1, 2, 0); N-ality superselection (words.py, executable theorem)
+    (1, 2, 0). N-ality superselection (words.py, executable theorem)
     blocks the triality-charged shares at a confining interface, so
     the fundamental share of the bridge cannot reach the condensate.
     Its share in the weight metric is h10 (the emission-share grammar,
@@ -278,6 +280,31 @@ def test_vent_share_witnesses():
     assert "vent" in kinds
 
 
+def test_texture_stabilization_witness():
+    """Program 4 witness, both halves.  Fast half A: the static unit
+    texture really carries the pi_3 charge the confined phase must
+    protect: the lattice estimator converges toward |B| = 1 with
+    resolution.  Fast half B (branch (i) closure): the induced
+    Faddeev-Skyrme quartic exists and stabilizes at the healing
+    scale (tests/probes/effective_action.py, executed here).  The
+    dynamical record (ballistic unwinding through amplitude-node
+    events. Rotation loophole closed by the exact commutation test)
+    is the slow witness, tests/test_probes.py::
+    test_knot_charge_not_protected."""
+    from probes import knot_charge as kc
+    B = {}
+    for N in (32, 48):
+        psi, dx, R, _ = kc.texture_state(N, 24.0, amp=0.7, size=2.5)
+        B[N] = kc.charge(*kc.rel_modes(psi), dx, R)
+    # converging toward -1 from above in |.|, already substantial at 48
+    assert abs(B[48]) > abs(B[32]) > 0.5
+    assert abs(B[48]) > 0.85
+    # branch (i): the stabilizing term, constructively
+    from probes import effective_action
+    r = effective_action.run(report=lambda *a, **k: None)
+    assert r["R_star_m"] > 1.0 and 0.5 < r["R_star_xi"] < 2.0
+
+
 # ═══════════════════════════════════════════════════════════════════════
 #  5. Joint cosmology closure (independent channels, one universe)
 # ═══════════════════════════════════════════════════════════════════════
@@ -287,7 +314,7 @@ def test_higgs_vent_closure(res):
 
     The canonical edge (bridge->Higgs deflated by the fundamental
     weight, 1 - h10) gives m_H = 125.30 GeV (+0.9 sigma of
-    125.20(11)); without the vent the edge reads 124.00.  This test
+    125.20(11)). Without the vent the edge reads 124.00.  This test
     freezes both readings and the exclusion of every menu
     alternative, so the closure cannot drift under refactors."""
     import contextlib, io
@@ -343,7 +370,7 @@ def test_higgs_vent_closure(res):
 
 def test_joint_cosmology_closure(res):
     """eta_B (G2 instanton) and Omega_DM/Omega_b (bridge venting) are
-    derived independently; jointly they must reproduce the absolute
+    derived independently. Jointly they must reproduce the absolute
     Planck densities.  Standard conversion: Omega_b h^2 = eta_10/273.9."""
     eta10 = res["g"]["eta_B"] * 1e10
     Obh2 = eta10 / 273.9
@@ -360,7 +387,7 @@ def test_echo_depth_nilpotency():
     Three checks:
     1. Every echo term in the solved web has depth <= HURWITZ_DEPTH = 3.
     2. The EM sector graph has exactly 2 charged nodes (G2-knot, F4-knot),
-       so its longest non-repeating path is length 2; all deeper traversals
+       so its longest non-repeating path is length 2. All deeper traversals
        are resummed by the kernel's self-consistency.
     3. The depth-3 EM term is state-dependent (callable), confirming it
        reads alpha from the web state, the self-referential cycle that
@@ -409,3 +436,213 @@ def test_echo_depth_nilpotency():
                                    - 1 / (2 * math.pi**2))
     assert abs(cubic_lhs - cubic_rhs) < 1e-5, \
         "alpha(0) must satisfy the self-consistent cubic"
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  6. The grammar as a statistical object (edge_grammar.py, programs
+#     D1-D3 of the gaps audit): the committed menus are frozen above.
+#     here they are tested as a NULL MODEL (could chance produce the
+#     scorecard?) and as a BLIND HOLDOUT (does any PDG mass steer its
+#     own prediction?).
+# ═══════════════════════════════════════════════════════════════════════
+
+def _koide_Q(m1, m2, m3):
+    return (m1 + m2 + m3) / (math.sqrt(m1) + math.sqrt(m2)
+                             + math.sqrt(m3))**2
+
+
+def _solve_third(Q, ma, mb, lo, hi, n=200):
+    """All solutions m in [lo, hi] of Q(m, ma, mb) = Q (log grid +
+    bisection)."""
+    import numpy as np
+    xs = np.exp(np.linspace(math.log(lo), math.log(hi), n))
+    f = [_koide_Q(x, ma, mb) - Q for x in xs]
+    sols = []
+    for i in range(n - 1):
+        if f[i] == 0.0 or f[i] * f[i + 1] < 0:
+            a, b = xs[i], xs[i + 1]
+            for _ in range(60):
+                m = 0.5 * (a + b)
+                if (_koide_Q(a, ma, mb) - Q) * (_koide_Q(m, ma, mb) - Q) <= 0:
+                    b = m
+                else:
+                    a = m
+            sols.append(0.5 * (a + b))
+    return sols
+
+
+def test_grammar_null_model_scorecard_not_cheap():
+    """D2: Monte Carlo over the committed edge grammar with RANDOM
+    targets.  Draw fake 'universes' (each mass moved log-uniformly
+    within a factor 2.5 of the observed value), and ask whether the
+    grammar's finite menus (edge_grammar.py: one theta for BOTH mu and
+    tau, word multipliers + one vent for u/d/c/t, Koide inversion for
+    b and s) can hit all eight non-anchor targets within 1%.  If the
+    scorecard were cheap, the null rate would be O(1).  Measured: the
+    lepton stage alone passes at ~2.5e-4, the full scorecard at 0 in
+    4000 trials (95% CL upper bound 7.5e-4). The stage-rate product
+    (stages treated as approximately independent. An estimate, not
+    a theorem) puts the joint chance near 1e-6.  Frozen bounds are
+    deliberately loose: lepton rate < 5e-3, product < 1e-4, zero
+    full hits at this N.  This is the look-elsewhere correction for
+    the 9/9-at-1% claim.  Caveats stated: the target window (x/2.5)
+    is a choice, and the null holds the framework's functional FORMS
+    fixed: it asks whether THIS grammar is dense, not how many
+    other grammars might exist."""
+    import numpy as np
+    import edge_grammar as eg
+
+    BA = math.sqrt(2.0)
+    WIND = {"e": 1, "mu": 2, "tau": 0}
+    OBS = dict(e=0.511, mu=105.658, tau=1776.93, u=2.16, d=4.70,
+               s=93.5, c=1273.0, b=4183.0, t=172570.0)
+    TOL, SPREAD, N = 0.01, 2.5, 4000
+
+    def circ(theta):
+        g = {n: 1.0 + BA * math.cos(theta + 2 * math.pi * k / 3)
+             for n, k in WIND.items()}
+        if min(g.values()) <= 0:
+            return None
+        return (g["mu"] / g["e"])**2, (g["tau"] / g["e"])**2
+
+    LEP = [r for r in (circ(t % (2 * math.pi))
+                       for t in eg.theta_menu()) if r is not None]
+    CORR = [0.0] + sorted(set(eg.correction_menu().values()))
+    MUL2 = sorted({w * (1 + c) for w in set(eg.word_menu(2).values())
+                   for c in CORR})
+    MUL3 = sorted({w * (1 + c) for w in set(eg.word_menu(3).values())
+                   for c in CORR})
+    W4 = set(eg.word_menu(4).values()) | set(eg.terminus_menu().values())
+    MUL4 = sorted({w * (1 + c) for w in W4 for c in CORR})
+    KQ = sorted(set(eg.koide_menu().values()))
+
+    def hit(menu, target):
+        return any(abs(v / target - 1.0) < TOL for v in menu)
+
+    rng = np.random.default_rng(20260711)   # frozen seed: reproducible
+    names = ("mu", "tau", "u", "d", "s", "c", "b", "t")
+    full_hits, lep_hits = 0, 0
+    stage = dict(u=0, d=0, c=0, t=0)
+    for _ in range(N):
+        tgt = {k: OBS[k] * math.exp(rng.uniform(-math.log(SPREAD),
+                                                math.log(SPREAD)))
+               for k in names}
+        me = OBS["e"]
+        # unconditional stage rates (for the product bound)
+        stage["u"] += hit([m * me for m in MUL2], tgt["u"])
+        stage["d"] += hit([m * me for m in MUL2], tgt["d"])
+        stage["c"] += hit([m * OBS["mu"] for m in MUL3], tgt["c"])
+        stage["t"] += hit([m * OBS["tau"] for m in MUL4], tgt["t"])
+        # the joint trial
+        pair = next(((rm * me, rt * me) for rm, rt in LEP
+                     if abs(rm * me / tgt["mu"] - 1) < TOL
+                     and abs(rt * me / tgt["tau"] - 1) < TOL), None)
+        if pair is None:
+            continue
+        lep_hits += 1
+        mu_hat, tau_hat = pair
+        if not (hit([m * me for m in MUL2], tgt["u"])
+                and hit([m * me for m in MUL2], tgt["d"])
+                and hit([m * mu_hat for m in MUL3], tgt["c"])
+                and hit([m * tau_hat for m in MUL4], tgt["t"])):
+            continue
+        ok = False
+        c_hats = [m * mu_hat for m in MUL3
+                  if abs(m * mu_hat / tgt["c"] - 1) < TOL]
+        t_hats = [m * tau_hat for m in MUL4
+                  if abs(m * tau_hat / tgt["t"] - 1) < TOL]
+        for ch in c_hats:
+            for th in t_hats:
+                for Q in KQ:
+                    for mb in _solve_third(Q, ch, th, 100.0, 4e4):
+                        if abs(mb / tgt["b"] - 1) < TOL and any(
+                                abs(ms / tgt["s"] - 1) < TOL
+                                for Q2 in KQ
+                                for ms in _solve_third(Q2, ch, mb,
+                                                       1.0, 2e3)):
+                            ok = True
+        full_hits += ok
+
+    # the scorecard must NOT be cheap
+    assert lep_hits / N < 5e-3, \
+        "one theta hitting both mu and tau at 1% must be rare"
+    assert full_hits == 0, \
+        f"chance full scorecards: {full_hits}/{N} (must be 0 at this N)"
+    prod = (lep_hits / N or 2.5e-4)
+    for k in stage:
+        prod *= stage[k] / N
+    assert prod < 1e-4, f"stage-rate product {prod:.2e} too permissive"
+
+
+def test_channel_weight_projector_lemma():
+    """W = 1/d_lambda upgraded from 'convention' to forced: the raw
+    Fano CG channel composite satisfies L^2 = lam L (Schur), so
+    idempotency fixes the propagator coefficient at 1/(loop value)
+    uniquely, and the MTC loop value is the quantum dimension
+    (d(1,0) = 2, Kac-Peterson, independently computed in
+    wiring_scan.su3_qdims).  One of the gate paper's three stated
+    conventions retired."""
+    from octonions import _check_projector_normalization
+    from probes.wiring_scan import su3_qdims
+    schur_ok, forced_ok, lam_cl = _check_projector_normalization()
+    assert schur_ok, "channel composite must be Schur (prop. to projector)"
+    assert forced_ok, "idempotency must force the unique coefficient"
+    d = su3_qdims(3)
+    assert abs(d[(1, 0)] - 2.0) < 1e-9
+    assert abs(1.0 / d[(1, 0)] - 0.5) < 1e-12   # W(3bar) forced
+
+
+def test_proton_stability_bookkeeping():
+    """D5: the conserved quantity forbidding B-violating edges is the
+    fermion-line terminus.  Frozen here: (i) the edge taxonomy is
+    exactly {ratio, echo, vent} and root.EchoTerm rejects any other
+    kind (an identity-changing edge cannot be constructed). (ii) every
+    edge in the solved web carries one of the three kinds.  Registered
+    exposure: registry PREDICTIONS id=10 (kill: observed proton
+    decay)."""
+    from root import WEB, EchoTerm, Ledger
+    import registry
+    with pytest.raises(AssertionError):
+        EchoTerm(["p", "e+ pi0"], 1.0, 1, kind="transmute")
+    kinds = {t.kind for led in WEB.values() if isinstance(led, Ledger)
+             for t in led.terms}
+    assert kinds <= {"ratio", "echo", "vent"}
+    entry = next(p for p in registry.PREDICTIONS
+                 if p["name"].startswith("proton stability"))
+    assert "tau_p" in entry["claim"] and "proton decay" in entry["kills"]
+
+
+def test_blind_holdout_nine_masses(res):
+    """D3: leave-one-out over the nine masses, executable form.  The
+    chain's only dimensional input is the CODATA electron anchor.
+    Every PDG mass is display-only.  Therefore, given eight masses,
+    indeed given none, the ninth is forced.  Frozen by perturbing
+    EVERY PDG mass entry simultaneously (x1.2 / x0.8 alternating),
+    re-running the derivation, and asserting all nine predictions are
+    bit-identical to canon.  If a refactor ever routed a PDG mass
+    into its own (or any) prediction, this fails."""
+    import contextlib
+    import io
+
+    import root as root_mod
+    import masses as masses_mod
+    from root import PDG_MASSES
+
+    saved = dict(PDG_MASSES)
+    try:
+        for i, k in enumerate(PDG_MASSES):
+            PDG_MASSES[k] = saved[k] * (1.2 if i % 2 == 0 else 0.8)
+        with contextlib.redirect_stdout(io.StringIO()):
+            R2 = root_mod.derive()
+            m2 = masses_mod.derive(R2)
+        for k in ("m_e", "m_mu", "m_tau", "m_u", "m_d", "m_s",
+                  "m_c", "m_b", "m_t"):
+            assert m2[k] == pytest.approx(res["m"][k], rel=1e-12), \
+                f"{k} moved when PDG values were perturbed: a PDG " \
+                f"mass is steering a prediction"
+    finally:
+        PDG_MASSES.update(saved)
+        # restore global web state for any later consumer
+        with contextlib.redirect_stdout(io.StringIO()):
+            R3 = root_mod.derive()
+            masses_mod.derive(R3)

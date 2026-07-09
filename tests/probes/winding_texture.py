@@ -2,7 +2,7 @@
 winding_texture.py (statistics): the explicit 3D knot and
 its topological charge, computed.
 
-THE CONSTRUCTION: the confined child is SU(3); 3D textures are
+THE CONSTRUCTION: the confined child is SU(3). 3D textures are
 classified by pi_3(SU(3)) = Z.  Build the explicit unit hedgehog
 (SU(2) hedgehog embedded in the upper-left block of SU(3)):
 
@@ -14,16 +14,26 @@ and compute its winding number by the standard integral
 
 RESULT: B = 1 numerically.  This is the knot as a genuine
 topological object, the thing 1D could not protect (we watched
-windings mix there), 3D protects absolutely.
+windings mix there).  In 3D the charge is protected for maps of
+fixed nonvanishing norm. The substrate's relative spinor is a
+LINEAR C^2 field, not such a map, and does not protect it.
+Measured: tests/probes/knot_charge.py (ballistic Derrick collapse,
+unwinding through codim-4 amplitude-node events).  Protection is a
+property claimed of the confined phase (registry:
+DERIVATION_PROGRAMS #4).
 
-THE STATISTICS STEP (Witten 1983, conditional as labeled in
-notes/statistics.md): with the level-3 WZ term supplied by the
-CS/WZW correspondence of the confined sector, a B = 1 texture
-acquires exchange phase e^{i pi k B} = e^{3 pi i} = -1: FERMION.
-What is computed here: the texture EXISTS and carries unit charge.
-What remains cited: the WZ term's presence at level 3 in the
-effective action (the CS/WZW correspondence supplies it; a
-first-principles substrate derivation is the labeled remainder).
+THE STATISTICS STEP (Witten 1983. Conditional as labeled in the
+registry's CLOSURE_RECORD and DERIVATION_PROGRAMS #4).  The honest
+split: the WZ term's LEVEL is derived by counting the three Dirac
+species ('t Hooft anomaly matching, tests/probes/bookkeeping.py),
+and its PRESENCE is forced by the same matching GIVEN the confined
+phase (the anomaly must be reproduced in the IR, and the WZ term is
+the unique local functional that does it. Corroboration-grade
+citation).  With the level-3 WZ term, a B = 1 texture acquires
+exchange phase e^{i pi k B} = e^{3 pi i} = -1: FERMION.  What is
+computed here: the texture EXISTS and carries unit charge.  The
+single open premise is the confined phase itself
+(SUBSTRATE_CONJECTURES #1).
 
 Usage: python3 winding_texture.py   (~15 s)
 """
@@ -78,12 +88,14 @@ def run(report=print):
     ok = abs(abs(B) - 1.0) < 0.15   # sign = hedgehog orientation convention
     report(f"  unit winding: {'CONFIRMED' if ok else 'grid too coarse'}")
     report("-" * 64)
-    report("  With the level-3 WZ term (CS/WZW of the confined sector),")
-    report("  exchange phase = e^{i pi * 3 * B} = e^{3 pi i} = -1:")
-    report("  the B = 1 knot is a FERMION.  Computed here: existence +")
-    report("  unit charge.  Cited (labeled): the WZ term at level 3.")
-    report("  Contrast with 1D (probes/stationary.py): there the")
-    report("  winding MIXED, no pi_3 protection; in 3D it cannot.")
+    report("  With the level-3 WZ term (presence cited: CS/WZW. Level")
+    report("  derived by counting: bookkeeping.py), exchange phase =")
+    report("  e^{i pi * 3 * B} = e^{3 pi i} = -1: the B = 1 knot is a")
+    report("  FERMION.  Computed here: existence + unit charge.")
+    report("  Protection: holds for fixed-norm maps. The substrate's")
+    report("  linear spinor is not one and does NOT protect it")
+    report("  (knot_charge.py).  Protection is claimed of the confined")
+    report("  phase (DERIVATION_PROGRAMS #4).")
     return B
 
 

@@ -7,8 +7,8 @@ argument).  The framework's entire mass sector has the form
 m = M_Pl * exp(-S_closure) * (circulant data), with every factor
 forced.  This structure requires that no mass term exist above the
 closure scale other than those the closure itself generates.  In a
-vector-like gauge theory, bare Dirac masses are gauge invariant;
-nothing forbids them, and by genericity they appear at the cutoff
+vector-like gauge theory, bare Dirac masses are gauge invariant.
+Nothing forbids them, and by genericity they appear at the cutoff
 scale.  A vector-like branch therefore carries mass observables
 contaminated by terms the closure does not control, so it does not
 close and is not a surviving branch.  Chiral gauge symmetry is
@@ -36,7 +36,7 @@ with handedness = winding sign = the Fano bit.  This probe computes
 exactly that on the knot's own profile.
 
 THE SETUP (standard JR angular reduction): a Dirac fermion coupled to
-a defect with winding n decomposes into angular channels; winding
+a defect with winding n decomposes into angular channels. Winding
 SHIFTS the centrifugal index so that exactly |n| channels lose their
 centrifugal barrier (index theorem).  In the barrier-free channel the
 radial operator pair is
@@ -150,11 +150,11 @@ def run(report=print):
     report("-" * 64)
     report("  winding +1 and -1: one true zero mode each, in OPPOSITE")
     report("  chirality blocks, handedness IS the winding sign,")
-    report("  i.e. the propagated Fano bit")
+    report("  i.e. The propagated Fano bit")
     report("  winding  0: windingless mass = sigma_z channel = gapped,")
     report("  no zero mode: chirality requires the winding")
     report("  => the knot's bound fermion is ONE-HANDED by index")
-    report("     theorem; V-A is inherited, not imposed.")
+    report("     theorem. V-A is inherited, not imposed.")
     return results
 
 

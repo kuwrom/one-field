@@ -3,7 +3,7 @@ universality.py: is the standing wave THE survivor, regardless of seed?
 
 Completes the selectivity question at the level the earlier probes
 located it (the SATURATED state): evolve the circulating winding seed
-and the static v-mark seed to t = 40 and compare their endpoints , 
+and the static v-mark seed to t = 40 and compare their endpoints:
 field-level winding shares, internal frequency, peak.  If both land
 on the same class of standing structure, the survivor is UNIQUE and
 seed-independent: every loop forgets its label and becomes the same
