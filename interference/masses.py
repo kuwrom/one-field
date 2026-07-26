@@ -9,10 +9,16 @@ irreducible numbers via the WZW/MTC structures below.
 Gate 4 (closure) lives here.  The Brannen circulant Δ_k = A + B cos(θ +
 2πk/3) is the UNIQUE form compatible with the cyclic constraint
 [Δ, S] = 0, where S is the Z₃ shift on the three child-centre labels.
-The direct finite-G₂ path retains the harmonic v = (1, −1/2, −1/2) and
-does NOT close.  The cyclic branch erases v and closes on circulant
-algebra alone, this is the survivor filter that selects the unique
-lane.  See __init__.py for the full six-gate chain.
+NAMING: two different 3-vectors both carry the letter "v".  The
+label v_G2 = (1, −1/2, −1/2) is the asymmetric G₂ weight the direct
+finite-G₂ path retains; that path does NOT close, and v_G2 carries
+no scorecard number.  The CANONICAL harmonic is v_k =
+√2·cos(2/9 + 2πk/3) ≈ (1.379, −0.960, −0.420)
+(protected_forgetting.py), and it is the load-bearing one:
+E[v²] = ½ read by the bridge, and the electron gap Δ_e = 1 + v_1
+that anchors M_Pl.  The cyclic branch erases v_G2 and closes on
+circulant algebra alone, the survivor filter that closes on the
+unique lane.  See __init__.py for the full six-gate chain.
 
 ═══════════════════════════════════════════════════════════════════════
 WHAT MASS IS
@@ -23,16 +29,16 @@ loops emerge: a -> b -> c -> a.  A loop carries cyclic Z₃ symmetry,
 because nothing inside it distinguishes which position came first.
 Most loops just cycle.
 
-Some, though, drop the bias that singles out one of their three
-positions.  The asymmetric label v = (1, −1/2, −1/2) inherited from
-the parent G₂ structure is erased, and all three positions become
-equivalent.  A forgetting loop can no longer drift between its
-positions.  It gets stuck in one of three eigenstates.  That stuck
-pattern is a standing wave, and the three eigenstates are the three
-lepton generations: electron, muon, tau.  Same loop, three places it
-can lock in.
+In the engine's protected-forgetting branch, the asymmetric label
+v_G2 = (1, −1/2, −1/2) is erased (NOT the canonical harmonic; see
+NAMING above) and the three positions become equivalent.  The
+resulting Z₃-circulant has three eigenstates, identified with the
+electron, muon and tau generations.  In the engine, mass is the
+squared gap of that pattern.
 
-Mass is that pattern.
+The substrate realizes the pattern as a localized clock.  Generating
+its sharp circulant spectrum in the confined 3D regime is depth-3
+unfinished (emergent_clock.py).
 
 ═══════════════════════════════════════════════════════════════════════
 THE SUBSTRATE PICTURE (lepton paper, self-contained summary)
@@ -42,13 +48,15 @@ The effective local model is the Z₃-symmetric coupled nonlinear
 Schrödinger system for three child condensates ψ_k:
 
     iħ ∂ψ_k = −D∇²ψ_k + Σ_j g_kj |ψ_j|² ψ_k,   k = 1,2,3
-    g_kk = g₀,  g_kj = g₁ (k≠j),  with the G₂ CONSTRAINT g₁ = g₀/√d₁₀.
+    g_kk = g₀,  g_kj = g₁ (k≠j),  with the G₂ IDENTIFICATION
+    g₁ = g₀/√d₁₀.
 
-A lepton is a Z₃-equivariant Bogoliubov-de Gennes (BdG) standing
-wave on this system.  Closure imposes cyclicity [Δ, S] = 0 on the
-BdG mass-amplitude matrix (the "forgetting" that erases which of
-the three phases the loop came from). The surviving spectrum is the
-circulant gap Δₖ below, and the mass is the gap squared: mₖ = Δₖ².
+The framework identifies a lepton with a Z₃-equivariant Bogoliubov-de
+Gennes (BdG) standing wave on this system.  Closure imposes cyclicity
+[Δ, S] = 0 on the mass-amplitude matrix (the "forgetting" that erases
+which of the three phases the loop came from).  The surviving
+spectrum is the circulant gap Δₖ below, and mass is its square:
+mₖ = Δₖ².
 
 BdG/KOIDE IDENTITY (theorem): for any real Z₃-equivariant positive
 triplet Δₖ = A + B cos(θ + 2πk/3) with mₖ = Δₖ²,
@@ -106,15 +114,39 @@ Step 4: Confinement scale A = ½ M_Pl exp(−S₀), S₀ = d₁₁²π²/2,
     The absolute scale chain (lepton paper): α_G₂(M_Pl) = |Z₃|/(2π
     D²_tot) = 1/(24π) from the SU(3)₃ modular tensor category
     (executable in root.py), trace-lift normalisation c_eff = 1/2.
-    S₀ = h∨(F₄)·π²/2 is the F₄ instanton action.  The quark layer
+    S₀ = 2π/(b₀α_G₂) = h∨(F₄)·π²/2 by the RG derivation in
+    root.py.  The quark layer
     then vents the action to S = 9π²/2 − 6 + 15/512 (Casimir vent
-    −C₂(26), 30-mode vertex echo +15/512. root.py ledger), giving
+    −C₂(26), plus the E8 positive-root current trace
+    Tr₊(Q²)·α_EM/(2π) = 30·α_EM/(2π) = 15/512), giving
     v_EW = M_Pl·exp(−S), the same exponent in both readings.
 
-Step 5: Pole mass = tree × (1 − α(0)/(2π)).
-    QED vertex back-reaction at the mass shell (standard QFT calls this
-    the "vertex correction". Here it is the EM channel's interference
-    with the propagator pole, forced by the field content).
+Step 5: EM response stack.
+    The depth-1 bridge self-echo multiplies the closure base by
+    (1 − α(0)/(2π)). The depth-4 e↔q response is then read by the
+    Ledger below. These are interference depths of one mass
+    reading, not a conversion between two physical masses.
+
+═══════════════════════════════════════════════════════════════════════
+TWO SENSES OF "WHERE THE LEPTONS LIVE" (easy to collide)
+═══════════════════════════════════════════════════════════════════════
+
+The F₄ SINGLET is a statement about SCALE: the charged-lepton
+standing wave closes with no Casimir vent (S_lepton = 9π²/2), which
+is what puts it at Λ_conf rather than v_EW.  That is the sense used
+here, and the only one that enters this repository.
+
+The 8_v assignment inside the triality split 26 → 8_v ⊕ 8_s ⊕ 8_c ⊕
+2·1 is a statement about QUANTUM NUMBERS, in the quark paper's
+Pati-Salam embedding.  The engine never uses it and no scorecard
+number depends on it.
+
+What the engine does use from the split is the triality SWAP
+(d₁₀² ↔ d₁₁², up versus down, below) and the two singlets, which are
+the only right-handed neutrinos, so the seesaw matrix has rank 2 and
+m_ν₁ = 0 with normal ordering follows structurally rather than by
+choice (gravity.py).  Three generations of each are the same Z₃ that
+gave three lepton generations, not triality.
 
 ═══════════════════════════════════════════════════════════════════════
 UP-TYPE QUARKS, WZW emergence
@@ -138,19 +170,26 @@ producing a sub-leading back-reaction:
 
 FIRST-INVARIANT-ORDER THEOREM (why K³): the insertion is the Z₃
 sector-changer, and the confined sector admits only Z₃-invariant
-operators ([Δ,S] = 0, selector theorem).  One or two insertions do
+operators ([Δ,S] = 0, closure theorem).  One or two insertions do
 not return to the identity sector (tr S = tr S² = 0). Three do
 (tr S³ = 3).  Orders 1 and 2 are forbidden, not small. The first
 admissible order is cubic.  In OPE language: Σ√m receives its first
 Z₃-invariant back-reaction at third order in the conformal weight
 expansion.  The same theorem gives bridge² its K² altitude: a paired
 S S† insertion is invariant already at order 2.  (Witness:
-tests/test_coverage.py. Derivation program 1, registry.)
+tests/test_coverage.py::test_first_invariant_order_theorem.)
+THE ASSIGNMENT IS DERIVED by the insertion rule
+(tests/probes/lambda_assignment.py): N-ality superselection at the
+deepest interface the triplet closes through, the same
+superselection that forces w₂'s step letter.  (c,b,t) contains the
+terminus, so its insertion crosses the confining interface: neutral
+lane, whose UNIQUE nontrivial stepper is the adjoint (h₁₁);
+(s,c,b) faces no interface: the lightest sector-changer
+(fundamental, h₁₀, the θ precedent).
 ENUMERATION over all eight structures Q₀ + h(λ)/Kᵖ (λ ∈ {fund, adj},
-p ∈ {1..4}): only the adjoint weight at cubic altitude closes on the
-bottom mass (+0.26%). The nearest alternative misses by +2.16%, all
-others by >5%.  The (s,c,b) assignment (h₁₀, K³) carries the same
-representation content at the same depth.
+p ∈ {1..4}), now CONFIRMATION rather than selection: only the adjoint
+weight at cubic altitude closes on the bottom mass (+0.26%). The
+nearest alternative misses by +2.16%, all others by >5%.
 
     (c,b,t) triplet: adjoint (1,1), h₁₁ = 1/d₁₀ = 1/2
         → Q = d₁₀/d₁₁ + (1/d₁₀)/(d₁₀d₁₁)³ = 289/432
@@ -171,34 +210,32 @@ LIGHT QUARKS, d₁₀² ↔ d₁₁² swap
     down quarks see the adjoint channel d₁₁².
 
 ═══════════════════════════════════════════════════════════════════════
-THE MASS COORDINATE, one rule over three dynamical classes
+THE MASS READING AND ITS COMPARISON COORDINATE
 ═══════════════════════════════════════════════════════════════════════
 
-A running mass m(μ) is a coordinate on an RG orbit. A mass prediction
-is complete only with its coordinate.  The table above is stated in
-one rule:
+A running mass m(μ) is a coordinate on an RG orbit. The framework does
+not derive a sequence of preliminary and corrected masses: it produces one Web
+reading, including every echo. Comparison then uses the
+coordinate attached to the external reference:
 
-  LEPTONS (e, μ, τ): the PROPAGATOR POLE, the only scheme-independent
-    mass an asymptotic state has.  The QED mass-shell factor
-    (1 − α(0)/2π) above IS the tree → pole conversion.
+  LEPTONS (e, μ, τ): the completed EM-channel reading is compared with
+    the measured lepton mass conventionally catalogued as a propagator-
+    pole value. "Pole" is an external reference label, not a Web stage.
 
-  TOP QUARK (t): also the PROPAGATOR POLE.  The top decays before
-    hadronising (Γ_t ≈ 1.4 GeV >> Λ_QCD ≈ 0.2 GeV), so its pole
-    mass is as well-defined as a lepton's: renormalon ambiguity is
-    Λ_QCD/m_t ≈ 0.12%, safely below measurement error.  The entry
-    matches the PDG kinematic mass.
+  TOP QUARK (t): the completed generation-ladder reading is compared with
+    the PDG direct kinematic reference. When imported beta equations need
+    a running coordinate, gravity.py translates this same reading for that
+    calculation; it does not generate another top mass.
 
-  CONFINED HEAVY quarks (c, b): the SELF-SCALE m(m), the unique
-    fixed point of μ ↦ m(μ).  No pole exists below confinement
-    (renormalon ambiguity Λ_QCD/m ~ 4.8% for b, 15.7% for c), so
-    the fixed-point coordinate is the canonical one, and it is the
-    PDG reference coordinate.
+  CONFINED HEAVY quarks (c, b): comparison uses the PDG self-scale m(m),
+    the fixed point of μ ↦ m(μ). This is reference metadata, not a
+    change to the algebraic reading.
 
-  SCHEME DEPENDENCE NOTE: choosing the wrong coordinate inflates
-    residuals catastrophically.  Example: the charm pole mass
-    m_c^pole ≈ 1.67 GeV shifts the Koide residual from +0.06%
-    (at m(m)) to roughly −24%.  Every mass in this table is stated
-    in the coordinate the physics selects.
+  COORDINATE CHECK: comparing against a different conventional entry can
+    change a residual without changing the framework. For example, the
+    alternative charm reference near 1.67 GeV moves the Koide residual
+    from +0.06% to roughly −24%. The comparison coordinate must therefore
+    always be named.
 
   LIGHT quarks (u, d, s): no perturbative self-scale exists
     (m < Λ_QCD).  The scheme-free content is the RG-INVARIANT
@@ -212,13 +249,27 @@ one rule:
                                          PDG review Sec. 60)
     The absolute entries are quoted in the PDG MS-bar(2 GeV)
     coordinate, a declared dictionary entry.
+    These three ratios carry no coordinate, so a converged FLAG-class
+    lattice ratio that excludes an algebraic value kills it.  The
+    sharpest is m_s/m_ud: the lattice average tightening at 27.30(8)
+    and staying kills 27.318.
 
-The algebra does not run to a scale. Its output IS the prediction.
-A reader who wants a different convention applies standard RGE
-transport with the framework's own α_s(M_Z) = 0.1184 (couplings.py)
--- both
-endpoints are algebraic, so zero freedom enters -- but that is the
-SM's coordinate change, not a step in the prediction.
+The algebra does not run to a scale. A requested coordinate translation
+uses standard RGE transport with the framework's own α_s(M_Z) = 0.1184
+(couplings.py). That translation is calculation metadata, not a further
+interference depth.
+
+TWO EXPOSURES ON THE HEAVY DOWN-TYPE SIDE AND THE GENERATION COUNT.
+  m_b = 4193.8 MeV with NO vent.  If a vent exists at all it is
+  ±(9/4)(α/2π) with ε-orientation signs (+d, −s, +b).  Persistence at
+  > 3σ without the vent value kills the no-vent reading; a shrinking
+  PDG m_b error decides.
+  Exactly three windings close, so there is no fourth generation.  A
+  fourth is UNDEFINED, not suppressed: the discovery of any
+  fourth-generation fermion kills the framework outright.
+  m_d − m_u = 5 m_e = 2.5550 MeV exactly, a datum never consulted in
+  building the chain.  Lattice (BMW 2015) gives 2.52 ± 0.23, +0.15σ;
+  a lattice QCD part excluding 5 m_e kills it.
 """
 
 import math
@@ -259,11 +310,11 @@ def derive(R):
     #   (Z₃ circulant identity)
     #
     from root import (M_Pl_MeV, BA_ratio, S_lepton, PDG_MASSES, pct,
-                      WEB, Ledger)
+                      WEB, Ledger, C_EFF)
 
     # Each lepton is born as a LEDGER: the knot's circulating amplitude
     # plus its echo stack.  Charged knots vent through the EM channel, so
-    # they inherit the lepton_EM echo from the web, the old explicit
+    # they inherit the lepton_EM echo from the web, an explicit
     # "× QED_factor" is gone. The echo law produces it.
     lepton_tree, lepton_pred = {}, {}
     for k_idx, name in [(1, 'e'), (2, 'mu'), (0, 'tau')]:
@@ -272,23 +323,27 @@ def derive(R):
         # ruler node, so the whole mass sector is one coupled recursion
         led = Ledger(f"m_{name}",
                      (lambda s, g=gap:
-                      0.5 * s["M_Pl_MeV"] * math.exp(-S_lepton) * g * g),
-                     "mul", "MeV")
+                      C_EFF * s["M_Pl_MeV"] * math.exp(-S_lepton) * g * g),
+                     "mul", "MeV", web_depth=4)
         for t in WEB["lepton_EM"].terms:
             led.echo(t.path, t.factor, t.depth, t.status, t.note, t.kind)
-        # FORCED depth-3 vent (vertex composition rule): the mass node's
+        # Depth-4 response: the depth-3 carrier read recursively
+        # through the mass node's
         # own channel weight W(fund) = 1/d₁₀ (the B/A Schur projector)
         # composes with the Albert traversal dim J₃(O) = 27 across the
         # e↔q loop → 27/2, venting ∝ the knot's own amplitude Δₖ.
-        # The vertex rule gives the multiplicity exactly: 27/2.
+        # The path is an Albert automorphism: it preserves the unique
+        # Jordan unit and its reverse is its inverse, so the unital
+        # lift is T = P1 + P26 and the junction normalization is one
+        # (tests/probes/wiring_theorem_probe.py).
         led.echo(["e↔q(J₃(O))"],
                  (lambda s, g=gap:
                   -(d11**3 / d10)
                   * ((1.0/s["inv_alpha"]) / (2*math.pi))**2 * g),
-                 3, "FORCED",
-                 "vertex rule: W(fund)·dim J₃(O) = 27/2, ∝ Δₖ")
+                 4, "FORCED",
+                 "depth-4 response: W(fund)·dim J₃(O) = 27/2, ∝ Δₖ")
         WEB[f"m_{name}"] = led
-        lepton_tree[name] = 0.5 * M_Pl_MeV * math.exp(-S_lepton) * gap**2
+        lepton_tree[name] = C_EFF * M_Pl_MeV * math.exp(-S_lepton) * gap**2
         lepton_pred[name] = led.value()
 
     m_e, m_mu, m_tau = lepton_pred['e'], lepton_pred['mu'], lepton_pred['tau']
@@ -317,17 +372,27 @@ def derive(R):
 
     # ECHO-LAW FORM (exact rational identities, same numbers, one law):
     # each quark knot binds to its generation lepton and VENTS through
-    # its closure channel. What standard QFT calls additive "corrections"
-    # are the vents
-    # read multiplicatively:
+    # its closure channel. The vents are read multiplicatively:
     #   m_u = d₁₀²·(1 + δ)    · m_e    [vent = OPE gap δ = 1/18, atom]
     #   m_c = d₁₀²d₁₁·(1 + K⁻³)· m_μ   [vent = 1/K³, SAME suppression
     #                                   as the down-type Koide terms]
     #   m_t = base₃·(1 + 1/(2K·base₃))·m_τ  [base₃ = d₁₁⁴+d₁₀⁴ = 97.
-    #                                   vent rule pending base(n) task]
+    #                                   vent = corr₃/base₃, the
+    #                                   generation-ladder rule (the
+    #                                   additive word_multiplier form
+    #                                   m_q = (base+corr)·m_lep makes
+    #                                   every quark vent = corr/base)]
     # Proof of exactness: d₁₀²(1+δ) = 4·19/18 = 38/9.
     # d₁₀²d₁₁(1+1/216) = 12·217/216 = 217/18. 97(1+1/1164) = 1165/12.
-    base_u, base_c, base_t = d10**2, d10**2 * d11, d11**4 + d10**4
+    # the word-lemma integers, IMPORTED from the lemma (words.py walk
+    # counts), with the polynomial identities asserted so the two
+    # forms cannot drift apart.  (run.py runs words BEFORE masses,
+    # matching the dependency.)
+    from words import walk_bases
+    base_u, base_c, base_t, seed_d = walk_bases()
+    assert (base_u, base_c, base_t) == (d10**2, d10**2 * d11,
+                                        d11**4 + d10**4)
+    assert seed_d == d11**2
     # live ratio bases: quark = word-count integer × the lepton node,
     # read from the state (the ratio edge of the one graph)
     led_u = Ledger("m_u", lambda s: base_u * s["m_e"], "mul", "MeV").echo(
@@ -368,8 +433,7 @@ def derive(R):
     # rep, h = 0).  For quark triplets, each closes through a specific
     # SU(3)₃ WZW representation λ, producing a sub-leading back-reaction:
     #     Q = Q₀ + h(λ)/K³
-    # (Standard QFT would call these "representation corrections". Here
-    #  each h(λ)/K³ is a forced interference term.)
+    # Each h(λ)/K³ is a forced interference term.
     #
     # K³ denominator: the altitude cubed arises because the Koide sum rule
     # involves Σ√m, and √m ∝ Δ (gap) receives an OPE back-reaction at third
@@ -431,9 +495,13 @@ def derive(R):
     # Light quarks: d₁₀² ↔ d₁₁² swap gives up vs down
     #   m_u/m_e = d₁₀² + h₁₀ = 38/9   (up-type base)
     #   m_d/m_e = d₁₁² + h₁₀ = 83/9   (down-type base)
-    # m_d = d₁₁²(1 + d₁₀/d₁₁⁴) m_e exactly: 9·(1+2/81) = 83/9.
-    # Down-type light vent = d₁₀/d₁₁⁴ (the d₁₀²↔d₁₁² triality swap
-    # acting on the same h₁₀ vent: h₁₀/d₁₁² = d₁₀/d₁₁⁴).
+    # m_d = d₁₁²(1 + d₁₀/d₁₁⁴) m_e exactly: 9·(1+2/81) = 83/9
+    #     = (count(aa) + h₁₀) m_e, the SAME committed
+    # word_multiplier operation as the up sector (the Z₂ swap changes
+    # only the seed word ff -> aa; corr(1) = h₁₀ is inherited from the
+    # generation ladder).  ON-MENU: the former "off-menu vent" reading
+    # was a presentation of this exact identity (closure_search
+    # RESOLVED_GAPS; down-gen-1 stage reported there).
     led_d = Ledger("m_d", lambda s: d11**2 * s["m_e"], "mul", "MeV").echo(
         ["WZW(h₁₀)"], d10 / d11**4, 1,
         "FORCED", "vent = h₁₀/d₁₁² = d₁₀/d₁₁⁴ (triality-swapped)")
@@ -530,7 +598,11 @@ def derive(R):
     WEB.solve()          # masses nodes join the solved web state
     v_EW_MeV = M_Pl_MeV * math.exp(-R['S_quark'])
 
-    # the constraint nodes land exactly on the closed forms
+    # THE SYNC GUARD: m_b and m_s are deliberately implemented twice
+    # (closed-form quadratics above; live constraint nodes
+    # _m_bottom_of/_m_strange_of in the web) and these two asserts
+    # keep the pair from drifting: edit one implementation without
+    # the other and this line fails
     assert abs(WEB.state["m_b"] / m_b - 1.0) < 1e-12
     assert abs(WEB.state["m_s"] / m_s - 1.0) < 1e-12
     assert abs(WEB.state["v_EW_GeV"] * 1e3 / v_EW_MeV - 1.0) < 1e-12

@@ -69,7 +69,7 @@ def test_koide_selection_check_is_unique(res):
     """masses.py SELECTION CHECK, frozen: among all eight structures
     Q0 + h/K^p, exactly one matches PDG m_b at sub-percent, and it is
     the canonical branch (adjoint weight, cubic altitude, p = 3)."""
-    menu = _mb_from = _koide_menu(res["m"]["m_c"], res["m"]["m_t"])
+    menu = _koide_menu(res["m"]["m_c"], res["m"]["m_t"])
     pdg_b = PDG_MASSES["b"]
     subpct = [key for key, mb in menu.items()
               if abs(mb - pdg_b) / pdg_b < 0.01]
@@ -158,13 +158,12 @@ def test_bridge_marginality_three_consumers():
     assert h_bridge == 1
 
 
-def test_vertex_mode_count_identity():
-    """N_vertex = n26 + hv(G2) = 30 = hv(E8), an arithmetic
-    observation (status: obs).  The counts coincide and this test
-    freezes the coincidence. A structural derivation of WHY they
-    coincide is not claimed."""
-    from root import N_vertex, n26, hv_G2, hv_E8
-    assert N_vertex == n26 + hv_G2 == 30 == hv_E8
+def test_vertex_current_trace_identity():
+    """The derived E8 positive-root current trace supplies 30."""
+    from root import (N_vertex, vertex_charge_trace, hv_E8,
+                      WIRING_DATA)
+    assert N_vertex == vertex_charge_trace == hv_E8 == 30
+    assert WIRING_DATA["vertex_charge_trace"] == 30
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -175,7 +174,7 @@ def test_inv_alpha_closed_form(res):
     """1/alpha(0) solves the FINAL cubic
         x = (512/pi) * (1 - 1/(2pi) - 2*(1/x / 2pi)^2)
     with base 512/pi (Singh ratio), depth-1 coefficient h_bridge = 1,
-    depth-3 multiplicity exactly 2 (orientation rule)."""
+    depth-4 response multiplicity exactly 2 (orientation rule)."""
     x = res["c"]["inv_alpha_phys"]
     rhs = (512 / math.pi) * (1 - 1 / (2 * math.pi)
                              - 2 * (1 / (x * 2 * math.pi))**2)
@@ -212,17 +211,18 @@ def test_bridge_sq_closed_form(res):
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  4. Derivation-program witnesses (registry.DERIVATION_PROGRAMS)
-#     The four open theorems, each reduced to executable components
+#  4. Derivation-program witnesses
+#     Each structural theorem reduced to executable components
 #     already present in the repo.  These tests freeze the witnesses.
 #     the symbolic proofs are the papers' job.
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_first_invariant_order_theorem():
-    """Program 1 (why K^3): the Koide insertion is the Z3
+    """THE FIRST-INVARIANT-ORDER THEOREM (why K^3): the Koide
+    insertion is the Z3
     sector-changer S (masses.py: h10 = the unique lightest changer).
     The confined sector admits only Z3-invariant operators
-    ([Delta, S] = 0, the selector theorem).  The invariant content of
+    ([Delta, S] = 0, the closure theorem).  The invariant content of
     n insertions is tr(S^n)/3: zero for n = 1, 2, first nonzero at
     n = 3 -> the back-reaction enters at cubic altitude, K^3.  The
     bridge^2 exception is forced by the same theorem: a PAIRED
@@ -238,7 +238,7 @@ def test_first_invariant_order_theorem():
 
 
 def test_conversion_vertex_irrationality_witness():
-    """Program 2 (conversion lemma): quantum dimensions in SU(3)_3 are
+    """THE CONVERSION LEMMA: quantum dimensions in SU(3)_3 are
     the integers (1, 2, 3), so the ONLY irrationality source in the
     D6 walk algebra is the conversion-vertex normalization
     |C_3bar| = sqrt(2), computed constructively from the Fano plane
@@ -260,7 +260,8 @@ def test_conversion_vertex_irrationality_witness():
 
 
 def test_vent_share_witnesses():
-    """Program 3 (why h10, why K^0, why the scalar channel): the 7 of
+    """THE VENT-SHARE THEOREM (why h10, why K^0, why the scalar
+    channel): the 7 of
     G2 decomposes under confined SU(3) as 3 + 3bar + 1 with trialities
     (1, 2, 0). N-ality superselection (words.py, executable theorem)
     blocks the triality-charged shares at a confining interface, so
@@ -281,12 +282,13 @@ def test_vent_share_witnesses():
 
 
 def test_texture_stabilization_witness():
-    """Program 4 witness, both halves.  Fast half A: the static unit
+    """Topological-protection witness, both halves.  Fast half A:
+    the static unit
     texture really carries the pi_3 charge the confined phase must
     protect: the lattice estimator converges toward |B| = 1 with
     resolution.  Fast half B (branch (i) closure): the induced
-    Faddeev-Skyrme quartic exists and stabilizes at the healing
-    scale (tests/probes/effective_action.py, executed here).  The
+    Faddeev-Skyrme quartic exists and stabilizes a few healing
+    lengths wide (2.5 xi at the measured gap) (tests/probes/effective_action.py, executed here).  The
     dynamical record (ballistic unwinding through amplitude-node
     events. Rotation loophole closed by the exact commutation test)
     is the slow witness, tests/test_probes.py::
@@ -302,76 +304,31 @@ def test_texture_stabilization_witness():
     # branch (i): the stabilizing term, constructively
     from probes import effective_action
     r = effective_action.run(report=lambda *a, **k: None)
-    assert r["R_star_m"] > 1.0 and 0.5 < r["R_star_xi"] < 2.0
+    # the hermitian equation's scales: R* = 2.5 healing lengths (1.0
+    # under the non-variational variant's gap), local limit holds (R* m = 1.41)
+    assert r["R_star_m"] > 1.0 and 2.0 < r["R_star_xi"] < 3.0
 
 
 # ═══════════════════════════════════════════════════════════════════════
 #  5. Joint cosmology closure (independent channels, one universe)
 # ═══════════════════════════════════════════════════════════════════════
 
-def test_higgs_vent_closure(res):
-    """The Higgs vent, canon.
+def test_higgs_transport_is_not_an_observable_promotion(res):
+    """The Higgs transport stops at its imported beta coordinate."""
+    from root import WEB
 
-    The canonical edge (bridge->Higgs deflated by the fundamental
-    weight, 1 - h10) gives m_H = 125.30 GeV (+0.9 sigma of
-    125.20(11)). Without the vent the edge reads 124.00.  This test
-    freezes both readings and the exclusion of every menu
-    alternative, so the closure cannot drift under refactors."""
-    import contextlib, io
-    import numpy as np
-    import gravity as G
-    from root import WEB, PDG_EW, M_Pl_GeV, alpha_phys
-
-    m = res["m"]
-    v_EW = m["v_EW_pred_GeV"]
-    lam_Pl = WEB["lambda_MPl"].value()
-    sin2W = WEB.state["sin2W"]
-    A0 = math.sqrt(math.pi * alpha_phys) * v_EW
-    M_W = A0 / (math.sqrt(sin2W) * math.sqrt(1 - PDG_EW["dr_hat_W"]))
-    M_Z = M_W / (math.sqrt(PDG_EW["rho_hat"]) * math.sqrt(1 - sin2W))
-    aem = G._derive_alpha_em(
-        [m["m_e"], m["m_mu"], m["m_tau"]],
-        [m["m_u"], m["m_d"], m["m_s"], m["m_c"], m["m_b"], m["m_t"]],
-        M_Z)
-    g3 = math.sqrt(4 * math.pi * res["c"]["alpha_s_MZ_thresh"])
-    yt = math.sqrt(2) * (m["m_t"] / 1e3) / v_EW
-    g1 = math.sqrt(4 * math.pi * aem / (1 - sin2W)) * math.sqrt(5 / 3)
-    g2 = math.sqrt(4 * math.pi * aem / sin2W)
-    t_Pl = math.log(M_Pl_GeV / M_Z)
-    N = 6000
-
-    lam = 0.0                            # self-consistent up-leg (2 passes)
-    for _ in range(2):
-        yP = G._run_rge(np.array([g1, g2, g3, yt, lam]),
-                        0.0, t_Pl, G._beta_sm, N)
-        lam = G._run_rge(np.array([yP[0], yP[1], yP[2], yP[3], lam_Pl]),
-                         t_Pl, 0.0, G._beta_sm, N)[4]
-
-    def mH(boundary):
-        low = G._run_rge(np.array([yP[0], yP[1], yP[2], yP[3], boundary]),
-                         t_Pl, 0.0, G._beta_sm, N)
-        return math.sqrt(2 * abs(low[4])) * v_EW
-
-    # canon (vented edge, now in the WEB) lands inside the 1-sigma band
-    h10 = Fraction(2, 9)
-    m_canon = mH(lam_Pl)
-    assert abs(m_canon - 125.20) <= 0.11
-    assert m_canon == pytest.approx(125.30, abs=0.05)
-    # the edge without the vent
-    lam_undeflated = lam_Pl / float(1 - h10)
-    assert mH(lam_undeflated) == pytest.approx(124.00, abs=0.05)
-    # the nearest menu alternatives stay excluded (>= 2 sigma),
-    # including the double-count reading 2*h10 = 4/9 (derivation
-    # program 3 falsification point: if the vent derivation forces
-    # counting 3 and 3bar separately, the edge dies here)
-    for f in (0.25, 1 / 6, 4 / 9):
-        assert abs(mH(lam_undeflated * (1 - f)) - 125.20) > 0.22
+    assert WEB["lambda_MPl"].value() == pytest.approx(
+        -0.01245015315975486, abs=1e-14)
+    assert res["g"]["lambda_mt_transport"] == pytest.approx(
+        0.1265078151, abs=2e-10)
+    assert "mH_pred" not in res["g"]
 
 
 def test_joint_cosmology_closure(res):
-    """eta_B (G2 instanton) and Omega_DM/Omega_b (bridge venting) are
-    derived independently. Jointly they must reproduce the absolute
-    Planck densities.  Standard conversion: Omega_b h^2 = eta_10/273.9."""
+    """Freeze the joint numerical consequence of eta_B and bridge venting.
+
+    Standard conversion: Omega_b h^2 = eta_10/273.9.
+    """
     eta10 = res["g"]["eta_B"] * 1e10
     Obh2 = eta10 / 273.9
     ODMh2 = res["d"]["DM_baryon_ratio"] * Obh2
@@ -379,53 +336,69 @@ def test_joint_cosmology_closure(res):
     assert abs(ODMh2 - 0.1200) / 0.0012 < 2.0      # Planck pull < 2 sigma
 
 
-def test_echo_depth_nilpotency():
-    """Verify the 3-nilpotent claim: the echo web has no explicit edges
-    beyond depth 3, and the structural preconditions for the no-further-edge
-    theorem hold.
+def test_searchlight_depth_and_recursive_web_are_distinct(res):
+    """The octonionic searchlight stops at 3; the recursive web does not.
 
     Three checks:
-    1. Every echo term in the solved web has depth <= HURWITZ_DEPTH = 3.
+    1. The searchlight depth is 3 while a declared depth-4 web edge is legal.
     2. The EM sector graph has exactly 2 charged nodes (G2-knot, F4-knot),
        so its longest non-repeating path is length 2. All deeper traversals
        are resummed by the kernel's self-consistency.
-    3. The depth-3 EM term is state-dependent (callable), confirming it
-       reads alpha from the web state, the self-referential cycle that
-       resums all higher traversals.
+    3. The depth-4 EM response is state-dependent (callable), confirming
+       that it reads the depth-3 carrier recursively from the web state.
     """
-    from root import WEB, HURWITZ_DEPTH, Ledger
+    from root import WEB, SEARCHLIGHT_DEPTH, EchoTerm, Ledger
 
-    # 1. All echo terms respect the depth cap
+    # 1. Hurwitz limits the searchlight, not EchoTerm/Web.
+    assert SEARCHLIGHT_DEPTH == 3
+    assert EchoTerm(["post-searchlight"], 0.0, 4).depth == 4
     max_depth_found = 0
     total_terms = 0
     for name, led in WEB.items():
         if not isinstance(led, Ledger):
             continue
         for t in led.terms:
-            assert t.depth <= HURWITZ_DEPTH, \
-                f"{name}: echo at depth {t.depth} > {HURWITZ_DEPTH}"
             max_depth_found = max(max_depth_found, t.depth)
             total_terms += 1
-    assert max_depth_found == 3, "deepest echo must be exactly depth 3"
+    assert max_depth_found == 4, "canon must include its depth-4 reading"
     assert total_terms > 0, "web must have echo terms"
+    assert WEB["S_baryo"].web_depth == 4
+    assert WEB["M_Pl_MeV"].web_depth == 4
+    assert not hasattr(WEB["S_baryo"], "emergence_depth")
+    for name in ("inv_alpha", "S_quark", "m_e", "m_mu", "m_tau",
+                 "a1_bridge", "Sigma_vent(UV)", "G_ratio"):
+        assert WEB[name].web_depth == 4, \
+            f"{name} must declare its recursive depth-4 reading"
 
-    # 2. EM sector graph has exactly 2 charged sectors
+    # 2. EM sector graph has exactly 2 charged sectors.
     # The no-further-edge theorem (root.py) relies on:
     #   - EM channel couples only to charged sectors
     #   - G2-knot (leptons) and F4-knot (quarks) are the only charged sectors
     #   - Higgs and common mode are EM-neutral
     # With 2 nodes and 1 edge, the only cycle is the 2-cycle e<->q,
     # and the kernel's self-consistency resums all repetitions.
-    em_sectors = {"G2-knot (leptons)", "F4-knot (quarks)"}
-    neutral_sectors = {"Higgs (condensing, q=0)", "common mode (q=0)"}
-    assert len(em_sectors) == 2, "EM sector graph must have exactly 2 nodes"
+    # Read the solved web itself and verify the EM channel's
+    # depth-4 reading of the depth-3 carrier appears in the charged nodes and
+    # nowhere else.
+    em_cycle_nodes = {name for name, led in WEB.items()
+                      if isinstance(led, Ledger)
+                      and any("e↔q" in "→".join(t.path)
+                              for t in led.terms)}
+    assert "inv_alpha" in em_cycle_nodes          # the coupling node
+    mass_nodes = {n for n in em_cycle_nodes if n.startswith("m_")}
+    assert mass_nodes == {"m_e", "m_mu", "m_tau"}, \
+        f"lepton knots only on the e-side of the EM 2-cycle: {mass_nodes}"
+    assert "S_quark" in em_cycle_nodes            # the action node (q-side)
+    neutral = {"sin2W", "lambda_MPl", "dark_ratio", "M_Pl_MeV"}
+    assert not (neutral & em_cycle_nodes), \
+        "EM-neutral nodes must carry no e↔q cycle edge"
 
-    # 3. The depth-3 EM echo is state-dependent (self-referential)
+    # 3. The depth-4 EM response is state-dependent (self-referential)
     inv_alpha_led = WEB["inv_alpha"]
-    depth3_terms = [t for t in inv_alpha_led.terms if t.depth == 3]
-    assert len(depth3_terms) == 1, "inv_alpha must have exactly 1 depth-3 term"
-    assert callable(depth3_terms[0].factor), \
-        "depth-3 EM echo must be state-dependent (reads alpha from web)"
+    depth4_terms = [t for t in inv_alpha_led.terms if t.depth == 4]
+    assert len(depth4_terms) == 1, "inv_alpha must have one depth-4 response"
+    assert callable(depth4_terms[0].factor), \
+        "depth-4 EM response must read alpha from the recursive web"
 
     # The self-referential term resums all traversals: the cubic
     # x^3 = (512/pi)[(1-1/(2pi))x^2 - 1/(2pi^2)] is EXACT,
@@ -445,6 +418,15 @@ def test_echo_depth_nilpotency():
 #     scorecard?) and as a BLIND HOLDOUT (does any PDG mass steer its
 #     own prediction?).
 # ═══════════════════════════════════════════════════════════════════════
+
+def test_beta_order_is_not_web_depth():
+    """Transport expansion order cannot promote a Web ledger."""
+    import higgs_ew
+    from root import WEB
+
+    assert "not Ledger.web_depth" in higgs_ew._beta_sm.__doc__
+    assert WEB["lambda_MPl"].web_depth == 2
+
 
 def _koide_Q(m1, m2, m3):
     return (m1 + m2 + m3) / (math.sqrt(m1) + math.sqrt(m2)
@@ -575,21 +557,29 @@ def test_grammar_null_model_scorecard_not_cheap():
 
 
 def test_channel_weight_projector_lemma():
-    """W = 1/d_lambda upgraded from 'convention' to forced: the raw
-    Fano CG channel composite satisfies L^2 = lam L (Schur), so
-    idempotency fixes the propagator coefficient at 1/(loop value)
-    uniquely, and the MTC loop value is the quantum dimension
-    (d(1,0) = 2, Kac-Peterson, independently computed in
-    wiring_scan.su3_qdims).  One of the gate paper's three stated
-    conventions retired."""
-    from octonions import _check_projector_normalization
-    from probes.wiring_scan import su3_qdims
+    """The channel-weight lemma, tested in its three separable parts
+    (octonions._check_projector_normalization): STRUCTURE, the raw
+    Fano CG composite satisfies L^2 = lam L with spectrum {0, lam},
+    so 1/(loop value) is the unique idempotent coefficient; VALUES,
+    the classical loop value is 4 while the quantum dimension is
+    d(1,0) = 2 (Weyl/Kac-Peterson, computed in octonions.su3_qdim,
+    cross-checked against the wiring.py table); TRACE CHOICE, the
+    spherical (quantum) trace is unique in an MTC and gate 3 places
+    the channel in the SU(3)_3 MTC, so what is identified is that
+    the physical channel is the MTC channel; cross-pinned by the
+    engine's Q0 = 2/3 (classical reading: Q0 = 5/12, fails)."""
+    from octonions import _check_projector_normalization, su3_qdim
+    from wiring import su3_qdims
     schur_ok, forced_ok, lam_cl = _check_projector_normalization()
     assert schur_ok, "channel composite must be Schur (prop. to projector)"
-    assert forced_ok, "idempotency must force the unique coefficient"
-    d = su3_qdims(3)
-    assert abs(d[(1, 0)] - 2.0) < 1e-9
-    assert abs(1.0 / d[(1, 0)] - 0.5) < 1e-12   # W(3bar) forced
+    assert forced_ok, "spectrum {0, lam}: 1/lam is the unique scaling"
+    assert abs(lam_cl - 4.0) < 1e-9, "classical loop value is 4, not d10"
+    assert abs(su3_qdim(1, 0) - 2.0) < 1e-9
+    assert abs(su3_qdim(1, 1) - 3.0) < 1e-9
+    d = su3_qdims(3)                      # cross-check vs the table
+    assert abs(d[(1, 0)] - su3_qdim(1, 0)) < 1e-9
+    # the quantum reading (identification): W(3bar) = 1/d(1,0) = 1/2
+    assert abs(1.0 / su3_qdim(1, 0) - 0.5) < 1e-9
 
 
 def test_proton_stability_bookkeeping():
@@ -597,19 +587,17 @@ def test_proton_stability_bookkeeping():
     fermion-line terminus.  Frozen here: (i) the edge taxonomy is
     exactly {ratio, echo, vent} and root.EchoTerm rejects any other
     kind (an identity-changing edge cannot be constructed). (ii) every
-    edge in the solved web carries one of the three kinds.  Registered
-    exposure: registry PREDICTIONS id=10 (kill: observed proton
-    decay)."""
+    edge in the solved web carries one of the three kinds.  The
+    exposure and its kill are stated at root.EchoTerm: no decay at any
+    sensitivity, and any confirmed proton decay ends it."""
     from root import WEB, EchoTerm, Ledger
-    import registry
     with pytest.raises(AssertionError):
         EchoTerm(["p", "e+ pi0"], 1.0, 1, kind="transmute")
     kinds = {t.kind for led in WEB.values() if isinstance(led, Ledger)
              for t in led.terms}
     assert kinds <= {"ratio", "echo", "vent"}
-    entry = next(p for p in registry.PREDICTIONS
-                 if p["name"].startswith("proton stability"))
-    assert "tau_p" in entry["claim"] and "proton decay" in entry["kills"]
+    assert "proton decay" in EchoTerm.__doc__
+    assert "tau_p" in EchoTerm.__doc__
 
 
 def test_blind_holdout_nine_masses(res):
@@ -646,3 +634,103 @@ def test_blind_holdout_nine_masses(res):
         with contextlib.redirect_stdout(io.StringIO()):
             R3 = root_mod.derive()
             masses_mod.derive(R3)
+
+
+def test_cited_paths_exist():
+    """Citation resolution: every repo-relative file path cited in
+    the README and the interference/ module docstrings must
+    exist on disk.  Catches citation rot (a probe renamed or moved
+    while prose still points at the old path)."""
+    import re
+    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                            ".."))
+    pat = re.compile(
+        r"(?:interference|tests)/(?:[a-z_]+/)?[A-Za-z0-9_.-]+"
+        r"\.(?:py|md|yml)")
+    sources = [os.path.join(root_dir, "README.md")]
+    iface = os.path.join(root_dir, "interference")
+    for dirpath, dirnames, filenames in os.walk(iface):
+        dirnames[:] = [d for d in dirnames if d != "__pycache__"]
+        sources += [os.path.join(dirpath, f) for f in sorted(filenames)
+                    if f.endswith(".py")]
+    missing = []
+    for src in sources:
+        text = open(src, encoding="utf-8").read()
+        for cited in sorted(set(pat.findall(text))):
+            if not os.path.exists(os.path.join(root_dir, cited)):
+                missing.append(f"{os.path.basename(src)} cites {cited}")
+    assert not missing, "\n".join(missing)
+
+
+def test_searchlight_absorption():
+    """The searchlight absorption scoreboard, executable.
+    Q0 absorbed (engine identity); B/A cross-checked (Fano CG
+    recomputes sqrt(2)); theta the unique blind positivity survivor
+    of the committed angle menu."""
+    import contextlib
+    import io
+    import math
+    from fractions import Fraction
+
+    import edge_grammar as eg
+    import octonions
+    import root
+
+    # Q0: falls out of the engine as an identity, no octonion consulted
+    assert root.Q0 == Fraction(1, 3) + Fraction(root.d10, 6) \
+        == Fraction(root.d10, root.d11) == Fraction(2, 3)
+
+    # B/A: ABSORBED.  The theta-blind identity Q = 1/3 + (B/A)^2/6
+    # (the circulant master identity, proven in circulant_normalization
+    # PART A) plus the absorbed Q0 forces (B/A)^2 = 6(Q0 - 1/3) = d10
+    # with no octonion consulted: the amplitude is an engine
+    # observation, and the Fano CG recomputation is the independent
+    # cross-check, not the source.
+    assert 6 * (root.Q0 - Fraction(1, 3)) == root.d10
+    assert abs(float(root.BA_ratio) ** 2 - root.d10) < 1e-12
+    with contextlib.redirect_stdout(io.StringIO()):
+        oct_out = octonions.derive()
+    assert abs(oct_out["BA_ratio"] - math.sqrt(2.0)) < 1e-12
+    assert abs(float(root.BA_ratio) - oct_out["BA_ratio"]) < 1e-12
+
+    # theta: sole blind survivor (positivity + nondegeneracy) of the
+    # committed angle menu, recomputed here from the grammar
+    survivors = []
+    for theta in eg.theta_menu():
+        gaps = sorted(1.0 + float(root.BA_ratio)
+                      * math.cos(theta + 2 * math.pi * k / 3)
+                      for k in range(3))
+        if gaps[0] > 0 and len({round(g, 12) for g in gaps}) == 3:
+            survivors.append(theta)
+    assert len(survivors) == 1
+    assert abs(survivors[0] - 2.0 / 9.0) < 1e-12
+
+
+def test_private_symbol_contract():
+    """Seven leading-underscore symbols are load-bearing across the
+    verification layer (probes and tests import them directly).  A
+    rename would silently break CI-visible physics claims, so their
+    existence and call signatures are a frozen CONTRACT here."""
+    import inspect
+    import nls_soliton
+    import mixing as _mixing
+    import octonions as _oct
+    import higgs_ew as _hew
+
+    contract = [
+        (nls_soliton, "_split_step",
+         ["psi", "dx", "dt", "g0", "g1", "n_steps", "alpha"]),
+        (nls_soliton, "_z3_fourier", None),
+        (_mixing, "_compute_wzw", []),
+        (_oct, "_check_projector_normalization", []),
+        (_hew, "_run_rge", None),
+        (_hew, "_beta_sm", ["y"]),
+        (_hew, "_derive_alpha_em", None),
+    ]
+    for mod, name, params in contract:
+        fn = getattr(mod, name, None)
+        assert callable(fn), f"contract broken: {mod.__name__}.{name}"
+        if params is not None:
+            got = list(inspect.signature(fn).parameters)
+            assert got[:len(params)] == params, \
+                f"{mod.__name__}.{name} signature drifted: {got}"

@@ -10,7 +10,7 @@ Two structures in the framework predict the dark sector:
    the universal materialization fraction 1/(2π), the same factor
    that converts α_alg = π/512 to α(0) = 1/137.035999050.
      f_baryonic = 1/(2π)     →  Ω_DM/Ω_b = 2π−1 ≈ 5.283
-   The c_coset = 0 property ensures layer-1 exactness on the
+   The c_coset = 0 property makes the single bridge response exact on the
    worldsheet, so this is exact, no higher-layer back-reactions.
 
    Equivalently: Ω_m/Ω_b = 2π (total matter/baryon ratio).
@@ -27,7 +27,7 @@ Two structures in the framework predict the dark sector:
    channel's observable)?
 
    In the EM channel, "closes locally" means: reaches the physical
-   coupling.  At depth 1: 1/α ≈ (512/π)(1 − 1/(2π)). At depth 3
+   coupling. At depth 1: 1/α ≈ (512/π)(1 − 1/(2π)). At web depth 4
    the self-consistent cubic gives 1/α(0) = 137.035999050 exactly
    (root.py).
 
@@ -44,6 +44,15 @@ Two structures in the framework predict the dark sector:
    The bridge is one object connecting two faces. Its self-interference
    fraction is universal because h=1 and c_coset=0 leave no room for
    channel-dependent corrections.
+
+   WHAT ENDS THIS.  Ω_DM/Ω_b = 2π−1 = 5.2832 is exact: c_coset = 0
+   admits no corrections, so there is nothing to adjust.  It sits
+   between Planck (−1.3σ) and ACT (+1.2σ); both datasets converging
+   away from 5.283 kills it, and CMB-S4-class data decides.
+   The dark sector is bridge coherence, not a particle: it couples
+   only through the common mode (PvP = 0), so all direct, indirect
+   and collider dark-matter searches return null indefinitely.  Any
+   confirmed non-gravitational dark-matter detection kills it.
 
 2. Cosmological constant scale
    ───────────────────────────
@@ -66,33 +75,19 @@ Reference:
 
 import math
 
-from root import (d10, d11, n7, n26,
+from root import (d10, d11,
                   h_bridge, c_coset,
-                  alpha_G2_WZW,
                   M_Pl_GeV, RHO_LAMBDA, PDG_COSMO, pct)
 
 
 # ═══════════════════════════════════════════════════════════════════════
 #  Observational reference values (comparison only, not inputs)
+#  Single-homed in audit/reference.py, imported via root like every
+#  other reference block, inside the blindness firewall's
+#  perturbation set.
 # ═══════════════════════════════════════════════════════════════════════
 
-# Planck 2018 TT,TE,EE+lowE+lensing (Table 2, arXiv:1807.06209)
-# Primary CMB observables, ratio Ω_c h²/Ω_b h² is H₀-independent
-PLANCK_2018 = {
-    'Omega_b_h2':     0.02237,     # ± 0.00015
-    'Omega_b_h2_err': 0.00015,
-    'Omega_c_h2':     0.1200,      # ± 0.0012
-    'Omega_c_h2_err': 0.0012,
-    'H_0_km_s_Mpc':   67.4,       # ± 0.5  (used only for CC scale display)
-}
-
-# ACT DR6 + CMB lensing + DESI DR1 (arXiv:2503.14452, March 2025)
-ACT_DR6 = {
-    'Omega_b_h2':     0.0226,      # ± 0.0001
-    'Omega_b_h2_err': 0.0001,
-    'Omega_c_h2':     0.118,       # ± 0.001
-    'Omega_c_h2_err': 0.001,
-}
+from root import PLANCK_2018, ACT_DR6  # noqa: E402
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -105,6 +100,12 @@ def derive(R, grav_data):
 
     R         : dict from root.derive()
     grav_data : dict from gravity.derive()
+
+    DAG POSITION: both parameters are accepted for the runner's
+    uniform signature and neither is consumed; everything here needs
+    only root-level constants (π, d₁₀, h_bridge, ρ_Λ), so this
+    module's place in the dependency graph is directly after root.
+    run.py keeps it late for narrative order only.
     """
     print("\n" + "=" * 78)
     print("  DARK SECTOR: DM/baryon ratio + CC scale  (zero external inputs)")
@@ -114,7 +115,7 @@ def derive(R, grav_data):
 
     # ── Z₃ coupling eigenvalue structure (algebraic) ─────────────────
     #
-    # g₁/g₀ = 1/√d₁₀  (the G₂ constraint on the Z₃ NLS substrate.
+    # g₁/g₀ = 1/√d₁₀  (the G₂ identification on the Z₃ NLS substrate.
     # see masses.py substrate section, same g₀, g₁ as the BdG layer)
     # λ₀ = g₀(1+√d₁₀)   [common mode → geometry]
     # λ₁ = g₀(1−1/√d₁₀) [relative modes → matter]
@@ -127,7 +128,7 @@ def derive(R, grav_data):
     assert abs(denom - float(d11)) < 1e-10, f"denom = {denom}, expected {d11}"
 
     print(f"\n  Z₃ coupling eigenvalue structure:")
-    print(f"    g₁/g₀ = 1/√d₁₀ = 1/√{d10}  [G₂ constraint]")
+    print(f"    g₁/g₀ = 1/√d₁₀ = 1/√{d10}  [G₂ identification]")
     print(f"    λ₀ = 1+√{d10} = {lam0:.6f}  [common → geometry]")
     print(f"    λ₁ = 1−1/√{d10} = {lam1:.6f}  [relative → matter]")
     print(f"    λ₀+2λ₁ = d₁₁ = {denom:.1f}  [Sugawara identity]")
@@ -135,12 +136,12 @@ def derive(R, grav_data):
 
     # ── Bridge self-interference → baryon/DM split ───────────────────
     #
-    # h_bridge = 1 (marginal), c_coset = 0 (layer-1 exact on worldsheet)
+    # h_bridge = 1 (marginal), c_coset = 0 (single-response exact)
     # D²_local = 1 (Lagrangian condensation)
     # f_baryonic = h_bridge/(2π) = 1/(2π)
     # Ω_DM/Ω_b = (1 − f_b)/f_b = 2π − 1
     #
-    # c_coset = 0 ensures layer-1 exactness, so this is the EXACT result.
+    # c_coset = 0 makes the single response exact.
     # No vertex back-reactions, no external inputs, pure algebraic emergence.
 
     f_baryonic = 1.0 / (2.0 * math.pi)               # 1/(2π)
@@ -164,7 +165,7 @@ def derive(R, grav_data):
     print(f"    f_baryon = 1/(2π) = {f_baryonic:.6f}")
     print(f"    Ω_DM/Ω_b = 2π−1 = {DM_baryon_ratio:.6f}")
     print(f"    Ω_m/Ω_b  = 2π   = {matter_baryon_ratio:.6f}")
-    print(f"    (Exact: c_coset = 0 ensures layer-1 exactness)")
+    print(f"    (Exact: c_coset = 0 closes the bridge response)")
 
     # ── Comparison with CMB observations ─────────────────────────────
     #

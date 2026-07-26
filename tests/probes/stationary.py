@@ -24,6 +24,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..", "..", "interference")))
+import _bootstrap  # noqa: E402,F401
 from nls_soliton import _split_step, _z3_fourier, G1_OVER_G0
 
 
@@ -86,7 +87,11 @@ def run(report=print):
     report(f"  raw core phase rate = {w_fit:+.4f}. Condensate rate = {-mu:+.4f}")
     report(f"  INTERNAL circulation (relative to condensate): "
            f"omega_rel = {w_rel:+.4f}")
-    report(f"  scale |lambda_1| rho0 = {g1*rho0/2:.4f}: the knot")
+    # Relative-sector scale.  This is the maximum
+    # modulational growth rate |b_1| = g1*rho0, not the A = B form's
+    # |lambda_1| = g1*rho0/2 (which came from the A = B special case of
+    # the non-hermitian equation).  See nls_soliton._bdg_analysis.
+    report(f"  scale |b_1| rho0 = {g1*rho0:.4f}: the knot")
     report(f"  oscillates below the natural scale. Leakage empirically")
     report(f"  weak (persistence).  NOTE: low-omega relative waves exist")
     report(f"  above the instability band, so this is suppression, not")
@@ -94,7 +99,7 @@ def run(report=print):
     report(f"  (the spectrum test proper needs the three windings'")
     report(f"   frequencies compared as Delta_k^2, next probe)")
     return {"peak_final": peak, "omega": w_fit,
-            "omega_rel": w_rel, "gap_scale": g1 * rho0 / 2,
+            "omega_rel": w_rel, "gap_scale": g1 * rho0,
             "persistent": bool(peak > 0.5)}
 
 

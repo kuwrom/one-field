@@ -19,12 +19,24 @@ DERIVATION (three parts, all derived):
 
 1. LENGTH RULE  |w_n| = n + 1.
    Protected forgetting erases single insertions (PvP = 0) and retains
-   second moments (Pv²P = ½P), verified below.  A length-one closure
+   second moments (Pv²P = B²/2 · P ≠ 0; per-mode E[v²] = ½), verified
+   below on the canonical harmonic.  A length-one closure
    word is therefore invisible: the minimal visible closure is
    quadratic, |w₁| = 2.  Each generation is one further step of the
-   minimal closed loop a→b→c→a (the Z₃ boundary cycle whose 1-, 2-,
-   3-step paths also build the CKM hierarchy λ, Aλ², Aλ³), so the word
+   minimal closed loop a→b→c→a (the Z₃ boundary cycle), so the word
    grows by one letter per generation.
+
+   CLOSED.  The tempting reading was that the cycle's 1-, 2-, 3-step
+   paths "also build the CKM hierarchy λ, Aλ², Aλ³".  Three
+   independent facts kill it:
+   (a) the grading runs the wrong way: |w_n| = n + 1 gives generation
+       charge differences (1, 1, 2), where FN needs (1, 2, 3);
+   (b) the walk algebra has no 3D generation frame: the three
+       generation walk states have rank 2, gen-1 and gen-2 exactly
+       parallel;
+   (c) every walk operator commutes, so any V built from them is 1.
+   The FN-style route is closed for this grading.  Nothing in the
+   derivation below rests on it.
 
 2. STEP LETTER = adjoint (forced by the neutral lane, now DERIVED).
    N-ALITY SUPERSELECTION THEOREM:
@@ -89,8 +101,9 @@ DERIVATION (three parts, all derived):
 
 MODULE-CATEGORY FORM (the same lemma in standard vocabulary).
    Let C = Rep(SU(3)₃) (a modular fusion category) and let M be the
-   D⁽⁶⁾ module category over C. Boundary states = simple objects of
-   M, and each primary x acts on K₀(M) by its nimrep matrix n_x.
+   regular D⁽⁶⁾* graph module for the D⁽⁶⁾ invariant. Boundary states
+   are simple objects of M, and each primary x acts on K₀(M) by its
+   nimrep matrix n_x.
    Then the framework's objects are textbook structures:
 
    • N-ALITY = THE UNIVERSAL GRADING.  C is faithfully graded by
@@ -139,8 +152,9 @@ import numpy as np
 from root import d10, d11
 
 
-# The D⁽⁶⁾ nimrep of the fundamental (six boundary states, three
-# generation pairs {0,5}, {1,2}, {3,4}), quark paper Eq. (nimrep).
+# The regular D⁽⁶⁾* nimrep presentation of the D⁽⁶⁾ invariant
+# (six boundary states, three pairs {0,5}, {1,2}, {3,4}), quark paper
+# Eq. (nimrep).
 N_FUND = np.array([
     [0, 1, 1, 0, 0, 0],
     [0, 0, 0, 1, 1, 0],
@@ -148,6 +162,28 @@ N_FUND = np.array([
     [1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1],
     [0, 1, 1, 0, 0, 0]], dtype=float)
+
+
+def walk_count(word):
+    """Row-0 boundary-walk count of a word over {f: N_FUND, a: adjoint}.
+    Quiet (no prints): the lemma's integers, computable before any
+    derive() runs.  Same contraction as edge_grammar.word_menu."""
+    N = N_FUND
+    A = N @ N.T - np.eye(6)
+    M = np.eye(6)
+    for ch in word:
+        M = M @ (N if ch == "f" else A)
+    return int(round(M.sum(axis=1)[0]))
+
+
+def walk_bases():
+    """The word-lemma integers as walk counts, quietly:
+    (base₁, base₂, base₃, down_seed) = (#ff, #ffa, #f⁴+#a⁴, #aa)
+    = (4, 12, 97, 9).  masses.py imports these and asserts them equal
+    to its polynomial forms: the lemma feeds the spectrum by import,
+    not by parallel copy."""
+    return (walk_count("ff"), walk_count("ffa"),
+            walk_count("ffff") + walk_count("aaaa"), walk_count("aa"))
 
 
 def derive():
@@ -174,11 +210,14 @@ def derive():
 
     # ── part 1: length rule seed (protected forgetting) ─────────────
     u = np.ones(3) / math.sqrt(3.0)
-    v = np.array([1.0, -0.5, -0.5])
+    # canonical harmonic (B, θ) = (√2, 2/9), protected_forgetting.py
+    v = np.array([math.sqrt(2.0) * math.cos(2.0 / 9.0
+                                            + 2.0 * math.pi * k / 3.0)
+                  for k in range(3)])
     assert abs(u @ (v * u)) < 1e-15                 # PvP = 0
-    assert abs(u @ (v * v * u) - 0.5) < 1e-15       # Pv²P = ½
+    assert abs(u @ (v * v * u) - 1.0) < 1e-14       # Pv²P = B²/2 = 1
     print("  length rule: PvP = 0 (single insertions invisible), "
-          "Pv²P = ½ → |w₁| = 2.")
+          "Pv²P = B²/2 > 0 → |w₁| = 2.")
     print("               one Z₃-cycle step per generation → |wₙ| = n+1")
 
     # ── part 2: step letter (neutral lane via N-ality superselection) ─

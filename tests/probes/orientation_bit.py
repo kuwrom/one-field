@@ -21,6 +21,16 @@ vertex.  What it does: proves the framework contains exactly one
 handedness datum, so whichever Lorentz side it picks, it picks
 everywhere at once.
 
+LORENTZ UNIVERSALITY CONJECTURE (substrate layer, depends on
+confined_phase.py).  One emergent light cone for all excitations of
+the substrate: the common mode's c_s is universal at long wavelength.
+Carries the 4d Lorentz-chiral (V-A) vertex form as a dependent item
+(mechanism cited: Callan-Harvey inflow).  Numeric kill: any confirmed
+photon-sector Lorentz violation. Current bounds: linear-dispersion
+scale E_QG > 1e19 GeV from GRB time-of-flight; substrate corrections
+enter at (k xi_Pl)^2, far below all bounds if the healing length is
+Planckian.
+
 Usage: python3 orientation_bit.py
 """
 
@@ -32,6 +42,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..", "..", "interference")))
+import _bootstrap  # noqa: E402,F401
 from octonions import FANO_TRIPLES, FANO_SIGNS
 
 
@@ -93,8 +104,8 @@ def run(report=print):
     report("  4d vertex itself.  The 4d mechanism is the cited")
     report("  Callan-Harvey inflow (corroboration-grade). What remains")
     report("  is the substrate's emergent Lorentz structure, a")
-    report("  substrate-layer item (SUBSTRATE_CONJECTURES #2), not a")
-    report("  web gap.")
+    report("  substrate-layer item (the Lorentz universality conjecture),")
+    report("  not a web gap.")
     return {"C3": C3f, "flip_coherent": True}
 
 

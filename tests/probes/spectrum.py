@@ -28,6 +28,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..", "..", "interference")))
+import _bootstrap  # noqa: E402,F401
 from nls_soliton import _split_step, G1_OVER_G0
 
 FRINGE = np.array([0.04034990821920736, 0.5802119201475366,

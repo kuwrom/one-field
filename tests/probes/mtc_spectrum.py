@@ -1,7 +1,7 @@
 """
 mtc_spectrum.py: the mass spectrum assembled at the MTC
 layer, every input COMPUTED, none typed.
- 
+
 The superselection argument fixed the venue: three masses need three
 conserved labels, which exist only where Z3 is a fusion-category
 charge.  This probe runs the full chain AT THAT LAYER:
@@ -30,6 +30,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..", "..", "interference")))
+import _bootstrap  # noqa: E402,F401
 
 def su3_qdims(k):
     """Quantum dimensions of SU(3)_k primaries from the Kac-Peterson

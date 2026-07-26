@@ -20,8 +20,8 @@ are (1,0,0) = Haar and (1,1,1) = delta_e.  QED.
 WHY IDEMPOTENT IS THE RIGHT CLASS (the one labeled definition):
 a selector applied twice must equal itself applied once, a
 "selection" that keeps changing under reapplication is dynamics,
-not selection.  The weighted twirl (runner/selector_closure.py) is
-the example: not idempotent, hence not a selector.
+not selection.  A weighted twirl is the example: not idempotent,
+hence not a selector.
 
 THE CLOSURE: the delta_e branch is the label-keeping branch,
 and the three-gate survivor gauntlet already KILLED it on
@@ -39,9 +39,10 @@ two-element check."  A referee attacks the definition or nothing.
 Usage: python3 selector_theorem.py
 """
 
-import itertools
 
 import numpy as np
+import _bootstrap  # noqa: E402,F401
+
 
 
 def convolve3(p, q):

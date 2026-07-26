@@ -33,6 +33,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..", "..", "interference")))
+import _bootstrap  # noqa: E402,F401
 
 
 def _solved_web():

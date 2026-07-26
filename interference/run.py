@@ -8,7 +8,7 @@ baryogenesis, neutrinos) in dependency order, then prints a compact
 scorecard.
 
 Usage:
-    python run.py
+    python3 interference/run.py
 
 Reference:
     Kahsay, Kibrom Kidane (2026). Three-paper series.
@@ -18,73 +18,84 @@ Reference:
 import sys
 import os
 
-# Ensure the package directory is on the import path
+# Put interference/ (flat: the derivation) and searchlight/ on the
+# import path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _paths  # noqa: E402,F401
 
-from root import PDG_MASSES, pct
+# ═══════════════════════════════════════════════════════════════════════
+#  Step 0: The wiring, found rather than stated.  Zero input: the
+#  lattice, sub-algebra and level menus are scanned for zero closure
+#  residual, and (n₇, n₂₆, d₁₀, d₁₁) are read off the winner.  This is
+#  where the four integers and marginal-current normalisation come from.
+# ═══════════════════════════════════════════════════════════════════════
+import wiring
+wiring_data = wiring.derive()
 
 # ═══════════════════════════════════════════════════════════════════════
 #  Step 1: Algebraic root
 # ═══════════════════════════════════════════════════════════════════════
 import root
+assert root.WIRING_DATA == wiring_data, \
+    "root must consume the canonical result produced by wiring.py"
 R = root.derive()
+from root import PDG_MASSES, pct  # noqa: E402
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 2: Masses (9 fermions)
+#  Step 2: Generation word lemma (base(n) = boundary-walk counts;
+#  runs BEFORE masses, which imports these integers)
+# ═══════════════════════════════════════════════════════════════════════
+import words
+words_data = words.derive()   # printed cross-check; the dict feeds no later step (dependency is by import, not by this value)
+
+# ═══════════════════════════════════════════════════════════════════════
+#  Step 3: Masses (9 fermions)
 # ═══════════════════════════════════════════════════════════════════════
 import masses
 masses_data = masses.derive(R)
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 3: Mixing (CKM + PMNS)
+#  Step 4: Mixing (CKM + PMNS)
 # ═══════════════════════════════════════════════════════════════════════
 import mixing
 mixing_data = mixing.derive(R, masses_data)
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 4: Couplings (alpha_s + alpha(0))
+#  Step 5: Couplings (alpha_s + alpha(0))
 # ═══════════════════════════════════════════════════════════════════════
 import couplings
 couplings_data = couplings.derive(R, masses_data)
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 5: Gravity + Higgs + Baryogenesis + Neutrinos
+#  Step 6: Gravity + Higgs + Baryogenesis + Neutrinos
 # ═══════════════════════════════════════════════════════════════════════
 import gravity
 grav_data = gravity.derive(R, masses_data, mixing_data, couplings_data)
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 6: Octonionic CG verification
+#  Step 7: Octonionic CG verification
 # ═══════════════════════════════════════════════════════════════════════
 import octonions
-octonion_data = octonions.derive()
+octonion_data = octonions.derive()   # printed cross-check; the dict feeds no later step (dependency is by import, not by this value)
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 6b: Generation word lemma (base(n) = boundary-walk counts)
-# ═══════════════════════════════════════════════════════════════════════
-import words
-words_data = words.derive()
-
-# ═══════════════════════════════════════════════════════════════════════
-#  Step 7: Dark sector (DM/baryon ratio + CC scale)
+#  Step 8: Dark sector (DM/baryon ratio + CC scale)
 # ═══════════════════════════════════════════════════════════════════════
 import dark_sector
 dark_data = dark_sector.derive(R, grav_data)
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 8: Structural uniqueness proofs
+#  Step 9: Structural uniqueness proofs
 # ═══════════════════════════════════════════════════════════════════════
 import embedding_uniqueness
-embed_data = embedding_uniqueness.derive()
+embed_data = embedding_uniqueness.derive()   # printed cross-check; the dict feeds no later step (dependency is by import, not by this value)
 
 import protected_forgetting
-pf_data = protected_forgetting.derive()
+pf_data = protected_forgetting.derive()   # printed cross-check; the dict feeds no later step (dependency is by import, not by this value)
 
-# ═══════════════════════════════════════════════════════════════════════
-#  Step 9: Substrate dynamics (Z₃-NLS PDE)
-# ═══════════════════════════════════════════════════════════════════════
-import nls_soliton
-nls_data = nls_soliton.derive()
+# The Z₃-NLS substrate dynamics is the parallel realisation
+# conjecture, not the canon: no scorecard number depends on it, so it
+# lives in tests/substrate/ and is exercised by the probes, not here.
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -94,9 +105,9 @@ nls_data = nls_soliton.derive()
 # The structural and polynomial identities (d_11^2-1 = 4 d_10, the C_2
 # factorisations, h_bridge = 1, c_coset = 0, the Fraction ratios 38/9,
 # 217/18, 1165/12, 289/432, 32/27, 649/972, sin^2 theta_W = 3/13,
-# N_vertex = 30, ...) are asserted in test_interference.py and by inline
-# asserts inside each module's derive().  The test suite is the
-# certificate.
+# and the E8 current trace Tr_+(Q^2) = 30 are asserted in
+# test_interference.py and by inline asserts. These are regression
+# certificates for the implemented formulas.
 
 n_checks = 35   # 9 masses + 15 CKM + 3 PMNS + 1 alpha_s + 1 Higgs + 1 G_N + 1 eta_B + 3 EW + 1 DM/baryon
 n_structural = 3  # m₁=0, normal ordering, CC scale 10⁻¹²³
@@ -116,7 +127,8 @@ mass_map = {
 
 methods = {
     'e': 'Z₃ Koide (Q₀=d₁₀/d₁₁)', 'mu': 'Z₃ Koide (Q₀=d₁₀/d₁₁)', 'tau': 'Z₃ Koide (Q₀=d₁₀/d₁₁)',
-    'u': '(d₁₀²+h₁₀) m_e', 'd': '(d₁₁²+h₁₀) m_e', 's': 'Q₀+h₁₀/K³ + √(d₁₀³Q₀²/d₁₁) bridge',
+    'u': '(d₁₀²+h₁₀) m_e', 'd': '(d₁₁²+h₁₀) m_e',
+    's': 'Q₀+h₁₀/K³ + √(32/27·(1+h₁₁/K²)) bridge',
     'c': '(d₁₀²d₁₁+δ) m_μ', 'b': 'Q₀+h₁₁/K³ Koide', 't': '(d₁₁⁴+d₁₀⁴+1/2K) m_τ',
 }
 
@@ -163,19 +175,30 @@ print(f"\n  --- Gravity sector ---")
 print(f"  Bridge: {grav_data['N_bridge']} modes, xi = 1/(48pi)")
 print(f"  G_ind/G_N (UV)     = {grav_data['G_ratio_UV']:.6f}  ({grav_data['err_UV']:+.2f}%)")
 print(f"  G_ind/G_N (broken) = {grav_data['G_ratio_broken']:.6f}  ({grav_data['err_broken']:+.2f}%)")
-print(f"  G_ind/G_N CANONICAL = {grav_data['G_ratio_canonical']:.9f}")
+print(f"  G_ind/G_N INTERNAL    = {grav_data['G_ratio_canonical']:.9f}")
 
-# ── Higgs ──
-print(f"\n  --- Higgs mass ---")
-print(f"  lambda(M_Pl) = -{grav_data['delta_bridge']:.6f}  (F4 fusion + bridge threshold)")
-print(f"  m_H = {grav_data['mH_pred']:.2f} GeV  (expt: 125.20 +/- 0.11)")
+# ── Higgs transport ──
+print(f"\n  --- Higgs running coordinate ---")
+print(f"  lambda(M_Pl) = -{grav_data['delta_bridge']:.6f}  (candidate bridge boundary)")
+print(f"  lambda(m_t; beta coordinate) = {grav_data['lambda_mt_transport']:.6f}")
+print(f"  sqrt(2lambda)v = {grav_data['higgs_transport_coordinate_GeV']:.2f} GeV")
+
+# ── The electroweak scale ──
+# Derived in masses.py and consumed by the three predictions below.
+# Not one of the n_checks counted checks: it is the scale they stand
+# on.  V_EW_GF is comparison-side, like the PDG values quoted below.
+V_EW_GF = 246.219651
+v_EW = masses_data['v_EW_pred_GeV']
+print(f"\n  --- Electroweak scale ---")
+print(f"  v_EW = M_Pl·exp(-S_quark) = {v_EW:.6f} GeV"
+      f"  (from G_F: {V_EW_GF}, {(v_EW/V_EW_GF - 1)*1e6:+.2f} ppm)")
 
 # ── Electroweak ──
 print(f"\n  --- Electroweak sector (3 predictions: sin²θ_W, M_Z, M_W) ---")
 sin2W = grav_data['sin2W']
 print(f"  sin²θ_W = 3/13 + Q₀²·α/(2π) = {sin2W:.6f}  (PDG 2024 fit: 0.23129(4), pull {(sin2W-0.23129)/4e-5:+.2f}σ)")
 print(f"  M_Z = {grav_data['M_Z_derived']:.4f} GeV  (PDG: {grav_data['M_Z_PDG']}, {pct(grav_data['M_Z_derived'], grav_data['M_Z_PDG']):+.4f}%)")
-print(f"  M_W = {grav_data['M_W_derived']:.4f} GeV  (PDG: {grav_data['M_W_PDG']}(13), pull {(grav_data['M_W_derived']-grav_data['M_W_PDG'])/0.0133:+.2f}σ)")
+print(f"  M_W = {grav_data['M_W_derived']:.4f} GeV  (PDG: {grav_data['M_W_PDG']}(133), pull {(grav_data['M_W_derived']-grav_data['M_W_PDG'])/0.0133:+.2f}σ)")
 
 # ── Baryogenesis ──
 print(f"\n  --- Baryogenesis ---")
@@ -194,7 +217,7 @@ print(f"  CC scale: ρ_Λ ~ M_Pl²H₀² → 10^{dark_data['CC_suppression']:.0f
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  THE EMERGENCE TREE
+#  THE DERIVATION GRAPH
 # ═══════════════════════════════════════════════════════════════════════
 
 m_c = masses_data['m_c']
@@ -206,10 +229,10 @@ p23 = mixing_data['pulls']['23']
 p13 = mixing_data['pulls']['13']
 a_MZ = couplings_data['alpha_s_MZ_thresh']
 e_th = couplings_data['err_thresh']
-M_V = couplings_data['M_V_derived']
+M_V = couplings_data['M_V_GeV']
 
 print("\n" + "=" * 78)
-print("  THE EMERGENCE TREE")
+print("  THE DERIVATION GRAPH")
 print("=" * 78)
 
 tree = f"""
@@ -221,7 +244,7 @@ tree = f"""
     |
     +-- F4 sector -> quarks + v_EW + Higgs
     |     v_EW = M_Pl * exp(-(9pi²/2 - 6 + 15/512 - 16(a/2pi)²))
-    |     30 modes = 26 (F4 fund) + 4 (Higgs DOFs)
+    |     E8 current trace Tr_+(Q²) = 30  [derived in wiring.py]
     |     sin2W = 3/13 + Q₀²·α/(2π) = {sin2W:.5f}
     |     M_Z = {grav_data['M_Z_derived']:.2f} GeV,  M_W = {grav_data['M_W_derived']:.2f} GeV  (derived)
     |     alpha(emergence) = pi/512,  alpha(0) = 1/137.035999050
@@ -234,12 +257,13 @@ tree = f"""
     |
     |     Q = Q₀+h₁₁/K³ = 289/432 -> m_b = {m_b:.1f} MeV
     |     m_s = {m_s:.1f} MeV  (Q₀+h₁₀/K³ + √(d₁₀³Q₀²/d₁₁) bridge)
-    |     lambda(M_Pl) = -delta_bridge·(1−h₁₀) -> m_H = {grav_data['mH_pred']:.1f} GeV
+    |     candidate lambda(M_Pl) -> lambda(m_t; beta coordinate) = {grav_data['lambda_mt_transport']:.4f}
     |
     +-- SU(3)_3 / D(6) -> CKM
-    |     lambda = tan(2/9),  A = sqrt(2/3),  etabar = pi/9,  rhobar = sqrt(2)/9
+    |     lambda = h₁₀(1+h₁₁/K²) = 73/324,  A = sqrt(2/3),
+    |     etabar = pi/9,  rhobar = sqrt(2)/9
     |
-    +-- SU(3)_3 / Z_C -> PMNS
+    +-- SU(3)_3 conjugation-orbit candidate -> PMNS
     |     sin2_12 = {mixing_data['sin2_12']:.5f} ({p12:+.1f}sigma)
     |     sin2_23 = {mixing_data['sin2_23']:.5f} ({p23:+.1f}sigma)
     |     sin2_13 = {mixing_data['sin2_13']:.5f} ({p13:+.1f}sigma)
@@ -251,16 +275,16 @@ tree = f"""
     |
     +-- Embedding index -> alpha_s
     |     alpha_G2(mu*) = pi/32,  mu* = M_Pl e^-(9pi^2/2-6) = 253.5 GeV
-    |     M_V = {M_V:.0f} GeV  (derived)
+    |     M_V = {M_V:.0f} GeV  (per-mode bridge reading)
     |     alpha_s(M_Z) = {a_MZ:.4f}  ({e_th:+.1f}%)
     |
-    +-- G2 instanton + Fano orientation -> eta_B
-    |     eta_B = 7 * J_lep * exp(-2pi²) = {grav_data['eta_B']:.4e}  ({b_pct:.1f}%)
+    +-- G2 winding action + Fano orientation -> eta_B
+    |     eta_B = 7 * J_lep * exp(-2pi²) = {grav_data['eta_B']:.4e}  ({b_pct:.1f}%)  [G2 face action]
     |
     +-- (7,26) bridge -> gravity
     |     182 modes, xi = 1/(48pi),  h_bridge = 1
-    |     PvP = 0 (universality),  Pv²P = 1/2 P (memory)
-    |     G_ind/G_N = {grav_data['G_ratio_UV']:.4f} (UV) - {grav_data['G_ratio_broken']:.4f} (broken)
+    |     PvP = 0 (universality),  per-mode E[v²] = 1/2, total Pv²P = P (memory)
+    |     G_ind/G_N = {grav_data['G_ratio_UV']:.4f} (internal closure)
     |
     \\-- Bridge self-interference -> dark sector
           Ω_DM/Ω_b = 2π−1 = {dark_data['DM_baryon_ratio']:.4f}  (Planck: {dark_data['DM_baryon_ratio_obs']:.3f}, {dark_data['pull_DM_baryon']:+.1f}σ)
@@ -268,17 +292,22 @@ tree = f"""
 
   TOTAL: 9 masses + 15 CKM + 3 PMNS + 1 alpha_s + 1 Higgs + 1 G_N + 1 eta_B + 3 EW + 1 DM/baryon
        = {n_checks} numerical checks + {n_structural} structural (m1=0, ordering, CC scale)
-       from the electron anchor alone (M_Pl derived), all couplings derived.
+       from the electron anchor.  The mixing-sector operator lift
+       is depth-4 (the fourth tracking phase, past the Hurwitz ceiling).
+       The gravity normalisation mechanism is depth-3 unfinished.
        Structural and polynomial identities are asserted in test_interference.py:
-           pytest -q   ->   127 tests (117 fast + 10 slow) including the canonical freeze table.
+           pytest -q   ->   the fast suite (the substrate arc behind -m slow), including
+                            the canonical freeze table.  Counts: README.
   Mass: {n_sub1}/9 <= 1%, {n_sub2}/9 <= 2%, max {max_err:.1f}%
   CKM:  chi2/n = {chi2_ckm/n_ckm:.2f}  ({n_ckm} obs)
   PMNS: chi2/n = {chi2_pmns/3:.2f}  (3 obs)
-  G_N:  G_ind/G_N = {grav_data['G_ratio_canonical']:.4f}
+  G_N:  G_ind/G_N = {grav_data['G_ratio_canonical']:.4f}  [internal]
 """
 
 print(tree)
 print(f"  {'='*78}")
-print(f"  END-TO-END DERIVATION COMPLETE, ALL 248 E8 MODES ASSIGNED, {n_checks} CHECKS, {n_structural} STRUCTURAL")
+print(f"  ENGINE CLOSURE COMPLETE, ALL 248 E8 MODES ASSIGNED, {n_checks} CHECKS, {n_structural} STRUCTURAL")
+print(f"  DEPTH-4: mixing-sector lift, Sakharov degeneracy."
+      f" DEPTH-3 UNFINISHED: clock, confinement, dynamics, GR, V-A")
 print(f"  (14,1) gauge + (1,52) matter/Higgs + (7,26) gravity = 248")
 print(f"  {'='*78}")

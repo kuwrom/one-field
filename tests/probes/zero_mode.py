@@ -3,16 +3,16 @@ zero_mode.py: the chiral zero mode on the knot, computed
 (Jackiw-Rossi on our own defect).
 
 WHY THE SURVIVING BRANCH IS CHIRAL (mass-protection closure
-argument).  The framework's entire mass sector has the form
+argument). The framework's entire mass sector has the form
 m = M_Pl * exp(-S_closure) * (circulant data), with every factor
 forced.  This structure requires that no mass term exist above the
-closure scale other than those the closure itself generates.  In a
-vector-like gauge theory, bare Dirac masses are gauge invariant.
+closure scale other than those the closure itself generates. In a
+vector-like gauge theory, independent UV Dirac mass terms are gauge invariant.
 Nothing forbids them, and by genericity they appear at the cutoff
 scale.  A vector-like branch therefore carries mass observables
 contaminated by terms the closure does not control, so it does not
 close and is not a surviving branch.  Chiral gauge symmetry is
-precisely the known mechanism that forbids bare masses until symmetry
+precisely the known mechanism that forbids independent UV masses until symmetry
 breaking.  Therefore the surviving branch must be chiral: chirality
 is a survival condition of the framework.
 
@@ -58,6 +58,8 @@ Usage: python3 zero_mode.py
 """
 
 import numpy as np
+import _bootstrap  # noqa: E402,F401
+
 
 
 def deriv(n, dr, forward=True):
@@ -138,7 +140,7 @@ def run(report=print):
             report(f"  {label:<26s} {E0:>10.2e} {g:>+9.3f} "
                    f"{rm:>6.2f} {'YES':>10s}")
             results[label] = {"zero_mode": True, "E0": E0, "gamma": g}
-    # the registered conclusions, as assertions
+    # the conclusions, as assertions
     plus = results["winding +1 (chiral mass)"]
     minus = results["winding -1 (reversed)"]
     zero = results["winding 0 (sigma_z mass)"]

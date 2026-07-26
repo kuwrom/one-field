@@ -22,7 +22,7 @@ term at the matched level is the unique local functional that does
 (Wess-Zumino consistency. Witten's construction).  The citation is
 corroboration-grade, an established theorem like Hurwitz. The
 single open premise behind BOTH halves is the confined phase
-itself (SUBSTRATE_CONJECTURES #1).  On the level: Witten
+itself (confined_phase.py).  On the level: Witten
 quantization makes the WZ coefficient an integer, and 't Hooft
 anomaly matching fixes it to the number of fermion species in the
 loop, the d11 = 3 Dirac fermions in the 7 (the same matter content
@@ -36,11 +36,12 @@ and statistics share one origin.
 WHY THE KNOT IS CHARGED (persistence => charge, a CONFINED-PHASE
 statement).  In a topological sector the only protection is charge.
 An uncharged lump is contractible, a transient.  Being a knot and
-unit Z3 winding are one property THERE.  At the bare substrate level
+unit Z3 winding are one property THERE. At the substrate-only level
 the converse was measured (knot_charge.py): a persistent B = 0
 density lump exists and the charge unwinds, so this argument binds
 in the confined phase, where the topological sector lives, not in
-the linear substrate field (DERIVATION_PROGRAMS #4).  Negative
+the linear substrate field (the topological-protection derivation:
+effective_action.py, knot_charge.py, knot_spectrum.py).  Negative
 evidence from our own 1D data: without topological protection the
 windings mix (probes/stationary.py), exactly what unprotected
 labels do.
@@ -70,6 +71,8 @@ Usage: python3 bookkeeping.py
 """
 
 from fractions import Fraction
+import _bootstrap  # noqa: E402,F401
+
 
 
 def cubic_anomaly_su3(rep):

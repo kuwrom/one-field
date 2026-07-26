@@ -9,14 +9,14 @@ that are NOT in the PDG.  Each such state is one of exactly two
 things, and the probe labels which:
 
   PREDICTION: an admissible edge whose state is absent from the PDG,
-      a registered exposure (a new state the framework says exists,
+      an exposure (a new state the framework says exists,
       or a mass relation not yet measured).
   FALSIFIER: an edge the grammar EXCLUDES by lemma whose state is
       also absent: it must stay absent, or the lemma that killed it
       is wrong (the 64 GeV and 139 GeV terminus ghosts are the
       canonical examples: already dead against the top).
 
-The menus come from tests/edge_grammar.py (the committed D1 spec).
+The menus come from tests/audit/edge_grammar.py (the committed D1 spec).
 The selection lemmas from interference/words.py (N-ality
 superselection: steps must be triality-neutral. Conversion lemma:
 bases are pure-tower integer ranks, mixed words are vent-side).
@@ -24,11 +24,11 @@ bases are pure-tower integer ranks, mixed words are vent-side).
 Usage: python3 surplus_edges.py    (fast: pure linear algebra)
 """
 
-import math
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _bootstrap  # noqa: E402,F401
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))), "interference"))
 

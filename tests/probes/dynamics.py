@@ -21,13 +21,24 @@ G2 constraint g1 = g0/sqrt(2)), 1D, split-step Fourier:
     a dark-bright vector structure stays localized and its
     total-density dip persists while the trial profile relaxes.
 
-STATUS (honest): bias erosion and shadow formation are OBSERVED
-(qualitative).  Strict stability of a gapped knot is NOT yet
-demonstrated, the trial ansatz broadens. The open task is the true
-stationary profile (imaginary-time solver) and a 2D run where
-windings are topological.
+STATUS.  On the live unitary substep exp(−i M[ψ] dt):
 
-Runtime ~20 s.  Usage: python3 dynamics.py
+  * bias erosion: NOT OBSERVED on this horizon.  The v-bias drops
+    (0.235 → 0.096 at t=4) and then RECURS (0.330 at t=16), an
+    oscillation/recurrence, not monotone shedding.  The
+    non-variational scalar-phase substep reads this as erosion; that
+    reading is an integrator artifact.
+  * the common-mode shadow forms (center density moves from
+    +0.0218 above mean to −0.0024 below by t=16) and the dip of the
+    trial knot persists.
+  * the bright component broadens past the localization criterion:
+    NOT localized at t=16.
+
+The frozen conclusions (tests/test_probes.py) pin these verdicts.
+The open task: a true stationary profile (imaginary-time solver)
+and a 2D run where windings are topological.
+
+Runtime ~40 s.  Usage: python3 dynamics.py
 """
 
 import os
@@ -37,9 +48,11 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '..', 'interference')))
+import _bootstrap  # noqa: E402,F401
 from root import d10
+from nls_soliton import interaction_matrix, _apply_unitary
 
-G1_OVER_G0 = 1.0 / np.sqrt(d10)          # the G2 constraint
+G1_OVER_G0 = 1.0 / np.sqrt(d10)          # the standing G2 identification
 
 
 def make_grid(N=1024, L=160.0):
@@ -48,11 +61,17 @@ def make_grid(N=1024, L=160.0):
     return x, k, L/N
 
 
-def evolve(psi, k, G, dt, steps):
+def evolve(psi, k, g0, g1, dt, steps):
+    """Lie split step on the live equation: the nonlinear substep is
+    the exact unitary exp(−i M[ψ] dt) with M the hermitian
+    interaction matrix (nls_soliton.interaction_matrix), the same
+    equation as the rest of the substrate track.  A scalar-phase
+    substep exp(−i dt (G @ ρ)) is not the gradient of any functional
+    (nls_soliton module docstring)."""
     Kin = np.exp(-0.5j * k**2 * dt)
     for _ in range(steps):
-        dens = np.abs(psi)**2
-        psi = psi * np.exp(-1j * dt * (G @ dens))
+        M = interaction_matrix(psi, g0, g1)
+        psi = _apply_unitary(M, psi, dt)
         psi = np.fft.ifft(np.fft.fft(psi, axis=1) * Kin, axis=1)
     return psi
 
@@ -61,7 +80,6 @@ def run(report=print):
     x, k, dx = make_grid()
     g0 = 1.0
     g1 = g0 * G1_OVER_G0
-    G = np.array([[g0, g1, g1], [g1, g0, g1], [g1, g1, g0]])
     dt, quarter = 0.002, 2000            # 4 quarters -> t = 16
     v = np.array([1.0, -0.5, -0.5])
     c = np.abs(x) < 6.0
@@ -76,7 +94,8 @@ def run(report=print):
     out = []
     for i, t in enumerate([0, 4, 8, 16]):
         if i:
-            psi = evolve(psi, k, G, dt, quarter if t <= 8 else 2*quarter)
+            psi = evolve(psi, k, g0, g1, dt,
+                         quarter if t <= 8 else 2*quarter)
         dens = np.abs(psi)**2
         n = dens.sum(0)
         d = dens - n / 3.0                        # relative content
@@ -100,7 +119,7 @@ def run(report=print):
     psi[2] = np.sqrt(rho0) * np.ones(len(x))
     d0 = np.abs(psi)**2
     dip0 = float((d0.sum(0)[c] - d0.sum(0).mean()).mean())
-    psi = evolve(psi, k, G, dt, 4 * quarter)
+    psi = evolve(psi, k, g0, g1, dt, 4 * quarter)
     d1 = np.abs(psi)**2
     dip1 = float((d1.sum(0)[c] - d1.sum(0).mean()).mean())
     localized = d1[1].max() > 3 * np.median(d1[1])

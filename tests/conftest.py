@@ -20,8 +20,16 @@ import pytest
 # bootstraps the chain.
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "interference")))
-# Add tests/ itself so the mechanism probes import as `probes.*`
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+import _paths  # noqa: E402,F401  (adds interference/ and searchlight/)
+# Add tests/ itself so the mechanism probes import as `probes.*`, plus
+# the two scrutiny directories: substrate/ (the NLS conjecture) and
+# audit/ (grammar + closure search), whose modules are imported by
+# bare name.
+_tests = os.path.abspath(os.path.dirname(__file__))
+for _p in (os.path.join(_tests, "audit"),
+           os.path.join(_tests, "substrate"),
+           _tests):
+    sys.path.insert(0, _p)
 
 import root
 import masses

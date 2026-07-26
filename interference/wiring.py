@@ -1,5 +1,5 @@
 """
-wiring_scan.py: the wiring, found rather than stated.
+wiring.py: the wiring, found rather than stated.
 
 A closure-residual scan over the CLASSIFIED candidate menus
 (lattices, conformal pairs, levels): the closure demand (exist with
@@ -16,6 +16,14 @@ complete classification, not a tuned candidate pool:
               representations (Lie data of the attractor). d10, d11
               from the Kac-Peterson S-matrix of the emergent SU(3)_3
               (quantum dimensions d(lambda) = S[0,lambda]/S[0,0]).
+    stage W5: coupling       -> the selected h_J = 1 current's pointed
+              sector probability times its normalized response h_J/2pi.
+    stage W6: bridge moment  -> the G2/Z3 harmonic tensored with the
+              identity on the irreducible F4 factor; normalized trace
+              over 7*26 modes gives |v_hat_1|^2 = 1/2.
+    stage W7: vertex trace   -> the normalized Cartan-current operator
+              on one representative of every E8 root pair has quadratic
+              trace 30 = h_dual(E8), independently of current direction.
 
 No four integers are input anywhere.  Octonions are never mentioned:
 if you want to know what the attractor "is", ask a mathematician.
@@ -47,7 +55,7 @@ Complements embedding_uniqueness.py (which scans all rank-8 parents
 through the six coherence gates). This probe scans E8's own conformal
 pairs and the level, and reads the dictionary off the winner.
 
-Usage: python3 wiring_scan.py
+Usage: python3 interference/wiring.py
 """
 
 import cmath
@@ -55,9 +63,16 @@ import math
 
 import numpy as np
 
+
 # Lie data of candidate factors (mathematical tables, like Fano lines):
 # dimension of the smallest faithful ("fundamental") representation.
 FUND_DIM = {"G2": 7, "F4": 26}
+
+
+# The algebraic root imports the result of this scan.  Keeping the
+# canonical result here makes wiring.py the single source of the four
+# integers and of the marginal-current normalisation derived below.
+_CANONICAL_DATA = None
 
 
 # ── 1. Lattice candidates (rank 8, computed. Rank 16 via minimality) ──
@@ -166,6 +181,13 @@ def level_residual(k):
     unique zero-residual output of R1, not an independent input.
     The assertion in run() freezes this: exactly {3} survives over
     k in 1..12.
+
+    A CONDENSED-MATTER EXPOSURE OF THE SAME LEVEL.  k = 3 forces the
+    Read-Rezayi Z3 state at nu = 2 + 2/(k+2) = 12/5, i.e. Fibonacci
+    anyons.  Window: GaAs, B = 8.5 T, n = 4.9e11 cm^-2, T < 10 mK,
+    mobility > 1e7, gap ~ 100 mK.  Established Abelian or
+    non-Fibonacci order at 12/5 under those conditions kills it;
+    interferometry or thermal Hall at 12/5 decides.
     """
     if (k % 3) != 0:
         return 2
@@ -215,7 +237,89 @@ def survivors(candidates, residual):
     return scored, zero
 
 
+def normalized_current_response(h):
+    """Integrated response of a normalized dimension-one current."""
+    if not math.isclose(float(h), 1.0, rel_tol=0.0, abs_tol=1e-12):
+        raise ValueError("the current-response rule requires h = 1")
+    return float(h) / (2.0 * math.pi)
+
+
+def bridge_mode_second_moment(amplitude, theta, n_g2, n_f4):
+    """Normalized bridge trace of the single Z3-channel response.
+
+    The selected Z3 is inside the G2 factor.  An F4-invariant operator
+    on the unique (7,26) connector is scalar on the irreducible 26 by
+    Schur, so its response is the G2 harmonic tensored with identity.
+    The identity multiplicity cancels in the normalized trace.
+    """
+    if n_g2 <= 0 or n_f4 <= 0:
+        raise ValueError("bridge factor dimensions must be positive")
+    omega = cmath.exp(2j * math.pi / 3.0)
+    harmonic = [amplitude * math.cos(theta + 2.0 * math.pi * k / 3.0)
+                for k in range(3)]
+    v_hat1 = sum(harmonic[k] * omega**(-k) for k in range(3)) / 3.0
+    g2_channel = v_hat1 * np.eye(n_g2, dtype=complex)
+    bridge_response = np.kron(g2_channel, np.eye(n_f4, dtype=complex))
+    multiplicity = n_g2 * n_f4
+    return float(np.trace(bridge_response.conj().T @ bridge_response).real
+                 / multiplicity)
+
+
+def e8_roots():
+    """The 240 E8 roots in the standard orthonormal R8 realization."""
+    roots = []
+    for i in range(8):
+        for j in range(i + 1, 8):
+            for si in (-1.0, 1.0):
+                for sj in (-1.0, 1.0):
+                    root = np.zeros(8)
+                    root[i], root[j] = si, sj
+                    roots.append(root)
+    for mask in range(2**8):
+        signs = np.array([
+            -1.0 if (mask >> i) & 1 else 1.0 for i in range(8)
+        ])
+        if int(np.count_nonzero(signs < 0)) % 2 == 0:
+            roots.append(signs / 2.0)
+    assert len(roots) == 240
+    assert all(np.dot(root, root) == 2.0 for root in roots)
+    return tuple(roots)
+
+
+def e8_positive_root_current_form():
+    """Quadratic current form on one root from every conjugate pair.
+
+    For a normalized Cartan current q, the positive-root mode E_alpha has
+    charge alpha.q.  Choosing the root whose first nonzero coordinate is
+    positive selects one representative of each complex conjugate pair.
+    The returned matrix M obeys q.T M q = sum_(alpha>0)(alpha.q)^2.
+    """
+    positive = []
+    for root in e8_roots():
+        first = root[np.flatnonzero(root)[0]]
+        if first > 0.0:
+            positive.append(root)
+    assert len(positive) == 120
+    return sum((np.outer(root, root) for root in positive),
+               np.zeros((8, 8)))
+
+
+def e8_vertex_charge_trace(direction=None):
+    """E8 positive-root charge trace for a unit Cartan current."""
+    q = np.zeros(8) if direction is None else np.asarray(direction,
+                                                          dtype=float)
+    if direction is None:
+        q[0] = 1.0
+    if q.shape != (8,) or not np.isclose(np.dot(q, q), 1.0):
+        raise ValueError("the E8 current direction must be a unit 8-vector")
+    current_form = e8_positive_root_current_form()
+    assert np.allclose(current_form, 30.0 * np.eye(8), atol=1e-12)
+    return float(q @ current_form @ q)
+
+
 def run(report=print):
+    global _CANONICAL_DATA
+
     report("WIRING SCAN: the wiring, found by the closure demand")
     report("=" * 64)
 
@@ -252,7 +356,61 @@ def run(report=print):
     report(f"    d10 = {d10:.12f}   d11 = {d11:.12f}   (S-matrix "
            f"quantum dimensions of SU(3)_3)")
     assert abs(d10 - 2.0) < 1e-9 and abs(d11 - 3.0) < 1e-9
-    assert abs(sum(v*v for v in d.values()) - 36.0) < 1e-9  # D_tot^2
+    D2_tot = sum(v*v for v in d.values())
+    assert abs(D2_tot - 36.0) < 1e-9
+
+    # The winning extension current J=(k,0) has h_J=k/3=1.  Current
+    # algebra fixes its local normalisation; unlike a W-generator it
+    # introduces no independent coupling.  The Z3 extension channel's
+    # S-matrix probability is the sum over its simple-current orbit.
+    # The engine defines a channel coupling as this closure probability
+    # times the normalized dimension-one current response h/(2pi).
+    h_J = zero[0] / 3.0
+    pointed_orbit = ((0, 0), (3, 0), (0, 3))
+    pointed_weight = sum(d[p]**2 for p in pointed_orbit) / D2_tot
+    current_response = normalized_current_response(h_J)
+    alpha_G2_Pl = pointed_weight * current_response
+    assert abs(h_J - 1.0) < 1e-12
+    assert abs(pointed_weight - 1.0/12.0) < 1e-12
+    assert abs(alpha_G2_Pl - 1.0/(24.0*math.pi)) < 1e-12
+
+    report("stage W5 (marginal-current normalisation):")
+    report(f"    h_J = {h_J:.0f},  P(Z3) = 3/{D2_tot:.0f} = "
+           f"{pointed_weight:.12f}")
+    report("    alpha_G2(M_Pl) = P(Z3) * h_J/(2pi) "
+           f"= {alpha_G2_Pl:.12f}")
+
+    # The unique bridge is (7,26).  Since the emergent Z3 is on its G2
+    # side, F4 invariance makes the 26 factor an identity by Schur's
+    # lemma.  The normalized trace therefore contains no new bridge
+    # amplitude: it is the canonical G2 harmonic's q=1 power.
+    N_bridge = n7 * n26
+    harmonic_amplitude = math.sqrt(d10)
+    harmonic_theta = d10 / d11**2
+    bridge_mode_moment = bridge_mode_second_moment(
+        harmonic_amplitude, harmonic_theta, n7, n26)
+    assert abs(bridge_mode_moment - 0.5) < 1e-12
+    report("stage W6 (bridge Schur trace):")
+    report(f"    B=(7,26), multiplicity={N_bridge}; "
+           "V_bridge=V_G2(Z3) tensor I_26")
+    report("    Tr(V_bridge^dagger V_bridge)/182 "
+           f"= |v_hat_1|^2 = {bridge_mode_moment:.12f}")
+
+    # A normalized abelian current q in the selected E8 Cartan acts on
+    # the root mode E_alpha with charge alpha.q.  The +/- roots are one
+    # complex-conjugate mode, so the vertex trace uses one representative
+    # per pair.  The E8 root identity gives M=sum alpha alpha^T=30 I8;
+    # hence Tr_+(Q^2)=30 for every unit q.  This is the adjoint current
+    # index h_dual(E8), derived without choosing a 26+4 mode inventory.
+    vertex_charge_trace = e8_vertex_charge_trace()
+    diagonal_direction = np.ones(8) / math.sqrt(8.0)
+    assert abs(e8_vertex_charge_trace(diagonal_direction)
+               - vertex_charge_trace) < 1e-12
+    report("stage W7 (E8 current-operator trace):")
+    report("    240 roots = 120 conjugate pairs; "
+           "sum_(alpha>0) alpha alpha^T = 30 I_8")
+    report("    Tr_+(Q^2) = sum_(alpha>0)(alpha.q)^2 "
+           f"= {vertex_charge_trace:.0f} for |q|=1")
 
     report("-" * 64)
     report("  wiring* = E8(1) > G2(1) x F4(1), k = 3, "
@@ -261,8 +419,32 @@ def run(report=print):
     report("  consistent self-tracking, not an inventory of reality.")
     report("  What folds deeper than the ledger is real, unindividuated,")
     report("  and felt only as amount: the bridge / common mode.")
-    return {"lattice": "E8", "pair": "G2(1) x F4(1)", "k": 3,
-            "n7": n7, "n26": n26, "d10": d10, "d11": d11}
+    result = {"lattice": "E8", "pair": "G2(1) x F4(1)", "k": 3,
+              "n7": n7, "n26": n26, "d10": d10, "d11": d11,
+              "h_J": h_J, "D2_tot": D2_tot,
+              "pointed_orbit": pointed_orbit,
+              "pointed_weight": pointed_weight,
+              "current_response": current_response,
+              "alpha_G2_Pl": alpha_G2_Pl,
+              "N_bridge": N_bridge,
+              "harmonic_amplitude": harmonic_amplitude,
+              "harmonic_theta": harmonic_theta,
+              "bridge_mode_moment": bridge_mode_moment,
+              "vertex_charge_trace": vertex_charge_trace}
+    _CANONICAL_DATA = result.copy()
+    return result
+
+
+def canonical():
+    """Return the canonical scan result, running it silently if needed."""
+    if _CANONICAL_DATA is None:
+        run(report=lambda *args, **kwargs: None)
+    return _CANONICAL_DATA.copy()
+
+
+#  Every module in interference/ exposes derive(); run() is kept as an
+#  alias so the probe harness and standalone invocation both still work.
+derive = run
 
 
 if __name__ == "__main__":

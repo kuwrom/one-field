@@ -10,10 +10,31 @@ Derivation chain:
     2. Holomorphic basis: z_α = (e_{2α-1} − i e_{2α})/√2, α=1,2,3
     3. Singlet channel:  z_α × z̄_β = i δ_{αβ} e₇  →  |C₁| = 1
     4. Triplet channel:  z_α × z_β = √2 ε_{αβγ} z̄_γ  →  |C₃̄| = √2
-    5. Channel weight:   W(3̄) = 1/d(fund) = 1/d₁₀ = 1/2  (forced:
-       the unique idempotent normalisation of the channel projector,
-       with the loop value = quantum dimension. Executable lemma in
-       _check_projector_normalization, upgraded from "convention")
+    5. Channel weight:   W(3̄) = 1/d(1,0) = 1/d₁₀ = 1/2.  Status,
+       stated in three separable parts (executable lemma in
+       _check_projector_normalization, quantum dimension computed
+       in-file by su3_qdim):
+         (a) STRUCTURE (proved here): the channel composite obeys
+             L² = λL with spectrum {0, λ}, so 1/(loop value) is the
+             UNIQUE idempotent normalisation.
+         (b) VALUES (computed here): the CLASSICAL loop value of the
+             raw Fano composite is λ = 4; the QUANTUM (MTC) loop
+             value is the quantum dimension d(1,0) = 2, computed
+             from the Weyl/Kac-Peterson formula at level 3.
+         (c) TRACE CHOICE (identification, narrowed): the physical
+             channel weight reads the QUANTUM trace.  The trace is
+             not a free choice: in a modular tensor category the
+             spherical (quantum) trace is the unique consistent
+             trace, and gate 3 (k = 3) places the channel in the
+             SU(3)₃ MTC, so GIVEN the MTC layer the loop value is
+             d(1,0) = 2 by theorem.  What this file identifies
+             rather than derives is that the physical channel is
+             the MTC channel, not the classical tensor-product
+             channel.  Cross-pinned by the engine: the absorbed
+             Q₀ = 2/3 forces B² = 2 through the θ-blind identity
+             Q = 1/3 + (B/A)²/6, which the quantum reading
+             reproduces and the classical reading (W = 1/4,
+             B/A = 1/√2, Q₀ = 5/12) does not.
     6. Assembly:         B/A = 2|C₃̄|·W(3̄)/|C₁| = 2√2·(1/2)/1 = √2
     7. Koide:            Q₀ = 1/3 + |B/A|²/6 = 1/3 + 2/6 = 2/3 = d₁₀/d₁₁
 
@@ -108,7 +129,8 @@ def _cross_complex(a, b):
 #       superposition violations.  [checked: _check_z3_selection]
 #
 #  REMARK (Born rule, conjectural): protected forgetting erases linear
-#  ledger entries (PvP = 0) and retains second moments (Pv²P = ½P).
+#  ledger entries (PvP = 0) and retains second moments (per-mode
+#  E[v²] = ½, total Pv²P = P).
 #  measurement statistics are web memories, so outcome frequencies can
 #  only read |amplitude|², the same structure that fixes m = Δ².
 #  Recorded as a conjecture, not used in canonical values.
@@ -152,25 +174,41 @@ def _check_linearity(rng):
     return True
 
 
-def _check_hurwitz_gate(rng):
-    """(ii) the 4th doubling fails: sedenions have zero divisors."""
+def _check_hurwitz_gate(*, census=False):
+    """(ii) the 4th doubling fails: sedenions have zero divisors.
+
+    Exhibits the witness (e₁ + e₁₀)(e₃ − e₁₂) = 0 in this Fano
+    convention.  With census=True, additionally enumerates ALL
+    zero-divisor pairs of the form (e_i ± e_j)(e_k ± e_l) on the
+    unit-coefficient lattice and asserts the count: 336 ordered =
+    168 unordered pairs (the "one of 168" is computed, not quoted).
+    """
     sed_mul = _cd_double(_oct_mul)
-    # norm multiplicativity FAILS one doubling past O: exhibit a zero
-    # divisor (in this Fano convention): (e₁ + e₁₀)(e₃ − e₁₂) = 0,
-    # one of 168 such pairs on the unit-coefficient lattice.
     e = np.eye(16)
     zd1, zd2 = e[1] + e[10], e[3] - e[12]
     prod = sed_mul(zd1, zd2)
     assert np.linalg.norm(zd1) > 1 and np.linalg.norm(zd2) > 1
     assert np.linalg.norm(prod) < 1e-12, "sedenion zero divisor expected"
+    if census:
+        vecs = [e[i] + s * e[j]
+                for i in range(1, 16) for j in range(i + 1, 16)
+                for s in (1, -1)]
+        ordered = sum(1 for v1 in vecs for v2 in vecs
+                      if np.linalg.norm(sed_mul(v1, v2)) < 1e-12)
+        assert ordered == 336, f"zero-divisor census: {ordered} != 336"
     return True
 
 
 def _check_e8_lattice_gate():
-    """Rank-8 coherence gate (gate paper, executable): among the rank-8
-    candidates, only E₈ is simultaneously EVEN (all squared norms even),
-    UNIMODULAR (det Gram = 1), and positive definite.  I₈ is unimodular
-    but odd. A₈ and D₈ are even but not unimodular."""
+    """Rank-8 coherence gate: explicit witnesses, cited classification.
+
+    What runs here: four explicit Gram matrices (I₈, A₈, D₈, E₈) are
+    checked for even / unimodular / positive definite; only E₈ passes
+    all three.  What is CITED, not computed: the statement that these
+    exhaust the possibilities is the even-unimodular lattice
+    classification in rank 8 (E₈ is the unique even unimodular
+    positive-definite rank-8 lattice; Griess).  The four matrices are
+    executable witnesses of the gate, not a re-proof of the theorem."""
     I8 = np.eye(8)
     A8 = 2*np.eye(8) - np.diag(np.ones(7), 1) - np.diag(np.ones(7), -1)
     D8 = A8.copy(); D8[7, 6] = D8[6, 7] = 0; D8[7, 5] = D8[5, 7] = -1
@@ -190,21 +228,47 @@ def _check_e8_lattice_gate():
     return True
 
 
-def _check_projector_normalization():
-    """W = 1/d_lambda is FORCED, not a convention.
+def su3_qdim(a, b, k=3):
+    """Quantum dimension of the SU(3)_k primary (a, b), computed from
+    the Weyl / Kac-Peterson formula with q-numbers at kappa = k + 3:
 
-    Structure (verified here on the raw Fano CG data, with no
-    normalisation put in anywhere): the channel composite L = T^dag T
-    built from the un-normalised 3 x 3 -> 3bar intertwiner satisfies
-    L^2 = lam * L (Schur), so the UNIQUE coefficient c that makes cL
-    a projector is c = 1/lam.  Value (categorical): in the MTC the
-    closed-loop value lam IS the quantum dimension, by the definition
-    of the quantum trace. The Kac-Peterson S-matrix gives
-    d(1,0) = d10 = 2 for SU(3)_3 (computed independently in
-    tests/probes/wiring_scan.py).  Hence W(3bar) = 1/d10: the
-    normalisation is structural (idempotency), the value is
-    categorical (quantum dimension), and no choice survives.
-    Returns (schur_ok, forced_ok, lam_classical)."""
+        [n] = sin(n pi / kappa) / sin(pi / kappa)
+        d(a,b) = [a+1][b+1][a+b+2] / [2]
+
+    Computed in-file so that the categorical value d(1,0) = 2 used by
+    the channel-weight identification is executable here, not quoted
+    from a table."""
+    kappa = k + 3
+    q = lambda n: math.sin(math.pi * n / kappa) / math.sin(math.pi / kappa)
+    return q(a + 1) * q(b + 1) * q(a + b + 2) / q(2)
+
+
+def _check_projector_normalization():
+    """The channel-weight lemma, in three separable parts.
+
+    (a) STRUCTURE, proved on the raw Fano CG data with no
+        normalisation put in anywhere: the channel composite
+        L = T^dag T built from the un-normalised 3 x 3 -> 3bar
+        intertwiner satisfies L^2 = lam * L with spectrum {0, lam}
+        (checked below), so the UNIQUE nonzero coefficient c making
+        cL a projector is c = 1/lam.  "1/(loop value)" is forced.
+    (b) VALUES, computed: the CLASSICAL loop value of this composite
+        is lam = 4 (returned).  The QUANTUM (MTC) loop value is the
+        quantum dimension d(1,0) = 2, computed by su3_qdim above.
+        These are different numbers, and the code that assembles
+        B/A uses the quantum one.
+    (c) TRACE CHOICE, an IDENTIFICATION and not a theorem of this
+        file: the physical channel weight reads the quantum trace
+        (the MTC layer the level-3 gate selects), not the classical
+        trace computed in (b).  It is cross-pinned, not free: the
+        engine's absorbed Q0 = 2/3 forces B^2 = 2 via the theta-blind
+        identity Q = 1/3 + (B/A)^2/6, which the quantum reading
+        reproduces; the classical reading gives W = 1/4, B/A = 1/sqrt(2),
+        Q0 = 5/12 and does not close.
+
+    Returns (schur_ok, forced_ok, lam_classical), where forced_ok now
+    certifies the real uniqueness content: the spectrum of L is
+    exactly {0, lam}, hence 1/lam is the only idempotent scaling."""
     z = np.zeros((3, 7), dtype=complex)
     for alpha in range(3):
         z[alpha, 2 * alpha] = 1.0 / math.sqrt(2)
@@ -217,12 +281,14 @@ def _check_projector_normalization():
             for g in range(3):
                 T[g, 3 * a + b] = np.vdot(zbar[g], prod)
     L = T.conj().T @ T                         # channel composite
-    lam = float(np.linalg.eigvalsh((L + L.conj().T) / 2).max())
+    eigs = np.linalg.eigvalsh((L + L.conj().T) / 2)
+    lam = float(eigs.max())
     schur_ok = np.allclose(L @ L, lam * L, atol=1e-10)
-    P = L / lam
-    forced_ok = (np.allclose(P @ P, P, atol=1e-12)
-                 and not np.allclose((0.7 * P) @ (0.7 * P), 0.7 * P,
-                                     atol=1e-6))
+    # uniqueness content: spectrum is exactly {0, lam} (here 6 zeros
+    # and 3 lam's), so cL idempotent and nonzero  <=>  c = 1/lam
+    forced_ok = bool(np.all((np.abs(eigs) < 1e-10)
+                            | (np.abs(eigs - lam) < 1e-10))
+                     and np.any(np.abs(eigs - lam) < 1e-10))
     return schur_ok, forced_ok, lam
 
 
@@ -309,29 +375,47 @@ def derive():
     print(f"  Frame-independent (Schur's lemma: both maps unique up to phase)")
 
     # ── Channel weight and B/A assembly ──────────────────────────────
-    # W(3̄) = 1/d(fund) = 1/d₁₀: FORCED, not a convention.  The
-    # projector lemma (executable below): idempotency of the channel
-    # propagator fixes the coefficient at 1/(loop value), and in the
-    # MTC the loop value is the quantum dimension by the definition
-    # of the quantum trace (d(1,0) = 2, Kac-Peterson. Independently
-    # computed in tests/probes/wiring_scan.py).
+    # W(3̄) = 1/d(1,0) = 1/d₁₀.  Three separable parts (see the
+    # _check_projector_normalization docstring): the 1/(loop value)
+    # STRUCTURE is proved; the classical (λ = 4) and quantum
+    # (d(1,0) = 2, su3_qdim) loop VALUES are both computed; the
+    # TRACE CHOICE (quantum, not classical) is an identification
+    # cross-pinned by the engine's absorbed Q₀ = 2/3, not a theorem
+    # of this file.
     # B/A = 2|C₃̄|·W(3̄)/|C₁| = 2√2·(1/2)/1 = √2 = √d₁₀
 
     schur_ok, forced_ok, lam_cl = _check_projector_normalization()
     assert schur_ok and forced_ok
-    print(f"\n  Projector lemma (W is forced, not chosen):")
-    print(f"    raw CG composite: L² = {lam_cl:.1f}·L (Schur) → the unique")
-    print(f"    idempotent normalisation is 1/(loop value). The MTC loop")
-    print(f"    value is the quantum dimension d₁₀ = {d10} (Kac-Peterson)")
+    d_q10 = su3_qdim(1, 0)
+    d_q11 = su3_qdim(1, 1)
+    assert abs(d_q10 - d10) < 1e-9 and abs(d_q11 - d11) < 1e-9
+    print(f"\n  Projector lemma, in three parts:")
+    print(f"    STRUCTURE (proved): L² = {lam_cl:.1f}·L, spectrum {{0, λ}} →")
+    print(f"      the unique idempotent normalisation is 1/(loop value)")
+    print(f"    VALUES (computed): classical loop value λ = {lam_cl:.1f};")
+    print(f"      quantum loop value d(1,0) = {d_q10:.6f} (Weyl/Kac-Peterson,")
+    print(f"      su3_qdim, in-file)")
+    print(f"    TRACE CHOICE (identification, cross-pinned): the weight reads")
+    print(f"      the quantum trace. Classical reading W = 1/4 gives")
+    print(f"      B/A = 1/√2, Q₀ = 5/12 and does not close; the quantum")
+    print(f"      reading reproduces the engine's absorbed Q₀ = 2/3")
 
     d_fund = d10                           # quantum dimension d(1,0) = 2
-    W_fund = 1.0 / d_fund                  # = 1/2, forced (lemma above)
+    W_fund = 1.0 / d_fund                  # = 1/2 under the quantum reading
     BA_derived = 2.0 * C3bar * W_fund / C1  # = √2
+
+    # the excluded classical alternative, printed for the record
+    BA_classical = 2.0 * C3bar * (1.0 / lam_cl) / C1
+    Q0_classical = 1.0 / 3.0 + BA_classical ** 2 / 6.0
+    assert abs(BA_classical - 1.0 / math.sqrt(2)) < 1e-10
+    assert abs(Q0_classical - 5.0 / 12.0) < 1e-10
 
     print(f"\n  Quantum Schur suppression:")
     print(f"    d(fund) = d₁₀ = {d_fund},  W(3̄) = 1/d₁₀ = {W_fund}")
     print(f"    B/A = 2|C₃̄|·W(3̄)/|C₁| = 2×{C3bar:.4f}×{W_fund}÷{C1:.4f}")
     print(f"        = {BA_derived:.6f} = √{d10}  ✓")
+    print(f"    (classical-trace alternative, excluded by closure: "
+          f"B/A = {BA_classical:.6f}, Q₀ = {Q0_classical:.6f})")
     assert abs(BA_derived - math.sqrt(d10)) < 1e-10
 
     # ── Koide parameter ──────────────────────────────────────────────
@@ -344,7 +428,7 @@ def derive():
     # ── Linearity from closure (executable §linearity) ───────────────
     rng = np.random.default_rng(7)
     ok_lin = _check_linearity(rng)
-    ok_gate = _check_hurwitz_gate(rng)
+    ok_gate = _check_hurwitz_gate()
     ok_sel = _check_z3_selection()
     ok_e8 = _check_e8_lattice_gate()
     print(f"\n  Linearity from closure:")

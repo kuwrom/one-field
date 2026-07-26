@@ -20,7 +20,29 @@ Gates (e)-(f) are the physics requirements from the framework's
 ontology: the substrate is self-present (e), and quantum numbers
 crystallise upon breaking, they are not pre-inscribed (f).
 
-This module tests every candidate exhaustively.
+WHERE THE CLOSURE ACTUALLY HAPPENS (measured by this scan, stated
+up front rather than left to the reader): gate (e) alone eliminates
+every non-E₈ parent (A₈, B₈, C₈, D₈ are not self-adjoint), and gate
+(f) alone eliminates the one genuine near-miss, E₈ ⊃ E₇ × A₁, which
+passes (a)-(e) in full (c_coset = 0, h_bridge = 1, 133 + 3 + 112 =
+248, bridge 56×2 > 0) and fails only on centres (Z₂ × Z₂).  The
+conformal gates (a)-(d) narrow the field; the two ONTOLOGY gates do
+the decisive work.  Uniqueness of G₂ × F₄ is therefore conditional
+on accepting (e) and (f) as requirements; the scan prints the
+near-miss so this is auditable, and derive() returns it.
+
+SCOPE OF THE SCAN (what "exhaustive" means here): the scan is
+exhaustive over the DATA TABLE below, all pairs of simple algebras
+with rank(G) + rank(F) ≤ 8 tested against the six gates by their
+numerical invariants.  It does NOT verify that a candidate pair is
+actually a subalgebra of the parent (no branching rules, no
+embedding indices are computed); a pair passing the numerical gates
+without being an embedding would survive the scan.  For the one
+survivor this is settled by the literature (E₈ ⊃ G₂ × F₄ is a known
+maximal conformal embedding), and the scan's role is to show that
+no OTHER candidate even passes the numerical gates.  Isomorphic
+low-rank duplicates in the table (D₃ ≅ A₃, C₂ ≅ B₂) are skipped in
+the scan so the candidate count is over distinct algebras.
 
 ═══════════════════════════════════════════════════════════════════════
 THE FIVE RANK-8 CANDIDATES
@@ -29,11 +51,12 @@ THE FIVE RANK-8 CANDIDATES
 At rank 8 there are exactly five simple Lie algebras:
     A₈ = SU(9),  B₈ = SO(17),  C₈ = Sp(16),  D₈ = SO(16),  E₈
 
-For each, we enumerate all conformal sub-pairs (G, F) at level 1 where
-G and F are simple and the embedding saturates the central charge.  The
-conformal embedding condition c_coset = 0 fixes the decomposition
-uniquely (when it exists). The bridge marginality h_bridge = 1 and the
-mode count then serve as independent checks.
+For each, we enumerate all sub-pairs (G, F) of table entries at level
+1 whose central charges saturate the parent's (c_coset = 0).  That
+condition alone does not close the field (the scan finds a hundred
+such pairs); it is the conjunction of all six gates that closes on
+one embedding up to ordering, with gates (e) and (f) doing the
+decisive work (see above).
 
 ═══════════════════════════════════════════════════════════════════════
 WHY THESE GATES MATTER
@@ -48,7 +71,7 @@ c_coset = 0:  the coset between the parent and the sub-pair is
   the induced-gravity calculation.
 
 h_bridge = 1:  the bridge primary is exactly marginal on the worldsheet.
-  Its self-interference fraction 1/(2π) is layer-1 exact (c_coset = 0
+  Its self-interference fraction 1/(2π) is single-response exact (c_coset = 0
   kills higher loops), giving α(0) = (π/512)(1 − 1/(2π)) = 1/137.036...
   and Ω_DM/Ω_b = 2π − 1 ≈ 5.28.  Any h ≠ 1 breaks both predictions.
 
@@ -136,7 +159,7 @@ def _lie_data():
         algebras[name] = {
             'dim': dim_g, 'hv': hv, 'rank': n,
             'fund_dim': fund, 'C2_fund': C2_fund,
-            'centre_order': 4 if n % 2 == 1 else 4,  # |Z₂×Z₂| = 4 too
+            'centre_order': 4,  # Z₄ (n odd) or Z₂×Z₂ (n even): order 4 both
             'family': 'D'
         }
 
@@ -203,11 +226,16 @@ def derive():
 
     rank8 = {name: data for name, data in ALGEBRAS.items()
              if data['rank'] == 8}
+    # skip isomorphic duplicates so the pair count is over DISTINCT
+    # algebras: D3 ≅ A3, C2 ≅ B2 (both remain in the table for data
+    # completeness; only one representative each enters the scan)
+    _ISO_DUPES = {'D3', 'C2'}
     sub_candidates = {name: data for name, data in ALGEBRAS.items()
-                      if data['rank'] <= 8}
+                      if data['rank'] <= 8 and name not in _ISO_DUPES}
 
     results = {}
     survivors = []
+    near_misses = []     # pairs failing EXACTLY one gate
 
     for p_name, p_data in sorted(rank8.items(),
                                   key=lambda x: x[1]['dim']):
@@ -280,30 +308,53 @@ def derive():
                 results[key] = gates
                 if all_pass:
                     survivors.append(key)
+                elif sum(1 for v in gates.values() if not v) == 1:
+                    failed_gate = next(k for k, v in gates.items()
+                                       if not v)
+                    near_misses.append((key, failed_gate))
                 found = True
 
         if not found:
             print("    no conformal sub-pair with c_coset = 0 found")
 
-    # ── Verdict ──
+    # ── Verdict (computed from the scan, not asserted as literals) ──
     print(f"\n  {'─' * 70}")
-    print(f"  SURVIVORS (all four gates): {len(survivors)}")
+    print(f"  SURVIVORS (all six gates): {len(survivors)}")
     for s in survivors:
         print(f"    {s[0]} ⊃ {s[1]} × {s[2]}")
+    print(f"  NEAR-MISSES (fail exactly one gate): {len(near_misses)}")
+    for (p, g, f), failed in near_misses:
+        print(f"    {p} ⊃ {g} × {f}   fails only {failed}")
 
-    assert len(survivors) == 2, (
-        f"expected exactly 2 survivors (G₂×F₄ and F₄×G₂), "
-        f"got {len(survivors)}")
-    # The two survivors are the same embedding in both orderings
-    assert set(survivors[0][1:]) == set(survivors[1][1:])
+    # unordered survivor sets: the scan sees both orderings of a pair
+    unordered = {(p, frozenset((g, f))) for p, g, f in survivors}
+
+    assert len(unordered) == 1, (
+        f"expected exactly 1 embedding up to ordering, got "
+        f"{sorted(unordered)}")
+    parent, pair = next(iter(unordered))
+    survivor = (parent,) + tuple(sorted(pair, key=lambda n:
+                                        ALGEBRAS[n]['dim']))
+    # the one genuine near-miss: E7 × A1 passes (a)-(e), fails only
+    # the trivial-centre gate (f).  Surfaced and frozen: uniqueness
+    # is CONDITIONAL on the ontology gates, and this is the witness.
+    nm_keys = {(p, frozenset((g, f))): failed
+               for (p, g, f), failed in near_misses}
+    assert nm_keys.get(('E8', frozenset(('E7', 'A1')))) \
+        == '(f) trivial centres', (
+        "E8 > E7 x A1 must appear as the gate-(f) near-miss")
     print(f"  (both orderings of the same unique embedding)")
-    print(f"  UNIQUENESS ESTABLISHED: E₈(1) ⊃ G₂(1) × F₄(1)")
+    print(f"  UNIQUENESS ESTABLISHED: {parent}(1) ⊃ "
+          f"{survivor[1]}(1) × {survivor[2]}(1), conditional on the "
+          f"ontology gates (e), (f); near-miss table above")
 
     return {
         'n_rank8_tested': len(rank8),
         'n_pairs_tested': len(results),
-        'n_survivors': 1,  # unique up to ordering
-        'survivor': ('E8', 'G2', 'F4'),
+        'n_survivors': len(unordered),
+        'survivor': survivor,
+        'near_misses': [(p, g, f, failed)
+                        for (p, g, f), failed in near_misses],
     }
 
 

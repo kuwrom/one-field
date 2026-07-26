@@ -19,11 +19,11 @@ fixed nonvanishing norm. The substrate's relative spinor is a
 LINEAR C^2 field, not such a map, and does not protect it.
 Measured: tests/probes/knot_charge.py (ballistic Derrick collapse,
 unwinding through codim-4 amplitude-node events).  Protection is a
-property claimed of the confined phase (registry:
-DERIVATION_PROGRAMS #4).
+property claimed of the confined phase (the topological-protection
+derivation: effective_action.py, knot_charge.py, knot_spectrum.py).
 
-THE STATISTICS STEP (Witten 1983. Conditional as labeled in the
-registry's CLOSURE_RECORD and DERIVATION_PROGRAMS #4).  The honest
+THE STATISTICS STEP (Witten 1983, conditional on the topological-
+protection derivation).  The honest
 split: the WZ term's LEVEL is derived by counting the three Dirac
 species ('t Hooft anomaly matching, tests/probes/bookkeeping.py),
 and its PRESENCE is forced by the same matching GIVEN the confined
@@ -33,12 +33,14 @@ citation).  With the level-3 WZ term, a B = 1 texture acquires
 exchange phase e^{i pi k B} = e^{3 pi i} = -1: FERMION.  What is
 computed here: the texture EXISTS and carries unit charge.  The
 single open premise is the confined phase itself
-(SUBSTRATE_CONJECTURES #1).
+(the confined-phase entry test, confined_phase.py).
 
 Usage: python3 winding_texture.py   (~15 s)
 """
 
 import numpy as np
+import _bootstrap  # noqa: E402,F401
+
 
 
 def run(report=print):
@@ -95,7 +97,7 @@ def run(report=print):
     report("  Protection: holds for fixed-norm maps. The substrate's")
     report("  linear spinor is not one and does NOT protect it")
     report("  (knot_charge.py).  Protection is claimed of the confined")
-    report("  phase (DERIVATION_PROGRAMS #4).")
+    report("  phase (effective_action.py, knot_charge.py, knot_spectrum.py).")
     return B
 
 

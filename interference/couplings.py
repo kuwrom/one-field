@@ -4,9 +4,9 @@ Couplings: alpha_s(M_Z) + alpha(0) from (d₁₀, d₁₁, n₇, n₂₆, pi).
 alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
 
   1. UV value: α_G₂(M_Pl) = |Z₃|/(2π D²_tot) = 1/(24π)  (SU(3)₃ MTC,
-     executable in root.py).
+     generated in wiring.py and consumed by root.py).
 
-  2. EXACT WZW CANCELLATION down to μ*.  Layer-1 G₂ back-reaction with
+  2. EXACT WZW CANCELLATION down to μ*. The leading G₂ beta coefficient
      C_A = h∨(G₂) = 4 and three Dirac fermions in the 7 (T(7) = 1):
          b₀ = (11/3)·4 − (4/3)·3 = 32/3
      over the GAUGE lever arm 9π²/2 − 6 (the lepton action with the
@@ -25,7 +25,7 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
      is the algebraic coupling of the embedding layer, defined by the
      Singh division of the WZW identity, not a running coupling
      evaluated at 246.2 GeV.)
-     STATUS: a NON-PERTURBATIVE WZW IDENTITY.  The layer-2
+     STATUS: a NON-PERTURBATIVE WZW IDENTITY. The next beta coefficient
      coefficient b₁ = (34/3)C_A² − ((20/3)C_A + 4C₂(7))·T(7)·n_f
      = 232/3 > 0 would shift α_s(μ*) up ~14%, consistent with
      π/32 being an exact operator identity (Knizhnik-Zamolodchikov
@@ -37,21 +37,57 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
      half.  The 7 of G₂ is a real representation, consistent with
      exactly this non-chiral embedding.
 
-  3. DERIVED THRESHOLD at G₂ → SU(3) (Weinberg 1980 / Hall 1981 matching).
-     (Standard QFT calls this "threshold correction". Here the matching
-      scale M_V is derived. See below.)
+  3. G₂ → SU(3) matching (Weinberg 1980 / Hall 1981).
+     The breaking scale is the connector's per-mode reading of the
+     electroweak condensate.
      The coset G₂/SU(3) (dim 6) gives six massive vectors in 3 ⊕ 3̄:
          1/α_s(μ*) = 1/α_G₂(μ*) − λ₃/(12π),
          λ₃ = (C_{G₂} − C_{SU(3)}) − 21·T_V·ln(M_V/μ*),
      with C_{G₂} − C_{SU(3)} = 4 − 3 = 1 and T_V = T(3)+T(3̄) = 1.
-     M_V is DERIVED: the G₂-breaking scalar lives in the
-     7 → 3 ⊕ 3̄ ⊕ 1. The singlet takes the VEV v_break = v_EW/√2
-     (canonical complex-scalar normalisation. G₂→SU(3) breaking
-     identified with EWSB).  The Casimir sum rule
+     For a singlet VEV in 7 → 3 ⊕ 3̄ ⊕ 1, SU(3) symmetry makes the
+     six broken-vector masses equal. The Casimir sum rule gives
          Σ_a M_a² = g² v_break² C₂(7) = 2 g² v_break²
-     over six degenerate bosons gives
+     and therefore
          M_V = g_{G₂} v_EW/√6 = π v_EW/(2√12) ≈ 112 GeV,
-     where g_{G₂} = √(4πα_G₂) = π/(2√2).
+     with v_break² = E[v²]·v_EW²: the G₂-face condensate second
+     moment is the bridge per-mode reading of the electroweak one,
+     E[v²] = 1/2 the retained second moment, the same contraction as
+     ξ_bridge and δ_bridge.  The closed-world sector argument forces
+     that reading: every action in the chain carries a sector already
+     (S_lepton the lepton knot, S_quark the F₄ knot at v_EW, S_baryo
+     the G₂ face), the 7-scalar carries none, the (7,26) connector is
+     the unique route from the condensing channel to the G₂ face, the
+     normalized Schur trace over all 182 copies leaves no coefficient
+     free, and no vent fires above Λ_conf.  The two contractions of
+     that harmonic, per-mode 1/2 and total 1, are separated by 3σ in
+     α_s: 0.11839 (+0.43σ) against 0.11573 (−2.53σ)
+     (tests/probes/condensate_map.py).  Without this threshold the
+     running lands at −5.1%, and with it at +0.33%.
+     What the reading assumes: the lemmas reduce the freedom to the
+     two contractions of one harmonic, and per-mode closes by the
+     engine's uniform contraction grammar (every quadratic bridge
+     reading consumes E[v²]; no derived quantity consumes the total),
+     applied to a transported condensate with no independent
+     transport computation behind it.  Five atoms in the four-integer
+     grammar sit within 1σ of α_s at the PDG width (1/2, 4/9, 3/5,
+     2/3, 9/13), so α_s corroborates the structural chain rather than
+     establishing it; the neighbours separate by > 5σ at the ~0.03%
+     lattice width.  A lattice-class α_s away from 0.11839, or a
+     derivation of an independent 7-sector vacuum scale, kills it.
+     v7 is NOT the neutral component of a separate complex SM Higgs
+     doublet: the chain consumes v_EW in the real-canonical norm
+     (G_F = 1/(√2 v_EW²), A₀, y_t), the sum rule in that norm is
+     Σ M² = g²(3/4)v_EW² with M_W = g v_EW/2, identical in the real
+     and complex bookkeepings of one doublet, so a linear
+     identification transports v7 = v_EW and lands α_s at −2.5σ.
+     The 1/√2 is the connector's per-mode moment, not a doublet
+     convention.
+     STRONG CP, from the same embedding.  π₃(G₂) = Z, and the
+     G₂ → SU(3)_c embedding has index 1, so instanton number is
+     preserved across it.  E8(1) has a unique integrable vacuum
+     module, hence θ_G₂ = 0 and θ_QCD = 0 exactly.  No axion, no new
+     symmetry, nothing to relax.  A measured neutron EDM
+     attributable to θ_QCD ≠ 0 kills it.
      WHY THE COSET MODES DON'T APPEAR IN THE SPECTRUM: the D⁽⁶⁾
      boundary structure projects out the non-constant coset label
      before localisation, the off-diagonal nimrep fraction (2/3)
@@ -60,38 +96,51 @@ alpha_s (full chain, self-contained, quark paper Sec. alpha-s):
      M_V enters ONLY as a matching parameter (exactly like heavy
      states in GUT threshold back-reactions), not as a particle.
 
-  4. SM layer-2 QCD running μ* → M_Z with derived thresholds
+  4. SM QCD transport through beta order 2, μ* → M_Z, with the
+     condensate-map matching
      → α_s(M_Z) = 0.1184 (+0.33%, +0.43σ of PDG 0.1180(9)).
      Without the threshold, π/32 + SM running alone gives 0.1119
      (−5.1%): the derived 112 GeV matching is load-bearing.
+     THE 4/13 ABSENCE.  α_s(M_Z) = 0.1184 carries NO anomalous gauge
+     response: the G₂-absorbed share of the bridge self-echo is
+     invisible to gauge observables (no-self-dilution symmetry).
+     A measured 0.1177 or 0.1191, a ±(4/13)/(2π) shift, kills that.
+     The 4/13 back-reaction unit (0.0490) is nearly degenerate with
+     the matching-scale unit (32/3)(15/512)/(2π) = 0.0497, 1.4%
+     apart, so the scale is fixed first (μ* = M_Pl e^{−(9π²/2−6)})
+     and the response is tested on top.  Lattice α_s at ~0.03%
+     decides it, and decides the gravity face-split share with it.
 
 alpha(0):
-    Bridge self-interference, full depth-3 form.  1/alpha(0) is the
+    Bridge self-interference with its depth-4 recursive response.
+    1/alpha(0) is the
     real root of the cubic
         x³ = (2⁹/pi)[(1 − 1/(2pi)) x² − 1/(2pi²)]
            = 137.035999050
-    (depth-1 self-echo 1/(2pi) + the FORCED depth-3 e↔q two-orientation
-    cycle, solved self-consistently in root.py).  Comparison, stated
+    (depth-1 self-echo 1/(2pi) + the FORCED depth-4 reading of the
+    depth-3 e↔q carrier, solved self-consistently in root.py).
+    Comparison, stated
     completely: Berkeley Cs 137.035999046(27) → +0.13σ. LKB Rb
     137.035999206(11) → −14σ. The two experiments disagree with each
-    other by 5.5σ, and the framework's registered commitment is to
-    Cs, with the Rb outcome as a registered kill condition.  The
+    other by 5.5σ.  The commitment is to the cesium side, and it is
+    FINAL in the EM channel: no additional independent edge exists.
+    The Cs/Rb discrepancy resolving on the Rb side kills it; a
+    next-generation recoil measurement decides.  The
     depth-1 TRUNCATION alone,
         (2⁹/pi)(1 − 1/(2pi)) = 2⁸(2pi−1)/pi² = 137.036439,
     is an intermediate identity, not the prediction.
 
-Two readings, one coupling.  alpha_em = pi/2⁹ and alpha(0) = pi²/(2⁸(2pi-1))
-are not "bare alpha and dressed alpha."  They are the SAME coupling's
-back-reaction through the bridge sector, read at
-two emergence layers of the conformal embedding:
+Two coordinates, one coupling. alpha_em = pi/2⁹ and
+alpha(0) = pi²/(2⁸(2pi-1)) are the same coupling read through the
+bridge response:
 
   * alpha_em = pi/2⁹              at the conformal-embedding (Planck) scale.
                                   Used inside the instanton vertex.
-  * alpha(0) = pi²/(2⁸(2pi-1))    at the IR pole-mass scale.
+  * alpha(0) = pi²/(2⁸(2pi-1))    at zero momentum (Thomson coordinate).
                                   Used in the lepton vertex factor.
 
 The relation between them is NOT a perturbative running approximation.
-It is a layer-1 identity of the (7,26) bridge sector, fixed by three
+It is a single bridge-response identity, fixed by three
 independent rational identities in the four integers:
 
     (A) h_bridge = h(n₇,G₂) + h(n₂₆,F₄) = 2/5 + 3/5 = 1     [MARGINAL]
@@ -99,13 +148,14 @@ independent rational identities in the four integers:
     (C) c_coset  = c(E₈) − c(G₂) − c(F₄) = 0                 [TOPOLOGICAL]
 
 The worldsheet integral of a marginal (h=1) primary with unit coupling
-gives the universal h/(2pi) = 1/(2pi). c_coset = 0 forbids higher-layer
-back-reactions.  The reading is layer-1 exact.
+gives the universal h/(2pi) = 1/(2pi). c_coset = 0 forbids additional
+self-response terms in this integral.
 
 Same bridge, two observables.  gravity.py reads the same (7,26) sector
 as 182 scalar-like heat-kernel channels with non-minimal coupling
-ξ_bridge = α_G₂·E[v²]·h_bridge = 1/(48π) and derives Newton's constant.
-The conformal weight h_bridge = 1 sets BOTH the QED layer-1 fraction
+ξ_bridge = α_G₂·E[v²]·h_bridge = 1/(48π); the Newton normalisation
+is an internal closure (gravity.py, sakharov_normalisation.py).
+The conformal weight h_bridge = 1 sets BOTH the QED depth-1 fraction
 1/(2π) and the gravitational coupling 1/(48π).  EM renormalisation and
 induced gravity are two readings through one bridge.
 
@@ -121,12 +171,12 @@ Reference:
 """
 
 import math
+import wiring
 
-from root import (d10, d11, n7, n26, h10, h11, K,
-                  C2_26, hv_G2, hv_F4,
-                  h_7, h_26, h_bridge,
-                  alpha_G2_WZW, alpha_G2_Pl, alpha_phys, inv_alpha_phys,
-                  M_Pl_GeV, S_lepton, N_bridge, xi_bridge, E_v2, pct)
+from root import (d10, d11, n7, n26, h11, E_v2,
+                  C2_7, C2_26, h_7, h_26, h_bridge,
+                  alpha_phys, inv_alpha_phys,
+                  M_Pl_GeV, S_lepton)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -142,13 +192,13 @@ def _rk4_run(beta_func, a0, t0, t1, n_steps=10000):
 
 
 def _b0(nf):
-    """Layer-1 QCD beta coefficient, derived from SU(d₁₁) Casimirs."""
+    """Leading QCD beta coefficient, derived from SU(d₁₁) Casimirs."""
     C_A = d11
     return (11 * C_A - 2*nf) / (6*math.pi)
 
 
 def _b1(nf):
-    """Layer-2 QCD beta coefficient, derived from SU(d₁₁) Casimirs.
+    """Next QCD beta coefficient, derived from SU(d₁₁) Casimirs.
 
       b₁ = (34·C_A² − (10·C_A + 6·C_F)·nf) / (24π²)
          = (153 − 19·nf) / (12π²)     for SU(3)
@@ -161,7 +211,7 @@ def _b1(nf):
 
 
 def _run_SM_2loop(a0, mu0, mu1, nf):
-    """Layer-2 SM QCD running in d/d(ln mu) convention.
+    """SM QCD transport through beta order 2 in d/d(ln mu).
 
     nf = d₁₀ × d₁₁ = 6 active flavours (2 types × 3 gen).
     """
@@ -188,13 +238,17 @@ def _derive_bridge():
          The (7,26) bi-fundamental forms a Lagrangian algebra in E₈(1).
          The local quantum dimension is d_A = 1 + φ² = 2 + φ (golden ratio),
          giving D²_local = d_A²/d_A² = 1.
-         This means the bridge self-coupling g² = D²_local = 1 (unit strength).
+         STATUS: as coded this is x²/x² ≡ 1 for any x, a definition,
+         not a derivation; the CFT claim (condensation has trivial
+         local dimension) is cited, not computed here (see the NOTE at
+         the code line).  Anywhere D²_local = 1 is quoted downstream,
+         it carries this status.
 
     3. Coset central charge:
          c_coset = c(E₈) − c(G₂) − c(F₄) = 8 − 14/5 − 26/5 = 0
          Vanishing c_coset makes the bridge sector TOPOLOGICAL:
-         no propagating degrees of freedom → layer-1 exact (no higher
-         back-reaction layers in the self-interference integral).
+         no propagating degrees of freedom → the single bridge
+         self-response is exact in this integral.
 
     4. Self-interference integral:
          A marginal primary (h=1) with unit coupling (g²=1) on a genus-0
@@ -206,27 +260,31 @@ def _derive_bridge():
     5. Assembly (depth 1, the truncation):
          1/α_alg = 2⁹/π = 512/π  (emergence value, from Singh ratio)
          (512/π)(1 − 1/(2π)) = 2⁸(2π−1)/π² = 137.036439
-       The canonical 1/α(0) adds the FORCED depth-3 cycle and is the
+       The canonical 1/α(0) adds the FORCED depth-4 recursive response
+       and is the
        cubic root 137.035999050 (steps continue below).
     """
     # Lagrangian algebra condensation → D²_local = 1
     phi = (1.0 + math.sqrt(5.0)) / 2.0
     d_A = 1.0 + phi**2                    # = 2 + phi (Lagrangian algebra dim)
+    # NOTE: as coded the next line is x²/x² = 1
+    # for ANY x; the CFT claim (Lagrangian-algebra condensation has
+    # trivial local dimension) is cited, not computed here.
     D2_local = (1.0 + phi**2)**2 / d_A**2  # = 1 (unit self-coupling)
 
     g2 = D2_local                          # bridge coupling² = 1
     h = float(h_bridge)                    # = 1 (marginal)
-    delta_inv = g2 * h / (2.0 * math.pi)  # = 1/(2π) (layer-1 exact, c_coset=0)
+    delta_inv = g2 * wiring.normalized_current_response(h)
     inv_alpha_alg = 2**9 / math.pi         # = 512/π (emergence value)
 
-    # Depth-3 echo: the mutual electron↔quark loop through the EM channel.
+    # Depth-4 response: the depth-3 electron↔quark carrier read back
+    # through the EM channel.
     # ORIENTATION RULE: a closed echo cycle contributes once per
     # orientation (precedent: the published B = 2ρ factor from the
     # Hermitian pair S, S†, two orientations of one Z₃ cycle).  The
     # e↔q loop is a 2-cycle → multiplicity exactly 2.  The coupling
-    # inside the loop is the physical α itself (phase of phase of
-    # phase): self-consistent fixed point, depth 3 = the last layer the
-    # Cayley-Dickson ledger can track (Hurwitz).
+    # inside the loop is the physical α itself: the recursive fixed
+    # point, not a fourth Cayley-Dickson algebra.
     #     1/α = (512/π)(1 − 1/(2π) − 2(α/2π)²)
     # equivalently the real root of
     #     x³ = (512/π)[(1 − 1/(2π))x² − 1/(2π²)]
@@ -275,8 +333,6 @@ def derive(R, masses):
 
     v_EW = masses['v_EW_pred_GeV']
     m_t_GeV = masses['m_t'] / 1e3
-    m_b_GeV = masses['m_b'] / 1e3
-    m_c_GeV = masses['m_c'] / 1e3
     # ─── PDG COMPARISON VALUES ───
     # M_Z is the PDG conventional scale at which alpha_s is quoted.
     # We evaluate alpha_s at this scale to compare with PDG's measurement.
@@ -295,9 +351,11 @@ def derive(R, masses):
     # running starts there.
     alpha_s_mu_star = math.pi / 2**5   # pi/32, exact at mu*
     mu_star = M_Pl_GeV * math.exp(-(S_lepton - float(C2_26)))
-    # consistency: ln(mu*/v_EW) = 15/512 − 16(α/2π)², the EM physics
-    # below mu* (depth-1 vertex echo minus the depth-3 e↔q vent), the
-    # exact complement of the gauge lever arm in the S_quark ledger.
+    # IDENTITY BY CONSTRUCTION (not a consistency check): S_quark is
+    # DEFINED in root.py as S_lepton − C₂(26) + 15/512 − 16(α/2π)²
+    # and μ* as M_Pl·e^{−(S_lepton−C₂(26))}, so ln(μ*/v_EW) equals
+    # the EM terms identically; this assert catches a transcription
+    # drift between the two files, never a physics failure.
     em_below = 15.0/512.0 - 16.0*(alpha_phys/(2.0*math.pi))**2
     assert abs(math.log(mu_star / v_EW) - em_below) < 1e-9
 
@@ -318,23 +376,30 @@ def derive(R, masses):
     alpha_MZ_no_th = _run_SM_2loop(a_no_th_mt, m_t_GeV, M_Z_PDG, n_f - 1)
     err_no_th = 100 * (alpha_MZ_no_th - alpha_s_PDG) / alpha_s_PDG
 
-    print(f"\n  SM layer-2 running (no threshold):")
+    print(f"\n  SM QCD transport through beta order 2 (no matching):")
     print(f"    alpha_s(M_Z) = {alpha_MZ_no_th:.4f}  ({err_no_th:+.1f}%)")
 
     # ── G₂ -> SU(3) threshold (matched at μ*) ──
     g_G2 = math.sqrt(4.0 * math.pi * alpha_s_mu_star)  # = pi/(2*sqrt(2))
-    # M_V = g_G₂ × v_EW / √C₂(26),  C₂(26) = d₁₀d₁₁ = 6.
-    # M_V is tied to the PHYSICAL EWSB scale v_EW (the coset vectors
-    # take their mass from the breaking VEV), while the Weinberg-Hall
-    # log is referenced to the matching scale μ*.
-    M_V = g_G2 * v_EW / math.sqrt(float(C2_26))        # = pi*v_EW/(2*sqrt(12))
+    # Six equal broken-vector masses exhaust the 7's Casimir sum.
+    # v_break² = E[v²]·v_EW²: the bridge per-mode reading of the
+    # electroweak condensate second moment (E[v²] = 1/2, single source
+    # root.E_v2, the same contraction as ξ_bridge and δ_bridge).  The
+    # closed-world sector argument forces it: see the module header.
+    n_broken = 2 * n7 - (d11**2 - 1)       # dim G2 - dim SU3 = 6
+    v_break = v_EW * math.sqrt(float(E_v2))
+    M_V = g_G2 * v_break * math.sqrt(float(C2_7) / n_broken)
+    assert n_broken == 6 and C2_7 == 2
 
-    # Dictionary forms (were bare floats): T_V = T(3)+T(3̄) = 2h₁₁ = 1.
+    # Dictionary forms: T_V = T(3)+T(3̄) = 2h₁₁ = 1.
     # C_diff = C_A(G₂) − C_A(SU3) = d₁₀² − d₁₁ = 1.
     T_V = 2.0 * float(h11)                 # Dynkin index of coset vectors
     C_diff = float(d10**2 - d11)           # matching constant
     assert T_V == 1.0 and C_diff == 1.0
-    # 21 = d₁₁ × n₇ = 3 × 7: coset coefficient for G₂ → SU(d₁₁) threshold
+    # 21: the standard Weinberg-Hall gauge-boson threshold coefficient,
+    # written in dictionary form d₁₁ × n₇ = 3 × 7; a relabelling of a
+    # known QFT constant, not a derivation (same for the 12π loop
+    # normalisation below).
     lambda_3 = C_diff - float(d11 * n7) * T_V * math.log(M_V / mu_star)
 
     inv_as_G2_mu_star = 1.0 / alpha_s_mu_star          # 32/pi
@@ -347,7 +412,8 @@ def derive(R, masses):
 
     print(f"\n  G₂ -> SU(3) threshold (matched at mu*):")
     print(f"    g_G₂ = pi/(2sqrt(2)) = {g_G2:.6f}")
-    print(f"    M_V = g*v_EW/sqrt(6) = {M_V:.3f} GeV  (derived, 0 params)")
+    print(f"    M_V = g*v_EW/sqrt(6) = {M_V:.3f} GeV  "
+          "(v_break² = E[v²]·v_EW², per-mode bridge reading)")
     print(f"    lambda_3 = 1 - 21·ln(M_V/mu*) = {lambda_3:.6f}")
     print(f"    alpha_s(mu*) after threshold = {a_thresh:.6f}")
     print(f"    alpha_s(M_Z) [+threshold] = {alpha_MZ_thresh:.4f}  ({err_thresh:+.2f}%)")
@@ -370,9 +436,10 @@ def derive(R, masses):
     print(f"\n  Bridge self-interference -> alpha(0):")
     print(f"    h_bridge = h({n7},G₂) + h({n26},F₄) = {float(h_7)} + {float(h_26)} = {float(h_bridge)}")
     print(f"    D²_local = {bridge['D2_local']:.1f}  (Lagrangian condensation)")
-    print(f"    c_coset = {bridge['c_coset']:.0f}  (topological -> layer-1 exact)")
+    print(f"    c_coset = {bridge['c_coset']:.0f}  (topological -> single-response exact)")
     print(f"    depth 1: 1/alpha = (2⁹/pi)(1 - 1/(2pi)) = 137.036439")
-    print(f"    depth 3: e↔q loop, 2 orientations (S,S† rule), self-consistent:")
+    print(f"    depth 4: recursive e↔q response, 2 orientations "
+          "(S,S† rule), self-consistent:")
     print(f"    1/alpha(0) = (2⁹/pi)(1 - 1/(2pi) - 2(alpha/2pi)²)")
     print(f"               = {bridge['inv_alpha_phys']:.9f}")
     print(f"    Berkeley Cs (2018):  137.035999046(27)   "
@@ -388,9 +455,10 @@ def derive(R, masses):
         'mu_star_GeV': mu_star,
         'alpha_s_mu_star': alpha_s_mu_star,
         'alpha_s_mu_star_threshold': a_thresh,
+        'alpha_s_mt': a_mt_th,
         'alpha_s_MZ_no_thresh': alpha_MZ_no_th,
         'alpha_s_MZ_thresh': alpha_MZ_thresh,
-        'M_V_derived': M_V,
+        'M_V_GeV': M_V,
         'lambda_3': lambda_3,
         'err_no_thresh': err_no_th,
         'err_thresh': err_thresh,

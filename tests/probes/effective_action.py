@@ -1,14 +1,15 @@
 """
 effective_action.py: the texture-stabilizing term, derived
-(DERIVATION_PROGRAMS #4, branch (i), closed constructively).
+(the topological-protection derivation, branch (i), closed
+constructively).
 
-THE QUESTION.  knot_charge.py measured that the bare Z3-NLS does not
+SCOPE. knot_charge.py measured that the substrate-only Z3-NLS does not
 protect pi_3 winding: textures Derrick-collapse and unwind through
-codim-4 amplitude-node events.  DP #4 demanded that the confined
-sector's effective action contain a texture-stabilizing term (Skyrme
-quartic or equivalent), or the chain breaks.  This probe exhibits
-that term CONSTRUCTIVELY, from the repo's own energy functional,
-with every step executable.
+codim-4 amplitude-node events.  DP #4 requires the confined
+sector's effective action to contain a texture-stabilizing term
+(Skyrme quartic or equivalent), or the chain breaks.  This probe
+exhibits that term CONSTRUCTIVELY, from the repo's own energy
+functional, with every step executable.
 
 THE CONSTRUCTION (three exact steps, each verified below):
 
@@ -27,7 +28,7 @@ THE CONSTRUCTION (three exact steps, each verified below):
      A texture cannot exist without circulating current.
 
   3. INDUCED QUARTIC.  In the saturated regime the charged sector is
-     GAPPED (measured: omega_gap = 2.749 = 0.74 mu, the ring-down
+     GAPPED (measured: omega_gap = 1.178 = 0.27 mu, the ring-down
      tower of knot_spectrum.py. At Gaussian order the classical
      linear response IS the quantum quasiparticle spectrum).
      Eliminating the gapped current at fixed Mermin-Ho curl gives the
@@ -39,24 +40,25 @@ THE CONSTRUCTION (three exact steps, each verified below):
          E(R) = (rho/8) I2 R + [rho/(8 m^2)] I4 / R,
      with I2, I4 the profile integrals of the unit hedgehog (computed
      below by quadrature): a MINIMUM at R* = sqrt(I4/I2)/m.  Measured
-     numbers: I4/I2 = 2.31, R* m = 1.52 > 1 (the local limit is
-     self-consistent at its own minimum), and R* = 1.06 healing
-     lengths: the stabilized texture is the core-scale knot.
+     numbers: I4/I2 = 1.98, R* m = 1.41 > 1 (the local limit is
+     self-consistent at its own minimum), and R* = 2.51 healing
+     lengths: the stabilized texture is a few healing lengths wide.
 
-WHAT THIS CLOSES AND WHAT REMAINS.  Branch (i) of DP #4 is closed:
+WHAT THIS CLOSES AND WHAT REMAINS.  Branch (i) of the topological-
+protection derivation is closed:
 the effective action of the FIXED-NORM sector contains the
 stabilizing term, with a derived coefficient and a self-consistent
-scale.  The bare field evades it exactly as measured: the amplitude
+scale. The substrate-only field evades it exactly as measured: the amplitude
 is classically soft, and node events (amplitude through zero) exit
 the fixed-norm manifold. That is the one channel the quartic cannot
-see.  So the entire protection question now rests on a single
+see.  Protection therefore rests on a single
 premise: the amplitude/node channel is suppressed in the saturated
 quantum regime.  At Gaussian order it is (the measured gap). Beyond
 Gaussian order a node event is a finite-action excursion, suppressed
 as exp(-c rho xi^3), and the diluteness parameter rho xi^3 is a
 substrate-depth parameter the web does not fix.  That premise is
-SUBSTRATE_CONJECTURES #1, now sharpened to one quantitative
-condition (see registry).
+the confined-phase entry test (confined_phase.py), now sharpened
+to one quantitative condition.
 
 Corroboration: Babaev-Faddeev-Niemi (PRB 65, 100512, 2002) derive
 the same induced Faddeev-Skyrme term for two-component condensates.
@@ -72,11 +74,16 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _bootstrap  # noqa: E402,F401
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from substrate3d import g0, g1, rel_modes, rho0, texture_state  # noqa: E402
 
-M_GAP = 2.749          # measured: knot_spectrum.py registered outcome
-MU = (3 * g0 + g1) * rho0
+# Scales of the hermitian equation.  The non-variational variant
+# gives gap 2.749 = 0.74 mu with mu = (3g0+g1)rho0 (retired);
+# knot_spectrum's outcome on the hermitian equation is
+# omega_gap = 1.178 and mu = (3g0+2g1)rho0.
+M_GAP = 1.178          # measured: knot_spectrum.py outcome
+MU = (3 * g0 + 2 * g1) * rho0
 XI = 1.0 / np.sqrt(MU)   # healing length of the condensate
 
 
@@ -169,21 +176,26 @@ def run(report=print):
         "the induced quartic must produce a Derrick minimum"
     assert Rstar * M_GAP > 1.0, \
         "the local (Faddeev-Skyrme) limit must hold at its own minimum"
-    assert 0.5 < Rstar / XI < 2.0, \
-        "the stabilized texture must sit at the core (healing) scale"
+    # Frozen at the hermitian equation's scales: the texture
+    # stabilizes at 2.51 healing lengths (the non-variational
+    # variant's larger gap gives 0.99), and the local limit holds
+    # (R* m = 1.41).
+    assert 2.0 < Rstar / XI < 3.0, \
+        "the stabilized texture must sit within a few healing lengths"
 
     report("-" * 70)
-    report("  CLOSED (branch i of DERIVATION_PROGRAMS #4): the fixed-")
+    report("  CLOSED (branch i of the topological-protection derivation): the fixed-")
     report("  norm sector's effective action contains the induced")
     report("  Faddeev-Skyrme quartic, coefficient rho/(8 m^2), with a")
-    report("  self-consistent stabilized scale at the healing length.")
+    report("  self-consistent stabilized scale a few healing lengths")
+    report("  wide (2.5 xi at the measured gap).")
     report("  The one channel it cannot see is the amplitude node")
     report("  (exit from the fixed-norm manifold), which is the")
     report("  measured unwinding mechanism.  Protection therefore")
     report("  rests on a single premise: the node channel is gapped")
     report("  in the saturated quantum regime (Gaussian order:")
     report("  measured. Beyond: exp(-c rho xi^3) suppression).")
-    report("  That premise IS SUBSTRATE_CONJECTURES #1, sharpened.")
+    report("  That premise IS the confined-phase entry test, sharpened.")
     return dict(err=(e32, e48), mermin_ho=(mh32, mh48),
                 I2=I2, I4=I4, R_star=Rstar, R_star_m=Rstar * M_GAP,
                 R_star_xi=Rstar / XI)

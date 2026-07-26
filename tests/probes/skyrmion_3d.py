@@ -27,12 +27,15 @@ FOUR MEASUREMENTS, each frozen in CI (values from the 48^3 run):
      dispersal metric.)
 
   2. BdG GROWTH MATCH.  The e-folding rate of the relative rms in
-     the growth window t in [3, 8] is 0.28 = 0.80 sigma, against the
-     Bogoliubov instability rate sigma = g1 rho0 / 2 = 0.354
-     (nls_soliton._bdg_analysis: lam1 = -g1 rho0 / 2).  Below sigma
-     and within a factor ~2, as a band-limited seed must be: the
-     formation mechanism is the computed BdG instability, not an
-     artifact.
+     the growth window t in [3, 8] is 0.432 = 0.61 sigma, against the
+     Bogoliubov instability rate sigma = |b_1| = g1 rho0 = 0.707
+     (nls_soliton._bdg_analysis).  Below sigma and within a factor
+     ~2, as a band-limited seed must be: the formation mechanism is
+     the computed BdG instability, not an artifact.
+     (Under the non-hermitian A = B variant these read 0.28 =
+     0.80 sigma against sigma = g1 rho0 / 2 = 0.354; both the rate
+     and the reference differ by a factor 2 and the match holds
+     either way.)
 
   3. THE SHADOW.  The common (q = 0) mode dips at the core while the
      knot grows (common_min 1.000 -> 0.956): the gravitational
@@ -41,9 +44,17 @@ FOUR MEASUREMENTS, each frozen in CI (values from the 48^3 run):
   4. THE CHARGE RIDES ALONG, THEN DOES ITS OWN THING.  The seed
      carries the pi_3 winding (B = -0.77 at 48^3. The estimator
      under-reads on coarse grids, knot_charge.py part 1). B is
-     tracked through formation and simply REPORTED: it wanders to
-     ~0 while the density knot grows, the charge non-protection that
-     knot_charge.py registers.  Not re-asserted here.
+     tracked through formation and simply REPORTED, not asserted.
+     It does NOT wander to ~0: it grows in
+     magnitude to about -3.5 by t = 12 while the density knot grows,
+     alongside a much deeper common-mode dip (min 1.000 -> 0.226).
+     A scalar-phase substep gives "wanders to ~0" instead, but that
+     substep is not the gradient of any functional.  This is
+     the same defect-proliferation the disorder operator sees at
+     saturation (confined_phase.py),
+     and it does not contradict the charge non-protection that
+     knot_charge.py measures -- that is about the winding failing to
+     be conserved, not about it staying small.
 
 Usage: python3 skyrmion_3d.py     (~70 s at 48^3, mark slow)
 """
@@ -54,12 +65,18 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _bootstrap  # noqa: E402,F401
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # the shared 3D machinery (one copy: substrate3d.py)
 from substrate3d import (DT, evolve, g0, g1, grid, omega,  # noqa: E402
                          rel_modes, rho0)
 
-SIGMA_BDG = g1 * rho0 / 2.0        # max MI growth rate = |lam1|
+# Max modulational growth rate.  The BdG has
+# A != B and omega^2 = (eps + a_q)^2 - b_q^2, whose minimum over p is
+# -b_1^2, so the maximum growth rate is |b_1| = g1*rho0.  (g1*rho0/2
+# is the A = B special case, which the exchange terms exclude.)
+# The instability is band-limited: p^2 in (3*g1*rho0, 7*g1*rho0).
+SIGMA_BDG = g1 * rho0              # max MI growth rate = |b_1|
 
 
 def build_seed(N, L, eps=0.3, tex_scale=1.5, env_scale=8.0):
@@ -151,7 +168,7 @@ def run(report=print, N=48, L=24.0):
     report("=" * 70)
     report(f"  grid {N}^3, box +/-{L/2}, dt = {DT}. g0 = {g0}, "
            f"g1 = g0/sqrt(2) = {g1:.4f}")
-    report(f"  BdG: max MI growth rate sigma = g1 rho0/2 = "
+    report(f"  BdG: max MI growth rate sigma = g1 rho0 = "
            f"{SIGMA_BDG:.4f}")
 
     marks_true = [0, 1.5, 3, 4.5, 6, 8, 10, 12]
@@ -175,16 +192,16 @@ def run(report=print, N=48, L=24.0):
            f"{tr[-1]['cmin']:.4f}")
     report(f"  charge: B {tr[0]['B']:+.3f} (seed) -> "
            f"{tr[-1]['B']:+.3f} at t=12. The charge is not protected")
-    report("  (registered mechanism: knot_charge.py)")
+    report("  (measured mechanism: knot_charge.py)")
 
-    # ── frozen assertions (measured 2026-07 at 48^3) ─────────────────
+    # ── frozen assertions (measured at 48^3) ─────────────────────────
     # 1. formation vs control: growth needs the coupling
     assert growth > 5.0, "true coupling must grow the knot (rms)"
     assert ctrl_rms < 1.5, "g1 = 0 has no growth channel (rms flat)"
     assert decay < 0.05, "g1 = 0 seed must disperse (peak collapse)"
     # 2. BdG growth match: below sigma (band-limited seed) and within
     #    a factor ~2 of it (the mechanism IS the computed instability.
-    #    measured 0.28 = 0.80 sigma)
+    #    measured 0.432 = 0.61 sigma)
     assert 0.5 * SIGMA_BDG < sig_meas <= 1.1 * SIGMA_BDG, \
         f"growth {sig_meas:.3f} inconsistent with BdG sigma {SIGMA_BDG:.3f}"
     # 3. The shadow deepens as the knot forms (measured 0.956)

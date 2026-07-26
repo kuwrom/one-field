@@ -37,9 +37,10 @@ THE TWO READINGS, computed below:
 The framework's own documents carry the non-realist reading's
 ingredients: "the emergent state is the LEDGER, not the displacement"
 (octonions.py), and the Born rule reads |amplitude|^2 because PvP = 0
-erases linear entries and Pv^2P = (1/2)P retains second moments.
+erases linear entries and the second moments are retained (per-mode
+E[v^2] = 1/2, total Pv^2P = P).
 
-REGISTERED (structural, zero parameters):
+STRUCTURAL, zero parameters:
   1. CHSH at EXACTLY the Tsirelson bound, at every distance, for
      every knot species.  Any confirmed S > 2*sqrt(2) kills the
      framework (as it would kill QM). Any confirmed sub-quantum cap
@@ -57,6 +58,8 @@ import itertools
 import math
 
 import numpy as np
+import _bootstrap  # noqa: E402,F401
+
 
 
 # ── Reading A: local beables (any local response strategy) ──────────

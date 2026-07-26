@@ -1,10 +1,10 @@
 """
-KNOT CHARGE: does the substrate protect pi_3 winding? (measured answer: no)
+KNOT CHARGE: the substrate does not protect pi_3 winding (measured).
 
 The winding_texture probe shows the 3D texture carries unit pi_3 charge as a
-STATIC object. This probe asks the dynamical question: does a knot in the
-Z3-coupled substrate KEEP that charge? The answer is a clean negative, with
-the mechanism identified, and it sharpens where protection must come from.
+STATIC object. This probe measures the dynamics: a knot in the Z3-coupled
+substrate does NOT keep that charge. A clean negative, with the mechanism
+identified, sharpening where protection must come from.
 
 Three facts, each asserted below:
 
@@ -27,13 +27,13 @@ Three facts, each asserted below:
    Skyrme-type quartic term. The stable attractor is a NODELESS, B = 0
    density lump: the substrate soliton is Q-ball-like, not topological.
 
-Consequence for the emergence tree: unit winding is NOT a substrate-level
+Consequence for the derivation graph: unit winding is NOT a substrate-level
 invariant. Its creation and protection are obligations of the confined-phase
 effective theory, exactly where the level-3 WZ structure already lives
 (winding_texture.py). The derivation program this opens: show that the
 confined sector's effective action contains a texture-stabilizing term
 (Skyrme quartic or equivalent), or that the protected object is the
-effective SU(3) field rather than the bare relative spinor. Until then,
+effective SU(3) field rather than the substrate-only relative spinor. Until then,
 statements of the form "3D protects absolutely" hold for maps of fixed
 nonvanishing norm, not for the substrate's linear field.
 
@@ -49,7 +49,7 @@ nonvanishing norm, not for the substrate's linear field.
    [0.5, 4], amplitude in [0.4, 1.0]) confirms: unwinding time stays in a
    flat ballistic band, and the strongest-rotation candidate dies fastest.
 
-Runtime: ~3.5 minutes (64^3 short run + two static grids + 32^3
+Runtime: ~9 min single-core (64^3 short run + two static grids + 32^3
 commutation test). Mark slow.
 """
 import os
@@ -58,6 +58,7 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _bootstrap  # noqa: E402,F401
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # the shared 3D machinery (one copy: substrate3d.py)
 from substrate3d import (DT, evolve, omega, rel_modes,  # noqa: E402
@@ -131,7 +132,13 @@ def main():
     print(f"  saturated knot R={size}: B(0) = {B0:+.3f}, "
           f"min|phi|_core = {m0:.3f}")
     min_node, B_hist = m0, []
-    for chunk in range(6):  # t = 0 -> 3 in steps of 0.5
+    # t = 0 -> 5 in steps of 0.5.  The exchange terms make the
+    # unwinding timescale long (the charge swings hard, past B = -1,
+    # before the node event drains it), so the conclusion needs the
+    # full window.  Measured: B reaches -0.13 and
+    # min|phi| reaches 0.012 by t ~ 5, both criteria satisfied.  The
+    # verdict is unchanged: pi_3 winding is NOT protected.
+    for chunk in range(10):
         psi, deepest = evolve_nodes(psi, K2, R, int(0.5 / DT))
         p1, p2 = rel_modes(psi)
         B = charge(p1, p2, dx, R)
@@ -168,7 +175,7 @@ def main():
     print("  codim-4 amplitude-node events. tau ~ R/c_s (ballistic, no")
     print("  barrier). The stable attractor is a nodeless B = 0 lump.")
     print("  Protection is an obligation of the confined-phase effective")
-    print("  theory (level-3 WZ sector), not of the bare Z3-NLS. The")
+    print("  theory (level-3 WZ sector), not of the substrate-only Z3-NLS. The")
     print("  rotation loophole is closed: the spinor's U(2) is broken to")
     print("  the global U(1), whose charge is condensate-dominated.")
 

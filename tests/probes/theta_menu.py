@@ -24,10 +24,15 @@ Usage: python3 theta_menu.py
 """
 
 import math
+import _bootstrap  # noqa: E402,F401
 
-BA = math.sqrt(2.0)
-PDG_MU_E = 206.7683
-PDG_TAU_E = 3477.23
+
+from root import PDG_MASSES, BA_ratio
+
+BA = float(BA_ratio)               # √2, single-sourced from root
+# mass ratios from the single reference home
+PDG_MU_E = PDG_MASSES["mu"] / PDG_MASSES["e"]
+PDG_TAU_E = PDG_MASSES["tau"] / PDG_MASSES["e"]
 WIND = {"e": 1, "mu": 2, "tau": 0}
 
 

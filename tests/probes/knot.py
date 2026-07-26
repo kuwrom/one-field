@@ -1,7 +1,7 @@
 """
 knot.py: does matter FORM in the true substrate?
 
-Uses the upstream equation exactly (interference/nls_soliton.py):
+Uses the upstream equation exactly (tests/substrate/nls_soliton.py):
 
     i dpsi_k/dt = -1/2 psi_k'' + [g0*rho_total
                    + g1*Re(conj(psi_{k+1}) psi_{k+2})] psi_k
@@ -32,6 +32,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..", "..", "interference")))
+import _bootstrap  # noqa: E402,F401
 from nls_soliton import _split_step, _z3_fourier, G1_OVER_G0
 
 

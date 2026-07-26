@@ -2,11 +2,11 @@
 confined_phase.py: the layer-bridge test (substrate-conjecture ledger
 entry #1. Derivation program D6 of the gaps audit).
 
-THE QUESTION.  The web's statistics/chirality chain routes through a
+SCOPE.  The web's statistics/chirality chain routes through a
 CONFINED TOPOLOGICAL PHASE of the substrate (unbroken Z3 centre): the
 WZ citation, winding quantization, and the substrate-web bridge all
-presuppose it, and knot_charge.py showed the BARE substrate protects
-nothing: protection must live in the confined phase if it lives
+presuppose it, and knot_charge.py showed the substrate-only theory protects
+nothing: protection lives in the confined phase if it lives
 anywhere.  This probe defines an executable order parameter and
 measures it in the saturated-knot regime.
 
@@ -31,19 +31,48 @@ winding count around the ring). t = 2 (mid-collapse, node-event
 epoch). t = 8 (the saturated B = 0 endpoint). And a g1 = 0 control
 at t = 8.
 
-WHAT THIS PROBE IS AND IS NOT.  It is the entry test made executable:
-a defined order parameter, measured exactly, with a positive control
-and a coupling control, frozen in CI.  It is NOT a demonstration of
-topological order (gap + degeneracy need the quantum spectrum on
-distinct backgrounds, the remaining obligation of
-SUBSTRATE_CONJECTURES #1).  The measured answer recorded below: the
-classical endpoint is DEFECT-FREE (rho_v = 0: perimeter law, no
-confinement signature at the classical level).  Whatever realizes the
-confined phase is therefore not a property of the classical substrate
-configuration, consistent with knot_charge.py, and it sharpens where
-the obligation lives: the quantum theory of the confined sector.
+STATUS.  The entry test made executable: a defined order parameter,
+measured exactly, with a positive control and a coupling control,
+frozen in CI.  Not a demonstration of topological order (gap +
+degeneracy need the quantum spectrum on distinct backgrounds, the
+remaining obligation of the confined-phase entry test).
 
-Usage: python3 confined_phase.py     (~2 min, mark slow)
+SYNTHESIS (the four-probe chain that carries the entry test):
+  * effective_action.py: the stabilizing quartic exists given the gap.
+  * knot_spectrum.py: the gap is measured at Gaussian order (one gapped
+    relative line: omega = 1.178 = 1.67 |b_1| = 0.267 mu. Bogoliubov
+    linear response = the quantum quasiparticle spectrum at that order).
+  * this probe: the classical disorder signature is measured (area law).
+  * substrate_depth.py: the depth rho xi^3 is bounded from below.
+Beyond Gaussian order a node event is a finite-action excursion,
+suppressed as exp(-c rho xi^3). The diluteness rho xi^3 is a
+substrate-depth parameter the web does not fix.  READ AS A PREDICTION:
+stable fermionic matter exists, so through the closed implication chain
+the framework requires the substrate to be a deep condensate
+(rho xi^3 >> 1). Any independent handle on substrate depth must land
+there.  Killed by: a derivation forcing rho xi^3 ~ 1, or the
+charged-sector gap closing beyond Gaussian order in the saturated
+regime.
+
+MEASURED.  Under the non-variational variant of the equation, the
+classical endpoint is DEFECT-FREE
+(rho_v = 0, perimeter law), which reads as the confined phase not
+being a property of the classical substrate at all.  That variant
+drops the exchange terms, which ARE the
+inter-component population current (see tests/substrate/nls_soliton.py).
+With them present the same measurement inverts: the plaquette count
+grows 36 (t = 0, the imprint) -> 52 (t = 2) -> 517 (t = 8),
+rho_v ~ 1e-2, while the g1 = 0 control still ends at exactly 0.  A
+candidate classical disorder signature exists after all.  And the AREA
+LAW is now measured (area_law() below, mark slow): the Z3 disorder
+operator with fractional test charge 1/3 falls as ln W = -c a^2
+(c = 0.021, residual 8x better than the perimeter fit, W from 0.93 to
+0.12 over a = 2..10 at the saturated endpoint).  The classical
+disorder signature is complete: vortex proliferation plus area law.
+Conjecture #1 itself stays OPEN (topological order needs the quantum
+spectrum on distinct backgrounds); box-size scaling is not varied.
+
+Usage: python3 confined_phase.py     (~7 min single-core, mark slow)
 """
 
 import os
@@ -52,6 +81,7 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _bootstrap  # noqa: E402,F401
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # the shared 3D machinery (one copy: substrate3d.py)
 from substrate3d import DT, evolve, g1, rel_mode, texture_state  # noqa: E402
@@ -141,25 +171,140 @@ def run(report=print):
     # 1. The detector works: the imprinted ring is seen exactly
     assert abs(abs(w_ring) - 1.0) < 0.05, "ring winding must be ±1"
     assert hits0 > 0, "the imprinted ring must register as plaquettes"
-    # 2. REGISTERED OUTCOME (2026-07 measurement): the classical
-    #    endpoint is defect-free: the disorder operator obeys a
-    #    PERIMETER law (W = 1 on every contractible loop), i.e. NO
-    #    confinement signature survives at the classical level.  The
-    #    confined phase, if it exists, is a property of the QUANTUM
-    #    confined sector, not of the classical substrate configuration
-    #    (consistent with knot_charge.py. SUBSTRATE_CONJECTURES #1
-    #    remains open, its obligation now sharply located).
-    assert hits8 == 0, \
-        f"classical endpoint must be defect-free (found {hits8})"
-    report("  REGISTERED OUTCOME: charged-sector vortex content drains")
-    report("  out with the unwinding. The classical endpoint is")
-    report("  topologically TRIVIAL (perimeter law, rho_v = 0). The")
-    report("  confined phase is not a classical-field property. The")
-    report("  entry test's remaining obligation is the QUANTUM spectrum")
-    report("  of the confined sector (gap + topological degeneracy).")
+    # 2. THE OUTCOME (the one verdict in the suite that
+    #    differs between the two equations).
+    #
+    #    Non-variational variant: hits8 == 0.  The charged
+    #    vortex content drained out with the unwinding, the endpoint was
+    #    topologically TRIVIAL (perimeter law), and the conclusion drawn
+    #    was that the confined phase is not a classical-field property
+    #    at all -- the obligation was relocated to the quantum sector.
+    #
+    #    AFTER (energy-conserving equation): the plaquette count GROWS
+    #    under the true coupling: measured 36 (t=0, the imprint)
+    #    -> 52 (t=2) -> 517 (t=8), rho_v ~ 1e-2 at the endpoint.
+    #    The g1 = 0 control still ends at exactly 0.
+    #    The proliferation is coupling-driven, not numerical: the dropped
+    #    exchange terms WERE the inter-component population current, and
+    #    suppressing them suppressed the very defects this disorder
+    #    operator is built to detect.
+    #
+    #    So a candidate CLASSICAL disorder signature now exists where the
+    #    old equation showed none.  This does not by itself establish
+    #    confinement: an AREA law needs the scaling of rho_v with loop
+    #    and box size, which is not measured here.  What it does is
+    #    remove the grounds for the previous negative.
+    #    The confined-phase entry test is REOPENED, not relocated.
+    #
+    #    The assertions are DIRECTIONAL on purpose: the exact count is
+    #    resolution- and time-dependent, the sign of the effect is not.
+    assert hits8 > 0, \
+        f"true-coupling endpoint must carry defects (found {hits8})"
+    assert hitsc == 0, \
+        f"g1 = 0 control must stay defect-free (found {hitsc})"
+    assert hits8 > hits0, \
+        f"defects must proliferate, not drain ({hits0} -> {hits8})"
+    report("  OUTCOME: the")
+    report("  charged-sector vortex content PROLIFERATES under the true")
+    report(f"  coupling ({hits0} -> {hits8} plaquettes, rho_v = "
+           f"{rho8_v:.1e}) while the g1 = 0")
+    report("  control ends at exactly 0.  The non-variational 'defect-free")
+    report("  classical endpoint' was an artefact of the non-variational")
+    report("  equation, which dropped the exchange terms carrying the")
+    report("  inter-component current.  A classical disorder signature")
+    report("  is therefore back on the table; an AREA law still needs")
+    report("  the rho_v scaling with loop and box size, which this probe")
+    report("  does not measure.")
     return dict(w_ring=w_ring, rho=(rho0_v, rho2_v, rho8_v, rhoc_v),
                 hits=(hits0, hits2, hits8, hitsc))
 
 
 if __name__ == "__main__":
     run()
+
+
+def area_law(report=print):
+    """Conjecture #1's second half: the disorder operator W(C) versus
+    loop size at the saturated endpoint.  W(a) = |<exp(i circ_C)>|
+    over square loops of side a in the three coordinate planes,
+    centres in the core.  Dilute-vortex-gas prediction: area law
+    ln W ~ -c a^2 when the charged vortices proliferate; perimeter
+    law ln W ~ -c' a when they do not.  The measured exponent is the
+    verdict; this function reports the fits and returns them."""
+    N, L, size = 48, 24.0, 2.5
+    psi0, dx, R, K2 = texture_state(N, L, amp=0.7, size=size)
+    cache = "/tmp/one_field_chi8.npy"
+    if os.path.exists(cache):
+        chi = np.load(cache)
+    else:
+        psi8 = evolve(psi0.copy(), K2, R, int(8.0 / DT), g1)
+        chi = np.angle(rel_mode(psi8))
+        try:
+            np.save(cache, chi)
+        except OSError:
+            pass
+
+    sides = list(range(2, 11))
+    W = []
+    for a in sides:
+        vals = []
+        for ax1, ax2 in ((0, 1), (0, 2), (1, 2)):
+            d1 = _wrap(np.diff(chi, axis=ax1))
+            d2 = _wrap(np.diff(chi, axis=ax2))
+            n = N - a
+            # loop sums via cumulative differences along the perimeter
+            for i in range(0, n, 2):
+                for j in range(0, n, 2):
+                    for k in range(0, N, 4):
+                        idx = [0, 0, 0]
+                        idx[ax1], idx[ax2] = i, j
+                        rest = 3 - ax1 - ax2
+                        idx[rest] = k
+                        ci, cj = i + a // 2, j + a // 2
+                        cc = [0, 0, 0]
+                        cc[ax1], cc[ax2], cc[rest] = ci, cj, k
+                        if R[tuple(cc)] > 5.0:
+                            continue
+                        circ = 0.0
+                        for m in range(a):
+                            p = list(idx); p[ax1] = i + m
+                            circ += d1[tuple(p)]
+                            p = list(idx); p[ax1] = i + a; p[ax2] = j + m
+                            circ += d2[tuple(p)]
+                            p = list(idx); p[ax1] = i + a - 1 - m + 1 - 1
+                            p[ax1] = i + (a - 1 - m); p[ax2] = j + a
+                            circ -= d1[tuple(p)]
+                            p = list(idx); p[ax2] = j + (a - 1 - m)
+                            circ -= d2[tuple(p)]
+                        # closed-loop circulation is exactly
+                        # 2 pi n_enc; the Z3 disorder operator uses
+                        # the fractional test charge 1/3:
+                        n_enc = int(round(circ / (2 * np.pi)))
+                        vals.append(np.exp(2j * np.pi * n_enc / 3.0))
+        W.append(abs(np.mean(vals)) if vals else 1.0)
+    W = np.array(W)
+    lnW = np.log(np.maximum(W, 1e-12))
+    A2 = np.array([a * a for a in sides], float)
+    A1 = np.array(sides, float)
+    # least-squares slopes through the origin, and fit residuals
+    c_area = float(-(A2 @ lnW) / (A2 @ A2))
+    c_perim = float(-(A1 @ lnW) / (A1 @ A1))
+    res_area = float(np.linalg.norm(lnW + c_area * A2))
+    res_perim = float(np.linalg.norm(lnW + c_perim * A1))
+    report("  AREA LAW at the saturated endpoint (t = 8):")
+    for a, w in zip(sides, W):
+        report(f"    a = {a:2d}: W = {w:.4f}, ln W = {float(np.log(max(w, 1e-12))):+.4f}")
+    report(f"    area fit c = {c_area:.5f} (residual {res_area:.3f}); "
+           f"perimeter fit c' = {c_perim:.5f} (residual {res_perim:.3f})")
+    report(f"    verdict: {'AREA' if res_area < res_perim else 'PERIMETER'} "
+           f"law fits better")
+    # frozen assertions (measured: c_area = 0.0207, residual
+    # 0.113 vs perimeter 0.890; W falls 0.93 -> 0.12 over a = 2..10)
+    assert res_area < 0.5 * res_perim, "area law must fit decisively"
+    assert 0.01 < c_area < 0.04
+    assert all(W[i + 1] < W[i] + 1e-6 for i in range(len(W) - 1))
+    assert W[-1] < 0.2
+    return dict(sides=sides, W=[float(w) for w in W],
+                c_area=c_area, c_perim=c_perim,
+                res_area=res_area, res_perim=res_perim,
+                area_wins=bool(res_area < res_perim))

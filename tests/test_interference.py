@@ -20,6 +20,7 @@ import os
 import sys
 from fractions import Fraction
 
+import numpy as np
 import pytest
 
 sys.path.insert(0, os.path.abspath(
@@ -43,7 +44,7 @@ def err_pct(predicted: float, expected: float) -> float:
     ("tau", 0.01),
 ])
 def test_lepton_mass(res, name, tol_pct):
-    """Charged-lepton pole masses from the Z_3 circulant + Koide."""
+    """Completed charged-lepton Web readings from the Z_3 circulant."""
     predicted = res["m"][f"m_{name}"]
     pdg = PDG_MASSES[name]
     assert err_pct(predicted, pdg) < tol_pct
@@ -111,6 +112,49 @@ def test_pmns_chi_squared(res):
     assert chi2_per_n < 1.0
 
 
+def test_pmns_generation_block_is_structural(res):
+    """The projected bulk-fusion blocks have the stated TBM pattern."""
+    assert res["mx"]["generation_orbits"] == (
+        ((0, 1), (1, 0)), ((0, 2), (2, 0)), ((1, 2), (2, 1)))
+    assert res["mx"]["democratic_eigenvalues"] == pytest.approx(
+        (3.0, 0.0, 0.0), abs=1e-12)
+    assert res["mx"]["fundamental_eigenvalues"] == pytest.approx(
+        (-0.5, 1.0, 0.5), abs=1e-12)
+    tbm_abs = np.array([
+        [2/math.sqrt(6), 1/math.sqrt(3), 0],
+        [1/math.sqrt(6), 1/math.sqrt(3), 1/math.sqrt(2)],
+        [1/math.sqrt(6), 1/math.sqrt(3), 1/math.sqrt(2)],
+    ])
+    assert np.allclose(np.abs(res["mx"]["U_TBM"]), tbm_abs)
+
+
+def test_pmns_fold_is_not_mislabeled_as_the_zc_nimrep(res):
+    """Z_C has two boundaries; the three-orbit projection is not closed."""
+    assert res["mx"]["zc_boundary_states"] == 2
+    assert np.array_equal(res["mx"]["zc_n10"], np.ones((2, 2), dtype=int))
+    assert np.array_equal(
+        res["mx"]["zc_n11"], np.array([[1, 2], [2, 1]], dtype=int))
+    assert res["mx"]["zc_fusion_residual"] == 0.0
+    assert res["mx"]["fundamental_generation_leakage"] > 1e-12
+    assert res["mx"]["fold_fusion_residual"] > 1e-12
+
+
+def test_ckm_d6_boundary_data_are_computed(res):
+    """The pair fraction and braid magnitude come from the graph/cells."""
+    assert res["mx"]["d6_boundary_pairs"] == ((0, 5), (1, 2), (3, 4))
+    expected = np.array([[1.0, 2.0], [2.0, 1.0]])
+    assert all(np.array_equal(block, expected)
+               for block in res["mx"]["d6_adjoint_blocks"])
+    assert res["mx"]["A"]**2 == pytest.approx(2/3, abs=1e-15)
+    cell_hi, cell_lo = res["mx"]["d6_cell_magnitudes"]
+    assert cell_hi**2 == pytest.approx((math.sqrt(3) + 1)/2, abs=1e-15)
+    assert cell_lo**2 == pytest.approx((math.sqrt(3) - 1)/2, abs=1e-15)
+    assert res["mx"]["d6_connection_magnitude"] == pytest.approx(
+        1/math.sqrt(2), abs=1e-15)
+    assert res["mx"]["d6_braid_residual"] < 1e-12
+    assert sorted(res["mx"]["d6_depth4_carrier_dimensions"]) == [2, 3, 3]
+
+
 def test_pmns_delta_cp_prediction(res):
     """delta_CP prediction lies in a testable range for DUNE/Hyper-K."""
     delta_CP = res["mx"]["delta_CP_deg"]
@@ -118,29 +162,46 @@ def test_pmns_delta_cp_prediction(res):
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Higgs mass  (1 prediction, via SM RGE with derived boundary)
+#  Higgs running coordinate
 # ═══════════════════════════════════════════════════════════════════════
 
-def test_higgs_mass(res):
-    """m_H from F_4(1) fusion + fundamental-share vent
-    (lambda(M_Pl) = -delta_bridge*(1-h10). registry.PROMOTIONS) + SM RGE.
-    The prediction sits at +0.08% of 125.20(11). Band 0.2%."""
-    mH = res["g"]["mH_pred"]
-    assert err_pct(mH, 125.20) < 0.2
+def test_higgs_transport_coordinate(res):
+    """The candidate boundary is transported in one MS-bar scheme."""
+    g = res["g"]
+    assert g["lambda_mt_transport"] == pytest.approx(0.1265078, abs=2e-7)
+    assert g["higgs_transport_coordinate_GeV"] == pytest.approx(
+        123.8501, abs=2e-3)
+
+
+def test_smdr_beta_reference_point():
+    """Freeze the yb=ytau=0 port against SMDR v1.3 betas.c."""
+    import higgs_ew
+
+    y = np.array([0.46232945922286817, 0.6470936480109292,
+                  1.1649178681893946, 0.9350096081781627,
+                  0.1266556161139303])
+    got = higgs_ew._beta_sm(y)
+    expected = np.array([
+        0.0020276825305886822 / math.sqrt(3.0/5.0),
+        -0.0052288603702881362,
+        -0.0722744362694192483,
+        -0.0537308630890171654,
+        -0.0199725406547064908,
+    ])
+    assert np.allclose(got, expected, rtol=0.0, atol=5e-16)
 
 
 # ═══════════════════════════════════════════════════════════════════════
 #  Gravity sector  (Newton constant from the (7,26) bridge heat kernel)
 # ═══════════════════════════════════════════════════════════════════════
 
-def test_newton_constant_UV(res):
-    """G_ind/G_N (UV bookkeeping) within 1% of unity."""
-    # face-split (no-self-dilution) law
+def test_newton_internal_closure_UV(res):
+    """Freeze the gravity normalisation's internal UV closure; not an independent G test."""
     assert abs(res["g"]["G_ratio_UV"] - 1.0) < 1e-6
 
 
-def test_newton_constant_broken(res):
-    """G_ind/G_N (broken-phase bookkeeping) within 1% of unity."""
+def test_newton_internal_closure_broken(res):
+    """Freeze the broken-phase diagnostic alongside the gravity normalisation's UV value."""
     assert err_pct(res["g"]["G_ratio_broken"], 1.0) < 1.5
 
 
@@ -176,7 +237,7 @@ def test_neutrino_normal_ordering(res):
 def test_sin2_theta_W(res):
     """sin^2 theta_W = 3/13 + Q₀²·α/(2π), depth-1 h₇ + depth-2 h₇/d₁₁²."""
     sin2W = res["g"]["sin2W"]
-    # canonical: tree 3/13 + depth-1 h₇·α/(2π) + depth-2 (h₇/d₁₁²)·α/(2π)
+    # canonical: base 3/13 + depth-1 h₇·α/(2π) + depth-2 (h₇/d₁₁²)·α/(2π)
     # total echo coefficient h₇(1+1/d₁₁²) = Q₀² = 4/9
     import root as _r
     expected = 3.0/13.0 + (4.0/9.0) * _r.alpha_phys / (2.0 * math.pi)
@@ -187,14 +248,14 @@ def test_sin2_theta_W(res):
 
 
 def test_M_Z_derived(res):
-    """M_Z at layer-1 (MS-bar chain, PDG 2024 imports): within 0.02%."""
+    """M_Z from the declared MS-bar transport imports: within 0.02%."""
     M_Z = res["g"]["M_Z_derived"]
     M_Z_PDG = res["g"]["M_Z_PDG"]
     assert err_pct(M_Z, M_Z_PDG) < 0.02
 
 
 def test_M_W_derived(res):
-    """M_W at layer-1 (A from alpha(0),v_EW. dr_hat_W declared import):
+    """M_W from alpha(0), v_EW, and the declared dr_hat_W import:
     within 2 sigma of PDG 80.3692(133)."""
     M_W = res["g"]["M_W_derived"]
     M_W_PDG = res["g"]["M_W_PDG"]
@@ -211,7 +272,6 @@ def test_dm_baryon_ratio(res):
     DM_b = res["d"]["DM_baryon_ratio"]
     expected = 2.0 * math.pi - 1.0
     assert math.isclose(DM_b, expected, rel_tol=1e-12)
-    DM_b_obs = res["d"]["DM_baryon_ratio_obs"]
     # Within 2 sigma of Planck
     assert abs(res["d"]["pull_DM_baryon"]) < 2.0
 
@@ -263,48 +323,37 @@ def test_singh_ratio_is_16(res):
     assert singh_ratio == 16
 
 
-def test_vertex_count_is_30_with_no_free_choice(res):
-    """N_vertex = n_26 (F_4 fund) + 4 (Higgs real DOFs) = 30.
-
-    Equivalently: N_vertex = n_26 + h_dual(G_2)/d_10 since 4 = d_10^2.
-    Either way, the count is forced by group theory, not chosen to fit v_EW.
-    """
+def test_vertex_current_trace_is_30(res):
+    """The E8 positive-root current index supplies the vertex factor."""
     R = res["R"]
-    assert R["N_vertex"] == R["n26"] + 4 == 30
+    assert R["vertex_charge_trace"] == R["N_vertex"] == R["hv_E8"] == 30
 
 
-def test_dual_coxeter_numbers_are_squares(res):
-    """h_dual(G_2) = d_10^2 = 4 and h_dual(F_4) = d_11^2 = 9."""
+#  Constants root.py DEFINES by exactly the expression a per-constant
+#  test would restate (hv_G2 = d10**2, K = d10*d11, h10 =
+#  Fraction(d10, d11**2), ...).  Re-deriving the expression tests
+#  nothing; what carries regression value is the VALUE, so an edit to
+#  any of root.py's definitions fails here.  The identities that cross
+#  two INDEPENDENT routes are not in this table and keep their own
+#  tests below: Q0 (defined as 1/3 + d10/6, asserted equal to
+#  d10/d11), h_bridge (a sum asserted exactly marginal), c_coset (a
+#  difference asserted exactly zero), xi_bridge (a product of three
+#  separately derived factors landing on 1/(48 pi)).
+_ROOT_CONSTANTS = [
+    ("hv_G2", 4), ("hv_F4", 9),         # dual Coxeter numbers
+    ("C2_7", 2), ("C2_26", 6),          # Casimirs
+    ("K", 6),                           # WZW altitude
+    ("h10", 2 / 9), ("h11", 1 / 2),     # conformal weights
+    ("sin2W", 3 / 13),                  # zero-edge Weinberg base
+    ("N_bridge", 182),                  # bridge mode count
+]
+
+
+def test_root_constants_frozen(res):
+    """The defined constants of the algebraic root, frozen by value."""
     R = res["R"]
-    assert R["hv_G2"] == R["d10"] ** 2 == 4
-    assert R["hv_F4"] == R["d11"] ** 2 == 9
-
-
-def test_casimirs_factor_through_d10_d11(res):
-    """C_2(7) = d_10 and C_2(26) = d_10 * d_11."""
-    R = res["R"]
-    assert R["C2_7"] == R["d10"] == 2
-    assert R["C2_26"] == R["d10"] * R["d11"] == 6
-
-
-def test_K_is_d10_times_d11(res):
-    """WZW altitude K = k + h_dual = d_11 + d_11 = d_10 * d_11 = 6."""
-    R = res["R"]
-    assert R["K"] == R["d10"] * R["d11"] == 6
-
-
-def test_h10_is_d10_over_d11_squared(res):
-    """h(1,0) = d_10 / d_11^2 = 2/9."""
-    R = res["R"]
-    assert math.isclose(R["h10"], R["d10"] / R["d11"] ** 2, rel_tol=1e-12)
-    assert math.isclose(R["h10"], 2 / 9, rel_tol=1e-12)
-
-
-def test_h11_is_one_over_d10(res):
-    """h(1,1) = 1 / d_10 = 1/2."""
-    R = res["R"]
-    assert math.isclose(R["h11"], 1.0 / R["d10"], rel_tol=1e-12)
-    assert math.isclose(R["h11"], 1 / 2, rel_tol=1e-12)
+    for key, expected in _ROOT_CONSTANTS:
+        assert math.isclose(float(R[key]), expected, rel_tol=1e-12), key
 
 
 def test_Q0_is_d10_over_d11(res):
@@ -312,20 +361,6 @@ def test_Q0_is_d10_over_d11(res):
     R = res["R"]
     assert math.isclose(R["Q0"], R["d10"] / R["d11"], rel_tol=1e-12)
     assert math.isclose(R["Q0"], 2 / 3, rel_tol=1e-12)
-
-
-def test_sin2W_is_d11_over_d10sq_plus_d11sq(res):
-    """sin^2 theta_W = d_11 / (d_10^2 + d_11^2) = 3/13."""
-    R = res["R"]
-    expected = R["d11"] / (R["d10"] ** 2 + R["d11"] ** 2)
-    assert math.isclose(R["sin2W"], expected, rel_tol=1e-12)
-    assert math.isclose(R["sin2W"], 3 / 13, rel_tol=1e-12)
-
-
-def test_N_bridge_is_n7_times_n26(res):
-    """N_bridge = n_7 * n_26 = 182."""
-    R = res["R"]
-    assert R["N_bridge"] == R["n7"] * R["n26"] == 182
 
 
 def test_h_bridge_is_one_marginal(res):
@@ -428,11 +463,11 @@ def test_alpha_bridge_chain_is_one_loop_exact(res):
     assert math.isclose(bridge["g_bridge_sq"], 1.0, abs_tol=1e-12)
     assert math.isclose(bridge["c_coset"], 0.0, abs_tol=1e-12)
     # Depth-1 closed form 256(2 pi - 1)/pi^2 is the truncation. The full
-    # value includes the FORCED depth-3 two-orientation e<->q loop and
+    # value includes the FORCED depth-4 reading of the e<->q carrier and
     # solves the cubic  x^3 = (512/pi)[(1 - 1/(2 pi)) x^2 - 1/(2 pi^2)].
     x = bridge["inv_alpha_phys"]
     depth1 = 256.0 * (2.0 * math.pi - 1.0) / math.pi ** 2
-    assert x < depth1  # the depth-3 echo lowers 1/alpha
+    assert x < depth1  # the depth-4 response lowers 1/alpha
     cubic = x**3 - (2**9 / math.pi) * ((1.0 - 1.0/(2.0*math.pi)) * x**2
                                        - 1.0/(2.0*math.pi**2))
     assert abs(cubic) < 1e-6
@@ -468,8 +503,16 @@ def test_linearity_from_closure():
     import octonions as oc
     rng = np.random.default_rng(11)
     assert oc._check_linearity(rng)
-    assert oc._check_hurwitz_gate(rng)
+    assert oc._check_hurwitz_gate()
     assert oc._check_z3_selection()
+
+
+def test_sedenion_zero_divisor_census():
+    """The '168 pairs' remark is computed, not quoted: full enumeration
+    of (e_i ± e_j)(e_k ± e_l) = 0 on the unit-coefficient sedenion
+    lattice gives 336 ordered = 168 unordered zero-divisor pairs."""
+    import octonions as oc
+    assert oc._check_hurwitz_gate(census=True)
 
 
 
@@ -478,7 +521,7 @@ def test_linearity_from_closure():
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_vertex_rule_identities():
-    """Depth-3 multiplicities = products of the node's own depth-1
+    """Depth-4 responses = products of the node's own depth-1
     vertices: 2 (orientations), 16 = charge_trace×C2(26), 27/2 = W·dimJ3O."""
     from root import charge_trace, C2_26, d10, d11
     assert charge_trace * C2_26 == 16
@@ -503,7 +546,7 @@ def test_tau_mass_prediction_band(res):
 
 
 def test_newton_constant_predicted():
-    """G is now a PREDICTION: within 3 sigma of CODATA (currently -2.0)."""
+    """G is a PREDICTION: within 3 sigma of CODATA (-2.0)."""
     from root import G_PRED, G_CODATA
     assert abs(G_PRED / G_CODATA - 1.0) < 3 * 2.2e-5
 
@@ -533,7 +576,7 @@ def test_mass_coordinate_invariants(res):
 
 def test_canonical_freeze(res):
     """The frozen canonical table (ledger closed)."""
-    R, m, g, c = res["R"], res["m"], res["g"], res["c"]
+    m, g, c = res["m"], res["g"], res["c"]
     import root as _r
 
     # exact (dimensionless web + anchor inversion)
@@ -548,7 +591,7 @@ def test_canonical_freeze(res):
     assert abs(g["G_ratio_UV"] - 1.0) < 1e-6
     assert abs(g["sin2W"] - 0.23128541) < 1e-7
 
-    # EW layer-1 chain (PDG 2024 imports)
+    # EW transport chain (PDG 2024 imports)
     assert abs(g["M_W_derived"] - 80.3559) < 2e-3
     assert abs(g["M_Z_derived"] - 91.1885) < 2e-3
 
@@ -557,7 +600,7 @@ def test_canonical_freeze(res):
     # (gauge lever-arm endpoint. Pre-migration label was v_EW)
     assert abs(c["mu_star_GeV"] - 253.534) < 1e-2
     assert abs(c["alpha_s_MZ_thresh"] - 0.118385) < 1e-5
-    assert abs(g["mH_pred"] - 125.2965) < 0.05  # (1−h₁₀) vent. registry.PROMOTIONS
+    assert abs(g["lambda_mt_transport"] - 0.1265078) < 2e-7
 
     # words lemma bases (integer ranks, exact)
     import words as _w
@@ -572,14 +615,21 @@ def test_canonical_freeze(res):
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_embedding_uniqueness():
-    """E₈(1) ⊃ G₂(1) × F₄(1) is the unique conformal embedding
-    passing all six coherence gates among rank-8 simple algebras."""
+    """E₈(1) ⊃ G₂(1) × F₄(1) is the unique pair passing all six
+    coherence gates among the rank-8 candidates, computed from the
+    scan, not asserted as literals, with the E₇ × A₁ near-miss
+    (passes (a)-(e), fails only trivial centres) frozen alongside:
+    uniqueness is conditional on the ontology gates and the scan
+    says so."""
     import embedding_uniqueness as eu
     import io, contextlib
     with contextlib.redirect_stdout(io.StringIO()):
         result = eu.derive()
     assert result['n_survivors'] == 1
     assert result['survivor'] == ('E8', 'G2', 'F4')
+    nm = {(p, frozenset((g, f))): failed
+          for p, g, f, failed in result['near_misses']}
+    assert nm == {('E8', frozenset(('E7', 'A1'))): '(f) trivial centres'}
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -587,14 +637,32 @@ def test_embedding_uniqueness():
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_protected_forgetting():
-    """v = (1, -1/2, -1/2) satisfies PvP=0 and Pv²P=1/2."""
+    """The canonical Z₃ harmonic (B, θ) = (√2, 2/9): PvP = 0, total
+    second moment Pv²P = 1, per-mode power E[v²] = 1/2, Koide Q = 2/3.
+
+    The retired harmonic (1, -1/2, -1/2) is (B, θ) = (1, 0), which gives
+    Q = 1/2 with two masses degenerate; θ = 0 is degenerate for every
+    amplitude.  Both facts are computed, not asserted.
+    """
     import protected_forgetting as pf
     import io, contextlib
     with contextlib.redirect_stdout(io.StringIO()):
         result = pf.derive()
     assert abs(result['PvP']) < 1e-14
-    assert abs(result['Pv2P'] - 0.5) < 1e-14
-    assert result['unique'] is True
+    # total vs per-mode: Pv²P = 2·E[v²], and the web consumes E[v²]
+    assert abs(result['Pv2P_total'] - 1.0) < 1e-12
+    assert abs(result['E_v2_mode'] - 0.5) < 1e-12
+    assert abs(result['Pv2P_total'] - 2 * result['E_v2_mode']) < 1e-12
+    # Koide value, and the amplitude it pins
+    assert abs(result['Q'] - 2.0 / 3.0) < 1e-12
+    assert result['amplitude_pinned_by_koide'] is True
+    # the retired harmonic really is degenerate at Q = 1/2
+    assert abs(result['retired_Q'] - 0.5) < 1e-12
+    assert result['theta0_degenerate'] is True
+    # the short-root direction gives three distinct
+    assert result['short_root_three_distinct'] is True
+    # canonical harmonic stays on the positive-gap branch
+    assert result['gap_min'] > 0
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -620,7 +688,7 @@ FROZEN_MASSES_MEV = {
     'm_tau': 1776.9092814,
     'm_u': 2.157551125,
     'm_d': 4.712545879,
-    'm_s': 93.8395306,           # depth-2 bridge update (registry.WATCHES 3)
+    'm_s': 93.8395306,           # depth-2 bridge update
     'm_c': 1273.770419,
     'm_b': 4193.80675,
     'm_t': 172508.2761,
@@ -645,12 +713,18 @@ def test_frozen_web_nodes(res):
 
 
 def test_scale_landmarks(res):
-    """The derived scale ladder: Lambda_conf, mu*, M_V, M_R."""
+    """The scale ladder, with M_V the connector's per-mode reading."""
     import root as _r
     Lambda_conf = (1.0 / _r.d10) * _r.M_Pl_GeV * math.exp(-_r.S_lepton)
     assert abs(Lambda_conf - 0.3138) < 1e-3
     assert abs(res["c"]["mu_star_GeV"] - 253.534) < 1e-2
-    assert abs(res["c"]["M_V_derived"] - 111.648) < 1e-2
+    M_V = res["c"]["M_V_GeV"]
+    assert abs(M_V - 111.648) < 1e-2
+    g_G2 = math.sqrt(4.0 * math.pi * res["c"]["alpha_s_mu_star"])
+    n_broken = 2 * _r.n7 - (_r.d11**2 - 1)
+    v_break = res["m"]["v_EW_pred_GeV"] / math.sqrt(_r.d10)
+    assert M_V == pytest.approx(
+        g_G2 * v_break * math.sqrt(_r.C2_7 / n_broken), abs=1e-12)
     M_R = _r.M_Pl_GeV * math.exp(-2.0 * math.pi**2)
     assert abs(M_R / 3.27e10 - 1.0) < 0.01
 
@@ -694,7 +768,7 @@ def test_no_fourth_generation():
 
 
 def test_neutrino_spectrum(res):
-    """m1 = 0 (rank-2 seesaw) + measured splittings -> the registered
+    """m1 = 0 (rank-2 seesaw) + measured splittings -> the
     kinematic spectrum: sum, m_beta, m_bb band."""
     import root as _r
     pmns = res["mx"]
@@ -749,3 +823,161 @@ def test_web_attractor(res):
         WEB.solve()
 
 
+
+
+def test_alpha_pins_higgs_coordinate_and_G(res):
+    """The two alpha_G2(M_Pl) pins stated in root.py, measured.
+    (1) the transported Higgs coordinate responds to the bridge boundary.
+    (2) G_ind: xi_bridge scales as alpha; +10% alpha shifts the
+    heat-kernel sum Sigma by 0.64%, against G_ind/G_N closed at 8e-8."""
+    import numpy as np
+    import higgs_ew as hew
+    import root as rt
+
+    m, c, g = res["m"], res["c"], res["g"]
+    v_EW = m["v_EW_pred_GeV"]
+    mt = m["m_t"] / 1000.0
+    log_mt_mz = math.log(mt / g["M_Z_derived"])
+    g1_mz = math.sqrt(4 * math.pi * g["alpha_em_MZ"]
+                      / (1 - g["sin2W"])) * math.sqrt(5.0 / 3.0)
+    g2_mz = math.sqrt(4 * math.pi * g["alpha_em_MZ"] / g["sin2W"])
+    g1 = hew._run_gauge_one_loop(g1_mz, 41.0/10.0, log_mt_mz)
+    g2 = hew._run_gauge_one_loop(g2_mz, -19.0/6.0, log_mt_mz)
+    g3 = math.sqrt(4 * math.pi * c["alpha_s_mt"])
+    yt = g["yt_mt_transport"]
+    t_pl = math.log(rt.M_Pl_GeV / mt)
+
+    def m_higgs(lam_pl, n=8000):
+        lam_it = 0.0
+        for _ in range(3):
+            up = hew._run_rge(np.array([g1, g2, g3, yt, lam_it]),
+                              0.0, t_pl, hew._beta_sm, n)
+            dn = hew._run_rge(np.array([up[0], up[1], up[2], up[3],
+                                        lam_pl]),
+                              t_pl, 0.0, hew._beta_sm, n)
+            lam_it = dn[4]
+        return math.sqrt(2.0 * abs(lam_it)) * v_EW
+
+    m0 = g["higgs_transport_coordinate_GeV"]
+    d_plus = m_higgs(g["lam_Pl_boundary"] * 1.21) - m0
+    d_minus = m_higgs(g["lam_Pl_boundary"] * 0.81) - m0
+    assert d_plus < -0.5
+    assert d_minus > 0.5
+
+    # (2) the Sigma shift from xi_bridge under +10% alpha
+    xi = float(rt.alpha_G2_Pl) * 0.5 * 1.0
+    d_sigma = g["N_bridge"] * (-0.1 * xi) / g["Sigma_total_UV"]
+    assert 0.005 < abs(d_sigma) < 0.008   # measured 0.64%
+    assert abs(g["G_ratio_canonical"] - 1.0) < 1e-7
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  The derivation chain, asserted against the engine
+#
+#  These are the identities the chain stands on: the dimensional
+#  transmutation actions and their two face readings, the depth-4
+#  response weights, the per-mode condensate reading behind the
+#  alpha_s threshold, and the CKM lambda form.  Each is computed in
+#  the module that owns it; each is read back here so a refactor
+#  cannot quietly move one.
+# ═══════════════════════════════════════════════════════════════════════
+
+def test_transmutation_actions_and_their_two_faces():
+    """S_lepton = 2pi/(b0 alpha) on the F4 face, transported to the G2
+    face by the h-dual metric: b_face = b0 h(F4)/h(G2) = 24, which is
+    also the embedding invariant h(E8) - C2(26).  Hence S_baryo =
+    (4/9) S_lepton = 2 pi^2, read at web depth 4."""
+    import root
+
+    assert root.b0_G2 == Fraction(32, 3)
+    assert root.S_lepton == pytest.approx(
+        2.0 * math.pi / (float(root.b0_G2) * root.alpha_G2_Pl), abs=1e-12)
+    assert root.S_lepton == pytest.approx(
+        9.0 * math.pi**2 / 2.0, abs=1e-12)
+    assert root.b_baryo_face == root.hv_E8 - root.C2_26 == 24
+    assert root.S_baryo == pytest.approx(
+        (root.hv_G2 / root.hv_F4) * root.S_lepton, abs=1e-12)
+    assert root.S_baryo == pytest.approx(2 * math.pi**2, abs=1e-12)
+    assert root.WEB["S_baryo"].web_depth == 4
+    assert root.alpha_G2_Pl == pytest.approx(1.0 / (24.0 * math.pi),
+                                             abs=1e-15)
+    assert root.delta_S == pytest.approx(15.0 / 512.0, abs=1e-15)
+
+
+def test_depth4_response_weights():
+    """The depth-3 e<->q carrier read through each node's own channel:
+    action -> charge_trace * C2(26) = 16, amplitude -> W(fund) * dim
+    J3(O) = 27/2.  The Albert lift is unital, so the junction
+    normalization is one and no third weight enters."""
+    import root
+
+    assert float(root.charge_trace * root.C2_26) == 16.0
+    assert root.d11**3 / root.d10 == 13.5
+
+
+def test_condensate_map_is_the_per_mode_reading(res):
+    """The G2 breaking scale is the connector's PER-MODE reading of the
+    electroweak condensate: v7^2 = E[v^2] v_EW^2 with E[v^2] = 1/2, so
+    M_V = g v_EW sqrt(C2(7)/6) with g = pi/(2 sqrt(2))."""
+    import root
+
+    v_ew = root.M_Pl_GeV * math.exp(-root.WEB.state["S_quark"])
+    m_v = (math.pi / (2.0 * math.sqrt(2.0))) * v_ew * math.sqrt(
+        float(root.E_v2) * float(root.C2_7) / 6.0)
+    assert res["c"]["M_V_GeV"] == pytest.approx(m_v, abs=1e-2)
+    assert float(root.E_v2) == 0.5
+
+
+def test_ckm_lambda_is_the_base_plus_echo_form():
+    """lambda = h10 (1 + h11/K^2) = (2/9)(73/72) = 73/324 exactly: the
+    fundamental Sugawara weight carrying the SAME quadratic-altitude
+    echo root.py applies to bridge^2."""
+    import root
+
+    assert 1 + root.h11 / root.K**2 == Fraction(73, 72)
+    assert root.h10 * (1 + root.h11 / root.K**2) == Fraction(73, 324)
+    assert abs(float(Fraction(73, 324)) - 0.2253086) < 1e-6
+
+
+def test_eta_bar_is_the_modular_phase():
+    """eta_bar = pi/d11^2 = pi/9 is the argument of the diagonal
+    modular element S_ff on the fundamental, i.e. the braiding
+    monodromy of two fundamentals in the symmetric channel."""
+    import mixing
+    import root
+
+    wzw = mixing._compute_wzw()
+    fund = wzw["IDX"][(1, 0)]
+    phase = math.atan2(wzw["S_mat"][fund, fund].imag,
+                       wzw["S_mat"][fund, fund].real)
+    assert phase == pytest.approx(math.pi / root.d11**2, abs=1e-12)
+
+
+def test_two_right_handed_neutrinos_from_the_F4_singlets():
+    """26 -> 8_v + 8_s + 8_c + 2 singlets: the rank-2 seesaw, hence
+    m_nu1 = 0 exactly."""
+    import root
+
+    assert root.n26 - 3 * (root.d11**2 - 1) == 2
+
+
+def test_neutron_proton_splitting_qcd_part(res):
+    """m_d - m_u = 5 m_e exactly, a datum the dictionary never
+    consulted.  Lattice (BMW 2015): 2.52 +- 0.23 MeV."""
+    m = res["m"]
+    assert m["m_d"] - m["m_u"] == pytest.approx(5 * m["m_e"], abs=5e-3)
+
+
+def test_confinement_scale_is_the_constituent_scale():
+    """Lambda_conf = C_EFF M_Pl exp(-S_lepton) = 314.2 MeV, the
+    constituent-quark scale to ~1%."""
+    import root
+
+    lam_conf = root.C_EFF * root.M_Pl_GeV * math.exp(-root.S_lepton)
+    assert lam_conf * 1e3 == pytest.approx(314.2, abs=0.1)
+
+
+def test_no_higgs_mass_leaves_the_chain(res):
+    """The mixed-scheme 125.2965 reading is not canonical: no Higgs
+    mass prediction leaves the derivation."""
+    assert "mH_pred" not in res["g"]

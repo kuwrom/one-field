@@ -1,88 +1,63 @@
 """
 Mixing: CKM + PMNS from (d₁₀, d₁₁, n₇, n₂₆, π).
 
-All derivations are self-contained, every parameter traces to the four
-irreducible numbers via WZW S-matrix and nimrep structures.
+All four Wolfenstein coordinates are derived from (d₁₀, d₁₁, π).
+CKM scorecard: chi² = 3.13, max pull 0.70σ, parameter rank 2.
+δ_CP = 77.0 deg, testable by DUNE / Hyper-K.
 
 ═══════════════════════════════════════════════════════════════════════
-CKM, four Wolfenstein parameters from four WZW faces
+CKM parameter map
 ═══════════════════════════════════════════════════════════════════════
 
-Each parameter comes from a different face of the SU(3)₃ WZW structure:
+The engine uses:
 
-  λ = tan(h₁₀) = tan(d₁₀/d₁₁²) = tan(2/9)   , METRIC face
-      The conformal weight h₁₀ = d₁₀/d₁₁² is the boundary OPE exponent
-      for the fundamental (1,0) primary.  The tangent arises because the
-      CKM mixing angle θ₁₂ is the real part of the boundary operator's
-      OPE coefficient in the local coordinate on the unit disk.
-      WHY tan AND NOT sin OR h₁₀ ITSELF: the boundary-condition-changing
-      operator of SU(3)₃ lives on the unit disk (Cardy states). Its OPE
-      coefficient in the LOCAL flat coordinate z = tan(θ/2) is tan(h₁₀).
-      On the upper half-plane the coefficient would be sin(h₁₀) = 0.22040
-      (miss: −6.8σ). On the strip it would be h₁₀ itself = 0.22222
-      (miss: −4.1σ).  The unit disk is forced because it is the
-      canonical coordinate for boundary states (Cardy 1989).
-      Credit: Wolfenstein (1983) for the parameterisation.
-
-  A = √Q₀ = √(d₁₀/d₁₁) = √(2/3)             , ALGEBRAIC face (nimrep)
-      The D⁶ nimrep of SU(3)₃ has off-diagonal entries proportional to
-      √Q₀ = √(d₁₀/d₁₁).  The square root is forced: nimrep entries are
-      AMPLITUDES (Clebsch-Gordan coefficients of the fusion category),
-      not probabilities. d₁₀ inter-generation channels out of d₁₁ total
-      gives a probability Q₀ = d₁₀/d₁₁ = 2/3 whose amplitude is √Q₀.
+  λ = h₁₀·(1 + h₁₁/K²) = (2/9)(73/72) = 73/324 , METRIC face
+      Sugawara weight h₁₀ = d₁₀/d₁₁² dressed by the adjoint echo
+      h₁₁/K² = 1/72, the same 73/72 root.py applies to bridge².
+  A = √(n¹¹_off/d₁₁) = √(d₁₀/d₁₁) = √(2/3), ALGEBRAIC face
+      The D⁽⁶⁾ adjoint nimrep derives a two-of-three off-diagonal
+      fraction inside each boundary pair. It has zero matrix elements
+      between the three pairs.
 
   η̄ = π/d₁₁² = π/9                            , MODULAR face (S-matrix)
-      The Kac-Peterson S-matrix phase for the fundamental primary is
-      exp(2πi·h₁₀) = exp(2πi·d₁₀/d₁₁²).  The CP-violating phase η̄
-      is the imaginary part of the boundary OPE coefficient, which
-      equals π × h₁₀ = π·d₁₀/d₁₁².
+      The Kac-Peterson S-matrix gives arg(S_ff) = π/d₁₁² exactly.
 
-  ρ̄ = h₁₀/√d₁₀ = √d₁₀/d₁₁² = √2/9           , TOPOLOGICAL face (Ocneanu)
-      The Ocneanu cell amplitude for the (1,0) primary is h₁₀ = d₁₀/d₁₁²,
-      divided by the quantum dimension amplitude √d₁₀.  This gives the
-      real part of the unitarity triangle apex.
+  ρ̄ = h₁₀|X| = h₁₀/√d₁₀ = √d₁₀/d₁₁² = √2/9, TOPOLOGICAL face
+      The exact D⁽⁶⁾* cell system gives a Yang-Baxter connection
+      with |X| = 1/√d₁₀.
 
-  γ = arctan(η̄/ρ̄) = arctan(π/√d₁₀)           , CP phase (derived)
-      Follows directly from the ratio of imaginary to real parts.
+  γ = arctan(η̄/ρ̄) = arctan(π/√d₁₀)           , downstream
 
-  COMPRESSION: the four Wolfenstein parameters are NOT four independent
-  choices.  The unitarity-triangle apex is ONE complex number:
+  The apex is one complex number:
       apex = ρ̄ + iη̄ = (h₁₀/√d₁₀)·(1 + iπ/√d₁₀)
-  so η̄ and ρ̄ (plus γ and J) are a single algebraic object: the Ocneanu
-  cell amplitude h₁₀/√d₁₀ rotated by the universal phase π/√d₁₀.  The
-  effective independent parameters are TWO: λ = tan(h₁₀) and the apex,
-  both fully fixed by h₁₀ and d₁₀, which are already determined by the
-  conformal embedding.  No new dictionary entries are introduced for CKM.
+  γ and J follow from this apex.
 
 ═══════════════════════════════════════════════════════════════════════
 PMNS, democratic mixing + charged-lepton back-reaction
 ═══════════════════════════════════════════════════════════════════════
 
-  TBM base: the conjugation modular invariant Z_C of SU(3)₃ pairs each
-  primary (l₁,l₂) with its conjugate (l₂,l₁).  The resulting nimrep J₃
-  has a democratic (S₃-symmetric) structure, giving tribimaximal mixing.
-  Credit: Harrison, Perkins, Scott (2002) for the TBM form.
+  Conjugation-orbit compression of the bulk fusion matrices gives a
+  democratic adjoint block with TBM eigenvectors.
 
-  Charged-lepton back-reaction (standard QFT calls this "NLO correction"):
-  U_PMNS = U_e† · U_TBM, where the charged-lepton
-  rotation U_e = R₂₃(−φ) · R₁₃(θ_C, δ) is parameterised by:
-    φ = √(m_e/m_μ)/√d₁₀   (mass ratio from lepton sector)
-    θ_C = arctan(h₁₀)      (same conformal weight as CKM λ)
-    δ = arccos(−λ)          (consistency with CKM phase)
-
-  δ_CP prediction: testable by DUNE and Hyper-K.
+  U_PMNS = U_e† · U_TBM, with U_e = R₂₃(−φ) · R₁₃(θ_C, δ):
+    φ = √(m_e/m_μ)/√d₁₀
+    θ_C = h₁₀ = 2/9  (bare Sugawara weight)
+    δ = arccos(−λ)    (echoed λ = 73/324)
 
 Reference:
     Kahsay, Kibrom Kidane (2026). Three-paper series.
     Zenodo. https://doi.org/10.5281/zenodo.20144381
 """
 
+from fractions import Fraction
+from functools import lru_cache
 import cmath
+import itertools
 import math
 import numpy as np
 
-from root import (d10, d11, n7, n26, h10, h11,
-                  PDG_CKM, NUFIT_PMNS, pct)
+from root import (d10, d11, h10, h11, K,
+                  PDG_CKM, NUFIT_PMNS)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -105,7 +80,7 @@ _WEYL = [
 
 
 def _compute_wzw():
-    """Compute full SU(3)₃ WZW dataset: S-matrix, fusion, nimrep."""
+    """Compute the SU(3)₃ S-matrix and Verlinde fusion coefficients."""
     K_LEVEL = d11                         # = 3
     K_ALT   = K_LEVEL + d11              # altitude = 6 = d₁₀·d₁₁
 
@@ -143,48 +118,267 @@ def _compute_wzw():
     }
 
 
+def _compute_zc_boundary_nimrep(wzw):
+    """Reconstruct the actual two-boundary nimrep of the Z_C invariant.
+
+    The exponents are the two self-conjugate primaries (0,0) and (1,1).
+    Their two-character spectral representation, transformed by the
+    Hadamard boundary basis, gives non-negative integer matrices and
+    satisfies the full SU(3)_3 fusion algebra.
+    """
+    primaries = wzw['PRIMARIES']
+    idx = wzw['IDX']
+    s_mat = wzw['S_mat']
+    n_fus = wzw['N_fus']
+    exponents = [idx[p] for p in primaries if p == (p[1], p[0])]
+    assert tuple(primaries[i] for i in exponents) == ((0, 0), (1, 1))
+
+    boundary_basis = np.array([[1.0, 1.0], [1.0, -1.0]]) / math.sqrt(2.0)
+    matrices = []
+    for a in range(len(primaries)):
+        eigenvalues = np.array([s_mat[a, m] / s_mat[0, m]
+                                for m in exponents])
+        raw = boundary_basis @ np.diag(eigenvalues) @ boundary_basis.T
+        integer = np.rint(raw.real).astype(int)
+        assert np.allclose(raw, integer, atol=1e-12)
+        assert np.all(integer >= 0)
+        matrices.append(integer)
+
+    fusion_residual = 0.0
+    for a in range(len(primaries)):
+        for b in range(len(primaries)):
+            rhs = sum(n_fus[a, b, c] * matrices[c]
+                      for c in range(len(primaries)))
+            fusion_residual = max(
+                fusion_residual,
+                float(np.linalg.norm(matrices[a] @ matrices[b] - rhs)))
+    assert fusion_residual == 0.0
+    return {
+        'exponents': tuple(primaries[i] for i in exponents),
+        'matrices': tuple(matrices),
+        'fusion_residual': fusion_residual,
+    }
+
+
+@lru_cache(maxsize=1)
+def _compute_d6_boundary():
+    """Compute the six-boundary graph and its exact braid connection.
+
+    The fundamental nimrep is the canonical graph used by the generation
+    word lemma. Its adjoint action is fixed by 3 x 3bar = 1 + 8.  The
+    connected components of that adjoint action are three boundary
+    pairs, and every pair has one diagonal and two off-diagonal channels.
+    There are no adjoint channels between distinct pairs.
+
+    In cell-system notation this regular graph is D⁽⁶⁾*.  The two
+    algebraic cell magnitudes are fixed by the type-I equations and the
+    relative sign by the type-II equation.  Substitution in the Ocneanu
+    formula gives a unitary Yang--Baxter connection whose entries all
+    have magnitude 1/sqrt(2).  Thus 1/sqrt(2) is derived here from the
+    solved connection, not assigned from graph valency.  This is the
+    n=1 specialization of Evans--Pugh, Theorem 8.2 (arXiv:0906.4307).
+    """
+    from words import N_FUND
+
+    n10 = np.asarray(N_FUND, dtype=float)
+    identity = np.eye(n10.shape[0])
+    n11 = n10 @ n10.T - identity
+
+    # Obtain the generation pairs from the graph itself, not from labels.
+    unseen = set(range(n11.shape[0]))
+    boundary_pairs = []
+    while unseen:
+        seed = min(unseen)
+        component = tuple(int(i) for i in np.flatnonzero(n11[seed]))
+        assert len(component) == d10 and set(component) <= unseen
+        boundary_pairs.append(component)
+        unseen.difference_update(component)
+    assert len(boundary_pairs) == d11
+
+    blocks = tuple(n11[np.ix_(pair, pair)] for pair in boundary_pairs)
+    expected = np.array([[1.0, 2.0], [2.0, 1.0]])
+    assert all(np.array_equal(block, expected) for block in blocks)
+    total_channels = float(blocks[0][0].sum())
+    pair_offdiagonal_channels = float(blocks[0][0, 1])
+    pair_offdiagonal_fraction = pair_offdiagonal_channels / total_channels
+
+    degrees = n10.sum(axis=1)
+    assert np.all(degrees == d10)
+
+    # D^(6)* cell system W+ at q=exp(i*pi/6).  Each boundary pair is
+    # (i_1,i_2), (j_1,j_2), or (k_1,k_2).  Cyclic rotations have the
+    # same cell.  W- is obtained by swapping the two internal labels.
+    sqrt3 = math.sqrt(3.0)
+    cell_hi = math.sqrt((sqrt3 + 1.0) / 2.0)
+    cell_lo = math.sqrt((sqrt3 - 1.0) / 2.0)
+    internal_label = {
+        vertex: label
+        for pair in boundary_pairs
+        for label, vertex in enumerate(pair, start=1)
+    }
+    high_cells = {(1, 1, 1), (1, 2, 2), (2, 1, 2), (2, 2, 1)}
+
+    def cell(x, y, z):
+        labels = (internal_label[x], internal_label[y], internal_label[z])
+        if labels == (2, 2, 2):
+            return -cell_lo
+        return cell_hi if labels in high_cells else cell_lo
+
+    triangles = tuple(
+        (x, y, z)
+        for x, y, z in itertools.product(range(6), repeat=3)
+        if n10[x, y] and n10[y, z] and n10[z, x]
+    )
+    assert len(triangles) == 24
+
+    # Type I: each oriented edge frame has norm [2]_q = sqrt(3).
+    type_i_residual = 0.0
+    for x, y in zip(*np.nonzero(n10)):
+        norm = sum(abs(cell(x, y, z))**2
+                   for z in range(6) if (x, y, z) in triangles)
+        type_i_residual = max(type_i_residual, abs(norm - sqrt3))
+    assert type_i_residual < 1e-12
+
+    # Hecke projector U and braided connection X on every two-step path
+    # space with fixed endpoints.  The graph is simple and has PF weight
+    # one, so U is the outer product of the two closing triangle cells.
+    q = cmath.exp(1j * math.pi / 6.0)
+    local_connections = {}
+    connection_magnitudes = []
+    connection_unitarity_residual = 0.0
+    for x, z in itertools.product(range(6), repeat=2):
+        mids = tuple(y for y in range(6) if n10[x, y] and n10[y, z])
+        if not mids:
+            continue
+        values = np.array([cell(x, y, z) for y in mids])
+        hecke = np.outer(values, values.conjugate())
+        connection = (q**(2.0/3.0) * np.eye(len(mids))
+                      - q**(-1.0/3.0) * hecke)
+        local_connections[(x, z)] = (mids, connection)
+        connection_magnitudes.extend(abs(connection).ravel())
+        connection_unitarity_residual = max(
+            connection_unitarity_residual,
+            float(np.linalg.norm(connection @ connection.conjugate().T
+                                 - np.eye(len(mids)))))
+    connection_magnitude = 1.0 / math.sqrt(float(d10))
+    assert np.allclose(connection_magnitudes, connection_magnitude,
+                       atol=1e-12)
+    assert connection_unitarity_residual < 1e-12
+
+    def path_operator(paths, position):
+        index = {path: i for i, path in enumerate(paths)}
+        operator = np.zeros((len(paths), len(paths)), dtype=complex)
+        for path in paths:
+            mids, connection = local_connections[
+                (path[position - 1], path[position + 1])]
+            source = mids.index(path[position])
+            for target, middle in enumerate(mids):
+                moved = list(path)
+                moved[position] = middle
+                operator[index[tuple(moved)], index[path]] = \
+                    connection[target, source]
+        return operator
+
+    # Yang--Baxter is the type-II cell equation in operator form.
+    paths3 = tuple(
+        path for path in itertools.product(range(6), repeat=4)
+        if all(n10[path[i], path[i + 1]] for i in range(3))
+    )
+    braid1 = path_operator(paths3, 1)
+    braid2 = path_operator(paths3, 2)
+    braid_residual = float(np.linalg.norm(
+        braid1 @ braid2 @ braid1 - braid2 @ braid1 @ braid2))
+    braid_commutator = float(np.linalg.norm(
+        braid1 @ braid2 - braid2 @ braid1))
+    assert braid_residual < 1e-12 and braid_commutator > 1e-12
+
+    # At web depth four a fixed-endpoint path block is eight-dimensional.
+    # The central full twist splits it canonically as 3 + 3 + 2.
+    start = boundary_pairs[0][0]
+    endpoint = boundary_pairs[1][0]
+    paths4 = tuple(
+        path for path in itertools.product(range(6), repeat=5)
+        if path[0] == start and path[-1] == endpoint
+        and all(n10[path[i], path[i + 1]] for i in range(4))
+    )
+    assert len(paths4) == 8
+    depth4_braids = tuple(path_operator(paths4, i) for i in (1, 2, 3))
+    full_twist = np.linalg.matrix_power(
+        depth4_braids[0] @ depth4_braids[1] @ depth4_braids[2], 4)
+    twist_spectrum = np.linalg.eigvals(full_twist)
+    roots = (1.0 + 0.0j,
+             cmath.exp(2j * math.pi / 3.0),
+             cmath.exp(-2j * math.pi / 3.0))
+    depth4_carrier_dimensions = tuple(
+        int(np.count_nonzero(abs(twist_spectrum - root) < 1e-9))
+        for root in roots
+    )
+    assert sorted(depth4_carrier_dimensions) == [2, 3, 3]
+
+    return {
+        'n10': n10,
+        'n11': n11,
+        'boundary_pairs': tuple(boundary_pairs),
+        'adjoint_blocks': blocks,
+        'pair_offdiagonal_fraction': pair_offdiagonal_fraction,
+        'cell_magnitudes': (cell_hi, cell_lo),
+        'type_i_residual': type_i_residual,
+        'connection_magnitude': connection_magnitude,
+        'connection_unitarity_residual': connection_unitarity_residual,
+        'braid_residual': braid_residual,
+        'braid_commutator': braid_commutator,
+        'depth4_carrier_dimensions': depth4_carrier_dimensions,
+    }
+
+
 # ═══════════════════════════════════════════════════════════════════════
 #  CKM derivation
 # ═══════════════════════════════════════════════════════════════════════
 
-def _derive_ckm():
-    """Derive full CKM matrix from d₁₀, d₁₁.
+def _derive_ckm(wzw):
+    """Derive the full CKM matrix from the SU(3)₃ boundary data.
 
-    Four Wolfenstein parameters from four faces of SU(3)₃ WZW:
-      λ , metric (boundary OPE exponent)
-      A , algebraic (nimrep inter-generation fraction)
+    Four Wolfenstein parameters, each a face of the D⁽⁶⁾* graph:
+      λ , metric (Sugawara weight + adjoint echo)
+      A , algebraic (nimrep within-pair off-diagonal fraction)
       η̄ , modular (S-matrix phase)
-      ρ̄ , topological (Ocneanu cell amplitude)
+      ρ̄ , topological (Ocneanu braid-connection amplitude)
     """
 
     # ── Wolfenstein parameters (all from d₁₀/d₁₁) ──
+    d6 = _compute_d6_boundary()
 
-    # λ = tan(h₁₀): boundary OPE angle of fundamental primary
-    # h₁₀ = d₁₀/d₁₁² = 2/9 (Sugawara conformal weight)
-    lam = math.tan(float(h10))
+    # λ = h₁₀·(1 + h₁₁/K²): the fundamental Sugawara weight h₁₀ = 2/9,
+    # carrying the engine's quadratic-altitude echo.  The
+    # echo factor is 73/72, the SAME one root.py already applies to
+    # bridge² (root.py: .echo(["WZW(adj/K²)"], h11/K², 2)): a PAIRED
+    # insertion is Z₃-invariant already at second order, so K² is the
+    # admissible altitude, and the adjoint is the stepper the down-type
+    # channel closes through.  Over the engine's full echo
+    # menu, {h₁₀, h₁₁, Q₀, 1} × {K, K², K³}, this is the only entry
+    # within 1σ of the measured Wolfenstein λ.
+    lam_exact = h10 * (1 + h11 / K**2)          # exact rational ledger
+    assert lam_exact == Fraction(73, 324)
+    lam = float(lam_exact)
 
-    # A = √Q₀ = √(d₁₀/d₁₁): nimrep off-diagonal fraction
-    # d₁₀ inter-generation channels out of d₁₁ total at each fusion vertex
-    A = math.sqrt(float(d10) / float(d11))
+    # A² is the normalized off-diagonal fraction of each adjoint block.
+    A = math.sqrt(d6['pair_offdiagonal_fraction'])
+    assert abs(A**2 - float(d10) / float(d11)) < 1e-15
 
-    # η̄ = π/d₁₁² = π·h₁₀: S-matrix phase of fundamental primary
-    # The Kac-Peterson phase exp(2πi·h₁₀) gives Im(OPE) = π·h₁₀
-    eta = math.pi / float(d11**2)
+    # The oriented fundamental/fundamental modular phase is pi/9.
+    fund = wzw['IDX'][(1, 0)]
+    eta = cmath.phase(wzw['S_mat'][fund, fund])
+    assert abs(eta - math.pi / float(d11**2)) < 1e-12
 
-    # ρ̄ = h₁₀/√d₁₀ = √d₁₀/d₁₁²: Ocneanu cell amplitude
-    # Conformal weight divided by quantum dimension amplitude
-    rho = float(h10) / math.sqrt(float(d10))
+    # The solved D^(6)* braid connection has |X|=1/√d₁₀.
+    rho = float(h10) * d6['connection_magnitude']
 
-    # ── COMPRESSION: the unitarity-triangle apex is ONE complex number ──
-    #     apex = ρ̄ + iη̄ = (h₁₀/√d₁₀)·(1 + iπ/√d₁₀)
-    # the cell amplitude h₁₀/√d₁₀ rotated by the universal phase
-    # direction π/√d₁₀.  All CP structure (η̄, ρ̄, γ, J) is this single
-    # number. γ = arg(apex) = arctan(π/√d₁₀) is then automatic.
+    # Package the two apex coordinates once for the downstream CKM map.
     apex = complex(rho, eta)
     assert abs(apex - (float(h10)/math.sqrt(d10))
                * complex(1.0, math.pi/math.sqrt(d10))) < 1e-15
 
-    # γ = arg(apex) = arctan(π/√d₁₀), derived CP phase
+    # γ = arg(apex) = arctan(π/√d₁₀), downstream.
     gamma_rad = math.atan2(eta, rho)
     gamma_deg = math.degrees(gamma_rad)
 
@@ -250,6 +444,12 @@ def _derive_ckm():
         'gamma_deg': gamma_deg, 'J_ckm': J_ckm,
         'alpha_deg': alpha_deg, 'beta_deg': beta_deg,
         'sin2beta': sin2beta,
+        'd6_boundary_pairs': d6['boundary_pairs'],
+        'd6_adjoint_blocks': d6['adjoint_blocks'],
+        'd6_cell_magnitudes': d6['cell_magnitudes'],
+        'd6_connection_magnitude': d6['connection_magnitude'],
+        'd6_braid_residual': d6['braid_residual'],
+        'd6_depth4_carrier_dimensions': d6['depth4_carrier_dimensions'],
         'ckm_obs': ckm_obs,
         'chi2_ckm': chi2_ckm,
         'max_pull_ckm': max_pull_ckm,
@@ -261,13 +461,15 @@ def _derive_ckm():
 # ═══════════════════════════════════════════════════════════════════════
 
 def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
-    """Derive PMNS mixing from conjugation invariant + charged-lepton back-reaction.
+    """Derive the PMNS candidate from the SU(3)₃ modular data.
 
     The conjugation modular invariant Z_C of SU(3)₃ pairs each primary
-    (l₁,l₂) with its conjugate (l₂,l₁).  The orbit structure under this
-    Z₂ action determines the neutrino mixing matrix:
+    (l₁,l₂) with its conjugate (l₂,l₁). Compressing bulk fusion to
+    conjugation-even orbit sums produces a democratic principal block:
 
-    1. Orbits of Z_C give the democratic nimrep J₃ → TBM base matrix
+    1. The adjoint principal block and a further projected fundamental
+       block give TBM magnitudes up to ordering and rephasing. They are
+       an algebraic candidate, not a Z_C nimrep or a neutrino mass operator.
     2. Charged-lepton rotation U_e provides back-reaction (called "NLO
        corrections" in standard convention):
          φ = √(m_e/m_μ)/√d₁₀  (lepton mass ratio, derived in masses.py)
@@ -279,7 +481,8 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
     PRIMARIES = wzw['PRIMARIES']
     IDX = wzw['IDX']
     N_fus = wzw['N_fus']
-    N_PRIM = wzw['N_PRIM']
+    S_mat = wzw['S_mat']
+    zc_nimrep = _compute_zc_boundary_nimrep(wzw)
 
     # ── Conjugation invariant orbit structure ──
     CONJ_MAP = {(l1, l2): (l2, l1) for l1, l2 in PRIMARIES}
@@ -290,51 +493,93 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
             orbits.append((p,) if cp == p else (p, cp))
             seen.update([p, cp])
 
-    orb_sizes = [len(o) for o in orbits]
     N_orb = len(orbits)
 
-    # Orbit nimrep, LOAD-BEARING CHECK: the generation-triplet block
-    # of the folded adjoint nimrep must be DEMOCRATIC (S₃-symmetric,
-    # all entries equal, eigenvalues {3,0,0}). This is what licenses
-    # the TBM base below.  Computed from the Verlinde data, asserted.
+    # Normalized conjugation-orbit compression Q^T N_lambda Q.  This is
+    # bulk fusion data, not the Z_C Cardy nimrep (which has Tr Z_C = 2
+    # boundary states).  The diagnostics below keep that distinction
+    # executable rather than burying it in prose.
     idx_11 = IDX[(1, 1)]
-    n11_fold = np.zeros((N_orb, N_orb))
-    for i, oa in enumerate(orbits):
-        for j, ob in enumerate(orbits):
-            s11 = sum(N_fus[idx_11, IDX[a], IDX[b]] for a in oa for b in ob)
-            n11_fold[i, j] = s11 / math.sqrt(orb_sizes[i] * orb_sizes[j])
+    idx_10 = IDX[(1, 0)]
+    orbit_basis = np.zeros((len(PRIMARIES), N_orb))
+    for j, orbit in enumerate(orbits):
+        for primary in orbit:
+            orbit_basis[IDX[primary], j] = 1.0 / math.sqrt(len(orbit))
+
+    folded = tuple(orbit_basis.T @ N_fus[a] @ orbit_basis
+                   for a in range(len(PRIMARIES)))
+    b11_fold = folded[idx_11]
+    b10_fold = folded[idx_10]
+    # The three non-invertible conjugate-pair orbits form the generation
+    # block. This replaces the former hand-written label filter; the
+    # physical identification of this block with generations: the
+    # non-invertible conjugate pairs are the generation carriers.
+    qdim = np.real(S_mat[0, :] / S_mat[0, 0])
     gen = [i for i, o in enumerate(orbits)
-           if len(o) == 2 and sum(o[0]) in (1, 2, 3) and o[0] != (3, 0)
-           and o[0] not in ((0, 3),)]
-    blk = n11_fold[np.ix_(gen, gen)]
+           if len(o) == 2 and qdim[IDX[o[0]]] > 1.0 + 1e-9]
+    assert len(gen) == d11
+    blk = b11_fold[np.ix_(gen, gen)]
     assert blk.shape == (3, 3) and np.allclose(blk, blk[0, 0]), \
-        "Z_C generation block must be democratic (licenses TBM)"
+        "conjugation-orbit adjoint principal block must be democratic"
     ev = sorted(np.linalg.eigvalsh(blk), reverse=True)
     assert abs(ev[0] - 3*blk[0, 0]) < 1e-9 and abs(ev[1]) < 1e-9
 
-    # ── TBM base matrix (from conjugation invariant orbit structure) ──
-    # The democratic nimrep J₃ of the Z_C conjugation invariant has
-    # S₃ permutation symmetry, giving the tribimaximal form.
-    # Credit: Harrison-Perkins-Scott (2002) for the TBM parameterisation.
-    U_TBM = np.array([
-        [ 2/math.sqrt(6),  1/math.sqrt(3),  0],
-        [-1/math.sqrt(6),  1/math.sqrt(3),  1/math.sqrt(2)],
-        [ 1/math.sqrt(6), -1/math.sqrt(3),  1/math.sqrt(2)],
-    ], dtype=complex)
+    # The projected fundamental principal block resolves that plane. Its eigenvalues
+    # {-1/2, 1/2, 1} are non-degenerate, and the absolute eigenvector
+    # matrix is TBM up to the unphysical ordering and rephasing of the
+    # boundary states. Canonicalize those freedoms to the convention used
+    # by the charged-lepton rotation below.
+    complement = [i for i in range(N_orb) if i not in gen]
+    fundamental_generation_leakage = float(np.linalg.norm(
+        b10_fold[np.ix_(gen, complement)]))
+    assert fundamental_generation_leakage > 1e-12
+
+    # A representation would obey B_a B_b = sum_c N_ab^c B_c. Orbit
+    # compression fails this test because non-self-conjugate fusion does
+    # not preserve the conjugation-even subspace.
+    fold_fusion_residual = 0.0
+    for a in range(len(PRIMARIES)):
+        for b in range(len(PRIMARIES)):
+            rhs = sum(N_fus[a, b, c] * folded[c]
+                      for c in range(len(PRIMARIES)))
+            fold_fusion_residual = max(
+                fold_fusion_residual,
+                float(np.linalg.norm(folded[a] @ folded[b] - rhs)))
+    assert fold_fusion_residual > 1e-12
+
+    blk10 = b10_fold[np.ix_(gen, gen)]
+    vals10, vecs10 = np.linalg.eigh(blk10)
+    targets = (-0.5, 1.0, 0.5)  # mass-column convention: 1, 2, 3
+    col_order = [int(np.argmin(abs(vals10 - target))) for target in targets]
+    assert len(set(col_order)) == d11
+    U_TBM = vecs10[:, col_order]
+    row_order = np.argsort(-np.abs(U_TBM[:, 0]), kind='stable')
+    U_TBM = U_TBM[row_order, :]
+    if U_TBM[0, 0] < 0:
+        U_TBM[:, 0] *= -1
+    if U_TBM[2, 0] < 0:
+        U_TBM[2, :] *= -1
+    if U_TBM[0, 1] < 0:
+        U_TBM[:, 1] *= -1
+    if U_TBM[1, 2] < 0:
+        U_TBM[:, 2] *= -1
+    U_TBM = U_TBM.astype(complex)
+    tbm_abs = np.array([
+        [2/math.sqrt(6), 1/math.sqrt(3), 0],
+        [1/math.sqrt(6), 1/math.sqrt(3), 1/math.sqrt(2)],
+        [1/math.sqrt(6), 1/math.sqrt(3), 1/math.sqrt(2)],
+    ])
+    assert np.allclose(np.abs(U_TBM), tbm_abs)
 
     # ── Charged-lepton back-reaction: U_e = R₂₃(−φ) · R₁₃(θ_C, δ) ──
     # (Standard convention: "NLO correction to TBM.")
-    # The charged-lepton mass matrix is not exactly diagonal in the
-    # TBM basis. The rotation U_e accounts for this interference.
-    #
-    # φ = √(m_e/m_μ)/√d₁₀: lepton mass ratio suppression
-    #   (m_e, m_μ derived from Koide Z₃ circulant in masses.py)
+    # The rotation form uses the CKM-derived coordinates.
+    # φ = √(m_e/m_μ)/√d₁₀; m_e and m_μ come from masses.py.
     phi = math.sqrt(m_e / m_mu) / math.sqrt(float(d10))
-    # θ_C = h₁₀ = d₁₀/d₁₁² = 2/9: the conformal weight IS the Cabibbo angle
-    #   CKM defines λ = tan(h₁₀), so θ_C = arctan(λ) = arctan(tan(h₁₀)) = h₁₀
-    #   (quark-lepton complementarity from shared SU(3)₃ structure)
+    # θ_C = h₁₀ BARE. arctan(λ) forks from h₁₀ under the echoed λ;
+    # both readings are measured in the header. The primary one is bare.
     theta = float(h10)
-    # δ = arccos(−λ_CKM): Dirac phase from CKM consistency
+    # δ = arccos(−λ_CKM).
     delta = math.acos(-lam_ckm)
 
     def R13(a, d):
@@ -370,6 +615,17 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
         'J_lep': J_lep,
         'chi2_pmns': chi2_pmns,
         'pulls': {'12': pull_12, '23': pull_23, '13': pull_13},
+        'generation_orbits': tuple(orbits[i] for i in gen),
+        'zc_boundary_states': len(zc_nimrep['exponents']),
+        'zc_n10': zc_nimrep['matrices'][IDX[(1, 0)]],
+        'zc_n11': zc_nimrep['matrices'][IDX[(1, 1)]],
+        'zc_fusion_residual': zc_nimrep['fusion_residual'],
+        'fundamental_generation_leakage': fundamental_generation_leakage,
+        'fold_fusion_residual': fold_fusion_residual,
+        'democratic_eigenvalues': tuple(float(x) for x in ev),
+        'fundamental_eigenvalues': targets,
+        'tbm_orbit_order': tuple(orbits[gen[int(i)]] for i in row_order),
+        'U_TBM': U_TBM,
         'U_PMNS': U_PMNS,
     }
 
@@ -380,7 +636,7 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
 
 def derive(R, masses):
     """
-    Derive CKM + PMNS mixing matrices.
+    Compute CKM + PMNS mixing matrices.
 
     R      : dict from root.derive()
     masses : dict from masses.derive()
@@ -395,7 +651,6 @@ def derive(R, masses):
     print(f"\n  SU(3) at level k = d₁₁ = {d11}, altitude K = d₁₀·d₁₁ = {d10*d11}")
     wzw = _compute_wzw()
     S_mat = wzw['S_mat']
-    IDX = wzw['IDX']
     N_PRIM = wzw['N_PRIM']
     U_check = S_mat @ S_mat.conj().T
     unitarity_err = np.max(np.abs(U_check - np.eye(N_PRIM)))
@@ -403,10 +658,11 @@ def derive(R, masses):
 
     # ── CKM ──
     print(f"\n  CKM parameters (all from d₁₀/d₁₁):")
-    ckm = _derive_ckm()
+    ckm = _derive_ckm(wzw)
 
     h10_frac = Fraction(d10, d11**2)
-    print(f"    lambda = tan(d₁₀/d₁₁²) = tan({h10_frac}) = {ckm['lam']:.5f}"
+    print(f"    lambda = h₁₀(1+h₁₁/K²) = ({h10_frac})(73/72) = "
+          f"{Fraction(73, 324)} = {ckm['lam']:.5f}"
           f"  (PDG: {PDG_CKM['lambda'][0]}, pull: {(ckm['lam']-PDG_CKM['lambda'][0])/PDG_CKM['lambda'][1]:+.2f}sigma)")
     print(f"    A = sqrt(d₁₀/d₁₁) = sqrt({Fraction(d10,d11)}) = {ckm['A']:.5f}"
           f"  (PDG: {PDG_CKM['A'][0]}, pull: {(ckm['A']-PDG_CKM['A'][0])/PDG_CKM['A'][1]:+.2f}sigma)")
@@ -438,7 +694,10 @@ def derive(R, masses):
     m_mu = masses['m_mu']
     pmns = _derive_pmns(wzw, ckm['lam'], m_e, m_mu)
 
-    print(f"\n  PMNS (democratic + charged-lepton back-reaction from Z_C conjugation):")
+    print(f"\n  PMNS candidate (conjugation-orbit projection + charged-lepton back-reaction):")
+    print(f"    Z_C Cardy boundaries = {pmns['zc_boundary_states']}; "
+          f"fundamental projection leakage = "
+          f"{pmns['fundamental_generation_leakage']:.3f}")
     print(f"    phi = sqrt(m_e/m_mu)/sqrt({d10}) = {math.sqrt(m_e/m_mu)/math.sqrt(float(d10)):.6f} rad")
     print(f"    theta_C = h₁₀ = {h10_frac} = {math.degrees(float(h10)):.3f} deg")
     print(f"    delta = arccos(-lambda) = {math.degrees(math.acos(-ckm['lam'])):.3f} deg")
