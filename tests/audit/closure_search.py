@@ -1,16 +1,15 @@
 """
 closure_search.py: the grammar run as a GENERATOR, blind gates first,
-data contact once, look-elsewhere denominator printed.
+data contact once, look elsewhere denominator printed.
 
-This audit holds the selected E8(1) > G2(1) x F4(1) wiring fixed. Its 504
-hits at 1% are mass grammar realizations, not additional closure lanes.
+This audit holds the closed E8(1) > G2(1) x F4(1) wiring fixed.  Its 504
+hits at 1% are different realizations of the mass grammar, not
+additional closure lanes.
 
-WHY THIS MODULE EXISTS.  The scorecard is retrodiction-shaped: the
-committed edges were found by a search that knew the targets.  No test
-inside the repository can audit that outer search - but the repository
-can do the next best thing: re-run the search itself, mechanically,
-over the COMMITTED grammar (tests/audit/edge_grammar.py), with the gates
-split into two strictly ordered stages:
+WHAT THIS MODULE COMPUTES.  The scorecard compares the committed edges
+with their targets.  This module runs the search itself, mechanically,
+over the COMMITTED grammar (tests/audit/edge_grammar.py).  The gates
+are split into two strictly ordered stages:
 
   STAGE 1 - BLIND GATES (no measured value anywhere):
     positivity      every circulant gap Δₖ > 0 (√m real)
@@ -18,62 +17,67 @@ split into two strictly ordered stages:
     reality         Koide inversion discriminant > 0
     bracketing      the inverted root lies between its partners
                     (masses.py's own selection rule, stated blind)
-    monotonicity    word-length rule ⇒ base(n) increasing in n
 
   STAGE 2 - DATA CONTACT (applied exactly once, at the end):
-    a candidate HITS if it lands within the scorecard band (1%)
+    a candidate HITS if it falls within the scorecard band (1%)
     of the observed value.  A second, tighter tier (0.1%) is also
-    reported: at 1% the data selects the word COUNT but often not
-    the correction (all corrections are sub-percent); the tight tier
-    shows what the precision claims actually resolve.  Down-type
-    stages condition on the CANON upstream choices (the search is
-    staged, and the conditioning is printed, not hidden).
+    reported.  At 1% the data select the word COUNT but often not
+    the correction, because all corrections are below a percent.
+    The tight tier shows what the precision claims actually resolve.
+    The down-type stages condition on the CANON upstream choices.
+    The search is staged, and the conditioning is printed, not hidden.
 
-The printed result is the honest trials accounting:
+The printed result is the trials accounting:
 
     candidates  →  blind survivors  →  data hits
 
 per sector and jointly.  The JOINT BLIND SURVIVOR COUNT is the
-look-elsewhere denominator the scorecard owes its reader: how many
-universes could this grammar have described?  If the canon web is the
-unique data hit, that is the uniqueness claim in executable form.  If
-it is not, this module says so (the hit lists print in full).
+look elsewhere denominator that the scorecard owes its reader: how
+many universes could this grammar have described?  If the canon web
+were the unique data hit, that would be the uniqueness claim in
+executable form.  The hit lists print in full either way.
 
 THE MEASURED ANSWER, stated where the question is asked (frozen by
-tests/test_closure_search.py; any drift fails CI):
+tests/audit/test_closure_search.py; any drift fails CI):
 
-  * canon is NOT the unique 1% mass grammar hit: 504 of 2,370,816
+  * canon is NOT the unique 1% mass grammar hit.  504 of 2,370,816
     eligible realizations hit the data at the 1% band, canon among
-    them. The structural wiring is fixed throughout. The uniqueness
-    that survives is narrower: the word COUNTS are
-    resolved uniquely, the sub-percent corrections are not (all six
-    corrections are within 1% of each other).
+    them.  The structural wiring is fixed throughout.  The uniqueness
+    that survives is narrower.  The word COUNTS are resolved
+    uniquely.  The subpercent corrections are not resolved at the
+    terminus: at count 97 all six corrections sit within 1% of each
+    other.  At lower counts they separate (1.8% at count 12), and the
+    U1/U2 stages resolve them.
   * the joint 0.1% tier is ZERO, including canon: U1 and Db have no
     tight hits because the u and b references themselves are coarser
     than 0.1%.  The tight tier is decisive only where the reference
     is precise (mu, tau, c, t).
-  * three of the six blind gates gate nothing: the up-stage gate
-    (count >= 1) is satisfied by every boundary-walk word, so the
-    U1/U2/U3 blind-survivor counts EQUAL their candidate counts and
-    the joint denominator is, for the quark sector, the raw
-    candidate count.
-  * the strange stage has 0 menu-only hits at any tier; it closes
-    ONLY through the derived off-menu bridge (DERIVED_EDGES),
-    whose derivation lives outside the audited grammar.
+  * four of the six blind gates remove nothing.  Every boundary walk
+    word satisfies the up stage gate (count >= 1), so the U1/U2/U3
+    blind survivor counts EQUAL their candidate counts.  The strange
+    stage Ds passes all nine.  Only L and Db prune (Db 9 -> 8).  So
+    the joint denominator is the raw candidate count for the up and
+    strange stages, and one short of it for bottom.
+  * the strange stage has 0 hits from the menu alone, at any tier.
+    It closes ONLY through the derived bridge outside the menu
+    (DERIVED_EDGES), whose derivation lies outside the audited
+    grammar.
   * the down stages condition on canon upstream (m_c, m_t, m_b by
-    name), so the joint product multiplies CONDITIONAL counts; it is
+    name), so the joint product multiplies CONDITIONAL counts.  It is
     a staged accounting, not an independent joint search.
   * koide_invert_s uses the opposite Brannen branch from
-    koide_invert_b, a declared discrete branch choice, i.e. one
-    binary degree of freedom the menus do not price.
-  * the koide menu at this stage is the 8 committed structures plus
-    the declared identity insertion ("none" = Q0, the vent-free
-    structure, part of the committed grammar's koide_structure
-    operation as its zero case), 9 candidates, stated here rather
-    than widened silently.
+    koide_invert_b.  The sign is the output of the gates, not an
+    input: the +branch has no positive root lighter than both
+    partners.  So the menus carry no branch bit (the audit in run()
+    prints both roots).
+  * the koide menu at this stage holds 9 candidates: the 8 committed
+    structures plus the declared identity insertion ("none" = Q0, the
+    structure with no vent).  The identity insertion is the zero case
+    of the committed grammar's koide_structure operation.  It is
+    stated here so that the menu is not widened silently.
 
 THE TWO DERIVED EDGES.  Two canon edges enter the mass sector
-through structures beyond the word/correction menus, and both are
+through structures outside the word/correction menus.  Both are
 derivations, not menu choices (DERIVED_EDGES below; witnesses in
 tests/probes/):
 
@@ -85,12 +89,12 @@ tests/probes/):
        outside the frozen denominator).
   m_s: the Dynkin→Albert norm conversion δ_Z₂²/δ_J²: δ_Z₂ = 2/3
        (Dynkin fixed point), δ_J² = 3/8 constructed from a concrete
-       J₃(O) element on an anti-associative Fano triple with the
+       J₃(O) element on an antiassociative Fano triple with the
        isotropic share 1/dim(O) (tests/probes/edge_derivations.py),
        conversion unique by Schur's lemma on the irreducible 26.
 
 Usage:  python3 tests/audit/closure_search.py
-Frozen: tests/test_closure_search.py (survivor counts, hit identities,
+Frozen: tests/audit/test_closure_search.py (survivor counts, hit identities,
         and the gap list are all pinned).
 """
 
@@ -107,13 +111,13 @@ from interference.root import (d10, d11, K, h10, h11, Q0,   # noqa: E402
 import edge_grammar as eg                                    # noqa: E402
 
 TOL = 0.01          # the scorecard's own band, as in surplus_edges.py
-TIGHT = 0.001       # the precision tier: what the sub-percent claims resolve
+TIGHT = 0.001       # the precision tier: what the subpercent claims resolve
 
 
 def _hit(pred, target, tol):
     return abs(pred / target - 1.0) < tol
 
-# canon identities (frozen by tests/test_closure_search.py)
+# canon identities (frozen by tests/audit/test_closure_search.py)
 CANON = dict(theta=float(h10),
              up=(("ff", "h10"), ("ffa", "delta"), ("f4+a4", "1/2K")),
              koide_b=("adj", 3), koide_s=("fund", 3))
@@ -124,7 +128,7 @@ DERIVED_EDGES = (
      "norm conversion delta_Z2^2/delta_J^2: fixed point + constructed "
      "Albert spectral gap (tests/probes/edge_derivations.py), "
      "conversion unique by Schur on the irreducible 26"),
-    ("m_d vent", "d10/d11^4 = 2/81 (triality-swapped h10/d11^2)",
+    ("m_d vent", "d10/d11^4 = 2/81 (triality swapped h10/d11^2)",
      "exact identity d11^2(1+d10/d11^4) = count(aa) + h10 = 83/9: "
      "the committed word_multiplier operation + generation ladder"),
 )
@@ -156,9 +160,9 @@ def up_candidates(gen, length_words):
     rule's length × every correction (or none).
     BLIND GATE: count ≥ 1 (a multiplier; count 0 = no walk closes).
     VACUOUS IN PRACTICE: every word in the committed menus has count
-    ≥ 4, so this gate removes nothing and the up-stage blind counts
-    equal the candidate counts (stated in the module docstring; the
-    joint denominator inherits it)."""
+    ≥ 4.  So this gate removes nothing, and the up stage blind counts
+    equal the candidate counts.  The module docstring states this, and
+    the joint denominator inherits it."""
     corrs = dict(eg.correction_menu())
     corrs["none"] = 0.0
     out = []
@@ -190,9 +194,9 @@ def koide_invert_s(Q, m_c, m_b, bridge):
     """Invert Q(s,c,b) = Q for m_s on the negative Brannen branch:
     √m_s enters the Koide sum with a minus sign (the quadratic below
     is the +branch equation under x -> -x, so its positive root is
-    -√m_s).  Same branch as masses.py canon; the b inversion above
-    uses the +branch.  A declared discrete branch choice.  BLIND
-    GATES: discriminant > 0, exactly one positive root, and the
+    -√m_s).  Same branch as masses.py canon. The b inversion above
+    uses the +branch, which has no root surviving the same blind gates.
+    BLIND GATES: discriminant > 0, exactly one positive root, and the
     result lighter than both partners."""
     sc, sb = math.sqrt(m_c), math.sqrt(m_b)
     a = 1.0 - Q
@@ -210,6 +214,22 @@ def koide_invert_s(Q, m_c, m_b, bridge):
     return m_s if m_s < min(m_c, m_b) else None
 
 
+def koide_strange_positive_branch(Q, m_c, m_b):
+    """The +branch for strange: √m_s enters Q(s,c,b) with a plus sign.
+    Return its roots and those passing positivity and mass ordering."""
+    sc, sb = math.sqrt(m_c), math.sqrt(m_b)
+    a = 1.0 - Q
+    b = -2.0 * Q * (sc + sb)
+    c = m_c + m_b - Q * (sc + sb)**2
+    disc = b*b - 4.0*a*c
+    if disc <= 0.0:
+        return [], []
+    roots = [(-b + math.sqrt(disc)) / (2.0*a),
+             (-b - math.sqrt(disc)) / (2.0*a)]
+    survivors = [x*x for x in roots if x > 0.0 and x*x < min(m_c, m_b)]
+    return roots, survivors
+
+
 # ═══════════════════════════════════════════════════════════════════════
 #  The staged search
 # ═══════════════════════════════════════════════════════════════════════
@@ -221,7 +241,7 @@ def run(report=print):
     report("  stage order: BLIND GATES first, data contact once, last.")
 
     stages = {}
-    hit_ids = {}          # per-stage hit identities (frozen by tests)
+    hit_ids = {}          # per stage hit identities (frozen by tests)
 
     ## Stage L: leptons ##
     lep = lepton_candidates()
@@ -251,7 +271,7 @@ def run(report=print):
              2: M_E_ANCHOR_MEV * (gaps[2]/gaps[1])**2,
              3: M_E_ANCHOR_MEV * (gaps[0]/gaps[1])**2}
 
-    ## Stage U: up-type, one sub-stage per generation ##
+    ## Stage U: up-type, one substage per generation ##
     up_specs = [(1, eg.word_menu(2), PDG_MASSES["u"]),
                 (2, eg.word_menu(3), PDG_MASSES["c"]),
                 (3, eg.terminus_menu(), PDG_MASSES["t"])]
@@ -259,9 +279,10 @@ def run(report=print):
     for gen, words, target in up_specs:
         cands = up_candidates(gen, words)
         blind = [c for c in cands if c["blind"]]
-        # monotonicity across generations is enforced by the length
-        # rule itself (longer word ⇒ larger walk count menu); recorded
-        # per-candidate below at the joint stage.
+        # monotonicity across generations is NOT a separate filter.
+        # The length rule enlarges the count MENU with generation, but a
+        # short word can outcount a longer one (aa = 9 > fff = 8).  The
+        # joint denominator below keeps such combinations.
         hits = [c for c in blind
                 if _hit(c["mult"] * m_lep[gen], target, TOL)]
         tight = [c for c in hits
@@ -302,7 +323,7 @@ def run(report=print):
     stages["down_b"] = (len(b_rows), len(blind_b), len(hits_b),
                         len(tight_b))
     hit_ids["down_b"] = sorted(k for k, m in hits_b)
-    report(f"  Db koide-menu:  {len(b_rows):4d} candidates → "
+    report(f"  Db koide menu:  {len(b_rows):4d} candidates → "
            f"{len(blind_b):3d} blind survivors → {len(hits_b)} hit(s) @1%"
            f" → {len(tight_b)} @0.1%")
     for k, m in hits_b:
@@ -311,12 +332,12 @@ def run(report=print):
 
     # m_s: the bridge edge is the derived norm conversion (see
     # DERIVED_EDGES).  Both readings are still reported:
-    # bridge = 1 (menu-only) and bridge = canon derived edge.
+    # bridge = 1 (menu only) and bridge = canon derived edge.
     m_b_canon = next(m for k, m in blind_b if k == CANON["koide_b"])
-    charge_trace = d10**3 / d11
+    charge_trace = (d10**2 + 1 + d11) / d11      # 8/3, root.py form
     bridge_canon = math.sqrt(float(Q0)**2 * charge_trace
                              * (1.0 + float(h11) / K**2))
-    for tag, bridge in (("menu-only", 1.0), ("with derived edge",
+    for tag, bridge in (("menu only", 1.0), ("with derived edge",
                                              bridge_canon)):
         s_rows = [(k, koide_invert_s(Q, m_c_canon, m_b_canon, bridge))
                   for k, Q in sorted(kmenu.items())]
@@ -335,6 +356,18 @@ def run(report=print):
             report(f"       hit: Q₀+h({k[0]})/K^{k[1]} → m_s = {m:.1f} MeV"
                    f"{'  (canon)' if k == CANON['koide_s'] else ''}")
 
+    ## Branch audit: the strange sign is the gates' output ##
+    plus_roots, plus_surv = koide_strange_positive_branch(
+        kmenu[CANON["koide_s"]], m_c_canon, m_b_canon)
+    negative_root = next(x for x in plus_roots if x < 0.0)
+    report("\n  Ds branch audit (the sign is the gates' output, not an input):")
+    report(f"     +branch roots x = {plus_roots[0]:.1f}, "
+           f"{plus_roots[1]:.2f}: x₁² = {plus_roots[0]**2/1e3:.0f} GeV "
+           f"fails lighter than partners, x₂ < 0 fails positivity → "
+           f"{len(plus_surv)} gate survivor(s)")
+    report(f"     negative root mapped to the −branch: "
+           f"x²·bridge = {negative_root**2 * bridge_canon:.1f} MeV")
+
     ## The accounting ##
     joint_cand = joint_blind = joint_hits = joint_tight = 1
     for name in ("leptons", "up_gen1", "up_gen2", "up_gen3", "down_b",
@@ -346,11 +379,11 @@ def run(report=print):
         joint_tight *= t
 
     report("-" * 70)
-    report(f"  JOINT: {joint_cand} grammar-expressible webs → "
+    report(f"  JOINT: {joint_cand} grammar expressible webs → "
            f"{joint_blind} blind survivors → {joint_hits} hit(s) @1% → "
            f"{joint_tight} @0.1%")
-    report(f"  look-elsewhere denominator (blind survivors): {joint_blind}")
-    report(f"  trials statement: 7 of the 8 non-anchor masses "
+    report(f"  look elsewhere denominator (blind survivors): {joint_blind}")
+    report(f"  trials statement: 7 of the 8 nonanchor masses "
            f"(μ τ u c t b s; m_d is the ancillary stage below) are "
            f"{joint_hits} hit(s) in {joint_blind} eligible mass grammar "
            f"realizations at "
@@ -362,11 +395,11 @@ def run(report=print):
            f"(μ, τ, c, t)")
     report(f"  canon status: one of {joint_hits} joint hits at 1%, NOT "
            f"unique at that band (word counts resolve uniquely, "
-           f"sub-percent corrections do not); joint 0.1% tier = "
+           f"subpercent corrections do not). Joint 0.1% tier = "
            f"{joint_tight}, canon included (U1 and Db carry no tight "
            f"hits)")
     # Down-gen-1 stage (ANCILLARY: outside the frozen joint
-    # denominator; not multiplied into the accounting)
+    # denominator. Not multiplied into the accounting)
     w2 = eg.word_menu(2)
     corrs = dict(eg.correction_menu())
     corrs["none"] = 0.0
@@ -377,12 +410,12 @@ def run(report=print):
               if _hit((c + float(h10)) * M_E_ANCHOR_MEV,
                       PDG_MASSES["d"], TOL)]
     report(f"\n  D1 down-gen-1 (ancillary): unconditioned hits @1% = "
-           f"{d_uncond}; ladder-conditioned")
+           f"{d_uncond}. Ladder conditioned")
     report(f"     (corr(1) = h10, fixed at up-gen-1): unique hit = "
            f"{d_cond}  (canon: aa + h10 = 83/9 exactly)")
 
     report(f"\n  DERIVED EDGES (beyond the word/correction "
-           f"menus; each a derivation, not a choice):")
+           f"menus. Each a derivation, not a choice):")
     for name, expr, derivation in DERIVED_EDGES:
         report(f"    {name}: {expr}")
         report(f"        = {derivation}")
@@ -391,7 +424,10 @@ def run(report=print):
                 joint_candidates=joint_cand,
                 joint_blind=joint_blind, joint_hits=joint_hits,
                 joint_tight=joint_tight, derived=DERIVED_EDGES,
-                down_gen1=dict(uncond=d_uncond, cond=d_cond))
+                down_gen1=dict(uncond=d_uncond, cond=d_cond),
+                strange_branch=dict(
+                    plus_roots=plus_roots, plus_survivors=plus_surv,
+                    minus_reading_MeV=negative_root**2 * bridge_canon))
 
 
 if __name__ == "__main__":

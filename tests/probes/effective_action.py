@@ -1,12 +1,12 @@
 """
-effective_action.py: the texture-stabilizing term, derived
-(the topological-protection derivation, branch (i), closed
+effective_action.py: the texture stabilizing term, derived
+(the topological protection derivation, branch (i), closed
 constructively).
 
-SCOPE. knot_charge.py measured that the substrate-only Z3-NLS does not
-protect pi_3 winding: textures Derrick-collapse and unwind through
-codim-4 amplitude-node events.  DP #4 requires the confined
-sector's effective action to contain a texture-stabilizing term
+SCOPE. knot_charge.py measured that the Z3-NLS substrate on its own
+does not protect pi_3 winding. Textures undergo Derrick collapse and
+unwind through codim-4 amplitude node events.  DP #4 requires the confined
+sector's effective action to contain a texture stabilizing term
 (Skyrme quartic or equivalent), or the chain breaks.  This probe
 exhibits that term CONSTRUCTIVELY, from the repo's own energy
 functional, with every step executable.
@@ -22,13 +22,13 @@ THE CONSTRUCTION (three exact steps, each verified below):
      v_i = -i zeta^dag d_i zeta the relative supercurrent.  Verified
      pointwise on the repo's texture, error -> 0 with resolution.
 
-  2. MERMIN-HO.  The current's curl is SLAVED to the topology:
+  2. MERMIN HO.  The current's curl is SLAVED to the topology:
          (curl v)_ij = (1/2) n . (d_i n x d_j n).
      Verified pointwise (factor +1/2, converging with resolution).
      A texture cannot exist without circulating current.
 
   3. INDUCED QUARTIC.  In the saturated regime the charged sector is
-     GAPPED (measured: omega_gap = 1.178 = 0.27 mu, the ring-down
+     GAPPED (measured: omega_gap = 1.178 = 0.27 mu, the ring down
      tower of knot_spectrum.py. At Gaussian order the classical
      linear response IS the quantum quasiparticle spectrum).
      Eliminating the gapped current at fixed Mermin-Ho curl gives the
@@ -36,34 +36,51 @@ THE CONSTRUCTION (three exact steps, each verified below):
      Faddeev-Skyrme quartic:
          E_top = [rho/(8 m^2)] * INT F_ij^2,
          F_ij = n . (d_i n x d_j n).
-     Derrick balance for the fixed-norm director then reads
+     Derrick balance for the fixed norm director then reads
          E(R) = (rho/8) I2 R + [rho/(8 m^2)] I4 / R,
      with I2, I4 the profile integrals of the unit hedgehog (computed
-     below by quadrature): a MINIMUM at R* = sqrt(I4/I2)/m.  Measured
-     numbers: I4/I2 = 1.98, R* m = 1.41 > 1 (the local limit is
-     self-consistent at its own minimum), and R* = 2.51 healing
-     lengths: the stabilized texture is a few healing lengths wide.
+     below by quadrature): a MINIMUM at R* = sqrt(I4/I2)/m.  Here m
+     is the SCREENING WAVENUMBER of the eliminated mode, in units of
+     inverse length, since E_top must carry the units of E_grad.  The
+     measured gap omega_gap = 1.178 (knot_spectrum.py) is a frequency.
+     Converting it to a wavenumber needs the eliminated mode's
+     dispersion inside the knot.  The BdG relative mode of the
+     symmetric vacuum has a modulational band, not a static pole, so
+     two conversions bracket the dispersion: the Schrodinger static
+     pole kappa^2 = 2 omega_gap, and the acoustic one
+     kappa = omega_gap/c_s.  Measured numbers: I4/I2 = 1.98, and
+     R* kappa = sqrt(I4/I2) = 1.41 > 1 identically, so the local limit
+     is self-consistent at its own minimum for any kappa. R* lies
+     between 1.9 and 5.3 healing lengths across the bracket. The
+     stabilized texture is therefore a few healing lengths wide. Its
+     exact width within that bracket is set by the eliminated mode's
+     dispersion inside the knot.
 
-WHAT THIS CLOSES AND WHAT REMAINS.  Branch (i) of the topological-
-protection derivation is closed:
-the effective action of the FIXED-NORM sector contains the
-stabilizing term, with a derived coefficient and a self-consistent
-scale. The substrate-only field evades it exactly as measured: the amplitude
-is classically soft, and node events (amplitude through zero) exit
-the fixed-norm manifold. That is the one channel the quartic cannot
-see.  Protection therefore rests on a single
-premise: the amplitude/node channel is suppressed in the saturated
-quantum regime.  At Gaussian order it is (the measured gap). Beyond
-Gaussian order a node event is a finite-action excursion, suppressed
-as exp(-c rho xi^3), and the diluteness parameter rho xi^3 is a
-substrate-depth parameter the web does not fix.  That premise is
-the confined-phase entry test (confined_phase.py), now sharpened
-to one quantitative condition.
+WHAT THIS CLOSES AND THE PREMISE IT RESTS ON.  Branch (i) of the
+topological protection derivation is closed. The effective action of
+the FIXED NORM sector contains the stabilizing term, with a derived
+coefficient and a self-consistent scale. The substrate field on its
+own escapes this term in exactly the way measured. The amplitude is
+classically soft, and node events (amplitude through zero) leave the
+fixed norm manifold. That is the only channel the quartic cannot see.
+Protection therefore rests on a single premise: the amplitude/node
+channel is suppressed in the saturated quantum regime.  At Gaussian
+order it is (the measured gap). Beyond Gaussian order a node event is
+a finite action excursion, suppressed as exp(-c rho xi^3). The
+diluteness parameter rho xi^3 is a substrate depth parameter that the
+web does not fix.  That premise is the confined phase entry test
+(confined_phase.py), sharpened to one quantitative condition.
 
 Corroboration: Babaev-Faddeev-Niemi (PRB 65, 100512, 2002) derive
-the same induced Faddeev-Skyrme term for two-component condensates.
-The follow-up literature's finding that full-GP knots still shrink
+the same induced Faddeev-Skyrme term for two component condensates.
+The follow up literature's finding that full GP knots still shrink
 through amplitude excursions is exactly our measured mechanism.
+
+SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
+background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
+self-bound sign holds the clock lump, which carries no pi_3 texture
+(knot_in_lump.py). For that sign the closure is the spinning lump
+(spinning_lump.py).
 
 Usage: python3 effective_action.py     (static, fast. No PDE)
 """
@@ -78,13 +95,19 @@ import _bootstrap  # noqa: E402,F401
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from substrate3d import g0, g1, rel_modes, rho0, texture_state  # noqa: E402
 
-# Scales of the hermitian equation.  The non-variational variant
-# gives gap 2.749 = 0.74 mu with mu = (3g0+g1)rho0 (retired);
-# knot_spectrum's outcome on the hermitian equation is
+# Scales of the hermitian equation.  The nonvariational variant
+# gives gap 2.749 = 0.74 mu with mu = (3g0+g1)rho0 (that variant's rate).
+# knot_spectrum's result on the hermitian equation is
 # omega_gap = 1.178 and mu = (3g0+2g1)rho0.
-M_GAP = 1.178          # measured: knot_spectrum.py outcome
+M_GAP = 1.178          # measured: knot_spectrum.py outcome (a frequency)
 MU = (3 * g0 + 2 * g1) * rho0
 XI = 1.0 / np.sqrt(MU)   # healing length of the condensate
+C_S = np.sqrt(MU)        # q=0 sound speed (sakharov FACT 5 dispersion)
+# screening wavenumber of the eliminated mode: the two conversions
+# of the measured frequency gap that bracket the in knot
+# dispersion (hbar = mass = 1, so a frequency has units 1/length^2)
+KAPPA = {"schrodinger pole sqrt(2 omega_gap)": np.sqrt(2.0 * M_GAP),
+         "acoustic omega_gap/c_s": M_GAP / C_S}
 
 
 def _director(psi):
@@ -142,7 +165,7 @@ def profile_integrals(N=64, L=14.0):
 
 
 def run(report=print):
-    report("EFFECTIVE ACTION: the texture-stabilizing term, derived")
+    report("EFFECTIVE ACTION: the texture stabilizing term, derived")
     report("=" * 70)
 
     # 1 + 2: the exact split and Mermin-Ho, with convergence
@@ -158,47 +181,53 @@ def run(report=print):
 
     # 3: induced quartic and the Derrick minimum
     I2, I4 = profile_integrals()
-    Rstar = float(np.sqrt(I4 / I2) / M_GAP)
-    E = lambda Rv: (I2 / 8) * Rv + (I4 / (8 * M_GAP**2)) / Rv
+    ratio = float(np.sqrt(I4 / I2))          # = R* kappa, kappa independent
     report("-" * 70)
-    report(f"  gap m = {M_GAP} (measured, knot_spectrum.py) = "
-           f"{M_GAP/MU:.2f} mu")
+    report(f"  gap omega = {M_GAP} (measured, knot_spectrum.py) = "
+           f"{M_GAP/MU:.2f} mu, a frequency. Screening wavenumber bracket:")
     report(f"  profile integrals: I2 = {I2:.1f}, I4 = {I4:.1f}, "
-           f"I4/I2 = {I4/I2:.2f}")
-    report(f"  E(R)/rho = (I2/8) R + (I4/8m^2)/R:")
-    for Rv in (0.5 * Rstar, Rstar, 2 * Rstar, 4 * Rstar):
-        report(f"    E({Rv:.3f}) = {E(Rv):.2f}")
-    report(f"  Derrick MINIMUM at R* = {Rstar:.3f} = "
-           f"{Rstar/XI:.2f} healing lengths.  R* m = {Rstar*M_GAP:.2f}")
+           f"I4/I2 = {I4/I2:.2f}, R* kappa = sqrt(I4/I2) = {ratio:.2f}")
+    R_star = {}
+    for name, kappa in KAPPA.items():
+        Rs = ratio / kappa
+        E = lambda Rv, k=kappa: (I2 / 8) * Rv + (I4 / (8 * k**2)) / Rv
+        assert E(Rs) < E(0.5 * Rs) and E(Rs) < E(2 * Rs), \
+            "the induced quartic must produce a Derrick minimum"
+        R_star[name] = Rs
+        report(f"    kappa = {kappa:.3f} [{name}]: Derrick MINIMUM at "
+               f"R* = {Rs:.3f} = {Rs/XI:.2f} healing lengths")
+    R_lo, R_hi = min(R_star.values()), max(R_star.values())
+    report(f"  R* = {R_lo/XI:.1f} to {R_hi/XI:.1f} healing lengths across "
+           f"the bracket. R* kappa = {ratio:.2f} > 1 for every kappa")
 
     # frozen assertions
-    assert E(Rstar) < E(0.5 * Rstar) and E(Rstar) < E(2 * Rstar), \
-        "the induced quartic must produce a Derrick minimum"
-    assert Rstar * M_GAP > 1.0, \
+    assert ratio > 1.0, \
         "the local (Faddeev-Skyrme) limit must hold at its own minimum"
-    # Frozen at the hermitian equation's scales: the texture
-    # stabilizes at 2.51 healing lengths (the non-variational
-    # variant's larger gap gives 0.99), and the local limit holds
-    # (R* m = 1.41).
-    assert 2.0 < Rstar / XI < 3.0, \
+    # The Derrick minimum exists for every conversion of the gap, and
+    # the texture is a few healing lengths wide. The exact width is
+    # set by the eliminated mode's in knot dispersion inside the bracket.
+    Rstar = R_lo
+    assert 1.5 < R_lo / XI and R_hi / XI < 6.0, \
         "the stabilized texture must sit within a few healing lengths"
 
     report("-" * 70)
-    report("  CLOSED (branch i of the topological-protection derivation): the fixed-")
+    report("  CLOSED (branch i of the topological protection derivation): the fixed")
     report("  norm sector's effective action contains the induced")
-    report("  Faddeev-Skyrme quartic, coefficient rho/(8 m^2), with a")
+    report("  Faddeev-Skyrme quartic, coefficient rho/(8 kappa^2), with a")
     report("  self-consistent stabilized scale a few healing lengths")
-    report("  wide (2.5 xi at the measured gap).")
+    report(f"  wide ({R_lo/XI:.1f} to {R_hi/XI:.1f} xi across the bracket "
+           "of the measured gap).")
     report("  The one channel it cannot see is the amplitude node")
-    report("  (exit from the fixed-norm manifold), which is the")
+    report("  (exit from the fixed norm manifold), which is the")
     report("  measured unwinding mechanism.  Protection therefore")
     report("  rests on a single premise: the node channel is gapped")
     report("  in the saturated quantum regime (Gaussian order:")
     report("  measured. Beyond: exp(-c rho xi^3) suppression).")
-    report("  That premise IS the confined-phase entry test, sharpened.")
+    report("  That premise IS the confined phase entry test, sharpened.")
     return dict(err=(e32, e48), mermin_ho=(mh32, mh48),
-                I2=I2, I4=I4, R_star=Rstar, R_star_m=Rstar * M_GAP,
-                R_star_xi=Rstar / XI)
+                I2=I2, I4=I4, R_star=Rstar, R_star_m=ratio,
+                R_star_xi_lo=R_lo / XI, R_star_xi_hi=R_hi / XI,
+                kappa=dict(KAPPA))
 
 
 if __name__ == "__main__":

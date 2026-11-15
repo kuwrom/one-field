@@ -1,7 +1,8 @@
 """Path bootstrap for standalone probes.
 
-Adds the repository and scrutiny roots, imports the canonical
-``interference.*`` modules, and maps historical short names to those objects.
+Adds the repository and test roots to the path, imports the canonical
+``interference.*`` modules, and registers each module under the short
+name the probes import it by.
 """
 import os as _os
 import sys as _sys

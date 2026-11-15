@@ -39,8 +39,9 @@ the standing wave displays.
 Reference:
     Etingof, Nikshych and Ostrik (2005), On fusion categories,
     Proposition 8.23 (canonical positive spherical structure).
-    Kahsay, Kibrom Kidane (2026). Trilogy.
-    Zenodo. https://doi.org/10.5281/zenodo.20144381
+    Kahsay, Kibrom Kidane (2026). The Octavian Coherence Gate: The Four
+    Irreducible Integers of the E₈(1) ⊃ G₂(1) × F₄(1) Conformal Embedding.
+    Zenodo. https://doi.org/10.5281/zenodo.20493955
 """
 
 import math

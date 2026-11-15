@@ -1,4 +1,4 @@
-"""Repository-root path bootstrap for standalone scrutiny scripts.
+"""Repository root path bootstrap for standalone scrutiny scripts.
 
 Canonical derivation modules use the ``interference.*`` namespace.
 """

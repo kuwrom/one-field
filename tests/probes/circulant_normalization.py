@@ -7,18 +7,19 @@ a real circulant Δ = c₀I + c₁S + c₁*S†.  Its eigenvalues are
 
     Δ_k = A + |B| cos(θ + 2πk/3),   A = c₀,  |B| = 2|c₁|,  θ = arg c₁
 
-and on the positive-gap branch (all Δ_k > 0) the framework reads
+and on the positive gap branch (all Δ_k > 0) the framework reads
 √m_k = Δ_k.  Three different objects in this repository claim that
 slot.  This probe puts them side by side and computes which can be it.
 
   (1) CANON        A = 1, |B| = √d₁₀ = √2, θ = h₁₀ = 2/9
-                   root.py:574, masses.py:277, octonions.py:329
+                   root.BA_ratio and root.h10. The lepton block of
+                   masses.py. The projector lemma of octonions.py
   (2) HARMONIC     v = (1, −½, −½) at ‖v‖² = 3/2, i.e. (B, θ) = (1, 0)
-                   the retired normalisation argument in
+                   the excluded normalisation argument in
                    protected_forgetting.py
   (3) BdG UNIFORM  the (B/A, θ) of the substrate's own circulant
                    (nls_soliton.interaction_matrix) linearised about
-                   the uniform condensate; at α = 0,
+                   the uniform condensate. At α = 0,
                    B/A = 2(1 + 3r/2)/(1 − r) with r = g₁/g₀
 
 WHAT IS PROVED HERE (computed, not cited):
@@ -30,66 +31,65 @@ WHAT IS PROVED HERE (computed, not cited):
 
   PART B: the moment bookkeeping.  Σv_k²/3 = B²/2 (total, both Z₃
       channels) while |v̂₁|² = B²/4 (per channel), so Pv²P = 2·E[v²].
-      At the canonical B = √2 the total is 1 and the per-mode is ½.
-      The web's `E_v2` is the per-mode power; the projector notation
+      At the canonical B = √2 the total is 1 and the per mode is ½.
+      The web's `E_v2` is the per mode power. The projector notation
       "Pv²P = ½P" names the total.  The two are distinct, and
       conflating them is the error this part rules out.
 
   PART C: the θ = 0 degeneracy theorem.  For θ = 0 the spectrum is
       (1+B, 1−B/2, 1−B/2) for EVERY B: two masses exactly equal.  Any
-      circulant with a real off-diagonal is θ = 0 and therefore cannot
+      circulant with a real off diagonal is θ = 0 and therefore cannot
       carry three generations, at any coupling.
 
-  PART D: the branch-exclusivity theorem for the substrate.  For the
+  PART D: the branch exclusivity theorem for the substrate.  For the
       BdG uniform circulant of the hermitian equation at α = 0,
           B/A = 2(1 + 3r/2)/(1 − r),   r = g₁/g₀,
       and B/A = √2 requires r = −0.1327 < 0, i.e. no modulational
-      instability (max growth 0).  The positive-gap branch (which the
+      instability (max growth 0).  The positive gap branch (which the
       Koide reading requires) and the unstable branch (which makes
       knots, i.e. matter) are disjoint.
 
-  PART E: the positivity window.  At the Koide-forced B = √2, the
+  PART E: the positivity window.  At the Koide forced B = √2, the
       requirement that all three gaps stay positive admits exactly a
       quarter of θ ∈ [0, 2π).  θ = 2/9 lies inside it with a thin
-      margin: the electron sits near the boundary, and the lepton
-      hierarchy is that thinness.
+      margin.  The electron sits near the boundary, and this thin
+      margin is the lepton hierarchy.
 
-STATUS:
+WHAT THE PARTS ESTABLISH:
 
-  · PARTS F-G construct and dynamically verify a stable UNIFORM state
-    whose effective circulant has (B/A, θ) = (√2, 2/9).
-    knot_circulant.py reads the anomalous
-    channel on a certified stationary knot (|sin β| = 0.70 at the
-    core, against exactly 0 for every uniform state) and lifts the
-    q1/q2 degeneracy at the eigenbasis level.
-    So the knot escapes the uniform-background obstruction
-    QUALITATIVELY.  What the internal spectrum of an isolated knot
-    carries is not measured here: no probe in this repository
-    constructs one reproducibly.  The interpretation and its
-    falsifier are LAYER SCOPING below.
-  · The substrate runs at α = 0, where θ = 0 identically; the blind
+  · PARTS F-G construct a stable UNIFORM state whose effective
+    circulant has (B/A, θ) = (√2, 2/9), and check it by direct
+    dynamics.  knot_circulant.py measures the anomalous channel on a
+    certified stationary knot (|sin β| = 0.70 at the core, against
+    exactly 0 for every uniform state).  On the knot the q1/q2
+    degeneracy is lifted at the eigenbasis level.  So the knot escapes
+    the uniform background obstruction QUALITATIVELY.  The internal
+    spectrum of an isolated knot belongs to the quantized layer
+    (LAYER SCOPING below, which states its falsifier).
+  · The substrate runs at α = 0, where θ = 0 identically.  The blind
     clock measures Q ≈ 1/3 (emergent_clock.py).  A complex Z₃ phase
-    α ≠ 0 is hermitian-admissible (nls_soliton.interaction_matrix)
-    and reaches (√2, 2/9) at exactly two inverse images (r, α), both
-    of which are modulationally STABLE (full 6x6 BdG, PART F;
-    confirmed by direct dynamics, PART G).  The canonical point is a
-    stable uniform phase carrying the Koide circulant; knots cannot
-    form there.  The effective-coupling flow and confined-phase route
-    have no implementation.  A dynamical
-    origin for B/A = sqrt(2) via instanton tunnelling was tested and
-    REJECTED by rigorous computation.
+    α ≠ 0 is hermitian admissible (nls_soliton.interaction_matrix).
+    It reaches (√2, 2/9) at ONE physical point (PART F).  That point
+    appears in two coordinate patches, related by the exact redundancy
+    (g₁, α) → (−g₁, α − π).  It is modulationally STABLE (full 6x6
+    BdG, PART F; confirmed by direct dynamics, PART G).  So the
+    canonical point is a stable uniform phase carrying the Koide
+    circulant, and knots cannot form there.  The α = 0 substrate
+    carries the slots, and the circulant's ratios are read at the
+    quantized layer (LAYER SCOPING below).
 
 LAYER SCOPING, stated with its falsifier.  The classical field is the
-first folding (amplitude and phase) and would provide the SLOTS: a
-stable loop, three internal modes, channel-lifting.  The RATIOS are
-written at the deeper foldings: theta = 2/9 is a Sugawara conformal
-weight, a datum of the quantized bookkeeping, and the Brannen
-hierarchy is a near-cancellation (one gap almost closing), an O(1)
-structural fact, not an alpha/2pi response.  The classical layer is
-structurally blind to it: Q = 1/3 classically is the exact image of
-the spectrum at theta = 0.  Q in [1/3, 1) holds identically for any
+first folding (amplitude and phase).  It would provide the SLOTS: a
+stable loop, three internal modes, channel lifting.  The RATIOS are
+set at the deeper foldings.  theta = 2/9 is a Sugawara conformal
+weight, a datum of the quantized bookkeeping.  The Brannen hierarchy is a
+near cancellation (one gap almost closing).  That is an O(1)
+structural fact, not an alpha/2pi response.  The classical layer
+cannot see it: classically, Q = 1/3 is the exact image of the
+spectrum at theta = 0.  Q in [1/3, 1) holds identically for any
 three positive lines, so the classical readout confirms nothing on
-its own; tests/test_emergence.py reports Q and declines to assert it.
+its own.  tests/substrate/test_emergence.py reports Q and does not
+assert it.
 FALSIFIER: a classical measurement of Q = 2/3 would falsify the layer
 scoping.
 
@@ -119,14 +119,14 @@ def spectrum(A, B, theta):
 
 
 def koide_Q(delta):
-    """Q = Σm/(Σ√m)² with √m = Δ.  None if off the positive-gap branch."""
+    """Q = Σm/(Σ√m)² with √m = Δ.  None if off the positive gap branch."""
     if (delta <= 0).any():
         return None
     return float((delta ** 2).sum() / delta.sum() ** 2)
 
 
 def moments(B, theta):
-    """(total Σv²/3, per-mode |v̂₁|²) for v_k = B cos(θ + 2πk/3)."""
+    """(total Σv²/3, per mode |v̂₁|²) for v_k = B cos(θ + 2πk/3)."""
     v = spectrum(0.0, B, theta)
     total = float((v ** 2).sum() / 3.0)
     omega = np.exp(2j * np.pi / 3)
@@ -135,7 +135,7 @@ def moments(B, theta):
 
 
 def bdg_circulant(g0, g1, rho0=1.0, alpha=0.0):
-    """The uniform-condensate normal self-energy circulant of the
+    """The uniform condensate normal self-energy circulant of the
     hermitian substrate, read in the (A, |B|, θ) convention.
 
         c₀ = (g₀ − g₁cos α) ρ₀
@@ -144,11 +144,11 @@ def bdg_circulant(g0, g1, rho0=1.0, alpha=0.0):
 
     At α = 0 this reduces to A = (g₀−g₁)ρ₀, |B| = 2(g₀+3g₁/2)ρ₀, θ = 0,
     i.e. B/A = 2(1 + 3r/2)/(1 − r) with r = g₁/g₀, not the 2 + r of a
-    non-hermitian equation (see nls_soliton.py).  Verified against a
-    finite-difference Wirtinger Jacobian of nls_soliton's own
+    nonhermitian equation (see nls_soliton.py).  Verified against a
+    finite difference Wirtinger Jacobian of nls_soliton's own
     interaction_matrix in `test_matches_live_substrate` below.
 
-    Returns (A, |B|, theta, eigenvalues-of-the-normal-circulant).
+    Returns (A, |B|, theta, eigenvalues of the normal circulant).
     """
     ca = math.cos(alpha)
     c0 = (g0 - g1 * ca) * rho0
@@ -162,19 +162,19 @@ def bdg_circulant(g0, g1, rho0=1.0, alpha=0.0):
 
 def bdg_max_growth(g0, g1, rho0=1.0, alpha=0.0, n=1200, p_max=4.0):
     """Maximum modulational growth rate over p from the FULL 6x6 BdG
-    L = [[eps I + A, B], [-B*, -(eps I + A)*]], no channel-pairing
-    assumption.  A and B are finite-difference Wirtinger derivatives
+    L = [[eps I + A, B], [-B*, -(eps I + A)*]], no channel pairing
+    assumption.  A and B are finite difference Wirtinger derivatives
     of nls_soliton's own interaction matrix, so this tracks the live
     code rather than a transcription.  Returns max Im omega >= 0.
 
-    CORRECTION: the per-channel
-    form (eps + a_q)^2 - |b_q|^2 pairs a_q with b_q of the SAME q,
-    which is valid only at alpha = 0 where a_1 = a_2.  At alpha != 0
-    the anomalous term couples channel q with channel -q, and the
-    per-channel form reported spurious instability at the canonical
-    point.  The full 6x6 reproduces the alpha = 0 rates exactly
-    (g1 rho0 at both r values) and is confirmed by direct dynamics
-    (PART G): the seeded 'unstable' mode does not grow.
+    WHY THE FULL 6x6.  The per channel form (eps + a_q)^2 - |b_q|^2
+    pairs a_q with b_q of the SAME q.  That is valid only at alpha = 0,
+    where a_1 = a_2.  At alpha != 0 the anomalous term couples channel
+    q with channel -q, and the per channel form gives a spurious
+    instability at the canonical point.  The full 6x6 reproduces the
+    alpha = 0 rates exactly (g1 rho0 at both r values).  Direct
+    dynamics confirms it (PART G): the seeded 'unstable' mode does not
+    grow.
     """
     s = math.sqrt(rho0)
     p0 = np.full(3, s, dtype=complex)
@@ -235,7 +235,7 @@ def run(report=print):
     out["identity_max_dev"] = max_dev
 
     ## PART B: moment bookkeeping ##
-    report("\n  PART B: total vs per-mode second moment")
+    report("\n  PART B: total vs per mode second moment")
     report(f"    {'B':>10} {'Σv²/3 (total)':>16} {'|v̂₁|² (mode)':>16} "
            f"{'ratio':>8}")
     for B in (1.0, B_CANON, 1.7):
@@ -245,15 +245,15 @@ def run(report=print):
         assert abs(tot - 2.0 * mode) < 1e-12
     tot_c, mode_c = moments(B_CANON, THETA_CANON)
     report(f"    at B = √2:  total = {tot_c:.9f} (= 1),  "
-           f"per-mode = {mode_c:.9f} (= ½)")
-    report(f"    the web's E_v2 is the PER-MODE power; "
-           f"'Pv²P = ½P' named the total")
+           f"per mode = {mode_c:.9f} (= ½)")
+    report(f"    the web's E_v2 is the PER MODE power; "
+           f"'Pv²P = ½P' names the total")
     assert abs(tot_c - 1.0) < 1e-12 and abs(mode_c - 0.5) < 1e-12
     out["Pv2P_total"] = tot_c
     out["E_v2_mode"] = mode_c
 
     ## PART C: the θ = 0 degeneracy theorem ##
-    report("\n  PART C: θ = 0 ⇒ exact two-fold degeneracy, for every B")
+    report("\n  PART C: θ = 0 ⇒ exact two fold degeneracy, for every B")
     report(f"    {'B':>10} {'Δ₀':>12} {'Δ₁':>12} {'Δ₂':>12} "
            f"{'|Δ₁−Δ₂|':>10}")
     theta0_deg = True
@@ -264,7 +264,7 @@ def run(report=print):
         report(f"    {B:10.6f} {d[0]:12.6f} {d[1]:12.6f} {d[2]:12.6f} "
                f"{split:10.2e}")
     assert theta0_deg
-    report("    → any circulant with a REAL off-diagonal (θ = 0) is "
+    report("    → any circulant with a REAL off diagonal (θ = 0) is "
            "structurally")
     report("      incapable of three generations, at any coupling")
     out["theta0_degenerate"] = bool(theta0_deg)
@@ -291,8 +291,8 @@ def run(report=print):
     report(f"    {'BdG UNIFORM':>14} {A_b:8.4f} {B_b:8.4f} "
            f"{B_b / A_b:8.4f} {th_b:7.4f} "
            f"{'--':>12} {'UNSTABLE':>11}")
-    report(f"    normal-circulant eigenvalues = {np.round(eigs_b, 6)}  "
-           f"→ off the positive-gap branch")
+    report(f"    normal circulant eigenvalues = {np.round(eigs_b, 6)}  "
+           f"→ off the positive gap branch")
     assert Q_canon is not None and abs(Q_canon - 2 / 3) < 1e-12
     assert abs(Q_harm - 0.5) < 1e-12
     assert Q_b is None
@@ -306,7 +306,7 @@ def run(report=print):
     report("    At α = 0 the normal circulant of the hermitian equation "
            "gives")
     report("        B/A = 2(1 + 3r/2)/(1 − r),   r = g₁/g₀")
-    report("    (a non-hermitian equation reads 2 + r instead; see "
+    report("    (a nonhermitian equation reads 2 + r instead; see "
            "nls_soliton.py)")
     report(f"    {'g₁/g₀':>10} {'B/A':>10} {'max growth':>12} "
            f"{'gaps>0':>8} {'unstable':>9}")
@@ -328,7 +328,7 @@ def run(report=print):
            f"(check: B/A = {B_n / A_n:.9f})")
     report(f"    at that coupling max growth = {g_n:.6f} → "
            f"NO instability, no knots")
-    report("    → the Koide positive-gap branch and the knot-forming "
+    report("    → the Koide positive gap branch and the knot forming "
            "branch are")
     report("      DISJOINT at α = 0.  Not a tuning problem.")
     out["r_needed_for_sqrt2"] = r_needed
@@ -336,7 +336,7 @@ def run(report=print):
     assert abs(B_n / A_n - B_CANON) < 1e-9
     assert g_n < 1e-8
     # validation of the 6x6 form: it reproduces the alpha = 0 theory
-    # rate max growth = |b_1| = g1 rho0 at the knot-forming coupling
+    # rate max growth = |b_1| = g1 rho0 at the knot forming coupling
     g_check = bdg_max_growth(1.0, 1.0 / math.sqrt(2.0))
     assert abs(g_check - 1.0 / math.sqrt(2.0)) < 1e-3
 
@@ -370,7 +370,7 @@ def run(report=print):
            "manifestly")
     report("    real for every α, so its gradient is hermitian; α is the "
            "synthetic")
-    report("    flux through the Z₃ triangle, gauge-invariant mod 2π/3, "
+    report("    flux through the Z₃ triangle, gauge invariant mod 2π/3, "
            "and α ≠ 0")
     report("    breaks time reversal.  Solving the two conditions "
            "B/A = √2, θ = 2/9:")
@@ -408,7 +408,7 @@ def run(report=print):
 
     report("    WHAT THIS IS: the canonical point is REACHABLE by the "
            "substrate.")
-    report("      The anomalous channel is what reaches it: at α = 0, "
+    report("      Only the anomalous channel reaches it: at α = 0, "
            "θ = 0 forces")
     report("      degeneracy and B/A ≥ 2, and no coupling reaches it "
            "at all.")
@@ -418,7 +418,7 @@ def run(report=print):
            "determined")
     report("      and has ZERO predictive content.  m₂/m₁ and m₃/m₁ "
            "follow from")
-    report("      B/A and θ; they are not independent confirmations.  "
+    report("      B/A and θ. They are not independent confirmations.  "
            "Nothing here")
     report("      derives α, and Q is θ-blind (PART A), so a whole "
            "one-parameter")
@@ -427,7 +427,7 @@ def run(report=print):
            f"{g_c:.6f} here and")
     report(f"      {g_c2:.6f} at the coordinate copy (r, α) = "
            f"({-r_c:.6f}, {a_c - math.pi:.6f}).")
-    report("    REDUNDANCY (correction): (g₁, α) → (−g₁, α−π) maps the "
+    report("    REDUNDANCY: (g₁, α) → (−g₁, α−π) maps the "
            "interaction")
     report("      functional to itself identically (max deviation "
            f"{redundancy_dev:.1e}), so the two")
@@ -439,21 +439,21 @@ def run(report=print):
            "STABLE under")
     report("      the full 6x6 BdG, and direct dynamics agrees "
            "(PART G).")
-    report("      A per-channel-pairing reading reports instability "
-           "here; that was an")
-    report("      artifact of per-channel BdG pairing, valid only at "
+    report("      A per channel pairing reading reports instability "
+           "here. Per channel")
+    report("      BdG pairing holds only at "
            "α = 0.  The full")
     report("      6x6 statement: the Koide-"
            "readable branch and")
-    report("      the knot-forming branch are DISJOINT for EVERY "
+    report("      the knot forming branch are DISJOINT for EVERY "
            "admissible (r, α).")
     report("      The canonical point is a STABLE uniform phase whose "
            "linearised")
-    report("      spectrum is the Koide circulant; knots cannot form "
+    report("      spectrum is the Koide circulant. Knots cannot form "
            "there from noise.")
-    report("    STATUS: the canonical uniform state is stable.")
-    report("      The effective-coupling flow and confined-phase route")
-    report("      have no implementation.")
+    report("    RESULT: the canonical uniform state is stable.")
+    report("      The α = 0 substrate carries the slots, and the ratios")
+    report("      are read at the quantized layer (LAYER SCOPING).")
     out["alpha_canon"] = a_c
     out["r_alpha_canon"] = r_c
     out["BA_alpha"] = B_c / A_c
@@ -463,8 +463,8 @@ def run(report=print):
     out["alpha_images_all_stable"] = bool(g_c < 1e-8 and g_c2 < 1e-8)
     out["alpha_point_positive_gaps"] = bool((d_c > 0).all())
     out["inverse_image_redundancy_dev"] = redundancy_dev
-    # the corrected headline: the canonical point is STABLE with gaps
-    # positive, and its 'two inverse images' are one theory under the
+    # the headline: the canonical point is STABLE with all gaps
+    # positive.  Its 'two inverse images' are one theory under the
     # exact redundancy (g1, alpha) -> (-g1, alpha - pi).  The
     # exclusivity survives the complex phase.
     assert g_c < 1e-8 and g_c2 < 1e-8 and (d_c > 0).all()
@@ -475,9 +475,9 @@ def run(report=print):
     # the canonical targets leaves a BIQUADRATIC for c = cos α with
     # coefficients rational in t = tan θ alone:
     #   (729t⁴+154t²+1)c⁴ − (108t⁴+158t²+2)c² + (4t⁴+4t²+1) = 0.
-    # α is an algebraic function of the Sugawara angle from two targets
-    # and two variables.  Its nearest committed angle-menu entry is 0.20
-    # away.  The transformation (-r, alpha - pi) is an exact coordinate
+    # So α is an algebraic function of the Sugawara angle, fixed by two
+    # targets in two variables.  The nearest entry on the committed
+    # angle menu is 0.20 away.  The transformation (-r, alpha - pi) is an exact coordinate
     # redundancy.
     t_ = math.tan(THETA_CANON)
     _a = 729 * t_ ** 4 + 154 * t_ ** 2 + 1
@@ -495,12 +495,12 @@ def run(report=print):
            "are one theory).")
 
     ## PART G: direct dynamics as arbiter ##
-    # The 6x6 BdG and the per-channel form disagree at the
+    # The 6x6 BdG and the per channel form disagree at the
     # canonical point (stable vs sigma = 0.134).  The integrator
-    # decides: seed the mode the per-channel form calls unstable
+    # decides: seed the mode the per channel form calls unstable
     # (q = 1 pattern, p inside its claimed band) at the canonical
-    # point and measure its growth; positive control at the alpha = 0
-    # knot-forming coupling, where both forms agree (rate = g1 rho0).
+    # point and measure its growth. Positive control at the alpha = 0
+    # knot forming coupling, where both forms agree (rate = g1 rho0).
     report("\n  PART G: direct dynamics arbitration")
     Lbox, Nx = 40.0, 256
     xg = np.linspace(0.0, Lbox, Nx, endpoint=False)
@@ -529,7 +529,7 @@ def run(report=print):
                                mode=12, t_chunk=2.0)    # p = 1.885,
     #                            the band's peak (band p in 1.46-2.22)
     report(f"    canonical point, seeded mode p = 0.314: measured "
-           f"rate {rate_canonical:+.4f} (per-channel form claims "
+           f"rate {rate_canonical:+.4f} (per channel form claims "
            f"+0.13)")
     report(f"    control (r = 1/sqrt2, alpha = 0), p = 1.885: measured "
            f"rate {rate_control:+.4f} (theory g1 rho0 = 0.707)")
@@ -540,41 +540,41 @@ def run(report=print):
 
     ####### verdict #######
     report("\n  VERDICT")
-    report("    CANON       : the only claimant on the positive-gap "
+    report("    CANON       : the only claimant on the positive gap "
            "branch with Q = 2/3")
     report("    HARMONIC    : (B, θ) = (1, 0) → Q = ½, two masses "
-           "degenerate. RETIRED")
+           "degenerate. EXCLUDED")
     report("    BdG UNIFORM : at α = 0, θ = 0 forces degeneracy and "
            "B/A = √2 needs")
     report("                  g₁ < 0, which kills the instability. "
            "Disjoint branches.")
-    report("    the three are NOT reconcilable at α = 0; the amplitude "
+    report("    the three are NOT reconcilable at α = 0. The amplitude "
            "is pinned by Q")
     report("    alone, and the phase must come from elsewhere "
            "(Sugawara).")
     report("  AND WITH THE COMPLEX PHASE: a complex Z₃ coupling IS "
            "hermitian-admissible")
-    report("    and reaches the canonical point, but BOTH inverse "
-           "images are STABLE")
+    report("    and reaches the canonical point, ONE physical point in "
+           "two coordinate patches, and it is STABLE")
     report("    (PART F, 6x6 BdG; PART G, direct dynamics), so the "
            "disjointness holds")
     report("    for every admissible (r, α): the canonical point is a "
            "stable uniform")
     report("    phase carrying the Koide circulant, and the "
-           "knot-forming phase cannot")
+           "knot forming phase cannot")
     report("    carry it at uniform background.")
-    report("    The effective-coupling route from the α = 0 phase to the")
-    report("    canonical circulant has no implementation.")
+    report("    The α = 0 substrate carries the slots, and the canonical")
+    report("    circulant's ratios are read at the quantized layer (LAYER SCOPING).")
 
-    # reconciliation would require instability at a coupling that
-    # reaches B/A = √2; none exists at α = 0 (PART D, growth g_n) or
-    # at either α ≠ 0 inverse image (PART F); computed
+    # Reconciliation would need an instability at a coupling that
+    # reaches B/A = √2.  None exists at α = 0 (PART D, growth g_n) or
+    # at either α ≠ 0 inverse image (PART F).  Computed here.
     out["reconcilable"] = bool(g_n > 1e-8 or g_c > 1e-8 or g_c2 > 1e-8)
     return out
 
 
 def test_matches_live_substrate():
-    """The closed-form circulant must track nls_soliton's own
+    """The closed form circulant must track nls_soliton's own
     interaction matrix, not a transcription of it."""
     for alpha, r in ((0.0, 1 / math.sqrt(2)), (2 / 9, 0.5),
                      (4.333441893, 0.383029723), (1.0, 0.9)):

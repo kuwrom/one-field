@@ -1,5 +1,5 @@
 """
-E₈ conformal embedding uniqueness: the coherence gate (gravity paper, Sec. IX).
+E₈ conformal embedding uniqueness: the coherence gate (Octavian Coherence Gate paper, Sec. IX).
 
 CLAIM.  Among the rank-8 parents and factor pairs in the invariant table,
 E₈(1) ⊃ G₂(1) × F₄(1) is the UNIQUE unordered survivor satisfying all six
@@ -76,8 +76,9 @@ h_bridge = 1:  the bridge is a dimension-one extension current; that fact
   edges control later responses.  Any h ≠ 1 breaks both predictions.
 
 Reference:
-    Kahsay, Kibrom Kidane (2026). Trilogy.
-    Zenodo. https://doi.org/10.5281/zenodo.20144381
+    Kahsay, Kibrom Kidane (2026). The Octavian Coherence Gate: The Four
+    Irreducible Integers of the E₈(1) ⊃ G₂(1) × F₄(1) Conformal Embedding.
+    Zenodo. https://doi.org/10.5281/zenodo.20493955
 """
 
 from fractions import Fraction

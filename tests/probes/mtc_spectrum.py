@@ -1,20 +1,20 @@
 """
 mtc_spectrum.py: the mass spectrum assembled at the MTC layer.
 
-The superselection argument fixed the venue: three masses need three
-conserved labels, which exist only where Z3 is a fusion-category
-charge.  This probe runs the full chain AT THAT LAYER:
+The superselection argument fixes the layer. Three masses need three
+conserved labels, and these exist only where Z3 is a fusion category
+charge. This probe runs the full chain AT THAT LAYER:
 
     Kac-Peterson S-matrix of SU(3)_3      -> d10 = 2 (computed)
     Sugawara weights                      -> h10 = 2/9 (computed)
-    mass-phase map                        -> theta = h10 (identified)
+    mass phase map                        -> theta = h10 (identified)
     Fano CG + MTC trace + orientations    -> B/A = sqrt(2) (channel map)
     Z3-equivariant (circulant) closure    -> Delta_k spectrum
     m_k = Delta_k^2                       -> Koide Q = 2/3 (identity)
                                           -> m_mu/m_e = 206.77
                                           -> m_tau/m_e = 3477.5
 
-The mass-phase and channel-to-circulant maps are model identifications.
+The mass phase and channel to circulant maps are model identifications.
 This probe evaluates the complete map without inserting measured masses.
 
 Usage: python3 mtc_spectrum.py
@@ -51,7 +51,7 @@ def octonion_cg():
 
 
 def run(report=print):
-    report("MTC-LAYER SPECTRUM: all inputs computed, none typed")
+    report("MTC LAYER SPECTRUM: all inputs computed, none typed")
     report("=" * 64)
 
     d = su3_qdims(3)
@@ -75,11 +75,11 @@ def run(report=print):
     report(f"  m_mu/m_e  = {m[1]/m[0]:10.4f}   (PDG 206.7683)")
     report(f"  m_tau/m_e = {m[2]/m[0]:10.4f}   (PDG 3477.23)")
     report("-" * 64)
-    report("  The three-line spectrum EXISTS at the MTC layer and is")
-    report("  assembled entirely from computed data: the same layer")
-    report("  where superselection makes the three labels conserved.")
-    report("  (Classically the labels mix and the fringe is absent:")
-    report("  probes/spectrum.py.  Venue confirmed both ways.)")
+    report("  The three line spectrum EXISTS at the MTC layer. It is")
+    report("  built entirely from computed data, at the same layer")
+    report("  where superselection keeps the three labels conserved.")
+    report("  (Classically the labels mix and the spectrum is absent:")
+    report("  probes/spectrum.py. The layer is confirmed both ways.)")
     return {"Q": Q, "mu_e": m[1]/m[0], "tau_e": m[2]/m[0]}
 
 

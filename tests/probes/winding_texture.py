@@ -4,7 +4,7 @@ its topological charge, computed.
 
 THE CONSTRUCTION: the confined child is SU(3). 3D textures are
 classified by pi_3(SU(3)) = Z.  Build the explicit unit hedgehog
-(SU(2) hedgehog embedded in the upper-left block of SU(3)):
+(SU(2) hedgehog embedded in the upper left block of SU(3)):
 
     U(x) = exp(i f(r) x_hat . sigma),  f(0) = pi, f(inf) = 0,
 
@@ -13,27 +13,31 @@ and compute its winding number by the standard integral
     B = (1/24 pi^2) INT eps_{ijk} Tr[(U+ dU_i)(U+ dU_j)(U+ dU_k)].
 
 RESULT: B = 1 numerically.  This is the knot as a genuine
-topological object, the thing 1D could not protect (we watched
-windings mix there).  In 3D the charge is protected for maps of
+topological object. In 1D it cannot be protected, because the
+windings mix there.  In 3D the charge is protected for maps of
 fixed nonvanishing norm. The substrate's relative spinor is a
 LINEAR C^2 field, not such a map, and does not protect it.
 Measured: tests/probes/knot_charge.py (ballistic Derrick collapse,
-unwinding through codim-4 amplitude-node events).  Protection is a
-property claimed of the confined phase (the topological-protection
+unwinding through codim-4 amplitude node events).  Protection is a
+property claimed of the confined phase (the topological protection
 derivation: effective_action.py, knot_charge.py, knot_spectrum.py).
 
-THE STATISTICS STEP (Witten 1983, conditional on the topological-
-protection derivation).  The honest
-split: the WZ term's LEVEL is derived by counting the three Dirac
-species ('t Hooft anomaly matching, tests/probes/bookkeeping.py),
-and its PRESENCE is forced by the same matching GIVEN the confined
-phase (the anomaly must be reproduced in the IR, and the WZ term is
-the unique local functional that does it. Corroboration-grade
-citation).  With the level-3 WZ term, a B = 1 texture acquires
+THE STATISTICS STEP (Witten 1983, conditional on the topological
+protection derivation).  The step has two parts. The WZ term's LEVEL
+is derived by counting the three Dirac species ('t Hooft anomaly
+matching, tests/probes/bookkeeping.py). Its PRESENCE is forced by the
+same matching GIVEN the confined phase: the anomaly must be
+reproduced in the IR, and the WZ term is the unique local functional
+that does it. The citation is corroborating, not a derivation.  With the level-3 WZ term, a B = 1 texture acquires
 exchange phase e^{i pi k B} = e^{3 pi i} = -1: FERMION.  What is
 computed here: the texture EXISTS and carries unit charge.  The
 single open premise is the confined phase itself
-(the confined-phase entry test, confined_phase.py).
+(the confined phase entry test, confined_phase.py).
+
+SIGN.  The hedgehog profile here is the static texture of the gas sign
+probes (tests/substrate/substrate3d.py).  The committed self-bound sign
+holds the clock lump, which carries no pi_3 texture (knot_in_lump.py).
+Its closure is the spinning lump (spinning_lump.py).
 
 Usage: python3 winding_texture.py   (~15 s)
 """
@@ -94,7 +98,7 @@ def run(report=print):
     report("  derived by counting: bookkeeping.py), exchange phase =")
     report("  e^{i pi * 3 * B} = e^{3 pi i} = -1: the B = 1 knot is a")
     report("  FERMION.  Computed here: existence + unit charge.")
-    report("  Protection: holds for fixed-norm maps. The substrate's")
+    report("  Protection: holds for fixed norm maps. The substrate's")
     report("  linear spinor is not one and does NOT protect it")
     report("  (knot_charge.py).  Protection is claimed of the confined")
     report("  phase (effective_action.py, knot_charge.py, knot_spectrum.py).")

@@ -3,82 +3,82 @@
 The alpha_s chain needs one scale the WZW identity does not supply:
 the G2 -> SU(3) breaking condensate v7 in M_V = g v7/sqrt(3).  The
 coded value is v7^2 = E[v^2] v_EW^2 with E[v^2] = B^2/4 = 1/2 the
-bridge retained second moment.  This probe executes
-the field-map question behind that value and asserts three facts.
+bridge retained second moment.  This probe works out the field map
+behind that value and asserts the facts below.
 
 FACT 1 (the component identification is not a field map).  The engine
-consumes v_EW in the real-canonical norm: G_F = 1/(sqrt(2) v_EW^2),
+consumes v_EW in the real canonical norm: G_F = 1/(sqrt(2) v_EW^2),
 A0 = sqrt(pi alpha) v_EW, y_t = sqrt(2) m_t/v_EW.  Built here
 explicitly: the SM doublet's four real components under SU(2)_L obey
-the broken-generator sum rule
+the broken generator sum rule
 
     Sum_a M_a^2 = g^2 C2(2) |h|^2,   C2(2) = 3/4,  |h| = v_EW,
 
-with three equal masses M_W = g v_EW/2, in BOTH bookkeepings of the
-same doublet (real-canonical and complex).  The 7 of G2 is a real
+with three equal masses M_W = g v_EW/2, in BOTH conventions for the
+same doublet (real canonical and complex).  The 7 of G2 is a real
 representation with the same canonical norm and the same trace
-arithmetic C2 = dim(G) T(R)/dim(R), so a LINEAR identification of the
-7-singlet with the condensing direction transports the real-norm
+arithmetic C2 = dim(G) T(R)/dim(R).  So a LINEAR identification of the
+7-singlet with the condensing direction carries over the real norm
 length: v7 = v_EW, M_V = 157.9 GeV, alpha_s(M_Z) = 0.1157, -2.5
 sigma.  Reading v7 as "the neutral component of the complex doublet"
-takes the complex-component norm of a real field: the factor
+applies the complex component norm to a real field.  The factor
 1/sqrt(2) is structural, not notational.
 
-FACT 2 (the factor is the connector's per-mode contraction).  The
+FACT 2 (the factor is the connector's per mode contraction).  The
 crystallized Z3 harmonic v_k = B cos(theta + 2 pi k/3) has exactly
 two quadratic contractions (root.py):
 
-    per-mode  E[v^2] = |v_hat_1|^2 = B^2/4 = 1/2   (what the bridge sees)
+    per mode  E[v^2] = |v_hat_1|^2 = B^2/4 = 1/2   (what the bridge sees)
     total     P v^2 P = B^2/2 = 1                  (both channels)
 
-The engine consumes the per-mode contraction at every quadratic
+The engine consumes the per mode contraction at every quadratic
 bridge reading (xi_bridge, delta_bridge).  Applied to the transported
-condensate second moment it gives v7^2 = E[v^2] v_EW^2, which
-reproduces the coded M_V = g v_EW/sqrt(6) = 111.648 GeV exactly, and
-alpha_s(M_Z) separates the two contractions by 3.0 sigma: per-mode
+condensate second moment it gives v7^2 = E[v^2] v_EW^2.  That
+reproduces the coded M_V = g v_EW/sqrt(6) = 111.648 GeV exactly.
+alpha_s(M_Z) separates the two contractions by 3.0 sigma: per mode
 +0.43, total -2.53.
 
 FACT 3 (the scale menu closes on the electroweak condensate).  Every
 scale in the theory is M_Pl e^{-S} for a derived action.  Scanning
 the ladder against alpha_s(M_Z): the G2-face action scale M_R =
-M_Pl e^{-2 pi^2} (the seesaw scale, the would-be independent G2-side
+M_Pl e^{-2 pi^2} (the seesaw scale, the would be independent G2-side
 condensate) fails by -72 sigma, Lambda_conf by +96 sigma, and no
 threshold at all by -6.7 sigma.  Only the electroweak row survives
 (mu* = v_EW e^{15/512} sits 3 percent away and is numerically
-admissible, but it is a gauge-matching endpoint, not a condensate).
+admissible, but it is a gauge matching endpoint, not a condensate).
 
 FACT 4 (the reading closes: the sector completeness argument).
-Three lemmas discharge the reading assignment, the exhaustive
-genre of the EM-channel finality argument in root.py; the residual
-is named below: the per-mode transfer to a
-transported condensate is the engine's uniform contraction grammar,
-not an independent transport computation, and the lemma chain uses
-one empirical row-kill and one role exclusion.
+Three lemmas settle the reading assignment.  The argument is
+exhaustive, of the same kind as the EM channel finality argument in
+root.py.  What it leaves open is stated here.  The per mode transfer
+to a transported condensate is the engine's uniform contraction
+grammar, not an independent transport computation.  The lemma chain
+uses one empirical row kill and one role exclusion.
   (a) NO INDEPENDENT SCALE: the derived actions each carry a
       sector already: S_lepton (the lepton knot), S_quark (the F4
       knot, v_EW), S_baryo = 2 pi^2 (the G2 face, M_R = M_Pl
-      e^{-S_baryo}, consumed by the seesaw).  The 7-scalar carries
-      none, so its condensate can only be a reading of the one
-      condensing channel, and the unique route is the (7,26)
+      e^{-S_baryo}, used by the seesaw).  The 7-scalar carries
+      none.  So its condensate can only be a reading of the one
+      condensing channel, and the only route is the (7,26)
       connector.  Asserted: M_R = M_Pl e^{-S_baryo} exactly,
       and its alpha_s row is dead (FACT 3).
   (b) THE COEFFICIENT IS NOT FREE: the connector's normalized Schur
       trace over all 182 copies introduces no independent bridge
-      amplitude, so the quadratic reading is E[v^2] with nothing to
+      amplitude.  So the quadratic reading is E[v^2], with nothing to
       tune.
-      Asserted: the cross-pin of the two independent structures,
+      Asserted: the cross pin of the two independent structures,
       the octonionic CG amplitude B = sqrt(d10) (Fano cross
       product) against the MTC Schur trace, B^2/4 = E[v^2] exactly.
   (c) NO VENT DEFLATION: the (1 - h10) share law fires only at a
       confining interface, and the matching sits three decades
       above it.  Asserted: Lambda_conf << M_V < mu*.
 
-LOOK-ELSEWHERE, stated: at the PDG width, five engine atoms fall
+LOOK ELSEWHERE, stated: at the PDG width, five engine atoms fall
 within 1 sigma as bare factors f^2 in v7^2 = f^2 v_EW^2 (1/2, 4/9,
-3/5, 2/3, 9/13), so alpha_s corroborates the per-mode reading and
-cannot alone pin it.  The pin is the structure above; the
-neighbours separate from 1/2 by > 5 sigma at the watch-1 lattice
-width (~0.03 percent), the kill.
+3/5, 2/3, 9/13).  So alpha_s supports the per mode reading but cannot
+pin it alone.  The structure above pins it.  At the watch-1
+lattice width (~0.03 percent) the neighbours separate from 1/2 by
+> 5 sigma.  That is the kill.
 
 Usage: python3 condensate_map.py
 """
@@ -108,7 +108,7 @@ SIGMA_PDG = 0.0009
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  FACT 1: the SM broken-generator sum rule in both bookkeepings
+#  FACT 1: the SM broken generator sum rule in both conventions
 # ═══════════════════════════════════════════════════════════════════════
 
 _PAULI = [np.array([[0, 1], [1, 0]], dtype=complex),
@@ -130,8 +130,8 @@ def _real_embedding(m_complex):
 
 def sm_sum_rule(v_ew):
     """Vector masses of the broken SU(2)_L from the doublet VEV, in the
-    real-canonical and the complex bookkeeping of the same field."""
-    # real-canonical: h = sqrt(2) r, |h| = v_EW, kinetic (1/2)(dh)^2,
+    real canonical and the complex convention for the same field."""
+    # real canonical: h = sqrt(2) r, |h| = v_EW, kinetic (1/2)(dh)^2,
     # M^2_ab = g^2 (K^a h).(K^b h) with K^a the real embedding of
     # -i sigma^a/2
     K = [_real_embedding(-1j * 0.5 * s) for s in _PAULI]
@@ -175,7 +175,7 @@ def _run2(a0, mu0, mu1, nf):
 
 def alpha_s_of_v7(v7, mu_star, m_t, m_z):
     """M_V = g v7 sqrt(C2(7)/6), the Weinberg-Hall threshold at mu*,
-    then the two-loop SM transport to M_Z."""
+    then the two loop SM transport to M_Z."""
     a_mu = math.pi / 2**5
     g = math.sqrt(4.0 * math.pi * a_mu)
     n_broken = 2 * n7 - (d11**2 - 1)
@@ -223,7 +223,7 @@ def run(report=print, engine_m_t_GeV=None):
     assert C2_7 == dim_G2 * 1 // n7 == d10
 
     report("FACT 1: SM sum rule Sum M^2 = g^2 (3/4) v_EW^2, three equal")
-    report(f"  masses M_W = g v_EW/2, identical in both bookkeepings;")
+    report(f"  masses M_W = g v_EW/2, identical in both conventions;")
     report(f"  real/complex norm ratio sqrt(2). C2(7) = 14/7 = {C2_7}.")
 
     # # FACT 2: the two contractions # #
@@ -231,7 +231,7 @@ def run(report=print, engine_m_t_GeV=None):
         v_ew * math.sqrt(float(E_v2)), mu_star, engine_m_t_GeV, m_z)
     mv_one, a_one = alpha_s_of_v7(v_ew, mu_star, engine_m_t_GeV, m_z)
     separation = (a_half - a_one) / SIGMA_PDG
-    report(f"FACT 2: per-mode E[v^2] = {float(E_v2)}: "
+    report(f"FACT 2: per mode E[v^2] = {float(E_v2)}: "
            f"M_V = {mv_half:.3f}, alpha_s = {a_half:.5f} "
            f"({pull(a_half):+.2f} sigma)")
     report(f"        total 1:            M_V = {mv_one:.3f}, "
@@ -264,11 +264,11 @@ def run(report=print, engine_m_t_GeV=None):
     # (c) no confining interface at the matching scale
     assert lambda_conf * 100.0 < mv_half < mu_star
     report("FACT 4: M_R = M_Pl e^(-S_baryo) (the G2-face action is the")
-    report(f"  seesaw's, dead row); B^2/4 = E[v^2] cross pin exact;")
+    report(f"  seesaw's, a dead row); B^2/4 = E[v^2] cross pin exact;")
     report(f"  Lambda_conf ({lambda_conf:.3f}) << M_V ({mv_half:.1f}) "
            f"< mu* ({mu_star:.1f}): no vent fires.")
 
-    # # look-elsewhere over the weight-class atoms ##
+    # # look elsewhere over the weight class atoms ##
     atoms = {"E_v2 = 1/2": 0.5, "h10 = 2/9": 2.0 / 9.0,
              "1 - h10 = 7/9": 7.0 / 9.0, "Q0 = 2/3": 2.0 / 3.0,
              "Q0^2 = 4/9": 4.0 / 9.0, "h_7 = 2/5": 0.4,
@@ -281,7 +281,7 @@ def run(report=print, engine_m_t_GeV=None):
                              engine_m_t_GeV, m_z)
         atom_pulls[name] = pull(a)
     within = [k for k, v in atom_pulls.items() if abs(v) <= 1.0]
-    report(f"  look-elsewhere: {len(within)} of {len(atoms)} atoms "
+    report(f"  look elsewhere: {len(within)} of {len(atoms)} atoms "
            f"within 1 sigma: {sorted(within)}")
 
     return {

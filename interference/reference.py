@@ -1,31 +1,35 @@
 """
 reference.py: the ONE home of measured reference data.
 
-Doctrine (enforced by tests/test_blindness.py):
-  - Everything here is REFERENCE DATA (pulls, error columns)
-    except the explicitly declared entries: PDG_EW['dr_hat_W'] and
-    PDG_EW['rho_hat'] (cited radiative imports)
-    and PDG_EW['M_Z'] (the alpha_s evaluation coordinate, shown
-    immaterial: a 5 sigma shift moves alpha_s by < 3e-5).
-  - The quarantine test perturbs every non-declared value at once and
-    asserts the whole derivation chain re-runs identically to 1e-12.
+Rules (enforced by tests/audit/test_blindness.py):
+  - Everything here is REFERENCE DATA (pulls, error columns), except
+    the explicitly declared entries.  These are PDG_EW['dr_hat_W'] and
+    PDG_EW['rho_hat'] (cited radiative imports), and PDG_EW['M_Z']
+    (the alpha_s evaluation coordinate, shown not to matter: a 5 sigma
+    shift moves alpha_s by < 3e-5).
+  - The quarantine test perturbs every nondeclared value at once and
+    asserts that the whole derivation chain reruns identically to 1e-12.
   - The AST audit freezes every source location that reads these
-    dicts.  A new read anywhere fails CI until admitted consciously.
+    dicts.  A new read anywhere fails CI until it is deliberately
+    admitted.
 
-The dimensional anchor m_e and the Lambda-sector reference H_0 live
-in root.py (they are declared INPUTS, not comparisons).  root.py
-re-exports these dicts for package consumers; both module attributes
-bind the same dict objects.
+The dimensional anchor m_e and the Lambda sector reference H_0 live
+in root.py, because they are declared INPUTS, not comparisons.
+root.py reexports these dicts for package users.  Both module
+attributes refer to the same dict objects.
 """
 
-# External comparison labels only; they are not framework stages.
-# Leptons: values conventionally tabulated as propagator-pole masses.
-# Quarks: PDG 2024 conventional coordinates --
+# External comparison labels only.  They are not framework stages.
+# Leptons: values conventionally tabulated as propagator pole masses.
+# Quarks: PDG 2024 conventional coordinates:
 #   u, d, s: MS-bar at mu = 2 GeV.  c, b: MS-bar at mu = m.
 #   t: direct kinematic mass reference.
-# The algebra produces one value per fermion. It does not run to a
-# scale.  The PDG coordinate each value matches is an observable
-# mapping, not a second derivation.
+# Selection rule: quark masses and quark mass ratios are the PDG values.
+# A ratio whose lattice and dispersive determinations differ carries
+# both, with the lattice value from FLAG for Nf = 2+1+1
+# (PDG_LIGHT_RATIOS).  The algebra produces one value per fermion.  It
+# does not run to a scale.  The PDG coordinate each value is compared
+# at is a mapping to the observable, not a second derivation.
 
 PDG_MASSES = {
     'e': 0.51099895069, 'mu': 105.6583755, 'tau': 1776.93,
@@ -47,18 +51,18 @@ PDG_CKM = {
 # The Wolfenstein parameters, nine magnitudes, and J are correlated outputs
 # of the PDG global fit.  alpha, beta, gamma, and sin(2 beta) are separately
 # quoted phase constraints, so this mixed block has no common covariance
-# model.  Several PDG errors are asymmetric; the scalar stored here retains
-# the positive-side uncertainty (rounded where shown).  mixing.py therefore
+# model.  Several PDG errors are asymmetric.  The scalar stored here keeps
+# the positive side uncertainty (rounded where shown).  mixing.py therefore
 # reports approximate symmetric marginal pulls and a descriptive diagonal
 # pull score, never a chi-square.
 
 # Frozen NuFit 6.0 snapshot, normal ordering, IC19 without SK atmospheric data.
-# This is intentionally a historical comparison coordinate; it is not a
-# claim that 6.0 remains the latest NuFit release.
+# This is a deliberately fixed comparison coordinate.  It makes no
+# claim about which NuFit release is the latest.
 # The "IC19 without SK atmospheric data" column is the discriminator:
 # sin2_23 = 0.561 there vs 0.470 with SK atmospheric.
 # The stored errors are symmetric approximations to NuFit's asymmetric
-# one-sigma intervals; correlations are omitted, so the displayed diagonal
+# one sigma intervals. Correlations are omitted, so the displayed diagonal
 # pull score is descriptive rather than a chi-square.
 NUFIT_PMNS = {
     'sin2_12': (0.307, 0.012),
@@ -66,30 +70,42 @@ NUFIT_PMNS = {
     'sin2_13': (0.02195, 0.00056),
 }
 
-# References only: no interference/ code consumes these
-# numbers (gravity.py's ν block is structural, no Δm² input; the
-# normal-ordering benchmark combines them with m_1 = 0 for display).
+# References only: no interference/ code uses these numbers.
+# gravity.py's ν block is structural and takes no Δm² input.  The
+# normal ordering benchmark combines them with m_1 = 0 for display.
 NUFIT_OSCILLATION = {
     'dm2_21': (7.49e-5, 0.20e-5),
     'dm2_31': (2.513e-3, 0.027e-3),
 }
 
 
-# EW-sector comparison values and declared imports
+# EW sector comparison values and declared imports
 # (PDG 2024 EW review, Erler-Freitas: Eq. 10.26 and the s-hat fit table)
+# Scheme invariant light quark ratios (comparison side only).
+PDG_LIGHT_RATIOS = {
+    'mu_over_md': (0.473, 0.017),        # PDG 2024
+    'ms_over_mud': (27.30, 0.08),        # PDG 2024
+    'Q_ellipse_dispersive': (22.1, 0.7), # eta -> 3 pi dispersive
+    'Q_ellipse_lattice': (22.5, 0.5),    # FLAG 2024 Eq. 52, Nf = 2+1+1 (Nf = 2+1: 23.3(5), Eq. 51)
+}
+
 PDG_EW = {
-    'M_Z': 91.1876, 'M_W': 80.3692,
+    # M_W: the LHC-TeV MW Working Group world average without CDF II.
+    'M_Z': 91.1876, 'M_W': 80.3625, 'M_W_err': 0.0077,
+    'G_F': 1.1663788e-5, 'G_F_err': 0.0000006e-5,   # GeV^-2, PDG 2024. The one G_F in the repo
     'sin2W_MSbar': 0.23129, 'sin2W_err': 0.00004,   # global SM fit 2024
     'm_H': 125.20, 'alpha_s_MZ': 0.1180,
     # MS-bar radiative backreaction imports (DECLARED, cited).
     # (Standard QFT: "radiative corrections". Here they are backreactions
-    # whose inputs are all re-derived from the framework.)
+    # whose inputs are all rederived from the framework.)
     # ZERO PARAMETER DISCIPLINE: these are functions of (G_F, m_t,
-    # m_H, alpha-hat(M_Z)). Every ingredient is RECALCULATED from the
-    # framework's own predictions and verified compatible within the
-    # quoted errors (executable audit in gravity.py).  The only
-    # data-driven ingredient is the dispersive hadronic VP inside
-    # Delta-r0, a spectral measurement of the web.
+    # m_H, alpha hat(M_Z)).  G_F and m_t are RECALCULATED from the
+    # framework's own predictions and checked to be compatible within
+    # the quoted errors.  The coupling alpha hat(M_Z) is classed as
+    # measurement data (the dispersive hadronic VP).  The framework
+    # does not produce the Higgs mass m_H.  It enters the cited loop
+    # remainders as an import at its measured value (executable audit
+    # in higgs_ew.py).
     'dr_hat_W': 0.06937,   # ± 0.00006   PDG 2024 Eq. (10.26) text
     'rho_hat':  1.01016,   # ± 0.00009   PDG 2024 (incl. bosonic loops)
 }
@@ -97,12 +113,13 @@ PDG_EW = {
 # Cosmological comparison data (single source)
 PDG_COSMO = {
     'eta_B': 6.12e-10,     # baryon asymmetry, Planck 2018
+    'eta_B_err': 0.04e-10, # from Omega_b h² = 0.02237(15) via eta_10 = 273.9 Omega_b h²
     'Omega_Lambda': 0.685, # dark energy fraction, Planck 2018
 }
 
-# Proton-stability observational bound (single source; consumed by
-# tests/probes/substrate_depth.py, the CONTINGENCY_SURFACE floor).
-# Reference datum: sets a measured floor, steers no prediction.
+# Proton stability observational bound (single source, used by
+# tests/probes/substrate_depth.py for the CONTINGENCY_SURFACE floor).
+# Reference datum: it sets a measured floor and affects no prediction.
 SUPER_K = {
     'tau_p_yr': 1.6e34,        # Super-K partial lifetime bound
     'yr_s': 3.1557e7,          # Julian year, seconds
@@ -110,10 +127,10 @@ SUPER_K = {
     't_Hubble_s': 4.35e17,     # ~13.8 Gyr
 }
 
-# CMB density-fit comparison blocks (single source, consumed by
+# CMB density fit comparison blocks (single source, used by
 # dark_sector.py).  References only.
-# Planck 2018 TT,TE,EE+lowE+lensing (Table 2, arXiv:1807.06209);
-# the ratio Omega_c h^2 / Omega_b h^2 is H0-independent.
+# Planck 2018 TT,TE,EE+lowE+lensing (Table 2, arXiv:1807.06209).
+# The ratio Omega_c h^2 / Omega_b h^2 is independent of H0.
 PLANCK_2018 = {
     'Omega_b_h2':     0.02237,     # ± 0.00015
     'Omega_b_h2_err': 0.00015,

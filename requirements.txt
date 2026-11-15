@@ -3,3 +3,7 @@ scipy>=1.8
 
 # Test suite (optional, only needed to run `pytest`)
 pytest>=7.0
+# Ball arithmetic for tests/probes/kernel_sign.py (its tests skip without it)
+python-flint>=0.9
+# Symbolic algebra: the post-Newtonian expansion (tests/probes/post_newtonian.py) and the PMNS charge gate (tests/probes/pmns_sign_bits.py)
+sympy>=1.12

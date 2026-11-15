@@ -108,8 +108,9 @@ RELATED COMPUTATIONS:
     isolated knot's internal mass spectrum.
 
 Reference:
-    Kahsay, Kibrom Kidane (2026). Trilogy.
-    Zenodo. https://doi.org/10.5281/zenodo.20144381
+    Kahsay, Kibrom Kidane (2026). The Octavian Coherence Gate: The Four
+    Irreducible Integers of the E₈(1) ⊃ G₂(1) × F₄(1) Conformal Embedding.
+    Zenodo. https://doi.org/10.5281/zenodo.20493955
 """
 
 import math
@@ -121,7 +122,7 @@ import numpy as np
 # standalone).  DRIFT GUARD: when the engine is importable (every
 # test and run context) the literals are asserted equal to root's
 # values, so the two copies cannot diverge silently
-# (tests/test_probes.py::test_harmonic_single_source freezes the
+# (tests/masses/test_masses_probes.py::test_harmonic_single_source freezes the
 # guard's presence).
 B_CANON = math.sqrt(2.0)        # = √d₁₀, octonionic CG ratio
 THETA_CANON = 2.0 / 9.0         # = h₁₀, Sugawara weight of the fundamental

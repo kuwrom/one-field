@@ -3,8 +3,9 @@ KNOT CHARGE: the substrate does not protect pi_3 winding (measured).
 
 The winding_texture probe shows the 3D texture carries unit pi_3 charge as a
 STATIC object. This probe measures the dynamics: a knot in the Z3-coupled
-substrate does NOT keep that charge. A clean negative, with the mechanism
-identified, sharpening where protection must come from.
+substrate does NOT keep that charge. The result is a clean negative with
+the mechanism identified, and it narrows down where protection must come
+from.
 
 Three facts, each asserted below:
 
@@ -20,37 +21,46 @@ Three facts, each asserted below:
 
 3. BALLISTIC, NOT ACTIVATED: the unwinding time grows only linearly with
    texture size, tau ~ R/c_s with c_s = sqrt(g0 rho_tot) (measured
-   exponent ~1.3 over R in [1.8, 3.2]. An energy barrier would give
-   activated, at least quadratic growth). There is no metastability
-   window. This is Derrick's theorem doing its work: quadratic-gradient
+   exponent ~1.3 over R in [1.8, 3.2] in a size scan this file does
+   not rerun; main() below asserts facts 1, 2 and 4 at one size,
+   R = 1.8, and fact 3 is a recorded measurement). An energy barrier
+   would give activated, at least quadratic growth. There is no
+   metastability window. This is Derrick's theorem: quadratic gradient
    energetics cannot fix a texture scale, and the substrate has no
-   Skyrme-type quartic term. The stable attractor is a NODELESS, B = 0
+   Skyrme type quartic term. The stable attractor is a NODELESS, B = 0
    density lump: the substrate soliton is Q-ball-like, not topological.
 
-Consequence for the derivation graph: unit winding is NOT a substrate-level
-invariant. Its creation and protection are obligations of the confined-phase
+Consequence for the derivation graph: unit winding is NOT a substrate level
+invariant. Its creation and protection are obligations of the confined phase
 effective theory, exactly where the level-3 WZ structure already lives
-(winding_texture.py). The derivation program this opens: show that the
-confined sector's effective action contains a texture-stabilizing term
-(Skyrme quartic or equivalent), or that the protected object is the
-effective SU(3) field rather than the substrate-only relative spinor. Until then,
-statements of the form "3D protects absolutely" hold for maps of fixed
+(winding_texture.py). The texture stabilizing term of that effective
+theory, the Faddeev-Skyrme quartic of the fixed norm sector, is derived
+constructively in effective_action.py (branch (i)). Protection then rests
+on the node channel's suppression, the premise substrate_depth.py bounds.
+Statements of the form "3D protects absolutely" hold for maps of fixed
 nonvanishing norm, not for the substrate's linear field.
 
-4. NO ROTATION LOOPHOLE: Q-lump / rotating-skyrmion stabilization (Leese
+4. NO ROTATION LOOPHOLE: Q-lump / rotating skyrmion stabilization (Leese
    1991. Battye-Cooper-Sutcliffe PRL 2002) requires a conserved charge
    backing the internal rotation. The candidate generators are the U(2)
    isometries of the relative spinor. Asserted below by exact commutation
-   test: the sigma_z (Hopf-fiber) rotation does NOT commute with the
+   test: the sigma_z (Hopf fiber) rotation does NOT commute with the
    substrate flow, while the genuine global U(1) commutes to machine
-   epsilon -- so no Noether charge exists to back differential rotation,
-   and the one surviving charge (total N) is condensate-dominated (~99%)
-   and cannot tie a texture scale. A tilt scan (core-filling eta in
-   [0.5, 4], amplitude in [0.4, 1.0]) confirms: unwinding time stays in a
-   flat ballistic band, and the strongest-rotation candidate dies fastest.
+   epsilon.  So no Noether charge exists to back differential rotation.
+   The one surviving charge (total N) is condensate dominated (~99%)
+   and cannot fix a texture scale. A tilt scan (core filling eta in
+   [0.5, 4], amplitude in [0.4, 1.0]; recorded, not rerun here)
+   confirms: unwinding time stays in a flat ballistic band, and the
+   strongest rotation candidate dies fastest.
 
-Runtime: ~9 min single-core (64^3 short run + two static grids + 32^3
+Runtime: ~9 min single core (64^3 short run + two static grids + 32^3
 commutation test). Mark slow.
+
+SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
+background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
+self-bound sign holds the clock lump, which carries no pi_3 texture
+(knot_in_lump.py). Its closure is the spinning lump (spinning_lump.py).
+
 """
 import os
 import sys
@@ -108,7 +118,7 @@ def rotate_sz(psi, alpha):
 
 
 def main():
-    print("KNOT CHARGE: substrate-level pi_3 protection test")
+    print("KNOT CHARGE: substrate level pi_3 protection test")
     print("=" * 64)
 
     # -- 1. estimator convergence (static) --
@@ -150,9 +160,9 @@ def main():
         "winding must unwind within a few natural times (it does)"
     # A true zero sampled on the grid reads ~|grad phi| * dx, not 0. The
     # criterion is a clear dip below the initial envelope floor, which a
-    # nodeless evolution never shows (post-unwinding plateaus sit ABOVE m0).
+    # nodeless evolution never shows (after unwinding plateaus sit ABOVE m0).
     assert min_node < 0.5 * m0, \
-        "unwinding must proceed through amplitude-node events (it does)"
+        "unwinding must proceed through amplitude node events (it does)"
     print("-" * 64)
 
     # -- 4. rotation loophole: no conserved charge backs internal rotation --
@@ -172,12 +182,12 @@ def main():
     print("-" * 64)
     print("  VERDICT: pi_3 winding is NOT protected at substrate level.")
     print("  Mechanism: Derrick collapse of the texture, unwinding through")
-    print("  codim-4 amplitude-node events. tau ~ R/c_s (ballistic, no")
+    print("  codim-4 amplitude node events. tau ~ R/c_s (ballistic, no")
     print("  barrier). The stable attractor is a nodeless B = 0 lump.")
-    print("  Protection is an obligation of the confined-phase effective")
-    print("  theory (level-3 WZ sector), not of the substrate-only Z3-NLS. The")
+    print("  Protection is an obligation of the confined phase effective")
+    print("  theory (level-3 WZ sector), not of the substrate only Z3-NLS. The")
     print("  rotation loophole is closed: the spinor's U(2) is broken to")
-    print("  the global U(1), whose charge is condensate-dominated.")
+    print("  the global U(1), whose charge is condensate dominated.")
 
 
 if __name__ == "__main__":

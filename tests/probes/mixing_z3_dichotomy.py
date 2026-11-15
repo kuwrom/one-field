@@ -1,12 +1,13 @@
-"""Why the mixing sector cannot close in its original shape, and where
-its premise fails.
+"""Why the mixing sector cannot close as a relative diagonalizer, and
+where its premise fails.
 
 The mixing sector asks for CKM and PMNS as RELATIVE DIAGONALIZERS of four
 derived sector transports (u, d, e, nu), each a response operator on a
-three-dimensional generation carrier.  This probe records four exact facts
-about that question.  It consults no mixing data until the last section,
-which only counts how many independent numbers the CKM scorecard actually
-contains.
+three dimensional generation carrier.  This probe records six exact facts
+about that question: the four below, the modular menu and the braiding
+phase (run(), items 4 and 5).  It consults no mixing data until the last
+section, which only counts how many independent numbers the CKM scorecard
+actually contains.
 
   1. DICHOTOMY.  The engine's closure axiom is forgetting: the confined
      sector admits only Z3-invariant operators, [Delta, S] = 0 (the
@@ -18,28 +19,30 @@ contains.
 
   2. RIGIDITY.  The one escape route is the Ocneanu algebra of quantum
      symmetries, whose M3(C) block carries the Delta(27) clock/shift pair.
-     Delta(27) contains four Z3 subgroups.  Their eigenbases are pairwise
-     MUTUALLY UNBIASED, exactly: every overlap is 1/sqrt(3).  So the
+     Delta(27) has thirteen subgroups of order 3, one of them its centre.
+     Modulo the centre it is Z3 x Z3, with four Z3 subgroups and hence
+     four eigenbases.  Those eigenbases are pairwise MUTUALLY UNBIASED,
+     exactly: every overlap is 1/sqrt(3).  So the
      relative diagonalizer of two Delta(27) frames is either the identity
      (same subgroup) or exactly democratic (different subgroup).  There is
      no interpolation, and no breaking INSIDE Delta(27) can reach a
-     hierarchy.  The escape is not a leading-order answer awaiting a
-     correction; it is rigid.
+     hierarchy.  The escape is not a leading order answer awaiting a
+     correction. It is rigid.
 
   3. PREMISE.  The engine's own mass sector contradicts the question.  The
      circulant amplitude is DERIVED, |B/A| = sqrt(d10), equivalently the
      Koide value Q0 = 1/3 + d10/6 = d10/d11.  Any three masses can be
-     written as A + B cos(theta + 2 pi k / 3); what carries content is that
-     amplitude.  It holds for (e, mu, tau) and for the two ISOSPIN-CROSSING
+     written as A + B cos(theta + 2 pi k / 3). What carries content is that
+     amplitude.  It holds for (e, mu, tau) and for the two ISOSPIN CROSSING
      triplets the engine uses to derive m_b and m_s, and it fails for the
-     same-charge triplets (u, c, t) and (d, s, b) in every sign branch.
-     The engine's Z3 does not sit on per-sector carriers, so the four
-     sector transports the mixing sector asks to diagonalize are not objects the engine
-     builds.
+     same charge triplets (u, c, t) and (d, s, b) in every sign branch.
+     The engine's Z3 does not sit on per sector carriers. So the four
+     sector transports that the mixing sector asks to diagonalize are not
+     objects the engine builds.
 
   4. COUNTING.  The 9 |V_ij| of a unitary 3x3 matrix are a function of
      exactly four real parameters.  The CKM scorecard's 15 entries are
-     therefore a four-dimensional parameter manifold. The fifteen listed
+     therefore a four dimensional parameter manifold. The fifteen listed
      coordinates are correlated checks, not fifteen independent measurements.
 
 This probe records those facts only.  It proposes no replacement map.
@@ -102,7 +105,8 @@ def same_z3_dichotomy(trials=400, seed=0):
 
 
 def delta27_rigidity():
-    """The four Z3 subgroups of Delta(27) are exactly mutually unbiased."""
+    """The four eigenbases of Delta(27), one per Z3 subgroup of its
+    Z3 x Z3 quotient by the centre, are exactly mutually unbiased."""
     generators = {
         "S": _SHIFT.astype(complex),
         "C": _CLOCK,
@@ -160,7 +164,7 @@ def engine_triplet_amplitudes(engine_masses):
         if signs is not None:
             amplitude, theta, koide = _circulant_amplitude(masses, signs)
         else:
-            # give the same-charge triplets every sign branch; keep the best
+            # try every sign branch on the same charge triplets and keep the best
             best = None
             for branch in itertools.product((1, -1), repeat=3):
                 if branch[0] < 0:
@@ -181,10 +185,10 @@ def modular_transition_menu():
     """Every canonical transition amplitude of SU(3)_3 is 0, 1 or 2.
 
     Two facts, both exact.  (a) The down channel (1,1) is the FIXED POINT
-    of the Z3 simple current (3,0), and a simple-current fixed point has
+    of the Z3 simple current (3,0), and a simple current fixed point has
     S_fb = 0 for every b of nonzero triality.  The engine's
     up/down assignment therefore puts the two sectors in exactly
-    non-communicating superselection sectors: the up-to-down modular
+    noncommunicating superselection sectors: the up to down modular
     amplitude is not small, it is zero.  (b) The whole normalized menu
     S_ab/S_0b out of the up channel takes only the values 0, 1, 2,
     because SU(3)_3 has integer quantum dimensions.  A mixing hierarchy
@@ -204,7 +208,7 @@ def modular_transition_menu():
                          / abs(smat[0, index[p]]), 9)
                    for p in primaries})
     up_down = abs(smat[index[up], index[down]]) / abs(smat[0, index[down]])
-    # the orientation-reversed alternative: down = antifundamental
+    # the orientation reversed alternative: down = antifundamental
     anti = abs(smat[index[up], index[(0, 1)]]) / abs(smat[0, index[(0, 1)]])
     return {"fixed_point_charged_overlap": charged_overlap,
             "menu": menu,
@@ -213,21 +217,23 @@ def modular_transition_menu():
 
 
 def braiding_phase():
-    """pi/d11^2 has a shape: it is the braiding monodromy, read three
-    ways that are ONE datum.
+    """pi/d11^2 has a source: it is the R-matrix eigenvalue phase (the
+    half monodromy; the monodromy R^2 is 2 pi/9), read three ways that
+    are ONE datum.
 
     The R-matrix eigenvalue of two fundamentals in the symmetric channel,
     the diagonal modular element arg S_ff, and the identity part of the
     D6* connection q^(2/3) at q = exp(i pi / 6) all equal pi/9.  They are
     NOT three independent witnesses: T_ll = exp(2 pi i (h_l - c/24)), so
-    all three are functions of the same conformal weights h_3 = 1/9 and
-    h_6 = 5/18, and pi/9 = 2 pi (h_6 - 2 h_3) exactly.  Their agreement
-    is a consistency check of the modular data, a good one, and not
-    triple confirmation.  It is the one
-    CKM coordinate with a derivation shape rather than an
-    identification, with the caveat stated in the mixing sector's
-    derived_coordinate: what the engine scores against PDG is eta_bar,
-    the Wolfenstein APEX COORDINATE, which is magnitude-like.
+    all three are functions of the same conformal weights h_3 = 2/9
+    (the fundamental, the bare Sugawara weight of mixing.py) and
+    h_6 = 5/9 (the symmetric square), and pi/9 = pi (h_6 - 2 h_3)
+    exactly, as the code below computes.  Their agreement is a
+    consistency check of the modular data, a good one, and not triple
+    confirmation. pi/9 itself is computed from the modular data. Its
+    attachment to eta_bar is an identification, like the attachments of A and rho_bar
+    (mixing.py module docstring).  What the engine scores against PDG
+    is eta_bar, the Wolfenstein APEX COORDINATE, which is magnitude like.
     """
     import mixing
 
@@ -287,17 +293,18 @@ def run(report=print, engine_masses=None):
     dichotomy = same_z3_dichotomy()
     assert dichotomy["circulant_offdiagonal"] < 1e-9
     assert dichotomy["sector_commutator"] < 1e-9
-    report("  1. Selector theorem [Delta,S]=0 -> circulant -> one shared")
+    report("  1. Closure theorem [Delta,S]=0 -> circulant -> one shared")
     report("     Fourier frame.  Two sector transports commute exactly;")
     report(f"     max sector commutator = "
            f"{dichotomy['sector_commutator']:.1e}.")
-    report("     A Z3-equivariant engine predicts V = 1 and nothing else.")
+    report("     A Z3-equivariant engine predicts only V = 1.")
 
     rigidity = delta27_rigidity()
     assert rigidity["unbiased_deviation"] < 1e-12
     assert abs(rigidity["democratic_jarlskog"]
                - rigidity["closed_form"]) < 1e-12
-    report("  2. The four Z3 subgroups of Delta(27) are EXACTLY mutually")
+    report("  2. The four eigenbases of Delta(27) (the Z3 subgroups of its")
+    report("     Z3 x Z3 quotient by the centre) are EXACTLY mutually")
     report(f"     unbiased (max deviation from 1/sqrt(3): "
            f"{rigidity['unbiased_deviation']:.1e}).  The Ocneanu escape")
     report(f"     returns |V_ij| = 1/sqrt(3), |J| = "
@@ -316,10 +323,10 @@ def run(report=print, engine_masses=None):
         for name, value in triplets.items():
             report(f"       {name:<20} |B/A| = {value['amplitude']:.5f}"
                    f"   dev {value['deviation']*100:6.2f}%")
-        report("     It holds on the ISOSPIN-CROSSING triplets the engine")
+        report("     It holds on the ISOSPIN CROSSING triplets the engine")
         report("     uses to derive m_b and m_s, and fails on the")
-        report("     same-charge triplets in every sign branch.  The engine")
-        report("     builds no per-sector Z3 carrier for the mixing sector to diagonalize.")
+        report("     same charge triplets in every sign branch.  The engine")
+        report("     builds no per sector Z3 carrier for the mixing sector to diagonalize.")
 
     menu = modular_transition_menu()
     assert menu["fixed_point_charged_overlap"] < 1e-12
@@ -330,13 +337,13 @@ def run(report=print, engine_masses=None):
     report("     current (3,0), so its overlap with every charged sector")
     report(f"     vanishes: max |S_(1,1),b| = "
            f"{menu['fixed_point_charged_overlap']:.1e}.  The up/down")
-    report("     assignment puts them in non-communicating")
+    report("     assignment puts them in noncommunicating")
     report("     superselection sectors: the amplitude is zero, not small.")
     report(f"     The whole normalized menu out of the up channel is "
            f"{[int(round(v)) for v in menu['menu']]}.")
-    report(f"     Orientation-reversed alternative (down = antifundamental)"
+    report(f"     Orientation reversed alternative (down = antifundamental)"
            f" gives {menu['up_to_antifundamental']:.4f}, maximal.")
-    report("     No transport amplitude in this theory is small; a CKM")
+    report("     No transport amplitude in this theory is small. A CKM")
     report("     hierarchy needs 0.22, 0.04, 0.004.")
 
     phase = braiding_phase()
@@ -348,14 +355,15 @@ def run(report=print, engine_masses=None):
            "independent witnesses):")
     report("     the R-matrix eigenvalue of two fundamentals in the")
     report("     symmetric channel, arg S_ff, and the identity part of the")
-    report("     D6* connection q^(2/3).  eta_bar is a BRAIDING phase, the")
-    report("     one CKM coordinate with a derivation shape.")
+    report("     D6* connection q^(2/3). pi/9 itself is computed from the")
+    report("     modular data. Its attachment to eta_bar is an")
+    report("     identification (mixing.py).")
 
     rank = ckm_scorecard_rank()
     assert rank == 4
     report(f"  6. The 9 |V_ij| have parameter rank {rank}: the 15-entry CKM")
-    report("     scorecard samples correlated coordinates on a 4D manifold;")
-    report("     it is not a set of fifteen independent measurements.")
+    report("     scorecard samples correlated coordinates on a 4D manifold.")
+    report("     It is not a set of fifteen independent measurements.")
 
     return {
         "sector_commutator": dichotomy["sector_commutator"],

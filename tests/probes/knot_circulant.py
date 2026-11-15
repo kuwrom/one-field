@@ -1,61 +1,68 @@
 """
-knot_circulant.py: the knot manufactures the anomalous phase
-(stage zero + first reading of the two-phase bridge).
+knot_circulant.py: the knot generates the anomalous phase
+(stage zero and the first reading of the two phase bridge).
 
-CONTEXT.  The Koide-readable and knot-forming phases of the substrate
+CONTEXT.  The Koide readable and knot forming phases of the substrate
 are disjoint for every admissible uniform coupling (r, alpha)
-(circulant_normalization PARTS D-G), and at alpha = 0 the interaction
-matrix's off-diagonals are density-weighted and REAL for every field
-configuration, so no state can generate the Koide phase in the NORMAL
-channel.  The last mechanism is the ANOMALOUS (pair) channel, whose
-BdG couplings go as psi psi and therefore carry a non-uniform state's
-phases.  This probe constructs a certified stationary knot and takes
-the first reading of that channel.
+(circulant_normalization PARTS D-G). At alpha = 0 the off diagonal
+entries of the interaction matrix are density weighted and REAL for
+every field configuration. So no state can generate the Koide phase in
+the NORMAL channel.  The remaining mechanism is the ANOMALOUS (pair)
+channel. Its BdG couplings go as psi psi, so they carry the phases of a
+nonuniform state.  This probe constructs a certified stationary knot
+and takes the first reading of that channel.
 
-STAGE ZERO (stationary knot, sponge-free).  At the knot-forming
-coupling the uniform state is an energy saddle, so imaginary-time
-relaxation with norm projection cannot fall back to it.  From a
-real-time saturated seed, split-step imaginary time converges to a
-non-uniform stationary state (relative RMS 0.25), certified by the
-eigenvalue residual ||H psi - mu psi|| / ||psi||.
+STAGE ZERO (stationary knot, sponge free).  At the knot forming
+coupling the uniform state is an energy saddle, so imaginary time
+relaxation with norm projection cannot fall back to it.  Start from a
+seed saturated in real time. Split step imaginary time evolution then
+converges to a nonuniform stationary state (relative RMS 0.25). The
+eigenvalue residual ||H psi - mu psi|| / ||psi|| certifies it.
 
 THE READING.  The anomalous block B(x) = dF/dpsi_bar of the local
-nonlinear map is computed by Wirtinger finite differences; its q = 1
+nonlinear map is computed by Wirtinger finite differences. Its q = 1
 Z3 Fourier row component b1(x) transforms as e^{2i phi} under the
-global U(1), so the GAUGE-INVARIANT phase is
+global U(1), so the GAUGE INVARIANT phase is
 beta(x) = arg(b1(x) e^{-2i arg p0(x)}) with p0 the local common mode.
 
 MEASURED (seed 11, N = 256, L = 40, residual ~1e-3).
-  The invariant of genuine complexity is |sin beta| (a real anomalous
-  value gives beta in {0, pi}).  Uniform control at alpha = 0:
-  sin beta = 0 exactly (the identity).  The uniform state at the
-  CANONICAL coupling also has sin beta = 0 (there the phase lives in
-  the normal channel).  The stationary knot: |sin beta| = 0.70 at the
-  core, 0.57 density-weighted mean: a genuinely complex anomalous
-  channel that NO uniform state carries.  Circular mean
-  beta = +0.171, between the canonical alpha class (0.145) and 2/9
-  (0.222), identified with neither.  ONE SEED; existence facts are
-  frozen, quantitative identification has not yet been pinned.
+  The invariant that detects a genuinely complex value is |sin beta|
+  (a real anomalous value gives beta in {0, pi}).  Uniform control at
+  alpha = 0: sin beta = 0 exactly (the identity).  The uniform state at
+  the CANONICAL coupling also has sin beta = 0 (there the phase lives
+  in the normal channel).  The stationary knot has |sin beta| = 0.70
+  at the core and 0.57 as the density weighted mean. This is a
+  genuinely complex anomalous channel that NO uniform state carries.
+  The circular mean is beta = +0.171. It lies between the canonical
+  alpha class (0.145) and 2/9 (0.222) and is identified with neither.
+  ONE SEED. The existence facts are frozen. No quantitative
+  identification is pinned.
 
-ENSEMBLE (4 seeds x 2 boxes, all certified ~1e-3): the
-existence fact is UNIVERSAL (density-weighted mean |sin beta| in
-[0.19, 0.67], all runs), the value is NOT (circular mean beta spans
-[-0.71, +0.30] with sign flips): the crude scalar identifies with
-nothing; identification, if any, sits in the spectrum.
+ENSEMBLE (4 seeds x 2 boxes, all certified ~1e-3).  The existence
+fact is UNIVERSAL: the density weighted mean |sin beta| lies in
+[0.19, 0.67] in all runs. The value is NOT universal: the circular mean
+beta spans [-0.71, +0.30] with sign flips. So this crude scalar matches
+no target. Any identification would have to come from the spectrum.
 
-BDG SPECTRUM (bdg() below): the full 6N x 6N BdG on the
-certified background, spectral Laplacian plus Wirtinger blocks.
-Validated: two exact zero modes (phase, translation), stability at
+BDG SPECTRUM (bdg() below).  The full 6N x 6N BdG on the certified
+background, with a spectral Laplacian and Wirtinger blocks.
+Validated: two exact zero modes (phase, translation), and stability at
 the residual scale (max Im omega ~ 1e-2).  MEASURED: the knot
-HYBRIDIZES the relative channels: low modes carry mixed q1/q2 weight
-(~0.40/0.44), where every uniform alpha = 0 medium has exact
-q-eigenmodes with exact q1/q2 degeneracy.  The degeneracy is lifted
-at the eigenbasis level.  No sharply localized internal triplet
-exists on this broad saturated texture (IPR ~ 1-2).  The
-interpretation and its falsifier are the LAYER SCOPING statement in
-circulant_normalization.py: the classical layer provides the slots,
-the ratios are written at the deeper foldings, and a classical
-measurement of Q = 2/3 would falsify that scoping.
+HYBRIDIZES the relative channels. Its low modes carry mixed q1/q2
+weight (~0.40/0.44). By contrast, every uniform alpha = 0 medium has
+exact q eigenmodes with exact q1/q2 degeneracy.  The knot lifts that
+degeneracy at the level of the eigenbasis.  No sharply localized
+internal triplet exists on this broad saturated texture (IPR ~ 1-2).
+The interpretation and its falsifier are the LAYER SCOPING statement
+in circulant_normalization.py. The classical layer provides the slots,
+the ratios are set at the deeper foldings, and a classical measurement
+of Q = 2/3 would falsify that scoping.
+
+SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
+background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
+self-bound sign holds the clock lump, which carries no pi_3 texture
+(knot_in_lump.py). At that sign the closure is the spinning lump
+(spinning_lump.py).
 
 Usage: python3 knot_circulant.py     (~2 min, mark slow)
 """
@@ -100,10 +107,10 @@ def _relax(psi, n0, dtau, n_iter):
 
 
 def _beta(psi, g1=G1, alpha=0.0):
-    """Gauge-invariant anomalous phase field beta(x).
+    """Gauge invariant anomalous phase field beta(x).
 
-    A REAL anomalous value gives beta in {0, pi} (time-reversal
-    symmetric); genuinely complex structure is sin(beta) != 0."""
+    A REAL anomalous value gives beta in {0, pi} (time reversal
+    symmetric). Genuinely complex structure is sin(beta) != 0."""
     h = 1e-7
     bloc = np.zeros((3, 3, N), dtype=complex)
 
@@ -160,20 +167,20 @@ def run(report=print):
     assert res < 5e-3, "stationarity certification failed"
     assert rms > 0.1, "the relaxed state must keep relative structure"
 
-    # the reading: |sin beta| is the invariant of genuine complexity
+    # the reading: |sin beta| detects a genuinely complex value
     beta = _beta(psi)
     s = np.abs(np.sin(beta))
     wt = rel / rel.sum()
     core = int(np.argmax(rel))
     mean_s = float(np.sum(wt * s))
-    # circular density-weighted mean of beta
+    # circular density weighted mean of beta
     mean_circ = float(np.angle(np.sum(wt * np.exp(1j * beta))))
     report(f"  knot: |sin beta| at core = {s[core]:.4f}, "
-           f"density-weighted mean |sin beta| = {mean_s:.4f}")
+           f"density weighted mean |sin beta| = {mean_s:.4f}")
     report(f"  circular mean beta = {mean_circ:+.4f} "
            f"(canonical uniform reference {beta_ref:+.4f}, "
            f"2/9 = +0.2222)")
-    # frozen existence facts (the crude scalar is seed-dependent; see ensemble)
+    # frozen existence facts (the crude scalar is seed dependent; see ensemble)
     assert mean_s > 0.3, "the knot must carry a complex anomalous phase"
     assert s[core] > 0.1
     report("-" * 70)
@@ -182,10 +189,11 @@ def run(report=print):
     report("  carry (uniform sin beta = 0 by identity; knot mean |sin beta| "
            f"= {mean_s:.2f}).  The")
     report("  quantitative identification (mean beta vs the canonical "
-           "alpha class) is a")
-    report("  one-seed lead, reported not asserted.  The ensemble shows the")
-    report("  crude scalar is seed-dependent; identification sits in the "
-           "BdG spectrum.")
+           "alpha class) comes from")
+    report("  one seed and is reported, not asserted.  The ensemble shows "
+           "that this")
+    report("  crude scalar is seed dependent. Any identification would come "
+           "from the BdG spectrum.")
     _BDG_STATE["psi"] = psi
     return dict(mu=mu, residual=res, rel_rms=rms,
                 sin_beta_core=float(s[core]), sin_beta_mean=mean_s,
@@ -194,7 +202,7 @@ def run(report=print):
 
 def bdg(psi=None, report=print):
     """Full BdG on the stationary background: validation + the
-    channel-hybridization measurement."""
+    channel hybridization measurement."""
     if psi is None:
         run(report=lambda *a, **k: None)
         psi = _BDG_STATE["psi"]

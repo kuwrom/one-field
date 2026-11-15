@@ -1,16 +1,16 @@
 """
 wiring.py: the wiring, found rather than stated.
 
-A closure-residual scan over the CLASSIFIED candidate menus
-(lattices, conformal pairs, levels): the closure demand (exist with
-zero free parameters) is evaluated as residual functions over each
-finite, pre-classified menu in sequence, and the dictionary is then
-COMPUTED from the winner.  Nothing is searched against data. The
-residuals are structural closure conditions, and each menu is a
-complete classification, not a tuned candidate pool:
+A closure residual scan over the CLASSIFIED candidate menus
+(lattices, conformal pairs, levels).  The closure demand is to exist
+with zero free parameters.  It is evaluated as a residual function on
+each finite, preclassified menu in turn, and the dictionary is then
+COMPUTED from the winner.  Nothing is searched against data.  The
+residuals are structural closure conditions.  Each menu is a complete
+classification, not a tuned pool of candidates:
 
     stage W1: lattice        -> E8            (unique zero residual)
-    stage W2: sub-algebra    -> G2(1) x F4(1) (unique zero residual)
+    stage W2: subalgebra    -> G2(1) x F4(1) (unique zero residual)
     stage W3: level          -> k = 3         (unique zero residual)
     stage W4: constants      -> n7, n26 from the winner's fundamental
               representations (Lie data of the attractor). d10, d11
@@ -19,41 +19,55 @@ complete classification, not a tuned candidate pool:
     stage W5: coupling       -> the selected h_J = 1 current's pointed
               sector probability times its normalized response h_J/2pi.
     stage W6: bridge moment  -> the G2/Z3 harmonic tensored with the
-              identity on the irreducible F4 factor; normalized trace
+              identity on the irreducible F4 factor. Normalized trace
               over 7*26 modes gives |v_hat_1|^2 = 1/2.
-    stage W7: vertex trace   -> the normalized Cartan-current operator
+    stage W7: vertex trace   -> the normalized Cartan current operator
               on one representative of every E8 root pair has quadratic
               trace 30 = h_dual(E8), independently of current direction.
 
-No four integers are input anywhere.  Octonions are never mentioned:
-if you want to know what the attractor "is", ask a mathematician.
-The answer will involve Aut(O) and Aut(J3(O)), which is the
-attractor's NAME, not this program's premise.
+No integer is entered as a target anywhere.  d10 and d11 are computed
+from the surviving level's S-matrix.  n7 and n26 are read from the Lie
+table of the surviving pair.  The W2 flags are classification data
+(centre, pointedness).  The scan never mentions octonions.  Asked what
+the winning structure (the attractor) is, a mathematician would name
+Aut(O) and Aut(J3(O)).  That is the attractor's NAME, not this
+program's premise.
 
 The candidate spaces:
 
   1. LATTICES (rank <= 16): integrality, evenness, unimodularity,
-     positive-definiteness, irreducibility, minimal rank.  (Rank-8
-     candidates are checked by direct computation on Gram matrices.
-     The rank-16 classification, E8+E8 and D16+ being the only even
-     unimodular lattices there (Witt/Milnor), enters only through the
-     minimal-rank axiom.)
+     positive definiteness, irreducibility, minimal rank.  These are R1,
+     "the definition of what 'zero free parameters' means for a lattice
+     vertex operator algebra" (Octavian Coherence Gate paper).
+     Integrality ensures well defined structure constants.  Evenness
+     ensures locality (integral operator dimensions).  Unimodularity
+     ensures every coherence channel has a partner.  Positive
+     definiteness excludes negative norm states.  Minimality excludes
+     reducible lattices, whose relative OPE normalizations would be
+     free parameters.  (Rank-8 candidates are checked by direct
+     computation on Gram matrices.  At rank 16, E8+E8 and D16+ are the
+     only even unimodular lattices (Witt/Milnor).  That classification
+     enters only through the minimal rank axiom.)
 
-  2. CONFORMAL SUB-ALGEBRA PAIRS of E8(1): the complete classified
-     list (Schellekens, Bais-Bouwknegt).  Conditions: an EMERGENT Z3
-     (a maximal SU(3) inside a trivial-centre factor. A factor with
-     its own centre inherits the label instead of emerging it), and a
-     non-pointed topological sector to carry quantum dimensions.
+  2. CONFORMAL SUBALGEBRA PAIRS of E8(1): the classified maximal
+     conformal subalgebras (Schellekens-Warner, Bais-Bouwknegt), the
+     six regular level one pairs and the two S-subalgebra embeddings
+     A2(6) x A1(16) and B2(12), all at c = 8.  Conditions: an EMERGENT Z3
+     (a maximal SU(3) inside a factor with trivial centre, since a factor
+     with its own centre inherits the label instead of producing it),
+     and a nonpointed topological sector to carry quantum dimensions.
 
   3. WZW LEVEL for the emergent Z3: the simple current J = (k,0) has
-     h_J = k/3. A modular extension needs h_J integer, and a CURRENT
-     (Lie-algebra, h = 1) extension rather than a W-algebra generator
-     (h >= 2, which imports a free normalisation and re-opens a
-     parameter).  Zero parameter closure therefore demands h_J = 1.
+     h_J = k/3.  A modular extension needs h_J to be an integer.  It
+     also needs a CURRENT (Lie algebra, h = 1) extension rather than a
+     W-algebra generator (h >= 2), because a W-algebra generator brings
+     in a free normalisation, which is a parameter.  Zero parameter
+     closure therefore demands h_J = 1.
 
-Complements embedding_uniqueness.py (which scans all rank-8 parents
-through the six coherence gates). This probe scans E8's own conformal
-pairs and the level, and reads the dictionary off the winner.
+This complements embedding_uniqueness.py, which scans all rank-8
+parents through the six coherence gates.  This file scans E8's own
+conformal pairs and the level, and reads the dictionary off the
+winner.
 
 Usage: python3 interference/wiring.py
 """
@@ -66,6 +80,9 @@ import numpy as np
 
 # Lie data of candidate factors (mathematical tables, like Fano lines):
 # dimension of the smallest faithful ("fundamental") representation.
+# n₇ and n₂₆ are READ from this table for the pair that survives W2.
+# They are not computed by a Weyl dimension formula here.  The values
+# d₁₀ and d₁₁ are computed from the level-3 S-matrix below.
 FUND_DIM = {"G2": 7, "F4": 26}
 
 
@@ -135,7 +152,7 @@ def lattice_residual(cand, min_rank=8):
     return bad
 
 
-# # 2. Conformal sub-algebra pairs of E8(1) (complete list) ####
+# # 2. Conformal subalgebra pairs of E8(1) (complete list) ####
 
 PAIRS = [
     # name,                emergent_Z3, non_pointed, note
@@ -147,7 +164,13 @@ PAIRS = [
                                          "inherited, not emergent. Pointed"),
     ("SU(5)1 x SU(5)1",    False, False, "centres Z5. Pointed"),
     ("SU(9)1",             False, False, "centre Z9: inherited. Pointed"),
-    ("SO(16)1",            False, True,  "centre Z2 x Z2: no Z3 at all"),
+    ("SO(16)1",            False, False, "centre Z2 x Z2: no Z3 at all. "
+                                         "Pointed (D8 level 1: 1, v, s, c)"),
+    ("SU(3)6 x SU(2)16",   False, True,  "S-subalgebra, c = 16/3 + 8/3: "
+                                         "SU(3) carries its own Z3, "
+                                         "inherited"),
+    ("Sp(4)12",            False, True,  "S-subalgebra, c = 120/15: "
+                                         "centre Z2, no Z3 at all"),
 ]
 
 
@@ -170,24 +193,25 @@ def level_residual(k):
     h_J integer but >= 2 -> W-algebra extension, imports a free
     normalisation (1 violation). h_J = 1 -> closes (0).
 
-    R3-FROM-R1 (why k = 3 is a LEMMA, not a hypothesis): the only
+    R3-FROM-R1 (why k = 3 is a LEMMA, not a hypothesis).  The only
     axiom in play is R1, zero free parameters.  The simple current
     J = (k,0) of SU(3)_k has h_J = k/3.  A modular extension needs
-    h_J integer, so k = 3, 6, 9, .... For k > 3 the extending field
-    has h_J >= 2, i.e. It is a W-algebra generator, and a W-algebra
-    extension re-imports a free normalisation (the generator's
-    coupling is not fixed by current algebra), excluded by the very
-    zero parameter demand being scanned.  k = 3 is therefore the
-    unique zero-residual output of R1, not an independent input.
-    The assertion in run() freezes this: exactly {3} survives over
-    k in 1..12.
+    h_J to be an integer, so k = 3, 6, 9, ....  For k > 3 the extending
+    field has h_J >= 2, so it is a W-algebra generator.  A W-algebra
+    extension brings back a free normalisation, because current
+    algebra does not fix the generator's coupling.  The zero parameter
+    demand being scanned excludes exactly that.  k = 3 is therefore the
+    unique zero residual output of R1, not an independent input.  The
+    assertion in run() freezes this: exactly {3} survives for k in
+    1..12.
 
-    A CONDENSED-MATTER EXPOSURE OF THE SAME LEVEL.  k = 3 forces the
-    Read-Rezayi Z3 state at nu = 2 + 2/(k+2) = 12/5, i.e. Fibonacci
-    anyons.  Window: GaAs, B = 8.5 T, n = 4.9e11 cm^-2, T < 10 mK,
-    mobility > 1e7, gap ~ 100 mK.  Established Abelian or
-    non-Fibonacci order at 12/5 under those conditions kills it;
-    interferometry or thermal Hall at 12/5 decides.
+    WHERE FIBONACCI LIVES IN THIS WIRING.  The Fibonacci category
+    sits in the level one factors G2(1) and F4(1) (quantum dimension
+    phi, wiring_theorem_probe PART A), not in the SU(3)_3 level: the
+    SU(3)_3 quantum dimensions are 1, 2 and 3.  The Z3 Read-Rezayi
+    state at nu = 12/5 is an SU(2)_3 parafermion construction.  It
+    realizes the Fibonacci category and is not a consequence of k = 3
+    here.  The wiring makes no prediction about the 12/5 plateau.
     """
     if (k % 3) != 0:
         return 2
@@ -225,12 +249,12 @@ def su3_qdims(k):
 
 
 def survivors(candidates, residual):
-    """The discrete form of standing: among candidates, those with
-    ZERO residual against the closure demand.  Returns the scored
-    list and the survivors.
+    """The discrete closure test: the candidates with ZERO residual
+    against the closure demand.  Returns the scored list and the
+    survivors.
 
-    (A zero parameter theory cannot 'almost' close: the residual
-    counts violated closure conditions, and existence is residual 0.)
+    (A zero parameter theory cannot 'almost' close.  The residual
+    counts violated closure conditions, and existence means residual 0.)
     """
     scored = [(residual(c), c) for c in candidates]
     zero = [c for r, c in scored if r == 0]
@@ -238,18 +262,18 @@ def survivors(candidates, residual):
 
 
 def normalized_current_response(h):
-    """Canonical closed-loop response of a normalized dimension-one current.
+    """Canonical closed loop response of a normalized dimension one current.
 
-    Each consumer supplies ``h = 1`` by an exact identity: the extension
-    current has h_J = k/3 with the stage-W3 level k = 3, and the (7,26)
-    bridge has h_bridge = h(7,G₂) + h(26,F₄) = 2/5 + 3/5.  In the
-    framework's chosen unit-normalized current basis, the response is
-    defined once as ``h/(2π)``, with ``2π`` the angular period.  This is
-    not the raw integral of the singular separated-point two-point
-    kernel, nor a coefficient chosen per consumer.
+    Each caller supplies ``h = 1`` through an exact identity.  The
+    extension current has h_J = k/3 with the stage-W3 level k = 3.  The
+    (7,26) bridge has h_bridge = h(7,G₂) + h(26,F₄) = 2/5 + 3/5.  In the
+    framework's chosen basis of unit normalized currents, the response
+    is defined once as ``h/(2π)``, with ``2π`` the angular period.  It
+    is not the raw integral of the singular two point kernel at
+    separated points, and it is not a coefficient chosen per caller.
     """
     if not math.isclose(float(h), 1.0, rel_tol=0.0, abs_tol=1e-12):
-        raise ValueError("the current-response rule requires h = 1")
+        raise ValueError("the current response rule requires h = 1")
     return float(h) / (2.0 * math.pi)
 
 
@@ -298,7 +322,7 @@ def e8_roots():
 def e8_positive_root_current_form():
     """Quadratic current form on one root from every conjugate pair.
 
-    For a normalized Cartan current q, the positive-root mode E_alpha has
+    For a normalized Cartan current q, the positive root mode E_alpha has
     charge alpha.q.  Choosing the root whose first nonzero coordinate is
     positive selects one representative of each complex conjugate pair.
     The returned matrix M obeys q.T M q = sum_(alpha>0)(alpha.q)^2.
@@ -314,7 +338,7 @@ def e8_positive_root_current_form():
 
 
 def e8_vertex_charge_trace(direction=None):
-    """E8 positive-root charge trace for a unit Cartan current."""
+    """E8 positive root charge trace for a unit Cartan current."""
     q = np.zeros(8) if direction is None else np.asarray(direction,
                                                           dtype=float)
     if direction is None:
@@ -340,7 +364,7 @@ def run(report=print):
     report("    -> unique survivor: E8")
 
     scored, zero = survivors(PAIRS, pair_residual)
-    report("stage W2 (sub-algebra pair):")
+    report("stage W2 (subalgebra pair):")
     for r, (name, _, _, note) in scored:
         report(f"    {name:<18s} residual {r}   ({note})")
     assert [c[0] for c in zero] == ["G2(1) x F4(1)"]
@@ -351,7 +375,7 @@ def run(report=print):
            " ".join(f"k={k}:{r}" for r, k in scored))
     assert zero == [3], \
         "R3 is a lemma of R1: k = 3 must be the unique zero residual " \
-        "(k > 3 extends by a W-generator, re-importing a free " \
+        "(k > 3 extends by a W-generator, reimporting a free " \
         "normalisation. Excluded by the zero parameter demand itself)"
     report("    -> unique survivor: k = 3 (a lemma of the "
            "zero parameter demand, not a hypothesis)")
@@ -369,11 +393,11 @@ def run(report=print):
     assert abs(D2_tot - 36.0) < 1e-9
 
     # The winning extension current J=(k,0) has h_J=k/3=1.  Current
-    # algebra fixes its local normalisation; unlike a W-generator it
+    # algebra fixes its local normalisation.  Unlike a W-generator, it
     # introduces no independent coupling.  The Z3 extension channel's
-    # S-matrix probability is the sum over its simple-current orbit.
+    # S-matrix probability is the sum over its simple current orbit.
     # The engine defines a channel coupling as this closure probability
-    # times the normalized dimension-one current response h/(2pi).
+    # times the normalized dimension one current response h/(2pi).
     h_J = zero[0] / 3.0
     pointed_orbit = ((0, 0), (3, 0), (0, 3))
     pointed_weight = sum(d[p]**2 for p in pointed_orbit) / D2_tot
@@ -383,7 +407,7 @@ def run(report=print):
     assert abs(pointed_weight - 1.0/12.0) < 1e-12
     assert abs(alpha_G2_Pl - 1.0/(24.0*math.pi)) < 1e-12
 
-    report("stage W5 (normalized-current response):")
+    report("stage W5 (normalized current response):")
     report(f"    h_J = {h_J:.0f},  P(Z3) = 3/{D2_tot:.0f} = "
            f"{pointed_weight:.12f}")
     report("    alpha_G2(M_Pl) = P(Z3) * h_J/(2pi) "
@@ -407,15 +431,15 @@ def run(report=print):
 
     # A normalized abelian current q in the selected E8 Cartan acts on
     # the root mode E_alpha with charge alpha.q.  The +/- roots are one
-    # complex-conjugate mode, so the vertex trace uses one representative
-    # per pair.  The E8 root identity gives M=sum alpha alpha^T=30 I8;
-    # hence Tr_+(Q^2)=30 for every unit q.  This is the adjoint current
+    # complex conjugate mode, so the vertex trace uses one representative
+    # per pair.  The E8 root identity gives M=sum alpha alpha^T=30 I8.
+    # Hence Tr_+(Q^2)=30 for every unit q.  This is the adjoint current
     # index h_dual(E8), derived without choosing a 26+4 mode inventory.
     vertex_charge_trace = e8_vertex_charge_trace()
     diagonal_direction = np.ones(8) / math.sqrt(8.0)
     assert abs(e8_vertex_charge_trace(diagonal_direction)
                - vertex_charge_trace) < 1e-12
-    report("stage W7 (E8 current-operator trace):")
+    report("stage W7 (E8 current operator trace):")
     report("    240 roots = 120 conjugate pairs; "
            "sum_(alpha>0) alpha alpha^T = 30 I_8")
     report("    Tr_+(Q^2) = sum_(alpha>0)(alpha.q)^2 "
@@ -424,9 +448,9 @@ def run(report=print):
     report("-" * 64)
     report("  wiring* = E8(1) > G2(1) x F4(1), k = 3, "
            f"dictionary ({n7}, {n26}, {round(d10)}, {round(d11)})")
-    report("  TRACKABILITY HORIZON: this wiring is the boundary of")
-    report("  consistent self-tracking, not an inventory of reality.")
-    report("  What folds deeper than the ledger is real, unindividuated,")
+    report("  TRACKABILITY HORIZON: this wiring marks the limit of")
+    report("  consistent self-tracking. It is not an inventory of reality.")
+    report("  Structure deeper than the ledger is real, unindividuated,")
     report("  and felt only as amount: the bridge / common mode.")
     result = {"lattice": "E8", "pair": "G2(1) x F4(1)", "k": 3,
               "n7": n7, "n26": n26, "d10": d10, "d11": d11,
@@ -451,8 +475,8 @@ def canonical():
     return _CANONICAL_DATA.copy()
 
 
-#  Every module in interference/ exposes derive(); run() is kept as an
-#  alias so the probe harness and standalone invocation both still work.
+#  Every module in interference/ exposes derive().  derive is an alias
+#  of run(), so both the probe harness and standalone use work.
 derive = run
 
 

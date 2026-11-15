@@ -1,5 +1,5 @@
 """
-vertex_pinning.py: the response-rule multiplicities, constrained.
+vertex_pinning.py: the response rule multiplicities, constrained.
 
 WHAT THIS ESTABLISHES. The response rule assigns the depth-4
 multiplicities
@@ -18,17 +18,17 @@ observable, through three different channels of the web:
     m2 (action)    -> v_EW         vs G_F          (sigma ~ 6.3e-5 GeV)
     m3 (amplitude) -> m_mu         vs CODATA       (sigma = 2.3e-6 MeV)
 
-The probe re-solves the relevant closure with the multiplicity
-replaced by EVERY value in the committed 4 x 7 vertex-product menu
+The probe solves again the relevant closure with the multiplicity
+replaced by EVERY value in the committed 4 x 7 vertex product menu
 (28 candidates per node, plus 0 = "no term"), holding the others at
-canon, and reports the sigma-pull of each.  Frozen assertions: canon
+canon, and reports the sigma pull of each.  Frozen assertions: canon
 is the UNIQUE candidate within 2 sigma at every node, and the nearest
-menu alternative is dead by a wide margin.  The per-node 1-sigma
-pinning width |Delta m| is printed: the data does not merely prefer
-the composed values, it pins them to a small fraction of a menu step.
+menu alternative is dead by a wide margin.  The per node 1-sigma
+pinning width |Delta m| is printed. The data do not merely prefer
+the composed values. They pin them to a small fraction of a menu step.
 
-WHY THIS MATTERS.  Triangulation converts "the rule landed three
-times" into "three independent sub-ppm observables each lock one
+WHY THIS MATTERS.  Triangulation turns "the rule matched three
+times" into "three independent subppm observables each lock one
 multiplicity".  The kill condition is sharp: a derivation forcing
 any other value at any node is dead on arrival against the
 corresponding observable.
@@ -45,8 +45,8 @@ THE NATURALITY STATEMENT (the rule's formal content):
     insertion factorizes on the existing 3-point data of the node's
     boundary sector; no new primary enters the OPE closure.)
 
-Statement formal, targets frozen, rigidity priced; the constructive
-witness is echo_naturality.py.
+The statement is formal, the targets are frozen, and the rigidity is
+quantified. The constructive witness is echo_naturality.py.
 
 Usage: python3 vertex_pinning.py
 """
@@ -68,14 +68,14 @@ import _bootstrap  # noqa: E402,F401
 
 # reference values and uncertainties (comparison only, never inputs)
 BERKELEY_INV_ALPHA = (137.035999046, 2.7e-8)
-V_EW_GF = (246.219651, 6.3e-5)          # GeV; sigma from G_F(5.1e-7 rel)
+V_EW_GF = (246.219651, 6.3e-5)          # GeV. Sigma from G_F(5.1e-7 rel)
 M_MU_CODATA = (105.6583755, 2.3e-6)     # MeV
 
 
 def menu():
-    """The committed 4 x 7 vertex-product menu (root.py inventory,
-    frozen executably in wiring_theorem_probe.py, PART D), plus 0
-    (no term)."""
+    """The committed 4 x 7 vertex product menu (the e-side and q-side
+    vertex weights root.py's depth-4 readings are built from, frozen
+    executably in wiring_theorem_probe.py, PART D), plus 0 (no term)."""
     e_side = [Fraction(1), Fraction(2), Fraction(8, 3), Fraction(1, 2)]
     q_side = [Fraction(1), Fraction(6), Fraction(27), Fraction(26),
               Fraction(9), Fraction(3, 5), Fraction(182)]
@@ -165,7 +165,7 @@ def run(report=print):
                 default=None)
     width3 = (sig / ref) / (a2p**2 * abs(d_mu - d_e))
     report(f"\n  m3 (amplitude, canon 27/2 = W(fund) x dim J3(O)) vs "
-           f"m_mu CODATA (ppb-level):")
+           f"m_mu CODATA (ppb level):")
     report(f"     canon pull {dict(rows3)[Fraction(27, 2)]:+.2f} sigma; "
            f"survivors @2sigma = {[str(m) for m in surv3]}")
     report(f"     nearest alternative dead at {near3:.0f} sigma; "
@@ -175,9 +175,9 @@ def run(report=print):
     report("-" * 66)
     report("  TRIANGULATION ESTABLISHED: each multiplicity is locked "
            "by its own observable through its")
-    report("  own channel; no collective compensation is possible.  "
+    report("  own channel. No collective compensation is possible.  "
            "The response rule's targets are")
-    report("  frozen: any derivation must land exactly (2, 16, 27/2).")
+    report("  frozen: any derivation must give exactly (2, 16, 27/2).")
     report("  Kill: a derivation forcing any other menu value at any "
            "node is dead against that node's")
     report("  observable at the sigma distances printed above.")

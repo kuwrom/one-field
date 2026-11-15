@@ -1,11 +1,11 @@
 """
-theta_menu.py: the mass-phase map and its finite-menu check.
+theta_menu.py: the mass phase map and its finite menu check.
 
-MASS-PHASE MAP: the mass insertion is identified with the lightest
+MASS PHASE MAP: the mass insertion is identified with the lightest
 operator that changes adjacent Z3 sectors. In SU(3)_3 this is the
 fundamental primary with h = 2/9, and the map sets theta = h.
 
-FINITE-MENU CHECK: with B/A = sqrt(2) fixed by the channel map, the
+FINITE MENU CHECK: with B/A = sqrt(2) fixed by the channel map, the
 mass ratios depend on theta alone.
 Scan the complete natural angle menu of the MTC, the weights of all
 ten primaries and their standard multiples, and measure each
@@ -21,7 +21,7 @@ import _bootstrap  # noqa: E402,F401
 
 from root import PDG_MASSES, BA_ratio
 
-BA = float(BA_ratio)               # √2, single-sourced from root
+BA = float(BA_ratio)               # √2, single sourced from root
 # mass ratios from the single reference home
 PDG_MU_E = PDG_MASSES["mu"] / PDG_MASSES["e"]
 PDG_TAU_E = PDG_MASSES["tau"] / PDG_MASSES["e"]
@@ -71,15 +71,18 @@ def run(report=print):
     distinct = [b for b in best if abs(b[0] - d0) > 1e-6]
     report("-" * 70)
     report(f"  unique physical angle: h(fund) = h(antifund) = 2/9")
-    report(f"  (the sector-changing pair f, f-bar, one operator class)")
-    report(f"  mu/e = {m0:.2f} (exact), tau/e = {t0:.1f} "
+    report(f"  (the sector changing pair f, f-bar, one operator class)")
+    report(f"  mu/e = {m0:.4f} (circulant base; the completed reading "
+           f"sits 9.8 ppm below), tau/e = {t0:.1f} "
            f"({100*(t0/PDG_TAU_E-1):+.3f}%)")
     if distinct:
         dd, nn, *_ = distinct[0]
         report(f"  next DISTINCT candidate ({nn}): off by 10^{dd:.2f}")
-    report(f"  EVERY other natural angle leaves the positive branch:")
-    report(f"  no physical spectrum exists there AT ALL.  The data does")
-    report(f"  not prefer 2/9. It PERMITS only 2/9.")
+    report(f"  EVERY other natural angle leaves the positive nondegenerate")
+    report(f"  branch (negative masses, or a degenerate spectrum such as")
+    report(f"  2*pi*h(3,0) with mu/e = 1): no three generation spectrum")
+    report(f"  exists there.  The data does not prefer 2/9. It PERMITS")
+    report(f"  only 2/9.")
     assert n0.startswith("h(0,1)") or n0.startswith("h(1,0)"), \
         "the winning angle must be the fundamental's weight"
     assert abs(m0 - PDG_MU_E) / PDG_MU_E < 1e-4
