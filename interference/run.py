@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-End-to-end runner: every prediction from (d₁₀, d₁₁, n₇, n₂₆) + pi + m_e
-(the electron anchors the scale. M_Pl and G are outputs).
+End to end runner: every prediction from (d₁₀, d₁₁, n₇, n₂₆) + pi + m_e.
+The electron sets the scale.  M_Pl and G are outputs.
 
 Calls root -> masses -> mixing -> couplings -> gravity (incl. Higgs,
 baryogenesis, neutrinos) in dependency order, then prints a compact
@@ -12,7 +12,7 @@ Usage:
 
 Reference:
     Kahsay, Kibrom Kidane (2026). One-field repository.
-    Papers and archived releases are listed in README.md.
+    The paper and the archived releases are listed in README.md.
 """
 
 import os
@@ -26,10 +26,11 @@ if _repo_root not in sys.path:
     sys.path.insert(0, _repo_root)
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 0: The wiring, found rather than stated.  Zero input: the
-#  lattice, sub-algebra and level menus are scanned for zero closure
-#  residual, and (n₇, n₂₆, d₁₀, d₁₁) are read off the winner.  This is
-#  where the four integers and normalized current response come from.
+#  Step 0: The wiring, found by a scan rather than stated.  It takes no
+#  input.  The lattice, subalgebra and level menus are scanned for zero
+#  closure residual, and (n₇, n₂₆, d₁₀, d₁₁) are read off the winner.
+#  This is where the four integers and the normalized current response
+#  come from.
 # ═══════════════════════════════════════════════════════════════════════
 from interference import wiring
 wiring_data = wiring.derive()
@@ -41,14 +42,15 @@ from interference import root
 assert root.WIRING_DATA == wiring_data, \
     "root must consume the canonical result produced by wiring.py"
 R = root.derive()
-from interference.root import PDG_MASSES, pct  # noqa: E402
+import math  # noqa: E402
+from interference.root import PDG_MASSES, PDG_EW, pct  # noqa: E402
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Step 2: Generation word lemma (base(n) = boundary-walk counts;
-#  runs BEFORE masses, which imports these integers)
+#  Step 2: Generation word lemma (base(n) = boundary walk counts).
+#  Runs BEFORE masses, which imports these integers.
 # ═══════════════════════════════════════════════════════════════════════
 from interference import words
-words_data = words.derive()   # printed verification. the dict feeds no later step (dependency is by import, not by this value)
+words_data = words.derive()   # printed verification. The dict feeds no later step (dependency is by import, not by this value)
 
 # ═══════════════════════════════════════════════════════════════════════
 #  Step 3: Masses (9 fermions)
@@ -78,7 +80,7 @@ grav_data = gravity.derive(R, masses_data, mixing_data, couplings_data)
 #  Step 7: Octonionic CG verification
 # ═══════════════════════════════════════════════════════════════════════
 from interference.searchlight import octonions
-octonion_data = octonions.derive()   # printed verification; the dict feeds no later step (dependency is by import, not by this value)
+octonion_data = octonions.derive()   # printed verification. The dict feeds no later step (dependency is by import, not by this value)
 
 # ═══════════════════════════════════════════════════════════════════════
 #  Step 8: Dark sector (DM/baryon ratio + cosmological densities)
@@ -90,14 +92,15 @@ dark_data = dark_sector.derive(R, grav_data)
 #  Step 9: Structural uniqueness proofs
 # ═══════════════════════════════════════════════════════════════════════
 from interference.searchlight import embedding_uniqueness
-embed_data = embedding_uniqueness.derive()   # printed verification; the dict feeds no later step (dependency is by import, not by this value)
+embed_data = embedding_uniqueness.derive()   # printed verification. The dict feeds no later step (dependency is by import, not by this value)
 
 from interference.searchlight import protected_forgetting
-pf_data = protected_forgetting.derive()   # printed verification; the dict feeds no later step (dependency is by import, not by this value)
+pf_data = protected_forgetting.derive()   # printed verification. The dict feeds no later step (dependency is by import, not by this value)
 
 # The Z₃-NLS substrate dynamics is the parallel verification
-# program, not the canon: no scorecard number depends on it, so it
-# lives in tests/substrate/ and is exercised by the probes, not here.
+# program, not the canonical derivation.  No scorecard number depends
+# on it, so it lives in tests/substrate/ and the probes run it, not
+# this file.
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -107,9 +110,9 @@ pf_data = protected_forgetting.derive()   # printed verification; the dict feeds
 # The structural and polynomial identities (d_11^2-1 = 4 d_10, the C_2
 # factorisations, h_bridge = 1, c_coset = 0, the Fraction ratios 38/9,
 # 217/18, 1165/12, 289/432, 32/27, 649/972, sin^2 theta_W = 3/13,
-# and the E8 current trace Tr_+(Q^2) = 30 are asserted in
-# test_interference.py and by inline asserts. These are regression
-# certificates for the implemented formulas.
+# and the E8 current trace Tr_+(Q^2) = 30) are asserted in the branch
+# scorecards (tests/<branch>/test_<branch>_scorecard.py) and by inline
+# asserts.  These are regression checks for the implemented formulas.
 
 n_reported_numeric = 35  # includes internal coordinates and correlated comparisons
 n_structural = 1  # conditional minimal-type-I rank(M_nu) <= 2
@@ -159,7 +162,7 @@ print(f"  diagonal pull score = {pull_score_ckm:.2f}; "
 print(f"  Max marginal pull: {mixing_data['max_pull_ckm']:.2f}sigma")
 
 # # PMNS sector #
-print(f"\n  --- PMNS sector (3 correlated angles + convention-dependent U_e3 phase) ---")
+print(f"\n  --- PMNS sector (3 correlated angles + convention dependent U_e3 phase) ---")
 pull_score_pmns = mixing_data['diagonal_pull_score_pmns']
 print(f"  diagonal pull score = {pull_score_pmns:.2f}; "
       f"score/angle = {pull_score_pmns/3:.2f} (not chi2)")
@@ -178,14 +181,15 @@ print(f"  Ordering:   {grav_data['ordering']}  (NO -> m1=0; IO -> m3=0)")
 print(f"\n  --- Strong coupling ---")
 print(f"  alpha_s(M_Z) = {couplings_data['alpha_s_MZ_thresh']:.4f}  ({couplings_data['err_thresh']:+.2f}%)")
 print(f"  strong CP: bar(theta) = "
-      f"{couplings_data['bar_theta']:.1f} mod 2pi")
+      f"{couplings_data['bar_theta']:.1f} mod 2pi  "
+      f"[conditional IH]")
 
 # # Gravity sector #
 print(f"\n  --- Gravity sector ---")
-print(f"  Bridge: {grav_data['N_bridge']} modes, xi = 1/(48pi)")
-print(f"  G_ind/G_N (UV)     = {grav_data['G_ratio_UV']:.6f}  ({grav_data['err_UV']:+.2f}%)")
-print(f"  G_ind/G_N (broken) = {grav_data['G_ratio_broken']:.6f}  ({grav_data['err_broken']:+.2f}%)")
-print(f"  G_ind/G_N INTERNAL    = {grav_data['G_ratio_canonical']:.9f}")
+print(f"  Bridge: {grav_data['N_bridge']} modes, the amount minimally coupled")
+print(f"  full ledger Sigma = {grav_data['Sigma_total_UV']:.4f} (symmetric and broken ledgers equal)")
+print("  gravity lane gates: " + ", ".join(
+    f"{k.split()[0]} {v['status']}" for k, v in grav_data['gravity_gates'].items()))
 
 # # Higgs transport #
 print(f"\n  --- Higgs running coordinate ---")
@@ -194,28 +198,30 @@ print(f"  lambda(m_t; beta coordinate) = {grav_data['lambda_mt_transport']:.6f}"
 print(f"  sqrt(2lambda)v = {grav_data['higgs_transport_coordinate_GeV']:.2f} GeV")
 
 # # The electroweak scale #
-# Derived in masses.py and consumed by the three predictions below.
-# Not one of the counted reported coordinates: it is the scale on which the
-# electroweak entries stand. V_EW_GF is a reference, like the PDG values
-# quoted below.
-V_EW_GF = 246.219651
+# Derived in masses.py and used by the three predictions below.  It is
+# not one of the counted reported coordinates.  It is the scale the
+# electroweak entries are built on.  V_EW_GF is a reference value, like
+# the PDG values quoted below: (√2 G_F)^(−1/2) from the one G_F in
+# reference.py.
+V_EW_GF = (math.sqrt(2.0) * PDG_EW['G_F']) ** -0.5
 v_EW = masses_data['v_EW_pred_GeV']
 print(f"\n  --- Electroweak scale ---")
 print(f"  v_EW = M_Pl·exp(-S_quark) = {v_EW:.6f} GeV"
-      f"  (from G_F: {V_EW_GF}, {(v_EW/V_EW_GF - 1)*1e6:+.2f} ppm)")
+      f"  (from G_F: {V_EW_GF:.6f}, {(v_EW/V_EW_GF - 1)*1e6:+.2f} ppm)")
 
 # # Electroweak #
 print(f"\n  --- Electroweak sector (3 predictions: sin²θ_W, M_Z, M_W) ---")
 sin2W = grav_data['sin2W']
 print(f"  sin²θ_W = 3/13 + Q₀²·α/(2π) = {sin2W:.6f}  (PDG 2024 fit: 0.23129(4), pull {(sin2W-0.23129)/4e-5:+.2f}σ)")
 print(f"  M_Z = {grav_data['M_Z_derived']:.4f} GeV  (PDG: {grav_data['M_Z_PDG']}, {pct(grav_data['M_Z_derived'], grav_data['M_Z_PDG']):+.4f}%)")
-print(f"  M_W = {grav_data['M_W_derived']:.4f} GeV  (PDG: {grav_data['M_W_PDG']}(133), pull {(grav_data['M_W_derived']-grav_data['M_W_PDG'])/0.0133:+.2f}σ)")
+print(f"  M_W = {grav_data['M_W_derived']:.4f} GeV  (PDG: {grav_data['M_W_PDG']}({grav_data['M_W_err']*1e4:.0f}), pull {(grav_data['M_W_derived']-grav_data['M_W_PDG'])/grav_data['M_W_err']:+.2f}σ)")
 
 # # Baryogenesis #
 print(f"\n  --- Baryogenesis ---")
 b_pct = abs(1 - grav_data['ratio_B']) * 100
-print(f"  eta_B = {grav_data['dim_G2_fund']} * J_lep * exp(-2pi²) = {grav_data['eta_B']:.4e}")
-print(f"  Planck: {grav_data['eta_B_obs']:.2e}  ({b_pct:.2f}% agreement)")
+print(f"  eta_B = {grav_data['dim_G2_fund']} * (-J_lep) * exp(-2pi²) = {grav_data['eta_B']:.4e}")
+print(f"  Planck: {grav_data['eta_B_obs']:.2e}  ({(grav_data['ratio_B'] - 1) * 100:+.2f}%, "
+      f"{grav_data['pull_sigma_B']:+.2f}σ)  [Thm + IH]")
 
 # # Dark sector #
 print(f"\n  --- Dark sector (1 algebraic output + density bookkeeping) ---")
@@ -227,7 +233,7 @@ print(f"  Ω_DM/Ω_b = 2π−1 = {DM_b:.5f}  (Planck: {DM_b_obs:.4f}, {err_DM_b:
 print(f"  ρ_crit(H₀) = {dark_data['rho_crit_mapped']:.2e} GeV⁴; "
       f"ρ_Λ(current) = {dark_data['rho_Lambda_current']:.2e} GeV⁴ "
       "[H₀ and Ω_Λ imports]")
-print(f"  Critical-density ratio to M_Pl⁴: "
+print(f"  Critical density ratio to M_Pl⁴: "
       f"10^{dark_data['critical_density_suppression']:.0f}")
 
 
@@ -249,6 +255,14 @@ M_V = couplings_data['M_V_GeV']
 print("\n" + "=" * 78)
 print("  THE DERIVATION GRAPH")
 print("=" * 78)
+
+_gates = grav_data['gravity_gates']
+gate_line = ", ".join(f"{name.split(' ', 1)[1]} {g['status']}"
+                      for name, g in _gates.items())
+G_pred = root.G_PRED
+G_pull = (G_pred - 6.67430e-11) / 0.00015e-11
+gate_count = (f"{sum(g['status'] == 'PASS' for g in _gates.values())} of "
+              f"{len(_gates)} gates pass")
 
 tree = f"""
   E8(1) -> G2(1) x F4(1)    [conformal embedding, c=8]
@@ -275,55 +289,59 @@ tree = f"""
     |     candidate lambda(M_Pl) -> lambda(m_t; beta coordinate) = {grav_data['lambda_mt_transport']:.4f}
     |
     +-- SU(3)_3 / D(6) -> CKM
-    |     lambda = h₁₀(1+h₁₁/K²) = 73/324,  A = sqrt(2/3),
+    |     lambda = h₁₀(1+h₁₁/K²) = 73/324 [IH],  A = sqrt(2/3) [IH],
     |     modular phase pi/9 -> etabar [IH],  rhobar = sqrt(2)/9 [IH]
     |
-    +-- SU(3)_3 conjugation-orbit candidate -> PMNS
+    +-- SU(3)_3 conjugation orbit candidate -> PMNS
+    |     theta_C = h₁₀ [IH],  delta = -acos(-lambda)
     |     sin2_12 = {mixing_data['sin2_12']:.5f} ({p12:+.1f}sigma)
     |     sin2_23 = {mixing_data['sin2_23']:.5f} ({p23:+.1f}sigma)
     |     sin2_13 = {mixing_data['sin2_13']:.5f} ({p13:+.1f}sigma)
-    |     -arg(U_e3) = {mixing_data['ue3_phase_deg']:.1f} deg  [convention-dependent; not delta_CP]
+    |     -arg(U_e3) = {mixing_data['ue3_phase_deg']:.1f} deg  [convention dependent; not delta_CP]
     |
     +-- F4 singlets -> neutrino structure
     |     26 -> 8_v + 8_s + 8_c + 1 + 1  ({grav_data['n_RH']} RH neutrinos)
     |     minimal type-I only: {grav_data['n_RH']} identified RH neutrinos -> rank(M_nu) <= {grav_data['light_mass_rank_max']}
-    |     conditionally at least one massless state; ordering not selected
+    |     conditionally at least one massless state. Ordering not selected
     |
     +-- Embedding index -> alpha_s
     |     alpha_G2(mu*) = pi/32,  mu* = M_Pl e^-(9pi^2/2-6) = 253.5 GeV
-    |     M_V = {M_V:.0f} GeV  (per-mode bridge reading)
+    |     M_V = {M_V:.0f} GeV  (per mode bridge reading)
     |     alpha_s(M_Z) = {a_MZ:.4f}  ({e_th:+.1f}%)
-    |     strong CP: bar(theta) = {couplings_data['bar_theta']:.1f} mod 2pi from the phase action on A=1+B
+    |     strong CP: bar(theta) = {couplings_data['bar_theta']:.1f} mod 2pi from the phase action on A=1+B  [conditional IH]
     |
     +-- G2 winding action + Fano orientation -> eta_B
-    |     eta_B = 7 * J_lep * exp(-2pi²) = {grav_data['eta_B']:.4e}  ({b_pct:.1f}%)  [G2 face action]
+    |     eta_B = 7 * (-J_lep) * exp(-2pi²) = {grav_data['eta_B']:.4e}  ({b_pct:.1f}%)  [G2 face action]
     |
     +-- (7,26) bridge -> gravity
-    |     182 modes, xi = 1/(48pi),  h_bridge = 1
-    |     PvP = 0 (universality),  per-mode E[v²] = 1/2, total Pv²P = P (memory)
-    |     G_ind/G_N = {grav_data['G_ratio_canonical']:.9f} (canonical internal closure)
+    |     182 modes, minimally coupled,  h_bridge = 1
+    |     PvP = 0 (universality),  per mode E[v²] = 1/2, total Pv²P = P (memory)
+    |     lane gates: {gate_line}
+    |     G = (3 Q_l − 1) ħc/M_b² = {G_pred:.6e}  ({G_pull:+.2f}σ of CODATA's recommended value)
+    |        M_b: the anchor inversion m_e -> M_Pl (+22 ppm) [IH]
     |
     \\-- Bridge self-interference -> dark sector
           Ω_DM/Ω_b = 2π−1 = {dark_data['DM_baryon_ratio']:.4f}  (Planck: {dark_data['DM_baryon_ratio_obs']:.3f}, {dark_data['pull_DM_baryon']:+.1f}σ)
-          Friedmann density: ρ_crit = (3/8π) M_Pl²H₀²; ρ_Λ(current) = Ω_Λ ρ_crit
-          Critical-density ratio to M_Pl⁴: 10^{dark_data['critical_density_suppression']:.0f}
+          Friedmann density: ρ_crit = 3H₀²/(8πG) = (3/8π) M_Pl²H₀²/(3 Q_l − 1). ρ_Λ(current) = Ω_Λ ρ_crit
+          Critical density ratio to M_Pl⁴: 10^{dark_data['critical_density_suppression']:.0f}
 
   TOTAL: 9 mass coordinates (1 anchor + 8 predictions) + 15 CKM + 3 PMNS + 1 alpha_s + 1 Higgs + 1 G_N + 1 eta_B + 3 EW + 1 DM/baryon
        = {n_reported_numeric} reported numerical coordinates
-         + {n_structural} conditional structural result (minimal-type-I light-neutrino rank bound)
+         + {n_structural} conditional structural result (minimal-type-I light neutrino rank bound)
        from the electron anchor.  The mixing theorem gives no relative
-       diagonalizer from closed frame-blind data.  The finite maps are
-       identifications.  Under the Planck/healing-length identification,
-       the gravity target is Sigma = 2pi*d11.  Two factorizations evaluate
-       to this target.  The substrate suite contains substrate-only clock
-       runs, confined-phase lattice probes and the Skyrmion-Dirac spectral-flow probe.
-       Structural and polynomial identities are asserted in test_interference.py:
+       diagonalizer from closed frame blind data.  The finite maps are
+       identifications.  Under the cutoff t0 = d11 l_Pl², the gravity
+       diagnostic target is Sigma = 2pi*d11.  Two factorizations evaluate
+       to this target.  The substrate suite contains the lump in the empty
+       field, substrate only clock runs, confined phase lattice probes and
+       the Skyrmion-Dirac spectral flow probe.
+       Structural and polynomial identities are asserted in the branch scorecards:
            pytest -q   ->   the fast suite (the substrate arc behind -m slow), including
                             the canonical freeze table.  Counts: README.
   Mass: {n_sub1}/9 <= 1%, {n_sub2}/9 <= 2%, max {max_err:.1f}%
-  CKM:  diagonal pull score/coordinate = {pull_score_ckm/n_ckm:.2f}  ({n_ckm} comparison coordinates; covariance unmodeled, not chi2)
+  CKM:  diagonal pull score/coordinate = {pull_score_ckm/n_ckm:.2f}  ({n_ckm} comparison coordinates. Covariance unmodeled, not chi2)
   PMNS: diagonal pull score/angle = {pull_score_pmns/3:.2f}  (3 correlated angles; not chi2)
-  G_N:  G_ind/G_N = {grav_data['G_ratio_canonical']:.4f}  [internal]
+  G_N:  G = {G_pred:.6e} ({G_pull:+.2f}σ), the anchor inversion (M_Pl +22 ppm) read through the common mode. Gravity lane: {gate_count}
 """
 
 print(tree)
@@ -332,6 +350,7 @@ print(f"  CANONICAL ALGEBRAIC CLOSURE COMPLETE: ALL 248 E8 MODES ASSIGNED")
 print(f"  {n_reported_numeric} REPORTED NUMERICAL COORDINATES, "
       f"{n_structural} CONDITIONAL STRUCTURAL RESULT; "
       "KEY THEOREM/IH/IMPORT BOUNDARIES SHOWN")
-print(f"  SUBSTRATE RESULTS: CLOCK RUNS, CONFINED-PHASE LATTICE, CHIRAL ZERO MODES")
+print(f"  SUBSTRATE RESULTS: SELF-TRAPPED AND SPINNING LUMPS, CLOCK RUNS, "
+      f"CONFINED PHASE LATTICE, CHIRAL ZERO MODES")
 print(f"  (14,1) gauge + (1,52) matter/Higgs + (7,26) gravity = 248")
 print(f"  {'='*78}")

@@ -4,51 +4,54 @@ bell.py: the Bell test, read correctly.
 Bell's theorem bounds LOCAL REALIST theories at CHSH S <= 2: theories
 where each wing's outcome is a +/-1 fact assigned locally (a local
 beable), given the shared history lambda and the setting.  Nature
-violates the bound (Aspect 1982. Loophole-free: Hensen, Giustina,
-Shalm 2015) and reaches the quantum value S = 2*sqrt(2) (Tsirelson).
+violates the bound (Aspect 1982. Loophole free: Hensen, Giustina,
+Shalm 2015, with S = 2.42 in the Hensen CHSH run and CH/Eberhard
+violations in the other two), consistent with the quantum maximum
+S = 2*sqrt(2) (Tsirelson).
 
-The framework is LOCAL and NON-REALIST.  The assumption it rejects is
-the +/-1 value assignment, not locality: +/-1 is not a property a
-knot HAS. It is a property of a COMPLETED COMPARISON of records.  A
-knot-detector closure writes a record. The correlation is a fact of
-the JOINT ledger, realized when the two wings' records merge through
-ordinary local channels.  (Standard QM already carries no value
-assignments: Kochen-Specker.)  The substrate dynamics stays perfectly
+The framework is LOCAL and NON REALIST.  The assumption it rejects is
+the absolute outcome, not locality (records are primitive,
+interference/__init__.py). The value +/-1 is not a property that a
+knot HAS. It is a property of a COMPLETED COMPARISON of records. A
+closure between a knot and a detector writes a record. The correlation
+is a fact of the JOINT ledger. It becomes a fact when the records of
+the two wings merge through ordinary local channels.  (Standard QM already carries no noncontextual
+value assignments: Kochen-Specker.)  The substrate dynamics stays perfectly
 local. Bell forbids local outcome assignment, not local dynamics.
 
-There is no bypass and no tension: with the realism premise rejected,
-Bell's bound does not apply, and the violation is permitted.  Emergent
-QM being exactly linear (linearity from closure, octonions.py), the
-framework inherits the full quantum predictions: S = 2*sqrt(2)
+There is no loophole and no tension. Once the realism premise is
+rejected, Bell's bound does not apply, and the violation is permitted.
+Emergent QM is exactly linear (linearity from closure, octonions.py),
+so the framework inherits the full quantum predictions: S = 2*sqrt(2)
 exactly, never more.
 
 THE TWO READINGS, computed below:
 
   LOCAL REALIST (substrate configuration as state, outcomes locally
     assigned +/-1): S <= 2, verified numerically and by the +/-2
-    identity.  Contradicted by loophole-free data. This is not the
+    identity.  Contradicted by loophole free data. This is not the
     framework's reading.
 
-  LOCAL NON-REALIST (ledger as state): records of two knots born from
+  LOCAL NON REALIST (ledger as state): records of two knots born from
     ONE closure form a single composite record that never factorizes
-    into spatial parts. The outcome-determining object is the shared
-    record, which is not a field over space.  S = 2*sqrt(2).
+    into spatial parts. The object that determines the outcome is the
+    shared record, and it is not a field over space.  S = 2*sqrt(2).
 
-The framework's own documents carry the non-realist reading's
-ingredients: "the emergent state is the LEDGER, not the displacement"
-(octonions.py), and the Born rule reads |amplitude|^2 because PvP = 0
-erases linear entries and the second moments are retained (per-mode
+The framework's own documents already contain the ingredients of the
+nonrealist reading: "the emergent state is the LEDGER, not the displacement"
+(octonions.py). The Born rule gives |amplitude|^2 because PvP = 0
+erases the linear entries and keeps the second moments (per mode
 E[v^2] = 1/2, total Pv^2P = P).
 
 STRUCTURAL, zero parameters:
   1. CHSH at EXACTLY the Tsirelson bound, at every distance, for
      every knot species.  Any confirmed S > 2*sqrt(2) kills the
-     framework (as it would kill QM). Any confirmed sub-quantum cap
+     framework (as it would kill QM). Any confirmed subquantum cap
      for ideal singlets also kills it: the ledger algebra has no
      attenuation mechanism.
   2. The derivation that promotes the Born conjecture to a theorem:
      obtain E(a,b) = -a.b from two knots born of one closure plus
-     protected forgetting (definite records from knot-detector
+     protected forgetting (closed records from knot detector
      closure, Born weights from Pv^2P).
 
 This module computes both readings.
@@ -68,25 +71,30 @@ def chsh_local_bound(n_strategies=20000, n_lambda=400, seed=5):
     """Numerically confirm S <= 2 for local response functions.
 
     A(a, lam), B(b, lam) in {-1, +1}, arbitrary. lam shared.  The
-    per-lambda CHSH combination A(a)B(b) + A(a)B(b') + A(a')B(b)
+    per lambda CHSH combination A(a)B(b) + A(a)B(b') + A(a')B(b)
     - A(a')B(b') = A(a)[B(b)+B(b')] + A(a')[B(b)-B(b')] = +/-2
-    identically, so no strategy and no lambda-distribution exceeds 2.
+    identically, so no strategy and no lambda distribution exceeds 2.
     """
     rng = np.random.default_rng(seed)
-    best = 0.0
+    best_random = 0.0
     for _ in range(n_strategies // 4):
         # random deterministic strategies: signs per (setting, lambda)
         A = rng.choice([-1, 1], size=(2, n_lambda))
         B = rng.choice([-1, 1], size=(2, n_lambda))
         E = lambda i, j: float(np.mean(A[i] * B[j]))
         S = abs(E(0, 0) + E(0, 1) + E(1, 0) - E(1, 1))
-        best = max(best, S)
-    # the bound S = 2 is ACHIEVED (constant strategies), never exceeded
-    best = max(best, 2.0)
+        best_random = max(best_random, S)
+    # the bound S = 2 is ACHIEVED by the constant strategy A = B = +1
+    # (every correlator 1), and never exceeded: random lambda averaged
+    # strategies sit well below it
+    A = np.ones((2, n_lambda)); B = np.ones((2, n_lambda))
+    E = lambda i, j: float(np.mean(A[i] * B[j]))
+    S_const = abs(E(0, 0) + E(0, 1) + E(1, 0) - E(1, 1))
+    assert S_const == 2.0 and best_random <= 2.0
     # algebraic identity check (exhaustive over sign patterns):
     for a0, a1, b0, b1 in itertools.product([-1, 1], repeat=4):
         assert abs(a0*b0 + a0*b1 + a1*b0 - a1*b1) == 2
-    return best
+    return {"achieved": S_const, "best_random": best_random}
 
 
 # # the ledger reading (emergent QM) # #
@@ -102,18 +110,22 @@ def chsh_ledger():
 
 
 def verdict():
-    S_local = chsh_local_bound()
+    local = chsh_local_bound()
+    S_local = local["achieved"]
     S_ledger = chsh_ledger()
-    S_nature = 2 * math.sqrt(2)   # loophole-free experiments reach this
-    print("BELL TEST: local non-realist, at the Tsirelson bound")
+    S_nature = 2 * math.sqrt(2)   # the quantum maximum (Tsirelson)
+    print("BELL TEST: local nonrealist, at the Tsirelson bound")
     print("=" * 64)
     print(f"  local realist (+/-1 assigned):   S <= 2 "
-          f"(best found {S_local:.4f}. Identity +/-2 verified)")
-    print(f"  local non-realist (the ledger):  S = {S_ledger:.6f}"
+          f"(achieved {S_local:.4f} by the constant strategy. Random "
+          f"lambda averaged strategies reach {local['best_random']:.4f}. "
+          f"Identity +/-2 verified)")
+    print(f"  local nonrealist (the ledger):  S = {S_ledger:.6f}"
           f" = 2*sqrt(2)")
-    print(f"  nature (loophole-free, 2015):    S -> {S_nature:.6f}")
+    print(f"  nature (loophole free, 2015):    S > 2 (Hensen CHSH 2.42), "
+          f"consistent with {S_nature:.6f}")
     print("-" * 64)
-    print("  The rejected assumption is the +/-1 value assignment,")
+    print("  The rejected assumption is the absolute outcome,")
     print("  not locality: Bell's bound does not apply, the violation")
     print("  is permitted, and the prediction is exact Tsirelson, at")
     print("  every distance, for every knot species. No attenuation")

@@ -1,9 +1,9 @@
 """WHICH UNIFORM STATE IS THE VACUUM OF THE Z3-COUPLED SUBSTRATE?
 
-Every 3D Z3-NLS run in this tree has been seeded on the Z3-SYMMETRIC
-background psi_0 = psi_1 = psi_2. That state is a stationary point, and
-emergent_clock.py already measured that it is the one that "decays into
-matter" while offset backgrounds sit still. This probe computes why, in
+Every 3D Z3-NLS run in this tree is seeded on the Z3-SYMMETRIC
+background psi_0 = psi_1 = psi_2. That state is a stationary point.
+emergent_clock.py measures that it "decays into
+matter", while offset backgrounds stay still. This probe computes why, in
 closed form: it is not the vacuum, and it is linearly unstable.
 
 At fixed total density the kinetic term of a uniform state vanishes, so the
@@ -14,32 +14,48 @@ whole question is exact algebra on the interaction energy
 and the first term is a constant on the constraint surface. The competition
 is entirely in the g1 ring term, and it prefers the CLOCK.
 
-WHAT THIS SETTLES, and it is not a small thing. The Faddeev-Skyrme director
+WHAT THIS SETTLES. The Faddeev-Skyrme director
 is z = phi_rel / sqrt(rho_rel + EPS), so
 
     |n| = rho_rel / (rho_rel + EPS)
 
 In the symmetric background rho_rel = 0 identically, so |n| = 0: n does not
 map into S^2 but into a contractible BALL, pi_3(ball) = 0, and the Hopf
-charge is not quantized. That is why a barrier scan found NO energy
-barrier at any of four resolutions and why Q_H reads 0.94 rather than
-1: there was no topology for the derived quartic to protect. In the
+charge is not quantized. That is why the symmetric background shows no
+energy barrier and a noninteger Q_H (0.94 in the recorded barrier
+scan, at four resolutions). There is no topology for the derived
+quartic to protect. Those scans are not rerun here. This probe
+asserts the instability and the condensate's integer charge.  (The EPS in the
+director is a regulator for rho_rel = 0; effective_action.py's
+phi/sqrt(rho) is the same director wherever rho_rel != 0.)  In the
 condensate rho_rel != 0 everywhere, |n| = 1, and n is a constant unit
-vector -- the boundary condition a Hopf charge actually requires.
+vector. That is the boundary condition a Hopf charge requires.
 
 The condensate also keeps the Z3 CENTRE UNBROKEN: the cyclic shift is
 equivalent to a global phase on it, which is exactly the projective
-realisation the confined-phase entry test (confined_phase.py) posits.
-That test carries the phase as a premise; this state is a stable stationary point in
+realisation the confined phase entry test (confined_phase.py) posits.
+That test carries the phase as a premise. This state is a stable stationary point in
 closed form with mu = 3 g0 - g1.
 
 Nothing here is fitted or relaxed. Every number is either exact algebra or
 a numerically exact eigendecomposition of a 6x6 matrix.
+
+SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
+background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
+self-bound sign holds the clock lump, which carries no pi_3 texture
+(knot_in_lump.py). Its closure is the spinning lump (spinning_lump.py).
+
 """
+
+import os
+import sys
 
 import numpy as np
 
-import substrate3d as s3
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _bootstrap  # noqa: E402,F401
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import substrate3d as s3  # noqa: E402
 
 W3 = np.exp(2j * np.pi / 3)
 CLOCK = np.array([1.0, W3, W3**2])
@@ -126,7 +142,7 @@ def run(report=print):
     states = {"Z3-symmetric (1,1,1)": SYMMETRIC,
               "clock q=1 (1,w,w^2)": CLOCK,
               "clock q=2 (1,w^2,w)": np.array([1.0, W3**2, W3]),
-              "two-component (1,1,0)": np.array([1.0, 1.0, 0.0]),
+              "two component (1,1,0)": np.array([1.0, 1.0, 0.0]),
               "single (1,0,0)": np.array([1.0, 0.0, 0.0])}
     report("  uniform states at fixed rho_tot = 3 (kinetic term vanishes)")
     report(f"  {'state':<24}{'E/V':>12}{'rho_rel':>10}{'|n|':>7}")

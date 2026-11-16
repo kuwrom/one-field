@@ -3,7 +3,7 @@ Dark sector: Ω_DM/Ω_b and cosmological density bookkeeping.
 
 The matter ratio uses the algebraic bridge data. The density display uses
 the observational H₀ anchor and distinguishes the Friedmann critical
-density from the current dark-energy density.
+density from the current dark energy density.
 
 Two structures are reported with different statuses:
 
@@ -12,18 +12,18 @@ Two structures are reported with different statuses:
    R(1)=1/(2π), the same factor
    that converts α_alg = π/512 to α(0) = 1/137.035999050.
      f_baryonic = 1/(2π)     →  Ω_DM/Ω_b = 2π−1 ≈ 5.283
-   The registered matter ledger contains one bridge response; no separate
+   The registered matter ledger contains one bridge response. No separate
    materialization coefficient is introduced.
 
    Equivalently: Ω_m/Ω_b = 2π (total matter/baryon ratio).
 
    WHY THE SAME FACTOR GOVERNS BOTH DOMAINS: the 1/(2π) is not
    "borrowed" from the EM sector.  It is the bridge's canonical
-   closed-loop response: the weight sum h(7,G₂) + h(26,F₄) = 1 fixes
-   h, and the framework's chosen unit-normalized current basis defines
-   R(h)=h/(2π) once for every consumer. Thus R(1)=1/(2π). It is not
-   the raw integral of the singular separated-point two-point kernel. This
-   fraction answers a single question: what fraction of the bridge
+   closed loop response. The weight sum h(7,G₂) + h(26,F₄) = 1 fixes
+   h, and the framework's chosen unit normalized current basis defines
+   R(h)=h/(2π) once, for every module that uses it. Thus R(1)=1/(2π).
+   It is not the raw integral of the singular two point kernel at
+   separated points. This fraction answers a single question: what fraction of the bridge
    amplitude closes locally (i.e. contributes to a particular
    channel's observable)?
 
@@ -33,49 +33,67 @@ Two structures are reported with different statuses:
    (root.py).
 
    In the matter channel, "closes locally" means: materializes as
-   localized (baryonic) matter.  The standing waves that form in the
-   relative sector carve venting channels into the common mode
-   (gravity.py).  Of the total substrate energy circulating through
-   the bridge, the fraction 1/(2π) localizes as particle-like
-   excitations (baryons). The remainder (2π−1)/(2π) stays as
-   delocalized bridge coherence, coupling only through the common
-   mode (PvP = 0 → gravitational coupling only → dark matter).
+   localized (baryonic) matter.  The fraction that localizes is the
+   bridge's normalized current response,
+   f_baryonic = h_bridge/(2π) = 1/(2π).  The remainder (2π−1)/(2π)
+   stays as delocalized bridge coherence, coupling only through the
+   common mode (PvP = 0 → gravitational coupling only → dark matter).
+   This fraction is not the gravity venting ledger Σ.
 
    Both readings use the same normalized response of the same operator.
    The bridge is one object connecting two faces, so no independent
    channel coefficient is introduced. The identity c_coset=0 removes an
-   independent unitary coset Virasoro sector; the registered Web controls
+   independent unitary coset Virasoro sector. The registered Web controls
    later responses.
 
-   WHAT ENDS THIS.  Ω_DM/Ω_b = 2π−1 = 5.2832 is exact in the registered
-   matter ledger, with no coefficient to adjust.  It sits
-   between Planck (−1.3σ) and ACT (+1.2σ); both datasets converging
-   away from 5.283 kills it, and CMB-S4-class data decides.
-   The dark sector is bridge coherence, not a particle: it couples
+   WHAT FALSIFIES THIS.  Ω_DM/Ω_b = 2π−1 = 5.2832 is exact in the
+   registered matter ledger, with no coefficient to adjust.  It lies
+   between Planck (−1.3σ) and ACT (+1.2σ). It is falsified if both
+   datasets converge away from 5.283. CMB-S4 class data decides.
+   The dark sector is bridge coherence, not a particle. It couples
    only through the common mode (PvP = 0), so all direct, indirect
-   and collider dark-matter searches return null indefinitely.  Any
-   confirmed non-gravitational dark-matter detection kills it.
+   and collider dark matter searches always return null.  Any
+   confirmed nongravitational dark matter detection falsifies it.
+
+   THE DUST READING (declared premise).  Ω_c h² is measured as the
+   amplitude of a component pressureless at recombination (the CMB
+   bounds −0.0009 < w < 0.0024 and c_s² < 3.2×10⁻⁶ at 99.7%, Thomas,
+   Kopp, Skordis arXiv:1601.05097).  The framework takes the amount as
+   the wiring describes it, "real, unindividuated, and felt only as
+   amount" (interference/wiring.py). It is a count, conserved per
+   comoving volume, and its weight per count does not depend on the
+   volume, so p = 0 and c_s² = 0.  That the coherence carries a single
+   flow is part of the reading, not a derivation
+   (tests/probes/dust_gate.py, one_flow_scope.py).
+   WHAT FALSIFIES IT: w or c_s² outside the CMB bounds. Any small scale
+   cutoff in the matter power spectrum not due to baryons, since the
+   reading is perfectly cold. Dark matter self-interaction above the cluster
+   bounds. Any nongravitational detection.
 
 2. Cosmological density scale
-   Volovik equilibrium: ρ_vac = 0 at the self-bound point
-   (imported thermodynamic relation).
-   Friedmann critical-density identity:
+   The vacuum term does not gravitate. In the traceless form of the
+   composite metric, a constant in the potential never couples
+   (tests/probes/composite_metric.py). Inside a lump the clock
+   liquid sits at its zero pressure point, ε − μn = 0 (Volovik's
+   Gibbs-Duhem relation, tests/probes/self_bound_vacuum.py).
+   Friedmann critical density identity:
      ρ_crit = (3/8π) M_Pl² H₀²
-   Current dark-energy density:
+   Current dark energy density:
      ρ_Λ = Ω_Λ ρ_crit
    Jacobson's thermodynamic derivation leaves Λ as an integration
-   constant; CKN saturation is an identification hypothesis, not a
+   constant. CKN saturation is an identification hypothesis, not a
    derivation of the observed value.
 
 Note on Z₃ coupling eigenvalues:
    The Z₃ substrate has coupling eigenvalues λ₀ = g₀(1+√d₁₀) and
    λ₁ = g₀(1−1/√d₁₀), satisfying λ₀+2λ₁ = d₁₁g₀ (Sugawara identity).
    These characterise COUPLING STRENGTHS in the Madelung system, not
-   energy-density fractions.
+   energy density fractions.
 
 Reference:
-    Kahsay, Kibrom Kidane (2026). Trilogy.
-    Zenodo. https://doi.org/10.5281/zenodo.20144381
+    Kahsay, Kibrom Kidane (2026). The Octavian Coherence Gate: The Four
+    Irreducible Integers of the E₈(1) ⊃ G₂(1) × F₄(1) Conformal Embedding.
+    Zenodo. https://doi.org/10.5281/zenodo.20493955
 """
 
 import math
@@ -89,7 +107,7 @@ from .root import (d10, d11,
 
 # ═══════════════════════════════════════════════════════════════════════
 #  Observational reference values (comparison only, not inputs)
-#  Centralized in audit/reference.py, imported via root like every
+#  Centralized in interference/reference.py, imported via root like every
 #  other reference block, inside the blindness firewall's
 #  perturbation set.
 # ═══════════════════════════════════════════════════════════════════════
@@ -109,8 +127,8 @@ def derive(R, grav_data):
     grav_data : dict from gravity.derive()
 
     DAG POSITION: both parameters are accepted for the runner's
-    uniform signature and neither is consumed; everything here needs
-    only root-level constants (π, d₁₀, h_bridge, ρ_crit), so this
+    uniform signature and neither is consumed. Everything here needs
+    only root level constants (π, d₁₀, h_bridge, ρ_crit), so this
     module's place in the dependency graph is directly after root.
     run.py keeps it late for narrative order only.
     """
@@ -122,12 +140,14 @@ def derive(R, grav_data):
 
     # Z₃ coupling eigenvalue structure (algebraic) ########
     #
-    # g₁/g₀ = 1/√d₁₀  (the G₂ identification on the Z₃ NLS substrate.
-    # see masses.py substrate section, same g₀, g₁ as the BdG layer)
+    # |g₁/g₀| = 1/√d₁₀  (the G₂ identification on the Z₃ NLS substrate.
+    # See the masses.py substrate section: same g₀, g₁ as the BdG layer.)
     # λ₀ = g₀(1+√d₁₀)   [common mode → geometry]
     # λ₁ = g₀(1−1/√d₁₀) [relative modes → matter]
     #
     # λ₀+2λ₁ = d₁₁g₀ exactly for d₁₀=2 (Sugawara identity d₁₁²−1=4d₁₀).
+    # The eigenvalues are written at g₁/g₀ = +1/√d₁₀. The identity
+    # holds for either sign of g₁.
 
     lam0 = 1.0 + sd                    # common mode
     lam1 = 1.0 - 1.0/sd               # relative mode
@@ -135,11 +155,11 @@ def derive(R, grav_data):
     assert abs(denom - float(d11)) < 1e-10, f"denom = {denom}, expected {d11}"
 
     print(f"\n  Z₃ coupling eigenvalue structure:")
-    print(f"    g₁/g₀ = 1/√d₁₀ = 1/√{d10}  [G₂ identification]")
+    print(f"    |g₁/g₀| = 1/√d₁₀ = 1/√{d10}  [G₂ identification]")
     print(f"    λ₀ = 1+√{d10} = {lam0:.6f}  [common → geometry]")
     print(f"    λ₁ = 1−1/√{d10} = {lam1:.6f}  [relative → matter]")
     print(f"    λ₀+2λ₁ = d₁₁ = {denom:.1f}  [Sugawara identity]")
-    print(f"    (Coupling strengths, not energy-density fractions)")
+    print(f"    (Coupling strengths, not energy density fractions)")
 
     # Bridge self-interference → baryon/DM split #########
     #
@@ -158,7 +178,7 @@ def derive(R, grav_data):
     # Verify exact algebraic form
     assert abs(DM_baryon_ratio - (2.0 * math.pi - 1.0)) < 1e-10
 
-    # the unread remainder as a graph node ############
+    # the remainder that does not localize, as a graph node ############
     from .root import WEB, Ledger
     WEB["dark_ratio"] = Ledger("dark_ratio", 2.0 * math.pi - 1.0, "mul")
     WEB.solve()          # dark node joins the solved web state
@@ -177,8 +197,10 @@ def derive(R, grav_data):
     # Comparison with CMB observations ##############
     #
     # The DM/baryon MASS ratio Ω_c h²/Ω_b h² is H₀-independent and
-    # measured directly from the CMB power spectrum.  No external
-    # conversion factors needed, just a ratio of observables.
+    # measured directly from the CMB power spectrum.  It needs no
+    # external conversion factors, only a ratio of observables.  Ω_c is
+    # the amplitude of a pressureless component, which the dust reading
+    # supplies (docstring, THE DUST READING).
 
     Omega_c_h2_obs = PLANCK_2018['Omega_c_h2']
     Omega_b_h2_obs = PLANCK_2018['Omega_b_h2']
@@ -206,7 +228,7 @@ def derive(R, grav_data):
     m_b_planck = (Omega_c_h2_obs + Omega_b_h2_obs) / Omega_b_h2_obs
     err_m_b = pct(matter_baryon_ratio, m_b_planck)
 
-    print(f"\n  Comparison with CMB observations (ratio-to-ratio, no conversion):")
+    print(f"\n  Comparison with CMB observations (ratio to ratio, no conversion):")
     print(f"    Planck 2018:  Ω_c h²/Ω_b h² = {DM_b_planck:.4f} ± {sigma_DM_b:.4f}")
     print(f"    ACT DR6:      Ω_c h²/Ω_b h² = {DM_b_ACT:.4f} ± {sigma_DM_b_ACT:.4f}")
     print(f"    Prediction:   2π−1           = {DM_baryon_ratio:.4f}")
@@ -214,15 +236,16 @@ def derive(R, grav_data):
     print(f"    ACT pull:     {pull_ACT:+.2f}σ  ({err_ACT:+.2f}%)")
     print(f"    Sits between: {abs(DM_baryon_ratio - DM_b_planck):.3f} from Planck, {abs(DM_baryon_ratio - DM_b_ACT):.3f} from ACT")
     print(f"\n    Ω_m/Ω_b = 2π = {matter_baryon_ratio:.4f}  (Planck: {m_b_planck:.4f}, {err_m_b:+.2f}%)")
+    print(f"    Dust reading (declared premise): the amount is a conserved count whose weight does "
+          f"not move with the volume, so w = 0, c_s² = 0 (CMB: |w| < 0.0024, c_s² < 3.2e-6)")
 
     # Cosmological density bookkeeping
     #
     # H₀ is an observational scale anchor.  The code evaluates the
     # Friedmann identity ρ_crit = (3/8π) M_Pl²H₀².
     #
-    # Step 1, Volovik equilibrium:
-    #   The imported Gibbs-Duhem relation gives ρ_vac(eq) = 0 for a
-    #   self-bound condensate.
+    # Step 1, the vacuum term does not gravitate (traceless form). Inside
+    #   a lump the Gibbs-Duhem relation gives ε − μn = 0.
     #
     # Step 2, Jacobson-Clausius:
     #   Jacobson's local thermodynamic argument recovers Einstein's
@@ -241,21 +264,21 @@ def derive(R, grav_data):
     rho_Lambda_current = Omega_Lambda * rho_crit_mapped
 
     print(f"\n  Cosmological density bookkeeping:")
-    print(f"    Step 1: Volovik equilibrium map, ρ_vac(eq) = 0")
+    print(f"    Step 1: the vacuum term does not gravitate (traceless form; ε − μn = 0 inside a lump)")
     print(f"    Step 2: Jacobson leaves Lambda as an integration constant")
     print(f"    Step 3: CKN saturation is an identification hypothesis")
     print(f"    ρ_crit(H₀)       = {rho_crit_mapped:.2e} GeV⁴")
     print(f"    ρ_Λ(current)     = {rho_Lambda_current:.2e} GeV⁴  "
           f"(Ω_Λ = {Omega_Lambda})")
     print(f"    ρ_naive = M_Pl⁴ = {rho_naive:.1e} GeV⁴")
-    print(f"    Critical-density ratio: 10^{critical_density_suppression:.0f}")
+    print(f"    Critical density ratio: 10^{critical_density_suppression:.0f}")
 
     # # Status ###########################
 
     print(f"\n  Status:")
     print(f"    Ω_DM/Ω_b = 2π−1:  {abs(err_planck):.2f}% from Planck ({abs(pull_planck):.2f}σ)  [algebraic]")
-    print(f"    Dark-energy density status: current ρ_Λ uses measured Ω_Λ; "
-          "CKN is an IH")
+    print(f"    Dark energy: Λ is set by the state (traceless form). "
+          "The current ρ_Λ uses the measured Ω_Λ")
 
     return {
         # Z₃ coupling eigenvalue structure

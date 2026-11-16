@@ -21,10 +21,10 @@ _repo = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if _repo not in sys.path:
     sys.path.insert(0, _repo)
 
-# Add tests/ itself so the mechanism probes import as `probes.*`, plus
-# the two scrutiny directories: substrate/ (the NLS substrate) and
-# audit/ (grammar + closure search), whose modules are imported by
-# bare name.
+# Add tests/ itself so the mechanism probes import as `probes.*`.  Also
+# add the two scrutiny directories, whose modules are imported by bare
+# name: substrate/ (the NLS substrate) and audit/ (grammar and closure
+# search).
 _tests = os.path.abspath(os.path.dirname(__file__))
 for _p in (os.path.join(_tests, "audit"),
            os.path.join(_tests, "substrate"),
@@ -37,8 +37,8 @@ from interference import _paths
 from interference.searchlight import (embedding_uniqueness, octonions,
                                       protected_forgetting)
 
-# Older probes use historical short spellings. These names alias the canonical
-# package objects during the test session.
+# Some probes import these modules by short name.  During the test session
+# the short names point at the canonical package objects.
 _compat_modules = {
     "_paths": _paths,
     "wiring": wiring,

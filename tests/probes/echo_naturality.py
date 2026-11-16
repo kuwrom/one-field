@@ -4,20 +4,20 @@ depth-4 channel readings, and the kernel regenerates canon without
 three independent loop declarations.
 
 SCOPE. The depth-4 responses (2, 16, 27/2) are not three
-separately declared edges: the wiring generates them from one loop
-object, and this probe exhibits the generation.
+separately declared edges. The wiring generates them from one loop
+object, and this probe shows how.
 
-WHAT THIS PROBE IS.  A refactoring-equivalence check, not an
-independent derivation.  The response weights below are algebraically
-equal to canon's depth-4 coefficients, so regeneration is guaranteed
-once the factorisation is admitted.  What is established here:
-(i) UNIFORMITY: all three depth-4 readings are expressible as ONE loop
+WHAT THIS PROBE IS.  A refactoring equivalence check.  The response
+weights below are algebraically equal to canon's depth-4 coefficients,
+so regeneration follows from the factorisation.  It establishes two
+things.
+(i) UNIFORMITY: all three depth-4 readings can be written as ONE loop
 amplitude L = (alpha/2pi)^2 read through each node's own channel
-response, with no per-node declaration left anywhere; (ii)
-EQUIVALENCE: the refactored web's fixed point coincides with the
-LIVE canon web (root.py WEB) and with the frozen
-precision block. The wiring theorem proves the 2-cycle is the only
-depth-3 carrier and derives the unital Albert lift; vertex_pinning.py retains the
+response. No per node declaration is left anywhere.
+(ii) EQUIVALENCE: the fixed point of the refactored web equals the
+LIVE canon web (root.py WEB) and the frozen precision block.
+The wiring theorem proves the 2-cycle is the only depth-3 carrier and
+derives the unital Albert lift. vertex_pinning.py holds the
 independent numerical consequences.
 
 THE RESPONSE RULE (the composition law, stated uniformly):
@@ -26,12 +26,12 @@ THE RESPONSE RULE (the composition law, stated uniformly):
       w_e(n) = the node's own e-side channel weight,
       w_q(n) = the trace of the q-sector response operator in the
                node's own channel,
-    and the coupling node, whose channel is the loop's own carrier,
-    with no matter vertex, reads the unweighted basepointed-orientation
-    count of the 2-cycle instead (= 2, the wiring theorem's counting
-    function).
+    The coupling node is the exception. Its channel is the loop's own
+    carrier, with no matter vertex, so it reads the unweighted
+    basepointed orientation count of the 2-cycle instead (= 2, the
+    wiring theorem's counting function).
 
-    Every weight is wiring-layer data or an already-FORCED vertex:
+    Every weight is wiring layer data or an already FORCED vertex:
       coupling  : 2      = cycle orientation count      [wiring thm]
       action    : 8/3    = charge trace                 [the depth-1
                   x 6    = C2 of the branching rep 26    alpha_G2 ->
@@ -52,12 +52,11 @@ THE RESPONSE RULE (the composition law, stated uniformly):
                                                          condensation]
 
 THE COMPUTATION (this probe).  A fresh Web is built from canon's own
-kernel classes with the three independent loop declarations DELETED and one
-new node added: eq_loop, base 0, whose single edge is the loop
-amplitude read self-consistently from the state.  Every former
-former response becomes a depth-4 READ of eq_loop weighted by the
-response rule.  The kernel is solved jointly, and the fixed point is
-required to equal
+kernel classes. In place of three independent loop declarations it has
+one node, eq_loop. Its base is 0 and its single edge is the loop
+amplitude, read self-consistently from the state.  Every response
+becomes a depth-4 READ of eq_loop, weighted by the response rule.  The
+kernel is solved jointly, and the fixed point must equal
 
     (a) the LIVE canon web (root.py WEB): inv_alpha, S_quark, M_Pl;
     (b) the frozen precision block:
@@ -67,12 +66,12 @@ required to equal
         v_EW       = 246.219645 GeV
 
 PASSING MEANS: the depth-3 carrier is one loop object under one depth-4
-read rule; no per-node carrier declaration is needed anywhere.
+read rule. No per node carrier declaration is needed anywhere.
 
 STANDING. This file proves refactoring equivalence and uniformity. The
-unique-loop/orientation theorem and unital operator closure are in
-wiring_theorem_probe.py;
-vertex_pinning.py records the data contact.
+unique loop/orientation theorem and unital operator closure are in
+wiring_theorem_probe.py. vertex_pinning.py records the comparison with
+data.
 
 Usage: python3 echo_naturality.py
 """
@@ -123,7 +122,7 @@ def run(report=print):
     R = dict(coupling=Fraction(m_orient),
              action=charge_trace * C2_26,                 # 16
              amplitude=W_fund * dim_J3)                   # 27/2
-    report(f"  response weights (all wiring-layer or forced-vertex "
+    report(f"  response weights (all wiring layer or forced vertex "
            f"data):")
     report(f"    coupling  = {R['coupling']}  (2-cycle orientation "
            "count, wiring theorem)")
@@ -209,17 +208,17 @@ def run(report=print):
 
     # # equivalence to the LIVE canon web, node by node ##
     # (frozen literals above; the solved engine here, so the check
-    #  cannot drift from canon even if the literals are re-frozen)
+    #  cannot drift from canon even if the literals are refrozen)
     from root import WEB as CANON
     assert abs(x - CANON.state["inv_alpha"]) < 1e-9
     assert abs(web.state["S_quark"] - CANON.state["S_quark"]) < 1e-12
     assert abs(M_Pl_MeV / CANON.state["M_Pl_MeV"] - 1.0) < 1e-9
     report("")
-    report("  live-canon equivalence: inv_alpha, S_quark, M_Pl match "
+    report("  live canon equivalence: inv_alpha, S_quark, M_Pl match "
            "root.py's solved web.")
 
     # # exclusivity: the pinning locks ##
-    # (frozen separately in test_probes.py::test_vertex_pinning_locks;
+    # (frozen separately in test_masses_probes.py::test_vertex_pinning_locks;
     #  run here for the report values only, no duplicate freeze)
     try:
         from probes import vertex_pinning
@@ -230,17 +229,17 @@ def run(report=print):
     n1, n2, n3 = pin["nearest_dead_sigma"]
     report("")
     report(f"  exclusivity (vertex_pinning): unique survivors "
-           f"(2, 16, 27/2); nearest alternatives dead at")
+           f"(2, 16, 27/2). Nearest alternatives dead at")
     report(f"  ({n1:.0f}, {n2:.0f}, {n3:.0f}) sigma against "
            "(1/alpha Berkeley, v_EW/G_F, m_mu CODATA).")
 
     report("-" * 70)
     report("  VERDICT: one loop object, read through the supplied node "
            "responses, reproduces the")
-    report("  canon fixed point; no per-node carrier declaration remains.")
+    report("  canon fixed point. No per node carrier declaration remains.")
     report("  This is equivalence. The unital/inverse-path normalization "
            "is derived in wiring_theorem_probe.py.")
-    report("  Kill: this web failing any precision-block value, or "
+    report("  Kill: this web failing any precision block value, or "
            "a derivation forcing any")
     report("  response weight off its pinned value.")
     return dict(regenerated=got, responses={k: str(v)

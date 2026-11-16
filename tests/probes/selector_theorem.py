@@ -18,23 +18,23 @@ p_hat(0) = 1. Reality forces p_hat(1) = p_hat(2).  The only choices
 are (1,0,0) = Haar and (1,1,1) = delta_e.  QED.
 
 WHY IDEMPOTENT IS THE RIGHT CLASS (the one labeled definition):
-a selector applied twice must equal itself applied once, a
+a selector applied twice must equal itself applied once. A
 "selection" that keeps changing under reapplication is dynamics,
 not selection.  A weighted twirl is the example: not idempotent,
 hence not a selector.
 
-THE CLOSURE: the delta_e branch is the label-keeping branch,
-and the three-gate survivor gauntlet already KILLED it on
-observables (fails lepton closure. "localize G2 first" family).
-Haar = protected forgetting is therefore the UNIQUE viable selector,
-not by preference, but because the alternative set has exactly one
-other element and it is excluded by computation.
+THE CLOSURE: the delta_e branch is the label keeping branch. The
+three gates applied to the survivors KILL it on observables: it
+fails lepton closure (the "localize G2 first" family). Haar =
+protected forgetting is therefore the UNIQUE viable selector. This
+is not a preference. The alternative set has exactly one other
+element, and computation excludes it.
 
-Status upgrade this provides: Gate 4 closes MODULO one labeled
-definition (selection = idempotent Z3-equivariant measure).  The
-old burden ("derive the wall datum from 4d dynamics") is replaced
-by: "accept the definition of selection, and the rest is a
-two-element check."  A referee attacks the definition or nothing.
+STATUS: Gate 4 closes MODULO one labeled definition (selection =
+idempotent Z3-equivariant measure).  Gate 4 does not need the wall
+datum derived from 4d dynamics. Given the definition of selection,
+the rest is a two element check, so the definition is the only
+point open to objection.
 
 Usage: python3 selector_theorem.py
 """
@@ -70,12 +70,12 @@ def run(report=print):
            f"{len(found)}")
     for p in found:
         name = ("Haar (forgetting)" if np.allclose(p, 1/3)
-                else "delta_e (label-keeping)" if p[0] == 1.0
+                else "delta_e (label keeping)" if p[0] == 1.0
                 else "UNEXPECTED")
         report(f"    p = {p}   -> {name}")
     assert len(found) == 2, "theorem: exactly two idempotents on Z3"
 
-    # Fourier-space proof check (exact)
+    # Fourier space proof check (exact)
     w = np.exp(2j * np.pi / 3)
     for p in [np.array([1/3, 1/3, 1/3]), np.array([1.0, 0, 0])]:
         ph = np.array([sum(p[k] * w**(q*k) for k in range(3))
@@ -90,8 +90,10 @@ def run(report=print):
 
     report("-" * 64)
     report("  The selector space is {delta_e, Haar}.  The delta_e")
-    report("  (label-keeping) branch fails the three-gate gauntlet")
-    report("  (computed: THREE_PAPER_EMERGENCE_SURVIVOR).  Therefore")
+    report("  (label keeping) branch fails the lepton and quark gates")
+    report("  (interference/__init__.py, Gate 6: the L and Q columns.")
+    report("  The losing rows are reproduced from Table V of the gravity")
+    report("  record. The winning row is executable.)  Therefore")
     report("  Haar, protected forgetting, is the UNIQUE viable")
     report("  selector, modulo one labeled definition:")
     report("  selection = idempotent Z3-equivariant measure.")

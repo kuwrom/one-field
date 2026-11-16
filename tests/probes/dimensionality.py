@@ -7,41 +7,49 @@ q = 1, 2 Fourier modes of the Z3 split), so the charged order
 parameter is four real components.  Two structural facts then pin the
 dimension:
 
-  1. KNOT CONTENT.  The unit-normed relative spinor lives on S^3.
+  1. KNOT CONTENT.  The unit normed relative spinor lives on S^3.
      pi_2(S^3) = 0 and pi_3(S^3) = Z: winding number, the substrate's
      topological content (winding_texture.py, knot_charge.py), first
      exists at three spatial dimensions.  d_spatial >= 3.
 
   2. POINTLIKE EVENTS.  Zeros of a generic 4-real-component field
      have codimension 4, so the set where the charge can change has
-     dimension D - 4 in D-dimensional spacetime.  Charge-changing is
+     dimension D - 4 in D-dimensional spacetime.  Charge changing is
      eventlike (isolated points, the node events knot_charge.py
      measures) exactly when D = 4.  For D = 5 the zeros are
-     persistent lines (charge leaks continuously along them); for
+     persistent lines (charge leaks continuously along them). For
      D = 3 there are generically no zeros at all (charge could never
      change).
 
   d_spatial >= 3 and D = 4 have the unique joint solution D = 3+1.
 
 THE COMPUTATION (part A).  The codimension fact is measured, not
-cited: band-limited random 4-component fields on D-tori, D = 3, 4, 5,
+cited: band limited random 4-component fields on D-tori, D = 3, 4, 5,
 three fixed seeds, two resolutions each.  Measured discriminators:
 
   D = 3: min|phi| stays bounded away from zero as resolution doubles
-         (no zero set) and the near-zero cell count stays O(1).
+         (no zero set) and the near zero cell count stays O(1).
   D = 4: min|phi| shrinks with resolution (zeros exist) and the
-         near-zero cell count is resolution-INDEPENDENT (dimension-0
+         near zero cell count is resolution INDEPENDENT (dimension-0
          set: isolated points).
-  D = 5: min|phi| shrinks and the near-zero cell count GROWS linearly
+  D = 5: min|phi| shrinks and the near zero cell count GROWS linearly
          with resolution (dimension-1 set: lines).
 
-INPUTS OF THE DERIVATION: the three-component
-structure (engine data), genericity, and the demand that topological
-charge exists and changes at discrete events (the mechanism
-knot_charge.py measures).  Given those, D = 3+1 is derived, and the
-only residue is genericity.
+INPUTS OF THE DERIVATION: the three component structure (engine
+data), genericity, and the demand that topological charge exists and
+changes at discrete events (the mechanism knot_charge.py measures).
+This last premise excludes D = 5, where zeros are lines.
+Given those inputs, D = 3+1 is derived. The premises that remain are
+genericity and the eventlike change premise.
 
-Usage: python3 dimensionality.py     (~20 s)
+SIGN.  The relative sector is populated over the gas sign's held
+uniform background (tests/substrate/nls_soliton.py, THE SIGN), and the
+texture argument uses that sector.  The committed self-bound sign holds
+the clock lump, which does not populate it (knot_in_lump.py). For that
+sign the closure is the spinning lump (spinning_lump.py), and the
+dimension follows from closure (dimension_by_closure.py).
+
+Usage: python3 dimensionality.py     (a few seconds)
 """
 import os
 import sys
@@ -57,8 +65,8 @@ SIZES = {3: (32, 64), 4: (16, 32), 5: (10, 16)}
 
 
 def _field_stats(D, N, seed, n_modes=6):
-    """min|phi|/scale and gradient-scaled near-zero cell count for a
-    band-limited random 4-component field on the D-torus."""
+    """min|phi|/scale and gradient scaled near zero cell count for a
+    band limited random 4-component field on the D-torus."""
     rng = np.random.default_rng(seed)
     coords = np.meshgrid(*[np.linspace(0, 2 * np.pi, N, endpoint=False)] * D,
                          indexing="ij")
@@ -79,7 +87,7 @@ def run(report=print):
     report("DIMENSIONALITY: 3+1 from the C^2 relative sector")
     report("=" * 70)
 
-    # the C^2 relative sector is the three-component structure's
+    # the C^2 relative sector comes from the three component structure
     from substrate3d import rel_modes, texture_state
     psi, _, _, _ = texture_state(8, 12.0, 0.3, 2.0)
     p1, p2 = rel_modes(psi)
@@ -92,7 +100,7 @@ def run(report=print):
     out = {}
     report("\n  PART A: zero sets of generic 4-component fields")
     report(f"  {'D':>3} {'min/scale (lo->hi N)':>26} "
-           f"{'near-zero cells (lo->hi N)':>28}")
+           f"{'near zero cells (lo->hi N)':>28}")
     for D, (n_lo, n_hi) in SIZES.items():
         lo = [_field_stats(D, n_lo, s) for s in SEEDS]
         hi = [_field_stats(D, n_hi, s) for s in SEEDS]
@@ -106,12 +114,12 @@ def run(report=print):
                f"{cnt_lo:>13.1f} -> {cnt_hi:<10.1f}")
 
     # D = 3: no zero set.  min|phi| stays bounded away from zero and
-    # the near-zero count stays O(1) (measured: 0.037 mean, <= 4 cells)
+    # the near zero count stays O(1) (measured: 0.037 mean, <= 4 cells)
     assert out[3]["min_hi"] > 0.025
     assert out[3]["min_hi"] / out[3]["min_lo"] > 0.5
     assert out[3]["cnt_hi"] <= 8
     # D = 4: isolated points.  min shrinks (measured ratio 0.32) and
-    # the count is resolution-independent (measured ratio 1.09)
+    # the count is resolution independent (measured ratio 1.09)
     assert out[4]["min_hi"] / out[4]["min_lo"] < 0.6
     assert 0.6 < out[4]["cnt_hi"] / out[4]["cnt_lo"] < 1.5
     # D = 5: lines.  the count grows with resolution (measured 1.63,
@@ -123,7 +131,7 @@ def run(report=print):
     ## part B: the pin ##
     report("\n  PART B: the dimensional pin")
     # pi_d(S^3): 0 for d < 3, Z at d = 3 (knot content needs
-    # d_spatial >= 3); eventlike charge change needs D = codim = 4
+    # d_spatial >= 3). Eventlike charge change needs D = codim = 4
     verdicts = {}
     for D_tot in (3, 4, 5, 6):
         knots = (D_tot - 1) >= 3
@@ -134,19 +142,26 @@ def run(report=print):
                f"{'   <- unique' if knots and events else ''}")
     assert [D for D, ok in verdicts.items() if ok] == [4]
 
-    # # part C: charge change REQUIRES zeros (the residue, closed) # #
+    # # part C: charge change REQUIRES zeros (closes that premise) # #
     # The winding number is locally constant on nonvanishing fields
     # (an integer, continuous in the field), so it can change only
     # where the field leaves that space: at a zero.  Measured on the
-    # substrate's own texture: a winding-changing path drives the
-    # core minimum to machine zero exactly where B jumps, while a
-    # winding-preserving deformation keeps a strictly positive floor.
+    # substrate's own texture. A path from the unit winding texture
+    # to a GENERIC zero winding field (a constant relative
+    # displacement, nowhere vanishing) passes through an isolated
+    # zero of the relative field at one parameter value, where the
+    # core minimum dips linearly to zero. A winding preserving
+    # deformation keeps a strictly positive floor.  (A path to the
+    # relative mode vacuum would reach zero only trivially, by the
+    # whole field vanishing.)
     report("\n  PART C: charge change requires zeros (measured)")
     from knot_charge import charge
-    from substrate3d import texture_state as _tex
+    from substrate3d import texture_state as _tex, omega as _w3, rho0 as _r0
     n3 = 32
     psi_t, dxg, Rg, _ = _tex(n3, 24.0, 0.7, 2.5)
-    psi_u = np.ones_like(psi_t)
+    psi_u = np.empty_like(psi_t)
+    for k in range(3):                    # constant relative mode, B = 0
+        psi_u[k] = np.sqrt(_r0) * (1.0 + _w3**k * 0.35)
     core = Rg < 6.0
 
     def _stats(p):
@@ -155,24 +170,29 @@ def run(report=print):
         return b, float(np.sqrt(np.abs(p1) ** 2
                                 + np.abs(p2) ** 2)[core].min())
 
+    s_grid = np.linspace(1.0, 0.0, 201)
     b_ends, mins_chg = [], []
-    for s_ in np.linspace(1.0, 0.0, 11):
+    for s_ in s_grid:
         b, mn = _stats(psi_u + s_ * (psi_t - psi_u))
         mins_chg.append(mn)
         if s_ in (1.0, 0.0):
             b_ends.append(b)
+    i_min = int(np.argmin(mins_chg))
     mins_prs, b_prs = [], []
     for size_ in (2.0, 2.4, 2.8, 3.2):
         b, mn = _stats(_tex(n3, 24.0, 0.7, size_)[0])
         mins_prs.append(mn)
         b_prs.append(b)
-    report(f"    winding-changing path: B {b_ends[0]:+.2f} -> "
-           f"{b_ends[1]:+.2f}, deepest core min = {min(mins_chg):.1e}")
-    report(f"    winding-preserving path: B stays "
+    report(f"    winding changing path: B {b_ends[0]:+.2f} -> "
+           f"{b_ends[1]:+.2f}, core min dips to {mins_chg[i_min]:.1e} "
+           f"at s = {s_grid[i_min]:.3f} (endpoints "
+           f"{mins_chg[0]:.3f}, {mins_chg[-1]:.3f})")
+    report(f"    winding preserving path: B stays "
            f"{min(b_prs):+.2f}..{max(b_prs):+.2f}, floor min = "
            f"{min(mins_prs):.3f}")
     assert round(b_ends[0]) == -1 and round(b_ends[1]) == 0
-    assert min(mins_chg) < 1e-6           # the change passes a zero
+    assert 0 < i_min < len(s_grid) - 1    # the zero is interior
+    assert mins_chg[i_min] < 0.02 * min(mins_chg[0], mins_chg[-1])
     assert all(round(b) == -1 for b in b_prs)
     assert min(mins_prs) > 0.05           # no zero, no change
 
@@ -183,7 +203,9 @@ def run(report=print):
            "measured), zeros are")
     report("  codim 4 (PART A, measured), and knots need d >= 3.  "
            "3+1 is derived, not")
-    report("  assumed; its residue is genericity alone.")
+    report("  assumed. The premises that remain are genericity and "
+           "that charge changes")
+    report("  at pointlike events (the premise that excludes D = 5).")
     return dict(codim=out, unique_D=4,
                 change_min=min(mins_chg), preserve_floor=min(mins_prs))
 

@@ -1,6 +1,6 @@
 """
 surplus_edges.py: web completeness, run in the SURPLUS direction
-(derivation program D4 of the gaps audit).
+(derivation program D4 of the edge grammar (tests/audit/edge_grammar.py)).
 
 The scorecard runs the grammar TOWARD the PDG: nine targets, nine
 hits.  Completeness demands the opposite scan too: enumerate every
@@ -10,16 +10,17 @@ things, and the probe labels which:
 
   PREDICTION: an admissible edge whose state is absent from the PDG,
       an exposure (a new state the framework says exists,
-      or a mass relation not yet measured).
+      or an unmeasured mass relation).
   FALSIFIER: an edge the grammar EXCLUDES by lemma whose state is
-      also absent: it must stay absent, or the lemma that killed it
-      is wrong (the 64 GeV and 139 GeV terminus ghosts are the
-      canonical examples: already dead against the top).
+      also absent. It must stay absent, or the lemma that killed it
+      is wrong. The 64 GeV and 139 GeV terminus ghosts are the
+      canonical examples, already excluded against the top.
 
 The menus come from tests/audit/edge_grammar.py (the committed D1 spec).
-The selection lemmas from interference/words.py (N-ality
-superselection: steps must be triality-neutral. Conversion lemma:
-bases are pure-tower integer ranks, mixed words are vent-side).
+The selection lemmas come from interference/words.py. N-ality
+superselection: steps must be triality neutral. Conversion lemma:
+bases are pure tower integer ranks, and mixed words belong to the
+vent side.
 
 Usage: python3 surplus_edges.py    (fast: pure linear algebra)
 """
@@ -55,21 +56,21 @@ def run(report=print):
     for gen, length in ((1, 2), (2, 3)):
         for w, cnt in sorted(eg.word_menu(length).items()):
             # conversion lemma: a BASE is a pure tower at gen 1 /
-            # seed+neutral-steps at gen 2. Any in-word channel switch
-            # beyond the seed+step grammar imports an amplitude
+            # seed+neutral steps at gen 2. Any channel switch inside a
+            # word beyond the seed+step grammar imports an amplitude
             if gen == 1:
                 adm = w in ("ff", "aa")
                 why = "pure seed" if adm else "mixed seed: conv. lemma"
             else:
                 adm = w in ("ffa", "aaa")   # seed + one NEUTRAL step
                 why = ("seed+adjoint step" if adm
-                       else "charged or in-tower step: N-ality/conv.")
+                       else "charged or in tower step: N-ality/conv.")
             rows.append((gen, w, cnt, adm, why, cnt * m_lep[gen]))
     # generation 3: the committed Z2-symmetric terminus menu
     for name, cnt in sorted(eg.terminus_menu().items()):
         adm = name == "f4+a4"
-        why = ("pure-tower Z2 orbit sum" if adm
-               else "mixed word: conversion lemma (vent-side)")
+        why = ("pure tower Z2 orbit sum" if adm
+               else "mixed word: conversion lemma (vent side)")
         rows.append((3, name, cnt, adm, why, cnt * m_lep[3]))
 
     surplus, falsifiers = [], []
@@ -84,7 +85,7 @@ def run(report=print):
             disp = "SURPLUS -> register as prediction or derive exclusion"
             surplus.append((gen, w, mev))
         elif adm and match is not None:
-            disp = f"admissible, lands on {match} (report)"
+            disp = f"admissible, matches {match} (report)"
             surplus.append((gen, w, mev))
         elif match is not None:
             # excluded WORD whose count is degenerate with a used one:
@@ -109,7 +110,7 @@ def run(report=print):
     adm_set = {(g, w) for g, w, c, a, y, m in rows if a}
     assert used_bases <= adm_set, "a canon base violates its own grammar"
     # 2. The terminus ghosts are dead and must stay dead: the excluded
-    #    mixed words land at ~64 and ~139 GeV, matching no PDG state
+    #    mixed words come out at ~64 and ~139 GeV, matching no PDG state
     ghosts = sorted(round(m / 1e3) for g, w, m in falsifiers if g == 3)
     assert ghosts == [64, 139], f"terminus ghosts moved: {ghosts}"
     assert all(_pdg_match(m) is None for g, w, m in falsifiers if g == 3)

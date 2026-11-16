@@ -1,16 +1,21 @@
 """
-Mixing: CKM + PMNS from (d₁₀, d₁₁, n₇, n₂₆, π).
+Mixing: CKM + PMNS from (d₁₀, d₁₁, π) and the derived lepton masses.
 
 The parameter map evaluates all four Wolfenstein coordinates from
-(d₁₀, d₁₁, π).  The modular phase π/9 is computed; assigning it
+(d₁₀, d₁₁, π).  The modular phase π/9 is computed. Assigning it
 to the physical Wolfenstein coordinate η̄ is an identification hypothesis,
 as are the assignments of λ, A, and ρ̄.
 CKM scorecard: diagonal pull score = 3.13, max marginal pull 0.70σ.
-The comparison block mixes correlated global-fit outputs with separately
-reported phase constraints and supplies no joint covariance, so this score
-is descriptive and is not a chi-square statistic.
-The map's −arg(U_e3) = 77.0 deg is convention-dependent and is not the
-physical δ_CP.
+The comparison block mixes correlated global fit outputs with one
+separately reported phase constraint, γ. It has no joint covariance,
+so this score is descriptive and is not a chi-square statistic.  The other
+unitarity triangle entries are functions of the same coordinates. They
+are printed as diagnostics and not scored.
+The map's −arg(U_e3) is convention dependent and is not the
+physical δ_CP.  The rephasing invariant Dirac phase is δ_CP = 275.74 deg,
+inside all NuFIT 6.0 3σ ranges. Two data blind gates fix its sign: the
+lepton sector's own pairing and the charge dictionary
+(tests/probes/pmns_sign_bits.py). The NuFIT ranges confirm it.
 
 ═══════════════════════════════════════════════════════════════════════
 CKM parameter map
@@ -18,13 +23,19 @@ CKM parameter map
 
 The engine uses:
 
-  λ = h₁₀·(1 + h₁₁/K²) = (2/9)(73/72) = 73/324 , METRIC face
-      Sugawara weight h₁₀ = d₁₀/d₁₁² carrying the adjoint backreaction
-      h₁₁/K² = 1/72, the same 73/72 root.py applies to bridge².
+  λ = h₁₀·(1 + h₁₁/K²) = (2/9)(73/72) = 73/324 , METRIC face (IH)
+      This is the Sugawara weight h₁₀ = d₁₀/d₁₁² with the adjoint
+      backreaction h₁₁/K² = 1/72. It is the same 73/72 factor that
+      root.py applies to bridge².  The declared 12-entry menu closes on
+      it without data (tests/probes/lambda_admissibility.py). The order
+      lemma, the SU(3)₃ weights, the simple current's trivial boundary
+      action and f ⊗ f̄ = 1 ⊕ 8 leave three entries. The overlap
+      V = U_u† U_d is a Hermitian pair, which leaves only the paired
+      insertion.  It is the only menu entry within 1σ.
   A = √(n¹¹_off/d₁₁) = √(d₁₀/d₁₁) = √(2/3), ALGEBRAIC face
-      The D⁽⁶⁾ adjoint nimrep derives a two-of-three off-diagonal
-      fraction inside each boundary pair. It has zero matrix elements
-      between the three pairs.
+      The D⁽⁶⁾ adjoint nimrep gives an off diagonal fraction of 2/3
+      inside each boundary pair. It has zero matrix elements between
+      the three pairs.
 
   η̄ = π/d₁₁² = π/9                            , MODULAR face (S-matrix)
       The Kac-Peterson S-matrix gives arg(S_ff) = π/d₁₁² exactly.
@@ -40,20 +51,23 @@ The engine uses:
   γ and J follow from this apex.
 
 ═══════════════════════════════════════════════════════════════════════
-PMNS, democratic mixing + charged-lepton backreaction
+PMNS, democratic mixing + charged lepton backreaction
 ═══════════════════════════════════════════════════════════════════════
 
-  Conjugation-orbit compression of the bulk fusion matrices gives a
+  Conjugation orbit compression of the bulk fusion matrices gives a
   democratic adjoint block with TBM eigenvectors.
 
   U_PMNS = U_e† · U_TBM, with U_e = R₂₃(−φ) · R₁₃(θ_C, δ):
-    φ = √(m_e/m_μ)/√d₁₀
-    θ_C = h₁₀ = 2/9  (bare Sugawara weight)
-    δ = arccos(−λ)    (echoed λ = 73/324)
+    φ = √(m_e/m_μ)/√d₁₀   (mass ratio derived; the 1/√d₁₀ scale is IH)
+    θ_C = h₁₀ = 2/9        (bare Sugawara weight; slot assignment IH)
+    δ = −arccos(−λ)        (echoed λ = 73/324, in the CKM convention;
+                            form IH)
+  No continuous parameter is fitted.  δ is not a pure rephasing: it
+  controls sin²θ₁₂ through interference.
 
 Reference:
     Kahsay, Kibrom Kidane (2026). One-field repository.
-    Papers and archived releases are listed in README.md.
+    The paper and the archived releases are listed in README.md.
 """
 
 from fractions import Fraction
@@ -72,7 +86,7 @@ from .root import (d10, d11, h10, h11, K, Q0,
 # ═══════════════════════════════════════════════════════════════════════
 
 def _su3_inner(a, b):
-    """SU(3) Killing-form inner product on weight space."""
+    """SU(3) Killing form inner product on weight space."""
     return (2*a[0]*b[0] + a[0]*b[1] + a[1]*b[0] + 2*a[1]*b[1]) / 3.0
 
 
@@ -126,11 +140,11 @@ def _compute_wzw():
 
 
 def _compute_zc_boundary_nimrep(wzw):
-    """Reconstruct the actual two-boundary nimrep of the Z_C invariant.
+    """Reconstruct the actual two boundary nimrep of the Z_C invariant.
 
     The exponents are the two self-conjugate primaries (0,0) and (1,1).
-    Their two-character spectral representation, transformed by the
-    Hadamard boundary basis, gives non-negative integer matrices and
+    Their two character spectral representation, transformed by the
+    Hadamard boundary basis, gives nonnegative integer matrices and
     satisfies the full SU(3)_3 fusion algebra.
     """
     primaries = wzw['PRIMARIES']
@@ -169,17 +183,17 @@ def _compute_zc_boundary_nimrep(wzw):
 
 @lru_cache(maxsize=1)
 def _compute_d6_boundary():
-    """Compute the six-boundary graph and its exact braid connection.
+    """Compute the six boundary graph and its exact braid connection.
 
     The fundamental nimrep is the canonical graph used by the generation
     word lemma. Its adjoint action is fixed by 3 x 3bar = 1 + 8.  The
     connected components of that adjoint action are three boundary
-    pairs, and every pair has one diagonal and two off-diagonal channels.
+    pairs, and every pair has one diagonal and two off diagonal channels.
     There are no adjoint channels between distinct pairs.
 
-    In cell-system notation this regular graph is D⁽⁶⁾*.  The two
+    In cell system notation this regular graph is D⁽⁶⁾*.  The two
     algebraic cell magnitudes are fixed by the type-I equations and the
-    relative sign by the type-II equation.  Substitution in the Ocneanu
+    relative sign by the type II equation.  Substitution in the Ocneanu
     formula gives a unitary Yang--Baxter connection whose entries all
     have magnitude 1/sqrt(2).  Thus 1/sqrt(2) is derived here from the
     solved connection, not assigned from graph valency.  This is the
@@ -246,7 +260,7 @@ def _compute_d6_boundary():
         type_i_residual = max(type_i_residual, abs(norm - sqrt3))
     assert type_i_residual < 1e-12
 
-    # Hecke projector U and braided connection X on every two-step path
+    # Hecke projector U and braided connection X on every two step path
     # space with fixed endpoints.  The graph is simple and has PF weight
     # one, so U is the outer product of the two closing triangle cells.
     q = cmath.exp(1j * math.pi / 6.0)
@@ -286,7 +300,7 @@ def _compute_d6_boundary():
                     connection[target, source]
         return operator
 
-    # Yang--Baxter is the type-II cell equation in operator form.
+    # Yang--Baxter is the type II cell equation in operator form.
     paths3 = tuple(
         path for path in itertools.product(range(6), repeat=4)
         if all(n10[path[i], path[i + 1]] for i in range(3))
@@ -299,8 +313,12 @@ def _compute_d6_boundary():
         braid1 @ braid2 - braid2 @ braid1))
     assert braid_residual < 1e-12 and braid_commutator > 1e-12
 
-    # At web depth four a fixed-endpoint path block is eight-dimensional.
-    # The central full twist splits it canonically as 3 + 3 + 2.
+    # At web depth four a fixed endpoint path block is eight dimensional.
+    # The central full twist splits it canonically as 3 + 3 + 2.  Read as
+    # fusion tree frames, the two 3-dim carriers give real relative
+    # frames. Their |V|^2 values lie on a nine value menu with floor
+    # 1/12. The depth-4 backreaction leaves V invariant
+    # (tests/probes/mixing_depth4.py).
     start = boundary_pairs[0][0]
     endpoint = boundary_pairs[1][0]
     paths4 = tuple(
@@ -335,6 +353,8 @@ def _compute_d6_boundary():
         'braid_residual': braid_residual,
         'braid_commutator': braid_commutator,
         'depth4_carrier_dimensions': depth4_carrier_dimensions,
+        'depth4_braids': depth4_braids,
+        'path_operator': path_operator,
     }
 
 
@@ -343,15 +363,16 @@ def _compute_d6_boundary():
 # ═══════════════════════════════════════════════════════════════════════
 
 def lambda_echo_menu():
-    """Price the committed λ backreaction over the engine's echo menu.
+    """Score the committed λ backreaction against the engine's echo menu.
 
     The λ assignment carries one backreaction echo x/Kⁿ on the base
-    h₁₀, the inserted constant x from {h₁₀, h₁₁, Q₀, 1} and the
-    altitude Kⁿ from {K, K², K³}.  All twelve candidates h₁₀(1 + x/Kⁿ) are
-    evaluated exactly and compared with the measured Wolfenstein λ
-    here, once, in the open: the uniqueness of the committed entry is
-    a computed count.  Comparison output only; no prediction consumes
-    it, and tests/test_interference.py freezes the count.
+    h₁₀. The declared menu takes the inserted constant x from
+    {h₁₀, h₁₁, Q₀, 1} and the altitude Kⁿ from {K, K², K³}.  All twelve
+    candidates h₁₀(1 + x/Kⁿ) are evaluated exactly and compared once,
+    explicitly, with the measured Wolfenstein λ. The uniqueness of the
+    committed entry is therefore a computed count.  This is comparison
+    output only. No prediction consumes it, and
+    tests/mixing/test_mixing_scorecard.py freezes the count.
     """
     lam_pdg, lam_sig = PDG_CKM['lambda']
     inserted = (('h10', h10), ('h11', h11), ('Q0', Q0),
@@ -383,31 +404,28 @@ def _derive_ckm(wzw):
     """Derive the full CKM matrix from the SU(3)₃ boundary data.
 
     Four Wolfenstein parameters, each a face of the D⁽⁶⁾* graph:
-      λ , metric (Sugawara weight + adjoint echo)
-      A , algebraic (nimrep within-pair off-diagonal fraction)
+      λ , metric (Sugawara weight + adjoint echo, IH)
+      A , algebraic (nimrep within pair off diagonal fraction)
       η̄ , modular (S-matrix phase)
-      ρ̄ , topological (Ocneanu braid-connection amplitude)
+      ρ̄ , topological (Ocneanu braid connection amplitude)
     """
 
     # # Wolfenstein parameters (all from d₁₀/d₁₁) #
     d6 = _compute_d6_boundary()
 
-    # λ = h₁₀·(1 + h₁₁/K²): the fundamental Sugawara weight h₁₀ = 2/9,
-    # carrying the engine's quadratic-altitude echo.  The
-    # echo factor is 73/72, the SAME one root.py already applies to
-    # bridge² (root.py: .echo(["WZW(adj/K²)"], h11/K², 2)): a PAIRED
-    # insertion is Z₃-invariant already at second order, so K² is the
-    # admissible altitude, and the adjoint is the stepper the down-type
-    # channel closes through.  Over the engine's full echo
-    # menu, {h₁₀, h₁₁, Q₀, 1} × {K, K², K³}, this is the only entry
-    # within 1σ of the measured Wolfenstein λ: the enumeration is
-    # executable (lambda_echo_menu above), reported in the returned
-    # dict, and frozen by tests/test_interference.py.
+    # λ = h₁₀·(1 + h₁₁/K²).  Its 73/72 factor is the paired insertion
+    # factor that root.py applies to bridge². The overlap V = U_u† U_d
+    # is a Hermitian pair, so the CKM insertion is paired too
+    # (tests/probes/lambda_admissibility.py).
+    # On the declared menu {h₁₀,h₁₁,Q₀,1} × {K,K²,K³}, this is the
+    # only entry within 1σ of the measured Wolfenstein λ.  The
+    # enumeration is returned below and frozen by
+    # tests/mixing/test_mixing_scorecard.py.
     lam_exact = h10 * (1 + h11 / K**2)          # exact rational ledger
     assert lam_exact == Fraction(73, 324)
     lam = float(lam_exact)
 
-    # A² is the normalized off-diagonal fraction of each adjoint block.
+    # A² is the normalized off diagonal fraction of each adjoint block.
     A = math.sqrt(d6['pair_offdiagonal_fraction'])
     assert abs(A**2 - float(d10) / float(d11)) < 1e-15
 
@@ -514,18 +532,18 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
 
     The conjugation modular invariant Z_C of SU(3)₃ pairs each primary
     (l₁,l₂) with its conjugate (l₂,l₁). Compressing bulk fusion to
-    conjugation-even orbit sums produces a democratic principal block:
+    conjugation even orbit sums produces a democratic principal block:
 
     1. The adjoint principal block and a further projected fundamental
        block give TBM magnitudes up to ordering and rephasing. They are
        an algebraic candidate, not a Z_C nimrep or a neutrino mass operator.
-    2. Charged-lepton rotation U_e provides backreaction (called "NLO
+    2. Charged lepton rotation U_e provides backreaction (called "NLO
        corrections" in standard convention):
          φ = √(m_e/m_μ)/√d₁₀  (lepton mass ratio, derived in masses.py)
-         θ_C = h₁₀ = 2/9       (conformal weight = Cabibbo angle)
-         δ = arccos(−λ_CKM)    (phase consistency)
-    3. U_PMNS = U_e† · U_TBM gives three mixing angles.  The directly
-       reported −arg(U_e3) is convention-dependent, not physical δ_CP.
+         θ_C = h₁₀ = 2/9       (conformal weight = Cabibbo angle, IH)
+         δ = −arccos(−λ_CKM)   (phase consistency, CKM convention)
+    3. U_PMNS = U_e† · U_TBM gives three mixing angles and the
+       rephasing invariant δ_CP = 275.74° (J_lep < 0).
     """
 
     PRIMARIES = wzw['PRIMARIES']
@@ -545,7 +563,7 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
 
     N_orb = len(orbits)
 
-    # Normalized conjugation-orbit compression Q^T N_lambda Q.  This is
+    # Normalized conjugation orbit compression Q^T N_lambda Q.  This is
     # bulk fusion data, not the Z_C Cardy nimrep (which has Tr Z_C = 2
     # boundary states).  The diagnostics below keep that distinction
     # executable rather than burying it in prose.
@@ -560,33 +578,32 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
                    for a in range(len(PRIMARIES)))
     b11_fold = folded[idx_11]
     b10_fold = folded[idx_10]
-    # The three non-invertible conjugate-pair orbits form the generation
-    # block. This replaces the former hand-written label filter; the
-    # physical identification of this block with generations: the
-    # non-invertible conjugate pairs are the generation carriers.
+    # The three noninvertible conjugate pair orbits form the generation
+    # block.  Reading these pairs as the generation carriers is a
+    # physical identification.
     qdim = np.real(S_mat[0, :] / S_mat[0, 0])
     gen = [i for i, o in enumerate(orbits)
            if len(o) == 2 and qdim[IDX[o[0]]] > 1.0 + 1e-9]
     assert len(gen) == d11
     blk = b11_fold[np.ix_(gen, gen)]
     assert blk.shape == (3, 3) and np.allclose(blk, blk[0, 0]), \
-        "conjugation-orbit adjoint principal block must be democratic"
+        "conjugation orbit adjoint principal block must be democratic"
     ev = sorted(np.linalg.eigvalsh(blk), reverse=True)
     assert abs(ev[0] - 3*blk[0, 0]) < 1e-9 and abs(ev[1]) < 1e-9
 
-    # The projected fundamental principal block resolves that plane. Its eigenvalues
-    # {-1/2, 1/2, 1} are non-degenerate, and the absolute eigenvector
-    # matrix is TBM up to the unphysical ordering and rephasing of the
-    # boundary states. Canonicalize those freedoms to the convention used
-    # by the charged-lepton rotation below.
+    # The projected fundamental principal block resolves that plane. Its
+    # eigenvalues {-1/2, 1/2, 1} are nondegenerate. Its absolute
+    # eigenvector matrix is TBM, up to the unphysical ordering and
+    # rephasing of the boundary states. Those freedoms are fixed to the
+    # convention used by the charged lepton rotation below.
     complement = [i for i in range(N_orb) if i not in gen]
     fundamental_generation_leakage = float(np.linalg.norm(
         b10_fold[np.ix_(gen, complement)]))
     assert fundamental_generation_leakage > 1e-12
 
     # A representation would obey B_a B_b = sum_c N_ab^c B_c. Orbit
-    # compression fails this test because non-self-conjugate fusion does
-    # not preserve the conjugation-even subspace.
+    # compression fails this test, because fusion of non self-conjugate
+    # primaries does not preserve the conjugation even subspace.
     fold_fusion_residual = 0.0
     for a in range(len(PRIMARIES)):
         for b in range(len(PRIMARIES)):
@@ -599,7 +616,7 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
 
     blk10 = b10_fold[np.ix_(gen, gen)]
     vals10, vecs10 = np.linalg.eigh(blk10)
-    targets = (-0.5, 1.0, 0.5)  # mass-column convention: 1, 2, 3
+    targets = (-0.5, 1.0, 0.5)  # mass column convention: 1, 2, 3
     col_order = [int(np.argmin(abs(vals10 - target))) for target in targets]
     assert len(set(col_order)) == d11
     U_TBM = vecs10[:, col_order]
@@ -621,16 +638,19 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
     ])
     assert np.allclose(np.abs(U_TBM), tbm_abs)
 
-    # # Charged-lepton backreaction: U_e = R₂₃(−φ) · R₁₃(θ_C, δ) #
+    # # Charged lepton backreaction: U_e = R₂₃(−φ) · R₁₃(θ_C, δ) #
     # (Standard convention: "NLO correction to TBM.")
-    # The rotation form uses the CKM-derived coordinates.
+    # The rotation form uses the CKM derived coordinates.
     # φ = √(m_e/m_μ)/√d₁₀; m_e and m_μ come from masses.py.
     phi = math.sqrt(m_e / m_mu) / math.sqrt(float(d10))
-    # θ_C = h₁₀ BARE. arctan(λ) forks from h₁₀ under the echoed λ;
-    # both readings are measured in the header. The primary one is bare.
+    # θ_C = h₁₀ BARE: the R₁₃ angle is the interface free reading. It
+    # carries no neutral lane adjoint factor (IH).
     theta = float(h10)
-    # δ = arccos(−λ_CKM).
-    delta = math.acos(-lam_ckm)
+    # δ = −arccos(−λ_CKM), in the CKM convention (e^{−iδ} at (1,3)).
+    # The invariant δ is 275.74°, inside all NuFIT 6.0 3σ ranges. The
+    # conjugate sign gives 84.26°, outside them.  The blind gates of
+    # tests/probes/pmns_sign_bits.py fix the sign, and the data confirm it.
+    delta = -math.acos(-lam_ckm)
 
     def R13(a, d):
         c, s, e = math.cos(a), math.sin(a), cmath.exp(1j*d)
@@ -651,7 +671,19 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
     sin2_23 = abs(U_PMNS[1, 2])**2 / c13sq
     ue3_phase_deg = -math.degrees(cmath.phase(U_PMNS[0, 2]))
 
-    J_lep = abs((U_PMNS[0,0]*U_PMNS[1,1]*np.conj(U_PMNS[0,1])*np.conj(U_PMNS[1,0])).imag)
+    J_lep = float((U_PMNS[0,0]*U_PMNS[1,1]*np.conj(U_PMNS[0,1])*np.conj(U_PMNS[1,0])).imag)
+
+    s12_ex = math.sqrt(sin2_12)
+    c12_ex = math.sqrt(1 - sin2_12)
+    s23_ex = math.sqrt(sin2_23)
+    c23_ex = math.sqrt(1 - sin2_23)
+    c13_ex = math.sqrt(c13sq)
+    sin_delta_inv = J_lep / (s12_ex * c12_ex * s23_ex * c23_ex * s13 * c13_ex**2)
+    cos_delta_inv = (abs(U_PMNS[1, 0])**2 - sin2_12 * c23_ex**2
+                     - (1 - sin2_12) * s23_ex**2 * s13**2) / (
+                     2 * s12_ex * c12_ex * s23_ex * c23_ex * s13)
+    delta_invariant_rad = math.atan2(sin_delta_inv, cos_delta_inv)
+    delta_invariant_deg = math.degrees(delta_invariant_rad) % 360
 
     # Marginal pulls vs the frozen NuFit 6.0 snapshot. The published
     # intervals are asymmetric and the angles are correlated, so their
@@ -664,6 +696,7 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
     return {
         'sin2_12': sin2_12, 'sin2_23': sin2_23, 'sin2_13': sin2_13,
         'ue3_phase_deg': ue3_phase_deg,
+        'delta_invariant_deg': delta_invariant_deg,
         'J_lep': J_lep,
         'diagonal_pull_score_pmns': diagonal_pull_score_pmns,
         'pulls': {'12': pull_12, '23': pull_23, '13': pull_13},
@@ -720,7 +753,7 @@ def derive(R, masses):
     print(f"    lambda echo menu {{h₁₀,h₁₁,Q₀,1}}x{{K,K²,K³}}: "
           f"{_menu['n_within_1sigma']}/{_menu['n_candidates']} within "
           f"1sigma (committed {_menu['committed_pull']:+.2f}sigma, "
-          f"next best {_menu['next_best_abs_pull']:.1f}sigma)")
+          f"next best {_menu['next_best_abs_pull']:.2f}sigma)")
     print(f"    A [IH] = sqrt(d₁₀/d₁₁) = sqrt({Fraction(d10,d11)}) = {ckm['A']:.5f}"
           f"  (PDG: {PDG_CKM['A'][0]}, pull: {(ckm['A']-PDG_CKM['A'][0])/PDG_CKM['A'][1]:+.2f}sigma)")
     print(f"    modular phase pi/d₁₁² = pi/{d11**2} -> etabar [IH] "
@@ -728,7 +761,7 @@ def derive(R, masses):
           f"  (PDG: {PDG_CKM['etabar'][0]}, pull: {(ckm['eta']-PDG_CKM['etabar'][0])/PDG_CKM['etabar'][1]:+.2f}sigma)")
     print(f"    rhobar [IH] = h₁₀/sqrt(d₁₀) = sqrt({d10})/{d11**2} = {ckm['rho']:.5f}"
           f"  (PDG: {PDG_CKM['rhobar'][0]}, pull: {(ckm['rho']-PDG_CKM['rhobar'][0])/PDG_CKM['rhobar'][1]:+.2f}sigma)")
-    print(f"    gamma [IH-map output] = arctan(pi/sqrt({d10})) = {ckm['gamma_deg']:.2f} deg"
+    print(f"    gamma [IH map output] = arctan(pi/sqrt({d10})) = {ckm['gamma_deg']:.2f} deg"
           f"  (PDG: {PDG_CKM['gamma_deg'][0]})")
 
     labels_row = ['u', 'c', 't']
@@ -744,11 +777,19 @@ def derive(R, masses):
         print(row)
 
     print(f"    J_ckm = {ckm['J_ckm']:.2e}  (PDG: {PDG_CKM['J'][0]:.2e})")
+    _ut = [("alpha", ckm['alpha_deg'], PDG_CKM['alpha_deg']),
+           ("beta", ckm['beta_deg'], PDG_CKM['beta_deg']),
+           ("sin2beta", ckm['sin2beta'], PDG_CKM['sin2beta'])]
+    print("    unitarity triangle diagnostics, not scored (functions of "
+          "rho_bar, eta_bar, gamma already in the block):")
+    print("      " + "  ".join(
+        f"{n} = {v:.3f} ({(v - r[0]) / r[1]:+.2f}s vs {r[0]})"
+        for n, v, r in _ut))
     print(f"    diagonal pull score (CKM) = "
           f"{ckm['diagonal_pull_score_ckm']:.2f} / "
           f"{len(ckm['ckm_obs'])} comparison coordinates = "
           f"{ckm['diagonal_pull_score_ckm']/len(ckm['ckm_obs']):.2f}")
-    print("      global-fit outputs plus a separate phase constraint; no joint")
+    print("      global fit outputs plus a separate phase constraint. No joint")
     print("      covariance model is supplied, so this is descriptive, not chi2")
 
     # # PMNS #
@@ -756,13 +797,14 @@ def derive(R, masses):
     m_mu = masses['m_mu']
     pmns = _derive_pmns(wzw, ckm['lam'], m_e, m_mu)
 
-    print(f"\n  PMNS candidate (conjugation-orbit projection + charged-lepton backreaction):")
+    print(f"\n  PMNS candidate (conjugation orbit projection + charged lepton backreaction):")
     print(f"    Z_C Cardy boundaries = {pmns['zc_boundary_states']}; "
           f"fundamental projection leakage = "
           f"{pmns['fundamental_generation_leakage']:.3f}")
     print(f"    phi = sqrt(m_e/m_mu)/sqrt({d10}) = {math.sqrt(m_e/m_mu)/math.sqrt(float(d10)):.6f} rad")
-    print(f"    theta_C = h₁₀ = {h10_frac} = {math.degrees(float(h10)):.3f} deg")
-    print(f"    delta = arccos(-lambda) = {math.degrees(math.acos(-ckm['lam'])):.3f} deg")
+    print(f"    theta_C = h₁₀ = {h10_frac} = {math.degrees(float(h10)):.3f} deg  [IH]")
+    print(f"    delta = -arccos(-lambda) = {-math.degrees(math.acos(-ckm['lam'])):.3f} deg"
+          "  (CKM convention)")
 
     for label, key in [('12', 'sin2_12'), ('23', 'sin2_23'), ('13', 'sin2_13')]:
         val = pmns[key]
@@ -770,13 +812,13 @@ def derive(R, masses):
         pull = (val - nf_val) / nf_err
         print(f"    sin2_theta_{label} = {val:.5f}  (NuFit: {nf_val}, pull: {pull:+.2f}sigma)")
 
-    print(f"    -arg(U_e3) = {pmns['ue3_phase_deg']:.1f} deg  "
-          "(current phase convention; not physical delta_CP)")
-    print(f"    J_lep = {pmns['J_lep']:.6f}")
+    print(f"    delta_CP (invariant) = {pmns['delta_invariant_deg']:.2f} deg"
+          "  [NuFIT 6.0 NO 3sigma: 96-422]")
+    print(f"    J_lep = {pmns['J_lep']:+.6f}")
     print(f"    diagonal pull score (PMNS) = "
           f"{pmns['diagonal_pull_score_pmns']:.2f} / 3 correlated angles = "
           f"{pmns['diagonal_pull_score_pmns']/3:.2f}")
-    print("      approximate symmetric marginals; not a covariance-aware chi2")
+    print("      approximate symmetric marginals. Not a covariance aware chi2")
 
     # # Merge and return #
     result = {}

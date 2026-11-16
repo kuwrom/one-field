@@ -1,33 +1,41 @@
 """
-knot_spectrum.py: the excitation tower of the saturated lump
-(derivation program D7 of the gaps audit. Feeds the surplus-edge
-prediction channel, D4).
+knot_spectrum.py: the excitation tower of the saturated lump.
+This is derivation program D7 of the edge grammar
+(tests/audit/edge_grammar.py). It feeds the surplus edge prediction
+channel, D4.
 
-SCOPE.  knot_charge.py showed the substrate's stable attractor is a
-nodeless B = 0 lump.  Whatever the confined phase adds, the
-CLASSICAL mode tower around that lump is measurable: linearize by
-kicking the saturated state with a small perturbation and Fourier-
-analyze the ring-down.  Two facts are frozen:
+SCOPE.  knot_charge.py showed that the substrate's stable attractor is
+a nodeless B = 0 lump.  Whatever the confined phase adds, the
+CLASSICAL mode tower around that lump can be measured. Kick the
+saturated state with a small perturbation and Fourier analyze the ring
+down.  Two facts are frozen as assertions:
 
   1. The tower is GAPPED above the condensate: no soft internal
      modes of the lump other than the exact symmetries.
   2. The first internal excitation sits at or above the substrate's
      own binding scale (measured omega = 1.178 = 0.27 mu, against
-     |lam1| = g1 rho0 and mu = (3 g0 + 2 g1) rho0): no extra light
-     internal state below the BdG scales.  A refactor pushing a mode
-     far below |lam1| creates a surplus state: register it (D4) or
-     treat it as a falsifier.  (Reading |lam1| as the scale the MTC
-     lock-in spectrum rides on is an interpretive bridge.  The
-     frozen assertion uses only the substrate's own scale.)
+     |lam1| = g1 rho0 and mu = (3 g0 + 2 g1) rho0). There is no extra
+     light internal state below the BdG scales.  If a refactor pushes a
+     mode far below |lam1|, that mode is a surplus state: register it
+     (D4) or treat it as a falsifier.  (Taking |lam1| as the scale of
+     the MTC lock in the spectrum is an interpretation, not a
+     derivation.  The frozen assertion uses only the substrate's own
+     scale.)
 
-METHOD.  Saturate the texture-imprinted knot (t = 8, sponge on the
+METHOD.  Saturate the texture imprinted knot (t = 8, sponge on the
 relative modes at r > 9), then kick the relative sector with a small
 symmetric radial factor (1 + eps * exp(-r^2/w^2)) and record two core
-observables densely to t = 24: the relative-mode core norm (charged
-channel) and the common-mode core density (neutral channel).  The
-peaks of the FFT of the ring-down are the tower.
+observables densely to t = 24: the relative mode core norm (charged
+channel) and the common mode core density (neutral channel).  The
+peaks of the FFT of the ring down are the tower.
 
-Usage: python3 knot_spectrum.py     (~17 min single-core, mark slow)
+SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
+background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
+self-bound sign holds the clock lump, which carries no pi_3 texture
+(knot_in_lump.py). At that sign the closure is the spinning lump
+(spinning_lump.py).
+
+Usage: python3 knot_spectrum.py     (~17 min single core, mark slow)
 """
 
 import os
@@ -79,10 +87,10 @@ def peaks(freq, amp, floor=0.05):
 
 
 def run(report=print):
-    report("KNOT SPECTRUM: ring-down tower of the saturated B = 0 lump")
+    report("KNOT SPECTRUM: ring down tower of the saturated B = 0 lump")
     report("=" * 70)
     N, L, size = 48, 24.0, 2.5
-    # Relative-sector binding scale.  The BdG has
+    # Relative sector binding scale.  The BdG has
     # A != B, and the relative channel is set by |b_1| = g1*rho0 (the
     # maximum modulational growth rate), not |lam1| = g1*rho0/2.
     # The chemical potential likewise carries the exchange terms:
@@ -105,7 +113,7 @@ def run(report=print):
     psi, ts_rel, ts_com = evolve_record(psi, K2, R, int(16.0 / DT),
                                         record_every=every)
     dt_s = every * DT
-    report(f"  ring-down recorded: t = 8 -> 24, {len(ts_rel)} samples")
+    report(f"  ring down recorded: t = 8 -> 24, {len(ts_rel)} samples")
 
     f_rel, a_rel = spectrum(ts_rel, dt_s)
     f_com, a_com = spectrum(ts_com, dt_s)
@@ -120,25 +128,24 @@ def run(report=print):
         report(f"    omega = {w_:6.3f}   amp {a_/a_com[1:].max():.2f}")
 
     ## frozen assertions ##
-    assert len(pk_rel) >= 1, "the ring-down must resolve a tower"
+    assert len(pk_rel) >= 1, "the ring down must resolve a tower"
     w_min = min(w_ for w_, _ in pk_rel)
     # 1. The tower is GAPPED: no internal mode at zero frequency
     #    (the resolution floor is the FFT bin, 2 pi / T with T = 16)
     assert w_min > 2 * np.pi / 16.0, \
         "soft internal mode found below the resolution floor"
-    # 2. the outcome: the first internal excitation
-    #    sits at or ABOVE the relative-sector binding scale |lam1|:
-    #    no extra light internal states below the substrate's own
-    #    binding scale.  A refactor pushing a peak far below |lam1|
-    #    creates a surplus state: register it (D4) or treat it as a
-    #    falsifier.
+    # 2. The first internal excitation sits at or ABOVE the relative
+    #    sector binding scale |lam1|. There are no extra light internal
+    #    states below the substrate's own binding scale.  If a refactor
+    #    pushes a peak far below |lam1|, that peak is a surplus state:
+    #    register it (D4) or treat it as a falsifier.
     assert w_min > 0.5 * lam1, \
         f"internal mode at {w_min:.3f} << |lam1| = {lam1:.3f}: " \
         f"surplus state below the binding scale. Register or falsify it"
     report("-" * 70)
     report("  OUTCOME: tower gapped. First internal mode at")
     report(f"  omega = {w_min:.3f} >= 0.5 |lam1|. No surplus states below")
-    report("  the binding scale |lam1| in the classical ring-down.")
+    report("  the binding scale |lam1| in the classical ring down.")
     return dict(pk_rel=pk_rel, pk_com=pk_com, lam1=lam1, mu=mu)
 
 

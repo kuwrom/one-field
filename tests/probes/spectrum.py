@@ -6,14 +6,14 @@ the winding amplitudes at the core over a long window, remove the
 condensate's carrier rotation (e^{-i mu t}), FFT, and read the
 discrete internal lines.
 
-PRE-STATED MEANINGS (written before looking):
+PRE STATED MEANINGS (written before looking):
   (a) three lines with ratios ~ Delta_k of the circulant fringe
       (0.040 : 0.580 : 2.379, i.e. 1 : 14.4 : 59) -> the mass
       spectrum is dynamical: the framework's strongest possible
       result.
-  (b) one line + its harmonics -> the 1D lump is a single-mode
+  (b) one line + its harmonics -> the 1D lump is a single mode
       oscillator. The circulant spectrum lives at the MTC layer,
-      and the literal-PDE reading is constrained (NOT a kill: the
+      and the literal PDE reading is constrained (NOT a kill: the
       papers derive the spectrum at the topological layer).
   (c) broadband -> turbulent state, inconclusive. A true stationary
       profile is needed first.
@@ -41,7 +41,7 @@ def run(report=print):
     dx = x[1] - x[0]
     dt = 0.002
     g0, g1, rho0 = 1.0, G1_OVER_G0, 1.0
-    mu = (3*g0 + g1) * rho0
+    mu = (3*g0 + 2*g1) * rho0   # hermitian condensate rate (nls_soliton BdG)
     w3 = np.exp(2j*np.pi*np.arange(3)/3)
     psi = (np.sqrt(rho0) *
            (1.0 + 0.3*w3[:, None]*np.exp(-x**2/8.0)[None, :])
@@ -84,20 +84,38 @@ def run(report=print):
         idx.sort(key=lambda i: -P[i])
         return [(float(f[i]), float(P[i])) for i in idx[:n_top]]
 
+    d_omega = 2*np.pi/(ts[-1]-ts[0])
     report("KNOT SPECTROSCOPY: internal lines of the saturated lump")
     report("=" * 66)
     report(f"  window t = 10..{ts[-1]:.0f}, resolution "
-           f"d_omega = {2*np.pi/(ts[-1]-ts[0]):.3f}")
-    for name, series in [("a1 (winding +1)", A1), ("a2 (winding -1)", A2)]:
+           f"d_omega = {d_omega:.3f}")
+    top = {}
+    for name, series in [("a1", A1), ("a2", A2)]:
+        top[name] = lines(series)
         report(f"  {name} core amplitude, dominant lines "
                f"(omega, rel. power):")
-        for fr, p in lines(series):
+        for fr, p in top[name]:
             report(f"      omega = {fr:+7.3f}   power {p:8.3f}")
     report("-" * 66)
     report("  reference ratios: circulant fringe Delta_k = "
            f"{FRINGE[0]:.4f} : {FRINGE[1]:.4f} : {FRINGE[2]:.4f}")
-    report("  (pre-stated meanings in the docstring. Interpret against")
-    report("   (a) three-line fringe / (b) single-mode / (c) broadband)")
+    report("  (prestated meanings in the docstring. Interpret against")
+    report("   (a) three line fringe / (b) single mode / (c) broadband)")
+
+    # outcome (a): three resolved lines whose magnitudes sit in the
+    # fringe ratios 1 : 14.4 : 59 (within 15 percent), in either winding
+    target = FRINGE[1:] / FRINGE[0]
+    fringe_found = False
+    for name in top:
+        mags = sorted({abs(fr) for fr, _ in top[name] if abs(fr) > d_omega})
+        for i, a in enumerate(mags):
+            for j in range(i + 1, len(mags)):
+                for k in range(j + 1, len(mags)):
+                    r = np.array([mags[j] / a, mags[k] / a])
+                    if np.all(abs(r / target - 1.0) < 0.15):
+                        fringe_found = True
+    report(f"  outcome (a) three line fringe found: {fringe_found}")
+    return {"lines": top, "d_omega": d_omega, "fringe_found": fringe_found}
 
 
 if __name__ == "__main__":

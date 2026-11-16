@@ -1,45 +1,54 @@
 """
 emergent_clock.py: give the substrate a phase and READ THE CLOCK BACK.
 
-THE POINT (substrate verification).  The channel and mass-phase maps set
+THE POINT (substrate verification).  The channel and mass phase maps set
 B/A = √2 and θ = 2/9 (searchlight/octonions.py, masses.py).  This probe
-runs the verification direction: seed the
-Z₃-coupled NLS medium with a GENERIC random fluctuation (no target,
-no Brannen angle, no PDG value anywhere in this file), let the
-relative-sector instability grow knots from the noise, and MEASURE the
-internal clock of the three components at the knots.  Mass is a rate
+runs the check in the other direction. It seeds the Z₃-coupled NLS
+medium with a GENERIC random fluctuation (no target, no Brannen angle,
+no PDG value anywhere in this file). It lets the relative sector
+instability grow knots from the noise. Then it MEASURES the internal
+clock of the three components at the knots.  Mass is a rate
 (E = ħω), so whatever spectrum the medium locks into is the medium's
 own answer, not the ledger's.
 
 THE PROTOCOL (frozen, part of the measurement):
-    seed     symmetric vacuum + complex Gaussian noise + one global
-             (gauge) phase
-    warm-up  evolve to t = 30 (saturation observed at t ≈ 25, growth
-             ≈ ×10 in the relative-mode RMS)
-    readout  density-weighted knot mode a_k(t), sampled at Δt = 0.2
-             over t ∈ [30, 120]; dominant line ω_k = peak of the
+    seed     Z₃-symmetric background (the stationary point that is not
+             the vacuum, z3_vacuum.py) + complex Gaussian noise + one
+             global (gauge) phase
+    warm up  evolve to t = 30 (saturation observed at t ≈ 25, growth
+             ≈ ×10 in the relative mode RMS)
+    readout  density weighted knot mode a_k(t), sampled at Δt = 0.2
+             over t ∈ [30, 120]. Dominant line ω_k = peak of the
              windowed spectrum; LINEWIDTH = peak power share.
 
 CALIBRATION FINDINGS (measured, kept):
-    · the instability grows only from the Z₃-SYMMETRIC vacuum; random
-      per-component phase offsets stabilise the background (growth ~1
-      on the same horizon).  The symmetric vacuum is the one that
-      decays into matter.
-    · in THIS regime (1D, substrate-only, this horizon) the knots form
+    · the instability grows only from the Z₃-SYMMETRIC background.
+      Random per component phase offsets stabilise it (growth ~1 on
+      the same horizon; a calibration observation, not asserted by a
+      test).  Only the symmetric background decays into
+      matter. It is not the ground state (z3_vacuum.py).
+    · in THIS regime (1D, substrate only, this horizon) the knots form
       but the clocks do NOT lock a sharp line: peak power share is at
-      the few-percent level (broadband, soliton collisions in the
+      the few percent level (broadband, soliton collisions in the
       box).  The verdict is frozen as measured.
 
-COMPUTED STATUS (structural, target-blind): number conservation;
-knot growth from noise (> ×3); dominant frequencies positive and
-below the linearised μ + margin; and the verdict fields being
-reported, including clocks_locked = False for the substrate-only 1D regime.
+COMPUTED STATUS (structural, target blind). The checks are: number
+conservation. Knot growth from noise (> ×3). Dominant frequencies
+positive and below the linearised μ plus a margin. And the verdict
+fields are reported, including clocks_locked = False for the
+substrate only 1D regime.
 
-The algebraic derivation gives B/A = √2 and θ = 2/9.  The current 1D
-substrate run is broadband.  A confined-phase 3D clock run would provide
-an independent dynamical check of sharp locking to the derived circulant.
+The algebraic derivation gives B/A = √2 and θ = 2/9.  The 1D substrate
+run is broadband.  A confined phase 3D clock run would give an
+independent dynamical check of sharp locking to the derived circulant.
 
-Usage: python3 emergent_clock.py     (~12 s: 1D, three seeds)
+SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
+background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
+self-bound sign holds the clock lump, which carries no pi_3 texture
+(knot_in_lump.py). For that sign the closure is the spinning lump
+(spinning_lump.py).
+
+Usage: python3 emergent_clock.py     (about two minutes: 1D, three seeds)
 """
 
 import math
@@ -52,7 +61,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))), "interference"))
 import _bootstrap  # noqa: E402,F401
 # sibling probes (substrate3d) import by bare name, as they do among
-# themselves; keep the one canonical namespace
+# themselves. Keep the one canonical namespace
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from nls_soliton import _split_step, _z3_fourier, G1_OVER_G0  # noqa: E402
@@ -61,7 +70,7 @@ from nls_soliton import _split_step, _z3_fourier, G1_OVER_G0  # noqa: E402
 # run parameters (frozen: part of the measurement protocol)
 N, L = 256, 40.0
 DT = 0.002
-T_WARM = 30.0               # warm-up horizon (saturation ≈ t = 25)
+T_WARM = 30.0               # warm up horizon (saturation ≈ t = 25)
 T_READ = 90.0               # readout window length
 DT_SAMPLE = 0.2             # readout sampling interval
 NOISE = 0.05
@@ -71,7 +80,7 @@ NFFT = 4096
 
 def _dominant_lines(series, dt_s):
     """Dominant spectral line per component of the knot mode a_k(t):
-    Hann-windowed FFT, ω_k = argmax, share = peak power fraction."""
+    Hann windowed FFT, ω_k = argmax, share = peak power fraction."""
     a = np.asarray(series)                     # (n_t, 3)
     freqs = 2 * np.pi * np.fft.fftfreq(NFFT, d=dt_s)
     omegas, shares = [], []
@@ -99,7 +108,7 @@ def _one_seed(seed, g0=1.0):
     total0 = float((np.abs(psi)**2).sum())
     rel0 = float(np.sqrt(_z3_fourier(np.abs(psi)**2)["relative"].mean()))
 
-    # warm-up to saturation
+    # warm up to saturation
     psi = _split_step(psi, dx, DT, g0, g1,
                       n_steps=int(round(T_WARM / DT)))
     growth = float(np.sqrt(
@@ -135,12 +144,12 @@ def _one_seed(seed, g0=1.0):
 #                    peak shares ≤ 0.031, Q = 0.3333
 #   sponged readout: knots survive isolation (residual relative RMS
 #                    0.11), clock drops to ω ≈ 1.8, shares ≤ 0.032
-# Figures vary across BLAS/FFT builds; the directional bands below
+# Figures vary across BLAS/FFT builds. The directional bands below
 # are the frozen content.
-# VERDICT: the substrate-only theory does not lock a sharp clock in 3D
-# either, free or isolated.  Rung 2 of the ladder is the confined-
-# phase effective regime (the locked circulant clock), not more substrate-only
-# evolution.
+# VERDICT: the substrate only theory does not lock a sharp clock in 3D
+# either, free or isolated.  Rung 2 of the ladder is the confined
+# phase effective regime (the locked circulant clock), not more
+# substrate only evolution.
 
 N3, L3 = 24, 24.0
 T3_WARM, T3_READ, DT3_SAMPLE = 30.0, 60.0, 0.2
@@ -148,7 +157,7 @@ SEED3 = 11
 
 
 def run_3d(report=print, sponged=False):
-    """One-seed 3D rung of the protocol (slow: several minutes)."""
+    """One seed 3D rung of the protocol (slow: several minutes)."""
     from substrate3d import DT as DT3, evolve, grid, rel_modes
     rng = np.random.default_rng(SEED3)
     dx, X, Y, Z, R, K2 = grid(N3, L3)
@@ -197,9 +206,9 @@ def run(report=print):
     report("=" * 70)
     report(f"  medium: Z₃-NLS, g₁/g₀ = 1/√2 (G₂ constraint), the ONLY")
     report(f"  physics input. No angle, no target, no PDG value here.")
-    report(f"  grid N={N}, L={L}, dt={DT}; warm-up t={T_WARM:.0f}, "
+    report(f"  grid N={N}, L={L}, dt={DT}. Warm up t={T_WARM:.0f}, "
            f"readout t∈[{T_WARM:.0f},{T_WARM+T_READ:.0f}] at "
-           f"Δt={DT_SAMPLE}; noise={NOISE}, seeds={SEEDS}")
+           f"Δt={DT_SAMPLE}. Noise={NOISE}, seeds={SEEDS}")
 
     results = [_one_seed(s) for s in SEEDS]
     Qs = [r["Q"] for r in results if r["Q"] is not None]
@@ -219,15 +228,15 @@ def run(report=print):
     Q_spread = float(np.std(Qs)) if Qs else None
     report("-" * 70)
     report(f"  clocks_locked = {locked}  (sharp line := peak power "
-           f"share > 0.5; measured ≤ "
+           f"share > 0.5. Measured ≤ "
            f"{max(max(r['peak_shares']) for r in results):.2f})")
     if Q_mean is not None:
         report(f"  Q(dominant lines) = {Q_mean:.4f} ± {Q_spread:.4f} "
                f"over {len(Qs)} seeds (math band [1/3, 1); circulant "
-               f"target 2/3; degenerate clocks 1/3)")
-    report(f"  VERDICT: knots form from generic noise. The substrate-only "
+               f"target 2/3. Degenerate clocks 1/3)")
+    report(f"  VERDICT: knots form from generic noise. The substrate only "
            f"1D regime is broadband on this horizon, with no sharp clock. "
-           f"The derived circulant supplies the 3D locked-clock target.")
+           f"The derived circulant supplies the 3D locked clock target.")
     return dict(results=results, Q_values=Qs, Q_mean=Q_mean,
                 Q_spread=Q_spread, clocks_locked=locked)
 

@@ -6,21 +6,27 @@ Uses the upstream equation exactly (tests/substrate/nls_soliton.py):
     i dpsi_k/dt = -1/2 psi_k'' + [g0*rho_total
                    + g1*Re(conj(psi_{k+1}) psi_{k+2})] psi_k
 
-with the G2 constraint g1 = g0/sqrt(2).  The BdG analysis upstream
-shows the relative modes carry lambda_1 = -g1*rho0/2 < 0: a
-MODULATIONAL INSTABILITY, the framework's claimed matter-formation
-mechanism.  This probe tests it nonlinearly, with two experiments:
+with the G2 constraint g1 = g0/sqrt(2).  The upstream BdG analysis
+shows that the relative modes carry lambda_1 = -g1*rho0/2 < 0. This
+is a MODULATIONAL INSTABILITY, the mechanism the framework claims
+forms matter.  This probe tests it nonlinearly, with two experiments:
 
   EXP 1 (formation + control): seed a localized WINDING lump
     (psi_k ~ 1 + eps*exp(2pi i k/3)*G(x), a circulating loop in
     component space).  Under the true coupling, does it grow and
-    localize (knot forms)?  CONTROL: same seed with g1 = 0, the
-    instability is absent, so dispersal there proves the G2 exchange
-    term is what binds.
+    localize (does a knot form)?  CONTROL: the same seed with g1 = 0.
+    There the instability is absent, so if the lump disperses, the G2
+    exchange term binds it.
 
   EXP 2 (selectivity): winding lump (circulating) vs v-biased lump
-    (static mark, v = (1,-1/2,-1/2)).  The narrative requires the
-    circulating loop to persist and the static mark to radiate.
+    (static mark, v = (1,-1/2,-1/2)).  The framework requires the
+    circulating loop to persist and the static mark to radiate away.
+
+SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
+background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
+self-bound sign holds the clock lump, which carries no pi_3 texture
+(knot_in_lump.py). At that sign the closure is the spinning lump
+(spinning_lump.py).
 
 Usage: python3 knot.py   (~30 s)
 """
@@ -98,7 +104,7 @@ def run(report=print):
                                    report)
     growth_ctrl, _ = evolve_report(psi_wind, g0, 0.0, x, dx, dt,
                                    t_marks, "control (g1 = 0):", report)
-    report(f"  relative-peak growth: true x{growth_true:.2f} vs "
+    report(f"  relative peak growth: true x{growth_true:.2f} vs "
            f"control x{growth_ctrl:.2f}")
     report(f"  => knot formation "
            f"{'OBSERVED (G2 coupling binds)' if growth_true > 1.5 > growth_ctrl else 'NOT OBSERVED'}")

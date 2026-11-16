@@ -1,15 +1,15 @@
 """Strong CP in the full record ontology.
 
 The condensed algebra A=1+B, a character of the winding group, and the
-physical matter-coupled angle bar(theta) are distinct objects.  A phase
+physical matter coupled angle bar(theta) are distinct objects.  A phase
 action T(B)=zB preserves both channels of B*B=1+B only when z=1.  The
 doubled Fibonacci phases on the transmissible summands cancel as well.
 
 A central character exp(i n theta) is invisible to that local algebra,
-and a common right-handed quark rephasing changes arg det(M_u M_d)
+and a common right handed quark rephasing changes arg det(M_u M_d)
 without changing masses or CKM.  The full record ontology resolves both
-freedoms by assigning the complete matter-coupled winding character to
-the closed vacuum-record action.  This probe computes the local result,
+freedoms by assigning the complete matter coupled winding character to
+the closed vacuum record action.  This probe computes the local result,
 checks the two independent freedoms, and compares it with the production
 derivation of bar(theta)=0.
 
@@ -75,7 +75,7 @@ def central_character_countermodel(theta, winding=1):
 
 
 def right_handed_mass_rephasing(alpha, generations=3):
-    """Exact mass-sector null direction.
+    """Exact mass sector null direction.
 
     Multiplying a Dirac matrix on the right by exp(i alpha) I leaves
     M M^dagger invariant.  Its determinant is multiplied by
@@ -94,7 +94,7 @@ def right_handed_mass_rephasing(alpha, generations=3):
 def engine_mass_matrix_countermodel(up_masses, down_masses, ckm, alpha):
     """Realize the mass null direction on engine outputs.
 
-    A positive-Hermitian representative is
+    A positive Hermitian representative is
 
         M_u = D_u,       M_d = V D_d V^dagger,
 
@@ -140,7 +140,7 @@ def engine_mass_matrix_countermodel(up_masses, down_masses, ckm, alpha):
 
 
 def _categorical_local_data():
-    """Compute the local condensation and doubled-phase results."""
+    """Compute the local condensation and doubled phase results."""
     h7, h26 = Fraction(2, 5), Fraction(3, 5)
     weights = {
         ("1", "1"): Fraction(0),
@@ -155,7 +155,7 @@ def _categorical_local_data():
                             if label not in transmissible))
     assert transmissible == tuple(sorted((("1", "1"), B)))
 
-    # Standard Fibonacci R symbols and their reverse-category partners.
+    # Standard Fibonacci R symbols and their reverse category partners.
     R7 = {"1": cmath.exp(-4j * math.pi / 5),
           "7": cmath.exp(3j * math.pi / 5)}
     R26 = {"1": R7["1"].conjugate(),
@@ -172,7 +172,7 @@ def _categorical_local_data():
 
     # The doubled Fibonacci associator on the {1,B} channel is the
     # entrywise product of F with its conjugate.  Its unit eigenspace is
-    # one-dimensional and spanned by (1,1), fixing the two nonzero
+    # one dimensional and spanned by (1,1), fixing the two nonzero
     # multiplication components to equal normalized magnitude.
     a, b = 1.0 / PHI ** 2, 1.0 / PHI
     associator = ((a, b), (b, a))
@@ -208,10 +208,10 @@ def run(report=print):
     embedding_index = ((Fraction(1, 2) + Fraction(1, 2))
                        / Fraction(1))
     assert embedding_index == 1
-    report("topology: pi3(G2)=pi3(SU(3))=Z; embedding index = 1")
+    report("topology: pi3(G2)=pi3(SU(3))=Z. Embedding index = 1")
 
     local = _categorical_local_data()
-    report("local category: transmissible {1,B}; displayed doubled")
+    report("local category: transmissible {1,B}. Displayed doubled")
     report("  twists/braidings/monodromies are +1")
     report("algebra: B*B=1+B and T(B)=zB give z^2=1=z;")
     report("  unique diagonal unital phase automorphism z=1")
@@ -226,17 +226,17 @@ def run(report=print):
     mass_null = right_handed_mass_rephasing(math.pi / 11.0)
     assert abs(mass_null["gram_multiplier"] - 1.0) < TOL
     assert abs(mass_null["determinant_multiplier"] - 1.0) > 0.1
-    report("countermodel 2: a right-handed phase preserves masses and CKM")
+    report("countermodel 2: a right handed phase preserves masses and CKM")
     report("  while changing arg det(M_u M_d)")
 
     # The repository's clock vacuum is an explicit precedent for a
-    # projective symmetry phase; it prevents norm multiplicativity from
-    # being used as a no-central-character theorem.
+    # projective symmetry phase. It prevents norm multiplicativity from
+    # being used as a no central character theorem.
     z3_projective_phase = _phase_from_weight(Fraction(1, 3))
     assert abs(z3_projective_phase - 1.0) > 0.5
 
     # The engine applies the full record rule to the complete physical
-    # character rather than to coordinate-dependent EFT pieces.
+    # character rather than to coordinate dependent EFT pieces.
     production = production_couplings.derive_strong_cp()
     assert production["vacuum_phase_automorphisms"] == (
         local["unital_phase_automorphisms"])
@@ -245,7 +245,7 @@ def run(report=print):
     assert bar_theta == 0.0
 
     report("-")
-    report("The complete winding character acts on the closed-record")
+    report("The complete winding character acts on the closed record")
     report("algebra; Aut_phase(A)={1}, so bar(theta)=0.")
 
     return {

@@ -3,13 +3,13 @@ ew_internal.py: how much of the two declared EW imports can the
 framework compute from its own state?
 
 The two imports (world/refdata): dr_hat_W = 0.06937, rho_hat = 1.01016
-(PDG 2024 Eq. 10.26).  The import-audit taxonomy classifies import
-content as [1] data-driven measurement, [2] parameter dependence
+(PDG 2024 Eq. 10.26).  The import audit taxonomy classifies import
+content as [1] data driven measurement, [2] parameter dependence
 (recalculable from framework values), [3] pure loop mathematics.
 This probe computes the class-[2] content internally and states
 exactly what remains in classes [1] and [3].
 
-  rho_hat:  dominant content is the top-doublet term
+  rho_hat:  dominant content is the top doublet term
             delta_rho_t = 3 G_F m_t^2 / (8 sqrt(2) pi^2),
             a function of two FRAMEWORK OUTPUTS (G_F from v_EW, m_t).
             Remainder: bosonic/higher loops (~0.0008) = class [3].
@@ -19,7 +19,7 @@ exactly what remains in classes [1] and [3].
             e+e- spectral DATA, class [1], same admissibility as PDG
             masses.  The framework's internal VP (free quarks +
             Lambda_conf cutoff) approximates it. The gap below
-            measures exactly how far the internal computation reaches.
+            measures how close the internal computation comes.
             Remainder: EW loop remainder (~0.0029) = class [3].
 
 Usage: python3 ew_internal.py
@@ -92,7 +92,7 @@ def run(report=print):
     m_t = s["m_t"] / 1e3
     M_Pl = s["M_Pl_MeV"] / 1e3
 
-    report("INTERNAL EW LOOP: retiring what can be retired")
+    report("INTERNAL EW LOOP: each import classified")
     report("=" * 64)
 
     # G_F from the framework's own v_EW
@@ -101,7 +101,7 @@ def run(report=print):
            f"(measured 1.1663788e-05: "
            f"{1e6*(G_F/1.1663788e-5 - 1):+.2f} ppm)")
 
-    # rho_hat: top-doublet term from framework outputs
+    # rho_hat: top doublet term from framework outputs
     d_rho_t = 3.0 * G_F * m_t**2 / (8.0 * math.sqrt(2.0) * math.pi**2)
     rho_import = PDG_EW["rho_hat"]
     bosonic_rem = (rho_import - 1.0) - d_rho_t
@@ -129,13 +129,13 @@ def run(report=print):
            f" [class 1]")
 
     report("-" * 64)
-    report("  VERDICT: rho_hat is retirable up to +0.0008 of pure loop")
-    report("  mathematics. dr_hat_W is irreducibly data-bounded through")
-    report("  the hadronic VP (class 1, same admissibility as the PDG")
-    report("  masses), the internal VP reaches it to "
+    report("  VERDICT: rho_hat can be computed internally except for")
+    report("  +0.0008 of pure loop mathematics. dr_hat_W stays tied to")
+    report("  data through the hadronic VP (class 1, same admissibility")
+    report("  as the PDG masses). The internal VP matches it to "
            f"{100*abs(dr0_int/dr0_disp-1):.1f}%.  The imports are")
-    report("  hereby RECLASSIFIED (measurement + loop-math), not free")
-    report("  parameters. Full retirement needs a dispersive-grade")
+    report("  classified as measurement + loop mathematics, not free")
+    report("  parameters. Full retirement needs a dispersive grade")
     report("  internal VP, which is a data question, not a theory one.")
     return {"G_F": G_F, "d_rho_t": d_rho_t, "dr0_int": dr0_int}
 

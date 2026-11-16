@@ -1,17 +1,17 @@
 """
-wiring_theorem_probe.py: the wiring-theorem attempt, executable.
+wiring_theorem_probe.py: the wiring theorem attempt, executable.
 
 THE STATEMENT (unifying the algebra's closure requirements and the
 web's wiring):
 
-    The searchlight-depth carrier set is exactly the nonzero
+    The searchlight depth carrier set is exactly the nonzero
     branching/fusion channels of E8(1) > G2(1) x F4(1) visible at
     depth <= 3, with multiplicities given by orientation counting.
     Recursive web responses may occur at later registered depths.
 
 This probe computes the statement and grades each part: theorem,
-menu-unique (the promotion grade every canon edge already carries),
-or hand-added.
+menu unique (the promotion grade every canon edge already carries),
+or hand added.
 
 WHAT IS PROVED HERE (computed, not cited):
 
@@ -24,55 +24,58 @@ WHAT IS PROVED HERE (computed, not cited):
 
   PART B: the condensation theorem (the wiring's existence side).
       In C = Rep(G2(1)) x Rep(F4(1)) (four simple channels) the
-      bridge B = (7,26) is the UNIQUE nontrivial boson (theta = 1);
-      condensing A = 1 + B yields a holomorphic c = 8 theory
+      bridge B = (7,26) is the UNIQUE nontrivial boson (theta = 1).
+      Condensing A = 1 + B yields a holomorphic c = 8 theory
       (D^2_condensed = 1), i.e. E8(1) (unique by the rank-8 even
       unimodular lattice gate, wiring.py stage W1).  The
       deconfinement test (equal spins on A x x) shows the face
       channels (7,1) and (1,26) are CONFINED.  Corollary: the only
       channel that can connect the G2 sector to the F4 sector is B.
-      The existence of the e<->q loop and the absence of every other
-      conceivable loop is the SAME theorem as N-ality superselection,
-      one level up: an interface transmits only channels local with
-      respect to the extension, and the local list is {1, B}, full
-      stop.
+      The existence of the e<->q loop, and the absence of every other
+      conceivable loop, is the SAME theorem as N-ality superselection
+      one level up. An interface transmits only channels that are
+      local with respect to the extension, and the local list is
+      exactly {1, B}.
 
   PART C: the sector graph and its cycle inventory (the multiplicity
       side).  Two face nodes, one edge (B), one self-loop channel
-      (N_BB^B = 1, Fibonacci).  The complete basepointed-cycle
-      carrier inventory at searchlight depth <= 3 is enumerated: the self-loop
-      (multiplicity 1, because B is self-dual) and the 2-cycle
-      (multiplicity 2).  Nothing else exists; longer closed walks are
-      powers of the 2-cycle and are what the kernel's fixed point
-      already resums.  The orientation rule is formalised as ONE
+      (N_BB^B = 1, Fibonacci).  The basepointed cycle carrier
+      inventory at searchlight depth <= 3 is stated for this two node
+      graph and checked against the framework's precedents: the
+      self-loop (multiplicity 1, because B is self-dual) and the
+      2-cycle (multiplicity 2).  On a two node graph with one edge
+      class and one self-loop, every longer closed walk is a
+      concatenation of these two, which is what the kernel's fixed
+      point already resums.  The orientation rule is formalised as ONE
       counting function and checked against all of the framework's
       precedents (B = 2rho: 2; bridge self-echo: 1; e<->q: 2).
-      Corollary: the no-further-edge theorem (the cubic in 1/alpha is
-      final) is a graph fact, not a per-node stipulation.
+      Corollary: the no further edge theorem (the cubic in 1/alpha is
+      final) is a graph fact, not a per node stipulation.
 
-  PART D: the vertex-composition inventory, made executable as a
-      target-conditioned verification.
-      root.py claims in prose that the depth-4 response menu
-      (4 e-side x 7 q-side vertex weights) hits each target
-      (2, 16, 27/2) exactly once.  Here the menus are frozen and the
-      uniqueness is CHECKED. The same part verifies that the recursive
-      Albert path is unital and its reverse is the inverse.
+  PART D: the vertex composition inventory, made executable as a
+      target conditioned verification.
+      root.py reads three depth-4 responses (2, 16, 27/2) as endpoint
+      products of vertex weights.  Here the 4 e-side x 7 q-side
+      vertex weight menu is frozen and it is CHECKED that each target
+      is hit exactly once (a menu unique grade). The
+      same part verifies that the recursive Albert path is unital and
+      its reverse is the inverse, which fixes 27/2 by construction.
 
   PART E: the edge harvest.  Every .echo( call in interference/ is
       parsed from source and classified against the theorem:
-      embedding-layer edges (existence forced by PART B, multiplicity
-      graded by PART C or D) and intra-face WZW edges (SU(3)_3 module data,
-      covered by the committed grammar and the closure-search
+      embedding layer edges (existence forced by PART B, multiplicity
+      graded by PART C or D) and intraface WZW edges (SU(3)_3 module data,
+      covered by the committed grammar and the closure search
       accounting).  The independently derived edges and selections are listed
       with their derivations and witnesses.
 
-VERDICT (printed at the end): the wiring rule is TWO-LAYER. Sector
+VERDICT (printed at the end): the wiring rule is TWO LAYER. Sector
 level is a theorem (existence, confinement, and pure orientation
-multiplicities). Intra-face edges carry their individual grades. The
+multiplicities). Intraface edges carry their individual grades. The
 depth-4 response refactoring and its unital/inverse-path normalization
 are executable here.
 
-Usage: python3 wiring_theorem_probe.py [path-to-one-field-repo]
+Usage: python3 wiring_theorem_probe.py [path to one field repo]
 """
 
 import cmath
@@ -95,7 +98,7 @@ PHI = (1.0 + math.sqrt(5.0)) / 2.0
 # ═══════════════════════════════════════════════════════════════════════
 
 def _reflection(alpha, G):
-    """Matrix of the reflection s_alpha in simple-root coordinates."""
+    """Matrix of the reflection s_alpha in simple root coordinates."""
     n = len(alpha)
     M = np.eye(n)
     a = np.array(alpha, dtype=float)
@@ -139,7 +142,7 @@ def _root_system(simples, G):
 
 def _fundamental_weights(G):
     """omega_i with 2(omega_i, alpha_j)/(alpha_j,alpha_j) = delta_ij,
-    in simple-root coordinates."""
+    in simple root coordinates."""
     n = G.shape[0]
     A = np.zeros((n, n))
     for i in range(n):
@@ -149,7 +152,7 @@ def _fundamental_weights(G):
             f = np.zeros(n)
             f[j] = 1.0
             A[i, j] = 2.0 * (e @ G @ f) / (f @ G @ f)
-    # weight lambda = sum_i c_i omega_i  <->  Cartan-pairing coords c
+    # weight lambda = sum_i c_i omega_i  <->  Cartan pairing coords c
     return np.linalg.inv(A.T)          # columns = omega_i in root coords
 
 
@@ -298,9 +301,9 @@ def part_B(g2, f4, report):
     #    condensed theory is TRIVIAL: the number of deconfined sectors
     #    equals D^2_condensed, so the unique local module is the
     #    algebra A = 1 + B itself.  The transmissible channel set IS
-    #    the summand set of A = {1, B}; every other channel is
+    #    the summand set of A = {1, B}. Every other channel is
     #    confined.  Direct witness for the face channels: a channel
-    #    extending the vacuum sector of an integer-graded extension must
+    #    extending the vacuum sector of an integer graded extension must
     #    have integer spin; h(7,1) = 2/5 and h(1,26) = 3/5 do not.
     n_deconfined = int(round(D2_cond))
     assert n_deconfined == 1
@@ -308,16 +311,16 @@ def part_B(g2, f4, report):
            ": the vacuum module A = 1 + B alone survives")
     confined = [x for x in labels if x not in (("1", "1"), B)]
     for x in confined:
-        assert abs(hs[x] - round(hs[x])) > 1e-9      # non-integer spin
+        assert abs(hs[x] - round(hs[x])) > 1e-9      # noninteger spin
         report(f"    channel {str(x):<12s} h = {hs[x]:.1f} "
-               "(non-integer) -> CONFINED (cannot extend the vacuum "
+               "(noninteger) -> CONFINED (cannot extend the vacuum "
                "sector)")
     report(f"    channel {str(B):<12s} h = {hs[B]:.1f} (integer, "
            "dimension one) -> the ONE transmissible nontrivial channel")
     report("  -> the face channels (7,1) and (1,26) CANNOT cross an "
            "interface; B = (7,26) can.")
-    report("  -> THEOREM (edge existence): the inter-sector edge set is "
-           "{B}, and nothing else.")
+    report("  -> THEOREM (edge existence): the intersector edge set is "
+           "{B}.")
     report("     This is N-ality superselection one level up: local "
            "channels of the extension only.")
     return dict(labels=labels, hs=hs, ds=ds, fuse=fuse, B=B)
@@ -349,16 +352,17 @@ def part_C(cat, report):
     report("PART C: the sector graph and the complete carrier inventory "
            "(searchlight depth <= 3)")
     report("-" * 70)
-    report("  nodes: {G2-knot sector, F4-knot sector}   (sector-node "
+    report("  nodes: {G2-knot sector, F4-knot sector}   (sector node "
            "rule: channels, not species)")
     report("  edges: {B = (7,26)}  (PART B: the unique deconfined "
            "connector); B self-loop channel N_BB^B = 1")
-    # enumerate ALL basepointed closed walks of length <= 3 on the
-    # 2-node graph with edge set {G2-F4 via B} + {B-node self-loop}
-    report("  complete closed-walk inventory (length <= 3):")
+    # the closed walk classes of the 2-node graph with edge set
+    # {G2-F4 via B} + {B-node self-loop}: stated, with the orientation
+    # multiplicity checked against the framework's precedents below
+    report("  closed walk inventory (length <= 3, two node graph):")
     inventory = [
         ("bridge self-loop", 1, True,
-         "B is self-dual (tau-bar = tau in Fibonacci)"),
+         "B is self-dual (tau bar = tau in Fibonacci)"),
         ("e<->q 2-cycle", 2, True,
          "two basepointed traversals (e->q->e, q->e->q); "
          "reversal = rotation"),
@@ -371,20 +375,20 @@ def part_C(cat, report):
     assert m_self == 1 and m_2cyc == 2   # regression on the rule
     # Z3 precedent, computed with the same function: a directed
     # 3-cycle (S != S-dagger, not self-dual) has n*2 = 6 basepointed
-    # traversals; tapping ONE of the 3 basepoints gives 6/3 = 2.
+    # traversals. Tapping ONE of the 3 basepoints gives 6/3 = 2.
     m_z3 = orientation_multiplicity(3, False) // 3
     assert m_z3 == 2
     report(f"    Z3 circulant (B = 2rho precedent): 1 basepoint x 2 "
            f"directions = {m_z3}  (S, S-dagger)")
-    report("  -> the orientation rule is ONE counting function; every "
+    report("  -> the orientation rule is ONE counting function. Every "
            "canon multiplicity of pure")
     report("     orientation type ({1, 2}) is reproduced with no "
-           "per-node exception.")
+           "per node exception.")
     report("  -> NO other cycle exists at any depth: closed walks of "
            "length > 2 on this graph are")
     report("     powers of the 2-cycle, i.e. exactly what the kernel's "
            "fixed point already resums.")
-    report("     COROLLARY: the no-further-edge theorem (the 1/alpha "
+    report("     COROLLARY: the no further edge theorem (the 1/alpha "
            "cubic is FINAL) is a graph fact.")
     report("     COROLLARY: open paths trace their channel response on "
            "the active space.")
@@ -395,7 +399,7 @@ def part_C(cat, report):
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  PART D: vertex-composition inventory and Albert response
+#  PART D: vertex composition inventory and Albert response
 # ═══════════════════════════════════════════════════════════════════════
 
 def albert_unital_response(n26=26, schur_weight=Fraction(1, 2)):
@@ -421,8 +425,8 @@ def albert_unital_response(n26=26, schur_weight=Fraction(1, 2)):
 
 def part_D(report):
     report("")
-    report("PART D: the depth-4 vertex-composition menu, made "
-           "executable (menu-unique GRADE, not theorem)")
+    report("PART D: the depth-4 vertex composition menu, made "
+           "executable (menu unique GRADE, not theorem)")
     report("-" * 70)
     # e-side vertex weights: exactly the G2/lepton-side weights already
     # in canon at depth <= 2 (each entry cites its canon appearance)
@@ -458,16 +462,16 @@ def part_D(report):
         for en, qn in hits:
             report(f"        = [{en}] x [{qn}]")
         ok = ok and len(hits) == 1
-    assert ok, "vertex-inventory uniqueness FAILED"
+    assert ok, "vertex inventory uniqueness FAILED"
     report("  -> each target is hit by EXACTLY ONE pairing over the "
            "4 x 7 = 28 products.")
-    report("  -> grade: target-conditioned MENU VERIFICATION, not a "
+    report("  -> grade: target conditioned MENU VERIFICATION, not a "
            "forward selector.")
     albert = albert_unital_response()
     assert albert["options"] == {0: Fraction(13), 1: Fraction(27, 2)}
     assert albert["junction"] == 1
     assert albert["response"] == Fraction(27, 2)
-    report("  -> Albert unitality and inverse-path composition fix "
+    report("  -> Albert unitality and inverse path composition fix "
            "the response at 27/2.")
     return albert
 
@@ -478,15 +482,15 @@ def part_D(report):
 
 EDGE_CLASS = {
     # embedding layer: existence forced by PART B, multiplicity by C/D
-    "bridge": ("EMBEDDING", "B self-loop; coeff 1 (PART C), weight "
+    "bridge": ("EMBEDDING", "B self-loop. Coeff 1 (PART C), weight "
                             "h_B = 1 (dimension one)"),
     "e<->q 2-cycle": ("EMBEDDING", "the explicit depth-3 carrier "
                                     "(PART C)"),
     "read:eq_loop": ("EMBEDDING", "checked depth-4 read of the "
-                                   "depth-3 charged-sector carrier"),
+                                   "depth-3 charged sector carrier"),
     "EM-loop(e<->q)": ("EMBEDDING", "legacy label for the 2-cycle; "
                                       "coeff 2 (PART C)"),
-    "bridge->EM": ("EMBEDDING", "open path through B; per-mode "
+    "bridge->EM": ("EMBEDDING", "open path through B. Per mode "
                                 "(EM vertex)"),
     "bridge->Higgs": ("EMBEDDING", "open path through B; 182 = dim B "
                                    "modes (PART C corollary)"),
@@ -496,59 +500,62 @@ EDGE_CLASS = {
                                   "27/2 (Albert unit choice)"),
     "G2-face(EM)": ("EMBEDDING", "apportioned emission share h7 "
                                  "(conservation of h_B = 1)"),
-    "F4 h-share": ("EMBEDDING", "apportioned absorption share 9/13"),
     "F4-knot(26)": ("EMBEDDING", "q-node depth-1 vertex: Casimir of "
                                  "the branching rep 26"),
-    "EM(alg)": ("EMBEDDING", "open path; E8 positive-root current "
+    "EM(alg)": ("EMBEDDING", "open path; E8 positive root current "
                                   "trace Tr_+(Q^2)=30 (wiring.py)"),
-    # intra-face layer: SU(3)_3 / D6 module data (NOT embedding channels)
+    # intraface layer: SU(3)_3 / D6 module data (NOT embedding channels)
     "WZW(h10)": ("INTRA-FACE", "the m_d vent: exact identity "
                                "(count(aa) + h10), the committed "
                                "word_multiplier + generation ladder "
                                "(edge_derivations.py)"),
-    "WZW(fund)-vent": ("INTRA-FACE", "the (1 - h10) vented-share "
-                                     "promotion (the vent-share "
-                                     "theorem; single-count "
+    "WZW(fund)-vent": ("INTRA-FACE", "the (1 - h10) vented share "
+                                     "promotion (the vent share "
+                                     "theorem. Single count "
                                      "reading open)"),
-    # exact keys, one per harvested WZW edge: a NEW WZW-named edge
-    # matches nothing, lands UNCLASSIFIED, and fails the frozen counts
+    # exact keys, one per harvested WZW edge: a NEW WZW named edge
+    # matches nothing, is counted UNCLASSIFIED, and fails the frozen counts
     "WZW(δ)": ("INTRA-FACE", "SU(3)_3 fusion/nimrep data inside the "
-                             "G2 face; grammar + closure-search grade"),
+                             "G2 face. Grammar + closure search grade"),
     "WZW(K³)": ("INTRA-FACE", "SU(3)_3 fusion/nimrep data inside the "
-                              "G2 face; grammar + closure-search grade"),
+                              "G2 face. Grammar + closure search grade"),
     "WZW(2K)": ("INTRA-FACE", "SU(3)_3 fusion/nimrep data inside the "
-                              "G2 face; grammar + closure-search grade"),
+                              "G2 face. Grammar + closure search grade"),
     "WZW(adj)": ("INTRA-FACE", "SU(3)_3 fusion/nimrep data inside the "
-                               "G2 face; grammar + closure-search grade"),
+                               "G2 face. Grammar + closure search grade"),
     "WZW(fund)": ("INTRA-FACE", "SU(3)_3 fusion/nimrep data inside "
-                                "the G2 face; grammar + closure-search "
+                                "the G2 face. Grammar + closure search "
                                 "grade"),
     "WZW(adj/K²)": ("INTRA-FACE", "SU(3)_3 fusion/nimrep data inside "
-                                  "the G2 face; grammar + "
-                                  "closure-search grade"),
-    "G2xWZW(fund)": ("INTRA-FACE", "cross-echo into the fundamental "
+                                  "the G2 face. Grammar + "
+                                  "closure search grade"),
+    "G2xWZW(fund)": ("INTRA-FACE", "cross echo into the fundamental "
                                    "WZW channel"),
-    # gravity heat-kernel bookkeeping rides the same bridge channel
-    "a1": ("EMBEDDING", "heat-kernel dof edges over the 182 bridge "
+    "Z3(q=": ("EMBEDDING", "a relative channel's power |v_q|^2 of the "
+                           "lepton circulant, E[v^2] = 1/2 on the "
+                           "searchlight's, the connector's Schur moment "
+                           "(wiring.py)"),
+    # the gravity heat kernel count uses the same bridge channel
+    "a1": ("EMBEDDING", "heat kernel dof edges over the 182 bridge "
                         "modes"),
 }
 
 CROSS_DERIVED = [
     ("m_s bridge base", "Q0^2 x charge_trace = 32/27",
-     "the Dynkin->Albert norm conversion, Schur-unique "
+     "the Dynkin->Albert norm conversion, Schur unique "
      "(edge_derivations.py)"),
     ("m_d vent", "d10/d11^4 = 2/81",
-     "exact on-menu identity (count(aa) + h10) "
+     "exact on menu identity (count(aa) + h10) "
      "(edge_derivations.py)"),
     ("insertion channels", "adjoint -> Q(c,b,t), fund -> Q(s,c,b)",
      "the insertion rule: superselection at the deepest closing "
      "interface (lambda_assignment.py)"),
     ("terminus purity", "all mixed orderings excluded",
-     "label rigidity: no in-strand switch exists at any parity "
+     "label rigidity: no in strand switch exists at any parity "
      "(conversion_rigidity.py)"),
-    ("blocked-share count", "(1 - h10) reads the weight once",
-     "the orientation law's dichotomy: shares are open-path reads "
-     "(single count); double count dead against m_H"),
+    ("blocked share count", "(1 - h10) reads the weight once",
+     "the orientation law's dichotomy: shares are open path reads "
+     "(single count). Double count dead against m_H"),
 ]
 
 
@@ -564,8 +571,6 @@ def _normalise(path):
 
 def classify(path):
     p = _normalise(path)
-    if "self-echo" in p or ("share" in p and "F4" in p):
-        return EDGE_CLASS.get("F4 h-share")
     for key in sorted(EDGE_CLASS, key=len, reverse=True):
         if p.startswith(key) or key in p:
             return EDGE_CLASS[key]
@@ -603,13 +608,13 @@ def part_E(repo, report):
         report(f"  {fn:<18s} d{depth} [{status:<6s}] {path:<28s} "
                f"{cls:<11s} {why[:44]}")
     # parametric inherited edges (masses.py copies lepton_EM terms) are
-    # not literal-path calls; note them
-    report("  (parametric edges not caught by the literal-path parse: "
+    # not literal path calls. Note them
+    report("  (parametric edges not caught by the literal path parse: "
            "masses.py inherits the lepton_EM")
     report("   bridge->EM edge per charged lepton, and gravity.py adds "
-           "one a1 heat-kernel edge per")
-    report("   E8-decomposition channel, dof counts x per-dof a1, "
-           "riding the same 14+52+182 inventory;")
+           "one a1 heat kernel edge per")
+    report("   E8-decomposition channel, dof counts x per dof a1, "
+           "over the same 14+52+182 inventory;")
     report("   gravity.py's own comment already grounds the scalar "
            "reading in D^2_local = 1, i.e. PART B.)")
     report(f"  totals: {counts}")
@@ -652,34 +657,34 @@ def run(repo=None, report=print):
     report("  VERDICT")
     report("=" * 70)
     report("""
-  THE WIRING RULE IS TWO-LAYER; ITS BOUNDARIES ARE EXPLICIT.
+  THE WIRING RULE IS TWO LAYER; ITS BOUNDARIES ARE EXPLICIT.
 
-  1. SECTOR LEVEL (theorem).  Existence and non-existence of edges is
+  1. SECTOR LEVEL (theorem).  Existence and nonexistence of edges is
      fully derived: the unique nontrivial boson of Fib x Fib' is
-     B = (7,26); face channels are confined; the inter-sector graph is
-     two nodes, one edge, one self-loop channel; its complete cycle
-     inventory is {self-loop: 1, 2-cycle: 2}; one counting function
+     B = (7,26). Face channels are confined. The intersector graph is
+     two nodes, one edge, one self-loop channel. Its complete cycle
+     inventory is {self-loop: 1, 2-cycle: 2}. One counting function
      reproduces every pure orientation multiplicity in canon.  The
-     cubic finality of 1/alpha and the open-path trace rule are
+     cubic finality of 1/alpha and the open path trace rule are
      corollaries.  The bridge count 182 is derived from B=(7,26), and
      wiring.py derives the EM current trace 30 from the E8 roots.
 
   2. COMPOSITE MULTIPLICITIES (the response rule). Searchlight depth 3
-     exposes ONE loop object; web depth 4 reads each node's channel
-     response; the 4 x 7 inventory is frozen and checked here (each
-     target hit exactly once), the constructive web regenerates the
+     exposes ONE loop object. Web depth 4 reads each node's channel
+     response. The 4 x 7 inventory is frozen and checked here (each
+     target hit exactly once). The constructive web regenerates the
      precision block without three independent carrier declarations
-     (echo_naturality.py), and each response is independently constrained by its
-     own observable (vertex_pinning.py). The response assignment is
-     closed by the unital/inverse-path result below.
+     (echo_naturality.py). Each response is independently constrained
+     by its own observable (vertex_pinning.py). The 27/2 response is fixed
+     by the unital/inverse-path result above (PART D); 16 and 2 carry
+     the menu unique grade.
 
-  3. INTRA-FACE LEVEL (the committed grammar).  The WZW edges are
-     SU(3)_3 / D6 module data inside the G2 face, selected by the
-     committed menus with the closure-search look-elsewhere
-     accounting, and the independently derived edges and selections carry
+  3. INTRA FACE LEVEL (the committed grammar).  The WZW edges are
+     SU(3)_3 / D6 module data inside the G2 face. They are selected by
+     the committed menus, with the closure search's look elsewhere
+     accounting. The independently derived edges and selections carry
      stated derivations (edge_derivations.py, lambda_assignment.py,
-     conversion_rigidity.py). PART F below derives the
-     derived depth-4 response assignment.
+     conversion_rigidity.py).
 """)
     return dict(counts=counts, n_edges=len(rows), albert=albert)
 

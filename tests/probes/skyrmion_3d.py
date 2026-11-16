@@ -1,9 +1,9 @@
 """
 skyrmion_3d.py: 3D knot FORMATION in the one-field substrate.
 
-Marries the repo's two probes, in full 3D dynamics:
+Combines the repo's two probes, in full 3D dynamics:
 
-  knot.py (1D)            : Z3-NLS modulational-instability formation.
+  knot.py (1D)            : Z3-NLS modulational instability formation.
                             a winding seed GROWS under the true G2
                             coupling and disperses under g1 = 0.
   winding_texture.py (3D) : the explicit pi_3 skyrmion texture, static.
@@ -11,18 +11,18 @@ Marries the repo's two probes, in full 3D dynamics:
 Here the winding texture is seeded at SMALL amplitude (eps = 0.3, a
 knot.py-style Gaussian envelope) into the relative (q = 1, 2) sector
 of the Z3-coupled NLS and evolved with the repo's exact equation
-(g1 = g0/sqrt(2), no sponge: the run is norm-conserving and
-conservation is tracked as a diagnostic).  This is the review
-session's sim3d experiment, made a house probe.
+(g1 = g0/sqrt(2), no sponge: the run is norm conserving and
+conservation is tracked as a diagnostic).  It is the sim3d
+experiment, kept as a repo probe.
 
 FOUR MEASUREMENTS, each frozen in CI (values from the 48^3 run):
 
-  1. FORMATION vs CONTROL.  The relative-mode rms grows x15.6 by
+  1. FORMATION vs CONTROL.  The relative mode rms grows x15.6 by
      t = 12 under the true coupling and the peak saturates near the
      condensate scale. Under g1 = 0 the rms stays flat (x1.00, no
      growth channel exists) and the peak collapses x0.009 (pure
-     dispersal).  Matter forms BECAUSE of the G2 coupling, the 1D
-     result (knot.py), now in 3D.  (Without a sponge the run
+     dispersal).  Matter forms BECAUSE of the G2 coupling. This is
+     the 1D result (knot.py), reproduced in 3D.  (Without a sponge the run
      conserves norm, so rms is the growth metric and peak the
      dispersal metric.)
 
@@ -30,33 +30,43 @@ FOUR MEASUREMENTS, each frozen in CI (values from the 48^3 run):
      the growth window t in [3, 8] is 0.432 = 0.61 sigma, against the
      Bogoliubov instability rate sigma = |b_1| = g1 rho0 = 0.707
      (nls_soliton._bdg_analysis).  Below sigma and within a factor
-     ~2, as a band-limited seed must be: the formation mechanism is
+     ~2, as a band limited seed must be: the formation mechanism is
      the computed BdG instability, not an artifact.
-     (Under the non-hermitian A = B variant these read 0.28 =
+     (Under the nonhermitian A = B variant these read 0.28 =
      0.80 sigma against sigma = g1 rho0 / 2 = 0.354; both the rate
      and the reference differ by a factor 2 and the match holds
      either way.)
 
-  3. THE SHADOW.  The common (q = 0) mode dips at the core while the
-     knot grows (common_min 1.000 -> 0.956): the gravitational
-     shadow, sourced by formation itself.
+  3. THE CORE DIP.  The common (q = 0) density dips at the core while
+     the knot grows (common_min 1.000 -> 0.956).  This probe measures
+     that dip.  The gravity ledger reads the static density response
+     as screened and Yukawa suppressed away from the core. The Yukawa
+     tail is not measured here.
 
-  4. THE CHARGE RIDES ALONG, THEN DOES ITS OWN THING.  The seed
+  4. THE CHARGE FOLLOWS THE SEED, THEN EVOLVES ON ITS OWN.  The seed
      carries the pi_3 winding (B = -0.77 at 48^3. The estimator
-     under-reads on coarse grids, knot_charge.py part 1). B is
+     reads low on coarse grids, knot_charge.py part 1). B is
      tracked through formation and simply REPORTED, not asserted.
      It does NOT wander to ~0: it grows in
      magnitude to about -3.5 by t = 12 while the density knot grows,
-     alongside a much deeper common-mode dip (min 1.000 -> 0.226).
-     A scalar-phase substep gives "wanders to ~0" instead, but that
+     alongside the common mode dip.  (Two recorded runs give the dip's
+     depth at t = 12 as 0.956 and 0.226; the frozen claim is only that
+     the common mode dips, cmin < 0.99, asserted below.  The depth is
+     reported, not asserted.)
+     A scalar phase substep gives "wanders to ~0" instead, but that
      substep is not the gradient of any functional.  This is
-     the same defect-proliferation the disorder operator sees at
+     the same defect proliferation the disorder operator sees at
      saturation (confined_phase.py),
-     and it does not contradict the charge non-protection that
-     knot_charge.py measures -- that is about the winding failing to
-     be conserved, not about it staying small.
+     and it does not contradict the charge nonprotection that
+     knot_charge.py measures. That result is about the winding failing
+     to be conserved, not about it staying small.
 
-Usage: python3 skyrmion_3d.py     (~70 s at 48^3, mark slow)
+SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
+background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
+self-bound sign holds the clock lump, which carries no pi_3 texture
+(knot_in_lump.py). Its closure is the spinning lump (spinning_lump.py).
+
+Usage: python3 skyrmion_3d.py     (several minutes at 48^3 on one core, mark slow)
 """
 
 import os
@@ -75,7 +85,7 @@ from substrate3d import (DT, evolve, g0, g1, grid, omega,  # noqa: E402
 # A != B and omega^2 = (eps + a_q)^2 - b_q^2, whose minimum over p is
 # -b_1^2, so the maximum growth rate is |b_1| = g1*rho0.  (g1*rho0/2
 # is the A = B special case, which the exchange terms exclude.)
-# The instability is band-limited: p^2 in (3*g1*rho0, 7*g1*rho0).
+# The instability is band limited: p^2 in (3*g1*rho0, 7*g1*rho0).
 SIGMA_BDG = g1 * rho0              # max MI growth rate = |b_1|
 
 
@@ -136,7 +146,7 @@ def checkpoint(psi, dx, total0, track_B=True):
 
 
 def formation_run(N, L, g1_run, t_marks, report, tag, track_B=True):
-    """track_B=False for the control: the normalized-spinor estimator
+    """track_B=False for the control: the normalized spinor estimator
     is meaningless on a dispersed field (no localized map to S^3)."""
     psi, dx, R, K2 = build_seed(N, L)
     total0 = float((np.abs(psi)**2).sum())
@@ -188,7 +198,7 @@ def run(report=print, N=48, L=24.0):
     report(f"  BdG match: measured e-folding {sig_meas:.3f} vs "
            f"sigma = {SIGMA_BDG:.3f} "
            f"({sig_meas/SIGMA_BDG:.2f} sigma_BdG)")
-    report(f"  shadow: common_min {tr[0]['cmin']:.4f} -> "
+    report(f"  core dip: common_min {tr[0]['cmin']:.4f} -> "
            f"{tr[-1]['cmin']:.4f}")
     report(f"  charge: B {tr[0]['B']:+.3f} (seed) -> "
            f"{tr[-1]['B']:+.3f} at t=12. The charge is not protected")
@@ -199,16 +209,17 @@ def run(report=print, N=48, L=24.0):
     assert growth > 5.0, "true coupling must grow the knot (rms)"
     assert ctrl_rms < 1.5, "g1 = 0 has no growth channel (rms flat)"
     assert decay < 0.05, "g1 = 0 seed must disperse (peak collapse)"
-    # 2. BdG growth match: below sigma (band-limited seed) and within
+    # 2. BdG growth match: below sigma (band limited seed) and within
     #    a factor ~2 of it (the mechanism IS the computed instability.
     #    measured 0.432 = 0.61 sigma)
     assert 0.5 * SIGMA_BDG < sig_meas <= 1.1 * SIGMA_BDG, \
         f"growth {sig_meas:.3f} inconsistent with BdG sigma {SIGMA_BDG:.3f}"
-    # 3. The shadow deepens as the knot forms (measured 0.956)
+    # 3. The common mode density dips at the core (recorded depths 0.956
+    #    and 0.226 in two runs. Only the dip is asserted)
     assert tr[-1]["cmin"] < 0.99 < tr[0]["cmin"] + 1e-9, \
         "common mode must dip at the core"
-    # 4. The seed carries the charge (0.77 at 48^3: coarse-grid
-    #    under-read, see knot_charge part 1). Norm is conserved
+    # 4. The seed carries the charge (0.77 at 48^3: coarse grid
+    #    underread, see knot_charge part 1). Norm is conserved
     assert abs(tr[0]["B"]) > 0.7, "seed must carry the pi_3 charge"
     assert all(r["cons"] < 1e-6 for r in tr), "norm must be conserved"
     return dict(true=tr, ctrl=ct, growth=growth, decay=decay,

@@ -6,7 +6,8 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: "0 6 * * 1"   # weekly: the substrate-dynamics arc
+    - cron: "0 6 * * 1"   # weekly: the substrate dynamics arc
+  workflow_dispatch:      # manual: run the slow arc on any branch before a merge
 
 jobs:
   test:
@@ -19,16 +20,36 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pytest -v
 
-  slow:
-    # the substrate-dynamics arc (3D probes: knot_charge, skyrmion_3d,
-    # confined_phase, knot_spectrum + the 1D probes): minutes of PDE
-    if: github.event_name == 'schedule'
+  slow-tests:
+    # the slow arc, one job per test so each fits a runner's time limit
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    outputs:
+      tests: ${{ steps.collect.outputs.tests }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
       - run: pip install -r requirements.txt
-      - run: pytest -v -m slow
+      - id: collect
+        run: |
+          echo "tests=$(pytest --collect-only -q -m slow | grep '::' | python3 -c 'import json,sys; print(json.dumps([l.strip() for l in sys.stdin]))')" >> "$GITHUB_OUTPUT"
+
+  slow:
+    # the substrate dynamics arc (3D probes, lumps, clocks) and the
+    # slow audits: minutes to hours of PDE per test
+    needs: slow-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        test: ${{ fromJSON(needs.slow-tests.outputs.tests) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: pip install -r requirements.txt
+      - run: pytest -v -m slow "${{ matrix.test }}"

@@ -1,8 +1,8 @@
 """
 Z₃-symmetric coupled NLS: substrate dynamics + BdG linearization.
 
-THE SUBSTRATE.  The framework's ontology starts from one field --
-a Z₃-symmetric coupled nonlinear Schrödinger (NLS) system:
+THE SUBSTRATE.  The framework starts from one field: a Z₃-symmetric
+coupled nonlinear Schrödinger (NLS) system,
 
     E[ψ] = ∫ { ½Σ_k|∇ψ_k|² + (g₀/2)ρ_tot²
                + g₁ Σ_k ρ_k Re(e^{iα} ψ̄_{k+1}ψ_{k+2}) } dx
@@ -11,13 +11,21 @@ a Z₃-symmetric coupled nonlinear Schrödinger (NLS) system:
               = −½∇²ψ_m + [g₀ρ_tot + g₁Re(e^{iα}ψ̄_{m+1}ψ_{m+2})]ψ_m
                 + (g₁/2)[ρ_{m+2}e^{iα}ψ_{m+1} + ρ_{m+1}e^{−iα}ψ_{m+2}]
 
-with the G₂ IDENTIFICATION g₁ = g₀/√d₁₀ = g₀/√2 (labelled below: the
-octonionic CG structure derives B/A = √d₁₀ in AMPLITUDE space; the
-carry into coupling space is a transplant, not a derivation), and
-α = 0 by default (see `interaction_matrix`).
+with the G₂ IDENTIFICATION |g₁/g₀| = 1/√d₁₀ = 1/√2 and α = 0 by
+default (see `interaction_matrix`).  The octonionic CG structure derives
+B/A = √d₁₀ in AMPLITUDE space.  Using the same number as the coupling
+ratio is an identification (stated below).
+
+THE SIGN.  The committed sign is g₀ < 0 < g₁, with the total density
+sextic (κ/3)ρ_tot³.  The common term binds, the g₁ term locks the three
+phases to the clock, and the lump traps itself in the empty field
+(tests/probes/self_bound_vacuum.py, lump_in_empty_field.py,
+lump_stability.py).  This module and the dynamics probes built on it
+use the gas sign g₀ > 0 on a fixed uniform background.  That is the
+setting of the BdG analysis below.
 
 ═══════════════════════════════════════════════════════════════════════
-WHY THE EXCHANGE TERMS ARE REQUIRED (the non-variational variant)
+WHY THE EXCHANGE TERMS ARE REQUIRED (the nonvariational variant)
 ═══════════════════════════════════════════════════════════════════════
 
 Integrating the last line WITHOUT the two exchange terms, i.e. with
@@ -25,24 +33,23 @@ the interaction reduced to a real diagonal potential
 V_k = g₀ρ_tot + g₁Re(ψ̄_{k+1}ψ_{k+2}), is not
 the gradient of any functional:
 
-  • it is not invariant under independent phase rotations ψ_k → e^{iχ_k}ψ_k
-    (Re(ψ̄ψ) is not), yet it conserves every ∫ρ_k separately, and those
-    two facts cannot both hold for a Hamiltonian flow, since {N_k,H}=0
-    would force the U(1)³ invariance the equation lacks;
-  • in Madelung variables it keeps θ̇_k = −δH/δρ_k exactly and discards
-    ρ̇_k = +δH/δθ_k entirely: one half of Hamilton's equations;
-  • measured: under that variant the energy drifts at a
-    dt-INDEPENDENT rate (identical to 8 digits at dt = 1e-2 … 1e-4)
-    while the norm holds to 1e-14.
+  • It is not invariant under independent phase rotations
+    ψ_k → e^{iχ_k}ψ_k (Re(ψ̄ψ) is not), yet it conserves every ∫ρ_k
+    separately.  A Hamiltonian flow cannot do both: {N_k,H}=0 would
+    force the U(1)³ invariance the equation lacks.
+  • In Madelung variables it keeps θ̇_k = −δH/δρ_k exactly and drops
+    ρ̇_k = +δH/δθ_k entirely.  That is one half of Hamilton's equations.
+  • Measured: under that variant the energy drifts at a rate that does
+    NOT depend on dt (identical to 8 digits at dt = 1e-2 … 1e-4), while
+    the norm holds to 1e-14.
 
 The dropped current sums to zero across components, so the total norm
-survives even when the flow is wrong: norm conservation alone cannot
-certify the equation.  This module integrates the full hermitian
-interaction (both exchange terms) with the half-step kinetic factor
-exp(−0.25j k²dt); using the full-step factor exp(−0.5j k²dt) twice per
-step runs at m = ½ (every wavenumber and healing length off by √2).
-See `_split_step`; the note on
-hermiticity records how this was established.
+is conserved even when the flow is wrong.  Norm conservation alone
+therefore cannot certify the equation.  This module integrates the full
+hermitian interaction (both exchange terms) with the half step kinetic
+factor exp(−0.25j k²dt).  Using the full step factor exp(−0.5j k²dt)
+twice per step runs at m = ½ (every wavenumber and healing length off
+by √2).  See `_split_step` and its note on hermiticity.
 
 ═══════════════════════════════════════════════════════════════════════
 BdG LINEARIZATION → CIRCULANT MASS MATRIX
@@ -58,7 +65,7 @@ Both are Z₃ circulants (forced by the substrate symmetry), and
 A ≠ B ("Hartree = Exchange" holds only with the exchange terms
 deleted).  Z₃ Fourier:
 
-  a₀ = b₀ = μ                [common mode, q=0]  → phonon (gravity)
+  a₀ = b₀ = μ                [common mode, q=0]  → phonon
   a₁ = −5g₁ρ₀/2,  b₁ = −g₁ρ₀ [relative, q=1,2]   → instability
 
 with ω²_q(p) = (ε_p + a_q)² − b_q², ε_p = p²/2.  The relative sector
@@ -66,13 +73,16 @@ is unstable for p² ∈ (3g₁ρ₀, 7g₁ρ₀), a FINITE BAND.  Long wavelengt
 are STABLE, and the maximum growth rate is |b₁| = g₁ρ₀.  Verified
 against direct nonlinear runs.
 
-Matter formation is therefore SCALE-SELECTING rather than generic: the
-substrate picks a length, it does not amplify everything.  The
-instability saturates through nonlinear feedback, and the saturated
-standing-wave spectrum is algebraically derived to be a Z₃ circulant
-Δₖ = A + B cos(θ + 2πk/3) with mₖ = Δₖ², the Koide relation.  The
-dynamical demonstration is the verification target; see
-tests/probes/circulant_normalization.py.
+Matter formation therefore SELECTS A SCALE: the substrate picks a
+length and does not amplify every wavelength.  The instability
+saturates through nonlinear feedback.  By the closure theorem, any Z₃
+invariant spectrum it leaves is a circulant Δₖ = A + B cos(θ + 2πk/3).
+LAYER SCOPING (tests/probes/circulant_normalization.py): the classical
+field supplies the slots (a stable loop, three bound modes, channel
+lifting).  The amplitude √2 and phase 2/9 of the Koide circulant belong
+to the quantized bookkeeping.  The classical BdG at g₁ = g₀/√2 does not
+reproduce them (B/A = 14.07, θ = 0).  A classical measurement of
+Q = 2/3 would falsify that scoping.
 
 ═══════════════════════════════════════════════════════════════════════
 MADELUNG DECOMPOSITION
@@ -80,19 +90,22 @@ MADELUNG DECOMPOSITION
 
 In Madelung variables ψ_k = √ρ_k · exp(iS_k/ħ), the Z₃ Fourier
 transform separates the system into:
-    q = 0  COMMON mode: common-mode phonon and candidate geometry channel
+    q = 0  COMMON mode: the sound mode of a uniform medium
     q = 1,2  RELATIVE modes: matter content (standing waves)
 
 The Bogoliubov phonon in the common mode has dispersion ω₀ = c_s|p|
-at low momentum, with c_s² = a₀ = μ = (3g₀+2g₁)ρ₀
-(_bdg_analysis).  This module computes the dispersion, sound speed,
-and screened common-mode response.  The framework identifies this
-channel with the standard Madelung acoustic geometry used by the
-induced-gravity ledger.
+at low momentum, with c_s² = a₀ = μ = (3g₀+2g₁)ρ₀ about the
+symmetric (1,1,1) background (_bdg_analysis). About the clock vacuum
+ψ_k ∝ ω^k, the ground state, the same phonon has c_ph² = (3g₀−g₁)ρ₀
+(tests/probes/gravity_tensor.py).  This module computes the
+dispersion, the sound speed and the screened common mode response.  The geometry channel is the q = 0
+part of the gradient bilinear (tests/probes/composite_metric.py). The
+phonon computed here is an internal mode of a uniform medium.
 
 Reference:
-    Kahsay, Kibrom Kidane (2026). Trilogy.
-    Zenodo. https://doi.org/10.5281/zenodo.20144381
+    Kahsay, Kibrom Kidane (2026). The Octavian Coherence Gate: The Four
+    Irreducible Integers of the E₈(1) ⊃ G₂(1) × F₄(1) Conformal Embedding.
+    Zenodo. https://doi.org/10.5281/zenodo.20493955
 """
 
 import math
@@ -112,24 +125,19 @@ from interference.root import (BA_ratio as _BA_ratio, Q0 as _Q0,  # noqa: E402
 #  Physical coupling: G₂ identification
 # ═══════════════════════════════════════════════════════════════════════
 
-# g₁/g₀ = 1/√d₁₀ = 1/√2  on the Z₃ NLS substrate
+# |g₁/g₀| = 1/√d₁₀ = 1/√2  on the Z₃ NLS substrate
 #
-# STATUS: IDENTIFICATION, not a derivation.  The amplitude ratio
-# B/A = √d₁₀ IS constructively derived, in amplitude space, from the
-# Fano-plane CG coefficients plus the projector lemma (octonions.py).
-# Carrying that number into COUPLING space as g₁/g₀ = 1/(B/A) is a
-# transplant between two layers, and this file does not derive it:
-#   • there is no G₂-invariance computation here or anywhere in the
-#     repo (no decomposition of Sym²(7), no invariant counting) that
-#     forces the two-body coupling ratio;
-#   • the two candidate consistency routes give different numbers:
-#     matching the BdG circulant's B/A to √2 needs g₁/g₀ = −0.1327,
-#     which removes the modulational instability altogether, and
-#     matching Koide Q of the BdG eigenvalues needs yet another value.
-# See tests/probes/circulant_normalization.py for the full comparison
-# for the full statement.
-# The value below is retained as the framework's standing
-# identification; it is labelled, not claimed.
+# IDENTIFICATION (IH).  The amplitude ratio B/A = √d₁₀ is derived,
+# in amplitude space, from the Fano plane CG coefficients plus the
+# projector lemma (octonions.py).  The two body coupling reads that
+# number in COUPLING space as g₁/g₀ = 1/(B/A).  The rival readings:
+#   • matching the BdG circulant's B/A to √2 needs g₁/g₀ = −0.1327,
+#     which removes the modulational instability altogether;
+#   • matching Koide Q of the BdG eigenvalues needs a third value.
+# See tests/probes/circulant_normalization.py for the full comparison.
+# The value below is the magnitude of the identification.  The
+# committed sign pair is g₀ < 0 < g₁
+# (tests/probes/self_bound_vacuum.py).
 G1_OVER_G0 = 1.0 / math.sqrt(D10)  # = 1/√2 ≈ 0.7071
 
 
@@ -154,9 +162,9 @@ def _bdg_analysis(g0, g1, rho0=1.0):
     #   A_kk    = (g₀ − g₁)ρ₀          A_{k,k±1} = (g₀ + 3g₁/2)ρ₀
     #   B_kk    = g₀ρ₀                 B_{k,k±1} = (g₀ + g₁)ρ₀
     #
-    # A ≠ B ("A = B, Hartree = Exchange" holds only for the
-    # non-hermitian variant with the exchange terms dropped).  Both
-    # are Z₃ circulants, forced by the substrate symmetry.
+    # A ≠ B.  "A = B, Hartree = Exchange" holds only for the
+    # nonhermitian variant with the exchange terms dropped.  The
+    # substrate symmetry forces both to be Z₃ circulants.
     a_diag = (g0 - g1) * rho0
     a_off = (g0 + 1.5 * g1) * rho0
     b_diag = g0 * rho0
@@ -181,15 +189,15 @@ def _bdg_analysis(g0, g1, rho0=1.0):
 
     # # Bogoliubov dispersion #
     # ω²_q(p) = (ε_p + a_q)² − b_q²,  ε_p = p²/2  (ħ = m = 1).
-    # The form ω² = ε(ε + 2λ) is the A = B special
-    # case and is wrong once the exchange terms are restored.
+    # The form ω² = ε(ε + 2λ) is the A = B special case.  It is
+    # wrong once the exchange terms are included.
     #
     #   q=0 : a₀ = b₀ ⟹ ω² = ε(ε + 2μ) → phonon, c_s² = μ
     #   q=1,2 : unstable where |ε + a₁| < |b₁|, i.e.
     #           3g₁ρ₀/2 < ε < 7g₁ρ₀/2  ⟺  p² ∈ (3g₁ρ₀, 7g₁ρ₀)
     #
     # So the modulational instability is a FINITE BAND, not a
-    # long-wavelength instability: p → 0 is STABLE, and the
+    # long wavelength instability: p → 0 is STABLE, and the
     # maximum growth rate is |b₁| = g₁ρ₀.
     c_s_squared = float(a_q[0])
     if g1 > 0:
@@ -223,7 +231,7 @@ def bogoliubov_omega_sq(p, g0, g1, rho0=1.0, q=1):
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  1D Z₃-coupled NLS integrator (split-step Fourier)
+#  1D Z₃-coupled NLS integrator (split step Fourier)
 # ═══════════════════════════════════════════════════════════════════════
 
 def interaction_matrix(psi, g0, g1, alpha=0.0):
@@ -240,9 +248,9 @@ def interaction_matrix(psi, g0, g1, alpha=0.0):
         M_{m,m+1} = (g₁/2) e^{ iα} ρ_{m+2}
         M_{m,m+2} = (g₁/2) e^{−iα} ρ_{m+1}
 
-    The two off-diagonal (EXCHANGE) entries are what makes M hermitian
+    The two off diagonal (EXCHANGE) entries make M hermitian
     and the flow variational.  Dropping them leaves a diagonal, real
-    potential that is convenient in a split-step (the substep is a
+    potential that is convenient in a split step (the substep is a
     pure phase) but is NOT the gradient of any functional: it
     integrates θ̇ = −δH/δρ while discarding ρ̇ = +δH/δθ, so it
     conserves each |ψ_k|² separately and conserves no energy at all.
@@ -250,10 +258,10 @@ def interaction_matrix(psi, g0, g1, alpha=0.0):
 
     psi   : (3, ...) complex array
     alpha : Z₃ phase (synthetic flux through the Z₃ triangle).
-            alpha = 0 is the time-reversal-symmetric case and is the
+            alpha = 0 is the time reversal symmetric case and is the
             framework's standing identification.  M is hermitian for
-            every alpha, so a complex Z₃ coupling is admissible; alpha
-            is gauge-invariant modulo 2π/3.
+            every alpha, so a complex Z₃ coupling is admissible. Alpha
+            is gauge invariant modulo 2π/3.
 
     Returns (..., 3, 3) complex array.
     """
@@ -279,7 +287,7 @@ def _apply_unitary(M, psi, dt):
     M   : (..., 3, 3) hermitian
     psi : (3, ...) complex
     Exact unitary (batched eigendecomposition), so ‖ψ‖ is preserved to
-    machine precision whatever dt is.
+    machine precision for any dt.
     """
     w, V = np.linalg.eigh(M)                       # M = V diag(w) V†
     comp = np.moveaxis(psi, 0, -1)                 # (..., 3)
@@ -295,7 +303,7 @@ def energy(psi, dx, g0, g1, alpha=0.0):
 
     This is the functional whose Wirtinger gradient is the equation of
     motion integrated by `_split_step`.  Conserved up to the splitting
-    error O(dt²); the non-variational variant drifts at a dt-INDEPENDENT
+    error O(dt²). The nonvariational variant drifts at a dt INDEPENDENT
     rate, which is how the missing exchange terms were found.
     """
     psi = np.asarray(psi)
@@ -317,19 +325,19 @@ def energy(psi, dx, g0, g1, alpha=0.0):
 
 
 def _split_step(psi, dx, dt, g0, g1, n_steps=1, alpha=0.0):
-    """Strang split-step Fourier integrator for the Z₃-coupled NLS.
+    """Strang split step Fourier integrator for the Z₃-coupled NLS.
 
     psi   : (3, N) complex array, three field components
     dx    : grid spacing
     dt    : time step
     g0    : symmetric coupling (self + cross, same coefficient)
-    g1    : Z₃ cross-coupling
+    g1    : Z₃ cross coupling
     alpha : Z₃ phase (default 0, the framework's identification)
 
     Two properties, both verified against a converged RK4 reference:
 
-      (1) KINETIC FACTOR.  For −½∇² the HALF-step propagator is
-          exp(−0.25j k² dt).  The full-step factor exp(−0.5j k² dt)
+      (1) KINETIC FACTOR.  For −½∇² the HALF step propagator is
+          exp(−0.25j k² dt).  The full step factor exp(−0.5j k² dt)
           applied twice per step runs at twice the intended kinetic
           rate (equivalently m = ½), shifting every wavenumber and
           healing length by √2.
@@ -339,8 +347,8 @@ def _split_step(psi, dx, dt, g0, g1, n_steps=1, alpha=0.0):
           (see `interaction_matrix`), evaluated by batched eigen-
           decomposition.  A scalar phase using only diag(M) is not
           the gradient of any functional.  Total norm is conserved
-          exactly; per-component norms are correctly NOT conserved
-          (the exchange terms are the inter-component population
+          exactly. Per component norms are correctly NOT conserved
+          (the exchange terms are the intercomponent population
           current).
 
     Returns evolved psi after n_steps.
@@ -357,14 +365,14 @@ def _split_step(psi, dx, dt, g0, g1, n_steps=1, alpha=0.0):
 
         # # full nonlinear step: unitary exp(−i M dt), M hermitian #
         #
-        # M now depends on ψ THROUGH the substep (the exchange terms
-        # move population between components), unlike a diagonal
-        # potential which left every ρ_k fixed and so was exact.  A
-        # frozen M would make the substep first-order; one predictor
-        # pass and a hermitian average of the endpoints restores the
-        # second order Strang splitting is entitled to, and the average
-        # of two hermitian matrices is hermitian, so unitarity, hence
-        # exact norm conservation, is untouched.
+        # M depends on ψ DURING the substep, because the exchange
+        # terms move population between components.  A diagonal
+        # potential would leave every ρ_k fixed and be exact, but this
+        # one is not.  A frozen M would make the substep first order.
+        # One predictor pass and a hermitian average of the endpoints
+        # restore the second order of Strang splitting.  The average of
+        # two hermitian matrices is hermitian, so the step stays
+        # unitary and the norm is conserved exactly.
         M = interaction_matrix(psi, g0, g1, alpha)
         psi_pred = _apply_unitary(M, psi, dt)
         M = 0.5 * (M + interaction_matrix(psi_pred, g0, g1, alpha))
@@ -397,11 +405,11 @@ def _z3_fourier(rho):
 
 
 def bdg_operator(psi, g0, g1, alpha, k_grid, mu):
-    """Full 6N x 6N Bogoliubov-de Gennes operator about an arbitrary
+    """Full 6N x 6N Bogoliubov de Gennes operator about an arbitrary
     state psi (3, N): A and B blocks by Wirtinger finite differences
     of the live interaction_matrix, kinetic term as the spectral
     circulant Laplacian, chemical potential mu.  Returns (w, V) of
-    the eigenproblem L = [[A, B], [-B*, -A*]].  One copy; consumed by
+    the eigenproblem L = [[A, B], [-B*, -A*]].  One copy. Consumed by
     tests/probes/knot_circulant.py."""
     n = psi.shape[1]
     h = 1e-7
@@ -453,7 +461,7 @@ def _screened_poisson_residual(common, relative, dx, xi):
     lhs_hat = (1 + xi**2 * k**2) * R0_hat
     lhs = np.fft.ifft(lhs_hat).real
 
-    # RHS: proportional to relative-mode energy density
+    # RHS: proportional to relative mode energy density
     rhs = relative - relative.mean()
     # Normalise rhs to match lhs scale
     if np.std(rhs) > 0:
@@ -483,7 +491,7 @@ def derive(verbose=True):
     print(f"  G₂ identification: g₁/g₀ = 1/√{D10} = {g1/g0:.6f}")
 
     print(f"\n  Self-energy circulants (A ≠ B; 'Hartree = Exchange'")
-    print(f"  identity was an artefact of the dropped exchange terms):")
+    print(f"  holds only with the exchange terms dropped):")
     print(f"    A_kk = (g₀−g₁)ρ₀      = {bdg['A'][0,0]:.6f}")
     print(f"    A_{{k,k±1}} = (g₀+3g₁/2)ρ₀ = {bdg['A'][0,1]:.6f}")
     print(f"    B_kk = g₀ρ₀           = {bdg['B'][0,0]:.6f}")
@@ -500,20 +508,20 @@ def derive(verbose=True):
 
     print(f"\n  PHYSICS:")
     print(f"    Common mode (q=0): Bogoliubov phonon with c_s² = {bdg['c_s_squared']:.4f}")
-    print(f"      → Madelung acoustic-geometry channel for induced gravity")
+    print(f"      → sound mode of the uniform medium (gas sign g₀ > 0)")
     print(f"    Relative modes (q=1,2): unstable in a FINITE BAND")
-    print(f"      → p → 0 is STABLE; the substrate SELECTS a length")
+    print(f"      → p → 0 is STABLE. The substrate SELECTS a length")
     print(f"      → instability generates standing waves = MATTER")
-    print(f"    The saturated Koide-circulant calculation is in")
+    print(f"    The saturated Koide circulant calculation is in")
     print(f"    circulant_normalization.py")
 
     ## Koide connection ##
-    # At saturation, the standing-wave masses form a Z₃ circulant.
+    # At saturation, the standing wave masses form a Z₃ circulant.
     # The coupling ratio g₁/g₀ determines the ratio B/A through the
     # nonlinear saturation.  The channel map (masses.py, octonions.py) gives:
     #   B/A = √d₁₀ = √2
-    # The NLS substrate's g₁/g₀ = 1/√d₁₀ is the SAME algebraic fact
-    # read in coupling space rather than amplitude space.
+    # The NLS substrate's g₁/g₀ = 1/√d₁₀ identifies the same number
+    # in coupling space instead of amplitude space (an IH, see above).
     #
     # Verification: B/A = √d₁₀ ⟺ Q₀ = 2/3 (Koide)
     BA_ratio = float(_BA_ratio)   # √d₁₀ = √2, from root.py
@@ -530,17 +538,17 @@ def derive(verbose=True):
     assert abs(BA_ratio**2 * (g1/g0)**2 - 1.0) < 1e-12
 
     ## WHAT THE BdG CIRCULANT ACTUALLY GIVES ##
-    # Read in the mass-matrix convention (Δ_k = A + |B|cos(θ + 2πk/3),
+    # Read in the mass matrix convention (Δ_k = A + |B|cos(θ + 2πk/3),
     # A = c₀, |B| = 2|c₁|), the normal circulant has
     #     A = (g₀−g₁)ρ₀,  |B| = 2(g₀+3g₁/2)ρ₀,  θ = 0
     #     B/A = 2(1 + 3r/2)/(1 − r),   r = g₁/g₀
-    # which at the framework's r = 1/√2 is 14.07, not the A = B form's
+    # At the framework's r = 1/√2 this is 14.07, not the A = B form's
     # 2 + r = 2.71.  Solving B/A = √2 needs r = (√2−2)/(3+√2)
-    # = −0.1327 < 0, so the Koide positive-gap branch requires g₁ < 0,
-    # which removes the modulational instability.  θ = 0 (real
-    # coupling) forces Δ₁ = Δ₂ at any amplitude.  A complex Z₃
-    # phase α lifts both obstructions and IS hermitian-admissible
-    # (interaction_matrix), at the price of a stable uniform state.
+    # = −0.1327 < 0.  So the Koide positive gap branch requires g₁ < 0,
+    # and g₁ < 0 removes the modulational instability.  θ = 0 (real
+    # coupling) forces Δ₁ = Δ₂ at any amplitude.  A complex Z₃ phase α
+    # lifts both obstructions and IS hermitian admissible
+    # (interaction_matrix), but the uniform state is then stable.
     # See tests/probes/circulant_normalization.py.
     A_mass = float(bdg['A'][0, 0])           # c₀ = (g₀−g₁)ρ₀
     B_mass = 2.0 * float(bdg['A'][0, 1])     # |B| = 2(g₀+3g₁/2)ρ₀
@@ -558,7 +566,7 @@ def derive(verbose=True):
           f"{B_mass/A_mass:.6f}, θ = 0")
     print(f"    B/A = √2 would need r = {r_koide:.6f} < 0 → no "
           f"instability, no knots")
-    print(f"    → OFF the positive-gap branch and degenerate; the "
+    print(f"    → OFF the positive gap branch and degenerate. The "
           f"algebra→dynamics")
     print(f"      lock is OPEN.  A complex Z₃ phase α is hermitian-")
     print(f"      admissible and lifts both obstructions "
@@ -568,10 +576,10 @@ def derive(verbose=True):
     #  Z₃ COUPLING EIGENVALUE STRUCTURE
     # ══════════════════════════════════════════════════════════════════
     # The Z₃ Fourier eigenvalues of the coupling matrix itself:
-    #   λ₀/g₀ = 1 + √d₁₀  (common mode → geometry)
+    #   λ₀/g₀ = 1 + √d₁₀  (common mode)
     #   λ₁/g₀ = 1 − 1/√d₁₀ (relative mode → matter)
-    # These are the same eigenvalues used in dark_sector.py for the
-    # Z₃ coupling structure -- one object, multiple readings.
+    # These are the same eigenvalues dark_sector.py uses for the Z₃
+    # coupling structure: one object, read in several places.
 
     sd = BA_ratio                    # = √d₁₀ = √2 (one object)
     coup_lam0 = 1.0 + sd            # = 1+√2 ≈ 2.414
@@ -608,7 +616,7 @@ def derive(verbose=True):
 
     rho_init = np.abs(psi)**2
     total_init = rho_init.sum()
-    # ENERGY, tracked alongside the norm: the non-variational
+    # ENERGY, tracked alongside the norm: the nonvariational
     # variant conserves the norm exactly and the energy not at all,
     # so both are checked.
     energy_init = energy(psi, dx, g0, g1)
@@ -650,26 +658,26 @@ def derive(verbose=True):
     # Final state analysis
     final = checkpoints[-1]
 
-    # WHAT THIS RUN SHOWS AND DOES NOT SHOW: the assertions below
-    # test CONSERVATION (number, energy, splitting order), i.e. the
-    # integrator, not the physics narrative.  On this short horizon
-    # (t = 4, three fixed sech seeds, not a band-selected
-    # perturbation) the relative RMS DECREASES monotonically across
-    # the checkpoints: the run does not exhibit the matter-formation
-    # mechanism the module narrates.  The formation measurements live
-    # in the 3D probes (skyrmion_3d, behind -m slow), not here.
+    # WHAT THIS RUN SHOWS AND DOES NOT SHOW.  The assertions below
+    # test CONSERVATION (number, energy, splitting order).  They test
+    # the integrator, not the physics.  On this short run (t = 4,
+    # three fixed sech seeds, not a perturbation in the unstable
+    # band) the relative RMS DECREASES monotonically across the
+    # checkpoints.  The run does not show the matter formation
+    # mechanism described above.  The formation measurements are in
+    # the 3D probes (skyrmion_3d, behind -m slow).
     assert final['conservation'] < 1e-6, (
         f"number conservation violated: {final['conservation']:.2e}")
     print(f"\n  number conservation: {final['conservation']:.2e} (< 1e-6 ✓)")
 
     ## ENERGY CONSERVATION ##
-    # The non-variational variant drifts here at a dt-INDEPENDENT
-    # rate.  Strang splitting with the midpoint-corrected nonlinear
-    # substep is second order, so this is a genuine test of
-    # variationality, not a tolerance to be widened: halving dt must
+    # The nonvariational variant drifts here at a rate that does not
+    # depend on dt.  Strang splitting with the midpoint nonlinear
+    # substep is second order, so this is a real test that the flow
+    # is variational, not a tolerance to be widened.  Halving dt must
     # quarter the drift.
     assert final['energy_drift'] < 1e-4, (
-        f"energy not conserved: {final['energy_drift']:.2e} -- the "
+        f"energy not conserved ({final['energy_drift']:.2e}). The "
         f"equation being integrated is not the gradient of `energy`")
     print(f"  energy conservation:  {final['energy_drift']:.2e} (< 1e-4 ✓)")
     _e_half = energy(_split_step(psi.copy(), dx, dt / 2, g0, g1,
@@ -698,15 +706,15 @@ def derive(verbose=True):
         print(f"    common mode:   {common_ratio:.1f}")
         print(f"    relative mode: {relative_ratio:.1f}")
         print(f"    (measured, no threshold asserted: the two ratios "
-              f"are comparable, the run does NOT show differential "
-              f"concentration between the sectors)")
+              f"are comparable, with no differential concentration "
+              f"between the sectors)")
 
-    # Screened Poisson check, HONEST STATUS: the residual below is
-    # ~0.5 after the RHS has been rescaled to the LHS's standard
-    # deviation (see _screened_poisson_residual), i.e. the rescaling
-    # removes the quantitative content and this run demonstrates the
-    # QUALITATIVE sourcing shape only.  No assertion is attached, and
-    # the summary line below states "shape", not "demonstrated".
+    # Screened Poisson check.  This checks shape only.  The residual
+    # below is ~0.5 after the RHS is rescaled to the LHS's standard
+    # deviation (see _screened_poisson_residual).  The rescaling
+    # removes the amplitude, so the run tests only the QUALITATIVE
+    # shape of the source.  No assertion is attached, and the summary
+    # line below says "shape".
     xi_test = 2 * dx
     sp_residual = _screened_poisson_residual(
         final['common'], final['relative'], dx, xi_test)
@@ -719,7 +727,7 @@ def derive(verbose=True):
 
     print(f"\n  SUBSTRATE VERIFIED:")
     print(f"    ✓ G₂ identification: g₁/g₀ = 1/√{D10} = {G1_OVER_G0:.4f}")
-    print(f"    ✓ BdG circulant: common mode STABLE (phonon → gravity)")
+    print(f"    ✓ BdG circulant: common mode STABLE (phonon of the uniform medium)")
     print(f"    ✓ BdG circulant: relative modes UNSTABLE (→ matter)")
     print(f"    ✓ Koide identity: (B/A)²·(g₁/g₀)² = 1")
     print(f"    ✓ Sugawara: λ₀+2λ₁ = d₁₁ = {D11}")
@@ -734,6 +742,11 @@ def derive(verbose=True):
         'g1_over_g0': G1_OVER_G0,
         'n_steps': n_total,
         'conservation': final['conservation'],
+        'energy_drift': final['energy_drift'],
+        # |dE(dt/2)| / |dE(dt)|: one quarter for a second order
+        # (variational) splitting
+        'drift_ratio_half_dt': (_d_half / _d_full if _d_full > 0
+                                else float('nan')),
         'checkpoints': len(checkpoints),
         # BdG results
         'bdg_a_q0': bdg['a_q0'],

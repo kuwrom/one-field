@@ -1,15 +1,18 @@
-"""Exact mixing-sector path-space audit, before mixing data are consulted.
+"""Exact mixing sector path space audit, before mixing data are consulted.
 
 The existing D6* closure words are polynomials in commuting fusion
-operators, so their scalar path sums cannot produce a relative
-mass-frame diagonalizer.  The exact D^(6)* cells change that conclusion
-on the open path space: their braid generators do not commute, satisfy
-Yang--Baxter, and at depth four contain two three-dimensional carriers.
-What remains is the dynamical assignment of those carriers to sectors.
+operators, so their scalar path sums cannot diagonalize one mass frame relative
+to another. On the open path space the exact D^(6)* cells change that
+conclusion. Their braid generators do not commute and satisfy
+Yang--Baxter, and at depth four they contain two three dimensional
+carriers.
+Their assignment to sectors is an identification this probe does not
+make. It records the carriers.
 
-The Albert carrier does split explicitly as 26 = 2 + 8 + 8 + 8, but the
-current bridge acts identically on the irreducible 26 and the depth-4
-transport reads the closed path g^-1 g = 1.  Neither operation selects sector frames.
+The Albert carrier does split explicitly as 26 = 2 + 8 + 8 + 8. But the
+bridge acts the same way on all of the irreducible 26, and the depth-4
+transport reads the closed path g^-1 g = 1. Neither operation selects
+sector frames.
 
 This probe records those facts only.  It does not scan candidate mixing
 maps or compare with CKM/PMNS data.
@@ -83,7 +86,7 @@ def _spectra_do_not_fix_relative_frames():
 
 
 def run(report=print):
-    report("MIXING SECTOR OPEN-PATH AUDIT: no mixing data")
+    report("MIXING SECTOR OPEN PATH AUDIT: no mixing data")
     report("=" * 58)
 
     n10 = np.asarray(N_FUND, dtype=float)
@@ -96,7 +99,7 @@ def run(report=print):
         for right, b in generators.items() if left < right
     }
     assert set(commutators.values()) == {0.0}
-    report("  D6* fusion generators commute: closure-word operators share")
+    report("  D6* fusion generators commute: closure word operators share")
     report("  an eigenbasis after open paths have been summed.")
 
     d6 = _compute_d6_boundary()
@@ -107,25 +110,25 @@ def run(report=print):
     assert sorted(d6["depth4_carrier_dimensions"]) == [2, 3, 3]
     report("  Exact D6* cells restore the open information: the braid")
     report("  connection is unitary/Yang--Baxter and noncommuting.")
-    report("  Depth four splits as 3+3+2, exposing two generation-sized")
+    report("  Depth four splits as 3+3+2, exposing two generation sized")
     report("  carriers before the scalar path sum is taken.")
 
     ranks = _spin8_branching_projectors()
-    report("  Albert branching projectors: J3(O)=1+2+8+8+8;")
-    report("  therefore P26=2+8+8+8, particle labels follow from the mass hierarchy (masses.py).")
+    report("  Albert branching projectors: J3(O)=1+2+8+8+8.")
+    report("  So P26=2+8+8+8. Particle labels follow from the mass hierarchy (masses.py).")
 
     albert = albert_unital_response()
     assert albert["junction"] == 1
     assert albert["response"] == Fraction(27, 2)
     report("  The unital closed transport g^-1 g=1 reads only")
-    report("  its trace response 27/2; the relative endpoint map cancels.")
+    report("  its trace response 27/2. The relative endpoint map cancels.")
 
     spectral = _spectra_do_not_fix_relative_frames()
     report("  Scalar mass spectra do not determine eigenvectors: the same")
     report("  up/down spectra admit both aligned and rotated relative frames.")
 
-    report("  The mixing sector now requires a dynamical sector assignment for the two")
-    report("  three-dimensional carriers, before tracing.")
+    report("  Result: the two three dimensional open path carriers are registered.")
+    report("  This transport reads no sector assignment for them.")
     return {
         "d6_commutators": commutators,
         "d6_connection_magnitude": d6["connection_magnitude"],

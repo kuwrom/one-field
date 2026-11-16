@@ -2,20 +2,20 @@
 edge_derivations.py: the two independent mass derivations.
 
 Two canon edges enter the mass sector through structures beyond the
-word/correction menus.  Neither is a menu choice; this probe holds
+word/correction menus.  Neither is a menu choice. This probe holds
 both derivations in executable form.
 
-THE DOWN-QUARK VENT (m_d).  The exact identity
+THE DOWN QUARK VENT (m_d).  The exact identity
 
     d11^2 (1 + d10/d11^4)  =  count(aa) + h10  =  83/9
 
 says the multiplicative vent form IS the committed word_multiplier
-operation m_q = (count(w) + corr) m_lep: the Z2 triality swap changes
+operation m_q = (count(w) + corr) m_lep. The Z2 triality swap changes
 only the seed word (ff -> aa, exactly as at the seed level u = ff,
-d = aa), and corr(1) = h10 is inherited from the generation ladder,
-already fixed at up-gen-1.  Zero freedom.  The down-gen-1 search
+d = aa). The correction corr(1) = h10 comes from the generation
+ladder, where it is already fixed at up-gen-1.  Zero freedom.  The down-gen-1 search
 stage (closure_search.py, ancillary) shows (aa, h10) as the unique
-ladder-conditioned hit at the 1% band.
+ladder conditioned hit at the 1% band.
 
 THE STRANGE BRIDGE (m_s).  The bridge is the norm conversion between
 the two F4-equivariant metrics on one generation line:
@@ -29,36 +29,36 @@ with every ingredient derived:
   delta_J^2 = 3/8  the Albert spectral gap, CONSTRUCTED from a
                    concrete J3(O) element: with the framework's own
                    Fano table (octonions.py), the element
-                   X = s.I + off-diagonal z_i = sqrt(w) e_u has
-                   invariants exactly (3s, 3s^2 - 3w, s^3 - 3ws) --
-                   spectrum {s, s +/- sqrt(3w)}, IFF the three
-                   units form an ANTI-ASSOCIATIVE triple; all 7
+                   X = s.I + off diagonal z_i = sqrt(w) e_u has
+                   invariants exactly (3s, 3s^2 - 3w, s^3 - 3ws),
+                   that is spectrum {s, s +/- sqrt(3w)}, IFF the
+                   three units form an ANTI ASSOCIATIVE triple. All 7
                    associative Fano lines fail (the Re(z1 z2 z3)
                    term skews the spectrum).  The Z3-symmetric
-                   spread requires the anti-associative directions.
+                   spread requires the antiassociative directions.
   w = 1/dim(O)     the isotropic share: E[z_a^2] = 1/8 exactly for a
-                   maximally-forgotten (isotropic) unit octonion on
-                   S^7, the same forgetting whose PvP = 0 erases
-                   the Z3 label.  The imaginary-only alternative
+                   maximally forgotten (isotropic) unit octonion on
+                   S^7. This is the same forgetting whose PvP = 0
+                   erases the Z3 label.  The imaginary only alternative
                    (S^6, share 1/7) is dead in the scan below.
 
   UNIQUENESS OF THE CONVERSION (Schur).  All F4-representations are
   self-dual (-1 lies in W(F4): the longest element acts as -id,
   verified by reflection closure in wiring_theorem_probe.py), and
   the 26 is absolutely irreducible of real type (Springer-Veldkamp
-  Ch. 5), so the space of invariant symmetric bilinear forms on the
-  26 is one-dimensional: any two equivariant norms differ by ONE
+  Ch. 5). So the space of invariant symmetric bilinear forms on the
+  26 is one dimensional. Any two equivariant norms differ by ONE
   constant, and the Dynkin->Albert mass map is the single factor
   delta_Z2/delta_J = sqrt(32/27).  Forced, not chosen.
 
   The identities delta_Z2 = Q0 and 1/delta_J^2 = 8/3 = charge_trace
-  make the norm-conversion and vertex-composition readings of 32/27
-  one statement.
+  show that the two readings of 32/27, as a norm conversion and as a
+  vertex composition, are one statement.
 
-Corroboration (data contact once, last): the share scan lands m_s
-within the scorecard band only at w = 1/8; the altitude factor
-(1 + h11/K^2) is the paired-insertion K^2 term
-(the first-invariant-order theorem).
+Corroboration (compared with data once, at the end): the share scan
+puts m_s inside the scorecard band only at w = 1/8. The altitude
+factor (1 + h11/K^2) is the paired insertion K^2 term (the first
+invariant order theorem).
 
 Usage: python3 edge_derivations.py
 """
@@ -89,7 +89,7 @@ def run(report=print):
     report("EDGE DERIVATIONS: the two independent mass derivations")
     report("=" * 66)
 
-    ## the down-quark vent - exact identity ##
+    ## the down quark vent - exact identity ##
     lhs = Fraction(d11**2) * (1 + Fraction(d10, d11**4))
     rhs = Fraction(d11**2) + Fraction(h10)
     assert lhs == rhs == Fraction(83, 9)
@@ -100,8 +100,8 @@ def run(report=print):
                         / PDG_MASSES["d"] - 1.0) < 0.01]
     assert hits_cond == ["aa"]
     report(f"  m_d: d11^2(1 + d10/d11^4) = {lhs} = count(aa) + h10 "
-           f"(EXACT; word 'aa' and corr 'h10' committed);")
-    report("       ladder-conditioned down-gen-1 stage: unique hit = "
+           f"(EXACT, word 'aa' and corr 'h10' committed).")
+    report("       ladder conditioned down-gen-1 stage: unique hit = "
            "aa  ->  m_d = (83/9) m_e")
 
     # # the Albert spectral gap, constructed ##
@@ -152,11 +152,11 @@ def run(report=print):
         for lam in (s, s + math.sqrt(3*w), s - math.sqrt(3*w)):
             assert abs(lam**3 - T*lam**2 + S*lam - D) < 1e-12
     report(f"  m_s: Fano table computed; |xy| = |x||y|; 7 associative "
-           f"/ 28 anti-associative triples;")
-    report("       anti-associative + share 1/8 -> spectrum "
+           f"/ 28 antiassociative triples.")
+    report("       antiassociative + share 1/8 -> spectrum "
            "{s, s +/- delta_J}, delta_J^2 = 3/8 (associative")
     report("       lines fail: the symmetric spread REQUIRES the "
-           "anti-associative directions)")
+           "antiassociative directions)")
 
     # isotropy: the share is the second moment on S^7
     v = rng.normal(size=(200000, 8))
@@ -174,7 +174,7 @@ def run(report=print):
     report(f"       bridge^2 = delta_Z2^2/delta_J^2 = {bridge_sq} "
            f"= Q0^2 x charge_trace (one identity, two readings)")
 
-    # share scan (data contact once, last): w = 1/8 unique at 1%
+    # share scan (compared with data once, at the end): w = 1/8 unique at 1%
     theta = float(h10)
     gaps = {k: 1.0 + BA_ratio * math.cos(theta + 2*math.pi*k/3)
             for k in range(3)}
@@ -206,10 +206,10 @@ def run(report=print):
                    / PDG_MASSES["s"] - 1.0) < 0.01]
     assert hits == ["1/8"]
     report(f"       share scan (once, last): w = 1/8 unique at 1% "
-           f"(imaginary-only 1/7 dead) -> m_s lands")
+           f"(imaginary only 1/7 dead) -> m_s matches")
     report("-" * 66)
-    report("  both edges are DERIVATIONS: an exact on-menu identity "
-           "and a Schur-unique norm conversion.")
+    report("  both edges are DERIVATIONS: an exact on menu identity "
+           "and a Schur unique norm conversion.")
     return dict(m_d=str(lhs), bridge_sq=str(bridge_sq),
                 delta_J_sq=str(delta_J_sq), share_hits=hits,
                 anti_associative=len(off_l))

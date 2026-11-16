@@ -1,31 +1,31 @@
 """
-edge_grammar.py: the structured admissible-edge specification.
+edge_grammar.py: the structured admissible edge specification.
 
-WHY THIS FILE EXISTS (derivation program D1 of the gaps audit): the
-framework's central negative claim, "zero dimensionless free
-parameters", is only checkable if "admissible edge" is a formal,
-finite, structured definition rather than an impression left by
-the code.  This module IS that definition.  It generalises the depth
-registration rule: the complete menus below are committed here,
-in code, independent of any evaluation against data.  The null-model
-test (test_coverage.py::test_grammar_null_model_scorecard_not_cheap)
-Monte-Carlos over exactly these menus. The surplus-edge probe
+WHY THIS FILE EXISTS (derivation program D1).  The framework's
+central negative claim is "zero dimensionless free parameters".  That
+claim can only be checked if "admissible edge" has a formal, finite,
+structured definition, not an impression left by the code.  This
+module IS that definition.  It generalises the depth registration
+rule: the complete menus below are committed here, in code,
+independent of any evaluation against data.  The null model test
+(test_coverage.py::test_grammar_null_model_scorecard_not_cheap) runs
+a Monte Carlo over exactly these menus.  The surplus edge probe
 (tests/probes/surplus_edges.py) enumerates them in the forward
-direction.  Neither can widen the grammar without editing this file,
-and editing this file is a committed act (the menus are frozen by
-tests).
+direction.  Neither can widen the grammar without editing this file.
+Editing this file is a committed act, because tests freeze the
+menus.
 
 THE SPEC (data first, helpers below):
 
   GRAMMAR["integers"]      the four irreducible integers
-  GRAMMAR["depth"]         framework searchlight resolution <= 3;
-                           recursive-web depths are registered
+  GRAMMAR["depth"]         the searchlight resolves depth <= 3.
+                           The recursive web depths are registered
   GRAMMAR["kinds"]         edge taxonomy of the one graph
   GRAMMAR["registration"]  the depth registration rule, verbatim
-  GRAMMAR["operations"]    the admissible edge-factor constructors
+  GRAMMAR["operations"]    the admissible edge factor constructors
 
 Every constructor draws from FINITE menus computed from the four
-integers (weights of the ten SU(3)_3 primaries, boundary-walk counts
+integers (weights of the ten SU(3)_3 primaries, boundary walk counts
 of channel words on the D6 nimrep, Koide structures Q0 + h/K^p,
 small dictionary rationals).  Nothing here reads a measured value.
 """
@@ -56,18 +56,18 @@ GRAMMAR = dict(
     depth=dict(
         searchlight_max_depth=3,
         registered_web_depths=(1, 2, 3, 4),
-        rule="Closure requires a finite-dimensional unital real "
+        rule="Closure requires a finite dimensional unital real "
              "composition algebra: bilinear composition and a "
-             "positive-definite multiplicative norm. Hurwitz then leaves "
-             "R,C,H,O, hence three non-real depths. "
-             "Each later recursive-web depth requires "
+             "positive definite multiplicative norm. Hurwitz then leaves "
+             "R,C,H,O, hence three nonreal depths. "
+             "Each later recursive web depth requires "
              "a NEW registered derived edge, parent, and witness."),
     kinds=("ratio", "echo", "vent"),
     registration=(
         "DEPTH REGISTRATION RULE: before any new echo depth is "
-        "evaluated in any channel, the complete grammar-permitted edge "
+        "evaluated in any channel, the complete grammar permitted edge "
         "menu at that depth, with multiplicities, is committed first. "
-        "A term identified after a residual is known, off-menu, is "
+        "A term identified after a residual is known, off menu, is "
         "inadmissible.  This module is the committed menu."),
     operations=dict(
         circulant="sqrt(m_k) ~ 1 + (B/A) cos(theta + 2 pi k/3). "
@@ -76,11 +76,11 @@ GRAMMAR = dict(
                   "their standard multiples), one theta per closure",
         word_multiplier="m_q(n) = [count(w) + corr] * m_lep(n). w a "
                         "channel word over {f, a} with the length rule "
-                        "|w_n| = n + 1. count(w) = boundary-walk count "
+                        "|w_n| = n + 1. count(w) = boundary walk count "
                         "on the D6 nimrep (word_menu)",
         koide_structure="Q = Q0 + h/K^p, h in {h(fund), h(adj)} = "
                         "{2/9, 1/2}, p in 1..4 (koide_menu). Inverted "
-                        "for the held-out mass at fixed partners",
+                        "for the held out mass at fixed partners",
         correction="one multiplicative vent (1 + c), c from "
                    "correction_menu() (small dictionary rationals), "
                    "or none",
@@ -89,7 +89,7 @@ GRAMMAR = dict(
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  Menu enumerators (each is complete, finite, and data-blind)
+#  Menu enumerators (each is complete, finite, and data blind)
 # ═══════════════════════════════════════════════════════════════════════
 
 def primary_weights():
@@ -102,16 +102,17 @@ def primary_weights():
 def theta_menu():
     """The natural angle menu of the MTC: every nonzero primary weight
     h and its standard multiples (h, pi*h, 2*pi*h).  Mirrors
-    tests/probes/theta_menu.py. ~27 candidates before the positive-
-    branch cut.
+    tests/probes/theta_menu.py: five distinct weights times three
+    multiples, minus the duplicate at pi, gives 14 candidates before
+    the positive nondegenerate branch cut.
 
-    MENU CONVENTION, stated: the {h, pi*h, 2*pi*h} multiples are a
-    committed convention of this grammar, not natural CFT quantities
-    in themselves (h is; the pi-multiples read the weight as a
-    radian phase in two normalisations).  Several of them land far
-    outside the positivity window by construction, so the '1
-    survivor of 14' statistic should be read against this menu as
-    committed, not as 14 equally-plausible angles."""
+    MENU CONVENTION, stated.  The {h, pi*h, 2*pi*h} multiples are a
+    committed convention of this grammar.  They are not natural CFT
+    quantities in themselves.  h is natural. The pi multiples treat
+    the weight as a radian phase in two normalisations.  Several of
+    them fall far outside the positivity window by construction.  So
+    the '1 survivor of 14' statistic should be read against this menu
+    as committed, not as 14 equally plausible angles."""
     menu = set()
     for h in primary_weights().values():
         if h == 0.0:
@@ -122,17 +123,18 @@ def theta_menu():
 
 def word_menu(length):
     """ALL channel words over {f, a} of the given length, with their
-    boundary-walk counts on the D6 nimrep.  Returns {word: count}.
+    boundary walk counts on the D6 nimrep.  Returns {word: count}.
     The grammar's closure rules (neutral steps, purity at the
-    terminus) act downstream. The menu itself is the full cartesian
-    set, so the null model cannot be accused of pre-narrowing.
+    terminus) act downstream.  The menu itself is the full cartesian
+    set, so the null model cannot be accused of narrowing the menu in
+    advance.
 
-    MENU CONVENTION, stated: the count contracts row 0 of the walk
+    MENU CONVENTION, stated.  The count contracts row 0 of the walk
     matrix (M.sum(axis=1)[0]), the boundary state the walk starts
-    from.  Row 0 is the identity boundary condition of the D6
-    nimrep; the choice is a committed convention of this grammar
-    (words.py carries the lemma; changing the row changes the
-    integers and fails every frozen count)."""
+    from.  Row 0 is the identity boundary condition of the D6 nimrep.
+    The choice is a committed convention of this grammar.  words.py
+    carries the lemma.  Changing the row changes the integers and
+    fails every frozen count."""
     N = N_FUND
     A = N @ N.T - np.eye(6)
     mat = {"f": N, "a": A}
@@ -172,13 +174,15 @@ def correction_menu():
     Exactly these. A wider menu would have to be committed HERE
     first (the registration rule).
 
-    TWO FAMILIES, one menu, stated: the corr ladder and the altitude
-    family are distinct constructions sharing this menu, and all six
-    entries are sub-percent, indistinguishable at the scorecard's
-    1% band.  This is exactly why the closure search's U2/U3 stages
-    carry many 1% hits (the data resolves the word count, not the
-    correction) and why only the tight tier, where the reference
-    permits, resolves within this menu."""
+    TWO FAMILIES, one menu, stated.  The corr ladder and the altitude
+    family are distinct constructions that share this menu.  At the
+    terminus count 97 all six entries are below a percent, so they
+    cannot be told apart at the scorecard's 1% band.  At lower counts
+    they separate (1.8% at count 12).  This is why the closure
+    search's U2/U3 stages carry many 1% hits: the data resolve the
+    word count, not the correction.  It is also why only the tight
+    tier, where the reference permits, resolves choices within this
+    menu."""
     return {
         "h10": float(h10), "delta": float(delta),
         "1/2K": 1.0 / (2 * K),
@@ -187,12 +191,12 @@ def correction_menu():
 
 
 if __name__ == "__main__":
-    print("EDGE GRAMMAR (structured admissible-edge spec)")
+    print("EDGE GRAMMAR (structured admissible edge spec)")
     print("=" * 64)
     print(f"  integers: {GRAMMAR['integers']}")
     print(f"  searchlight depth: <= "
           f"{GRAMMAR['depth']['searchlight_max_depth']} "
-          "(normed-ledger gate + Hurwitz)")
+          "(normed ledger gate + Hurwitz)")
     print(f"  web depths: "
           f"{GRAMMAR['depth']['registered_web_depths']}")
     print(f"  kinds:    {GRAMMAR['kinds']}")
