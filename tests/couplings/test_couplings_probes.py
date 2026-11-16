@@ -86,3 +86,15 @@ def test_scale_ties_gluon_coupling_admits_the_radial_mode_alone(res):
     assert r["kappa"]["C"] == pytest.approx(10.31, abs=0.05)
     assert r["coset_only"] / r["top"] == pytest.approx(-4.52, abs=0.01)
     assert r["alpha_s_MZ"] == pytest.approx(0.11839, abs=5e-5)
+
+
+def test_yang_mills_strong_sector_closes_gapped(res):
+    """The strong sector closes gapped. Every colour record of the
+    engine's braids stands a third of a turn from the vacuum, the other
+    levels and the bridge accumulate at it, and the scale is
+    Lambda_conf. The probe asserts each statement and every framework
+    quote it rests on."""
+    from probes import yang_mills
+
+    r = yang_mills.run(report=_silent, chain=(res["m"], res["c"]))
+    assert abs(1e3 * r["lambda_conf"] - 314.2) < 0.1
