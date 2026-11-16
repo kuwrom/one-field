@@ -1,10 +1,10 @@
-cff version: 1.2.0
+cff-version: 1.2.0
 message: "Cite the repository as 'one-field', with the Octavian Coherence Gate paper (doi 10.5281/zenodo.20493955)."
 title: "one-field: the Standard Model constant table from the E_8(1) > G_2(1) x F_4(1) interference web"
 abstract: "Executable derivation of the Standard Model constant table, gravity, and the dark sector from a recursive interference web. interference/wiring.py generates the web's dictionary and its Planck scale channel coupling. The mixing maps are identifications. G is the anchor inversion read through the common mode, G M_b^2 = 3 Q_l - 1. The induced gravity ledger fixes the sign and the Planck order of the stiffness. A particle persists by closure: in the empty field it is a lump that carries one quantum of circulation, protected by the conserved charge and angular momentum."
 authors:
-  - family names: "Kahsay"
-    given names: "Kibrom Kidane"
+  - family-names: "Kahsay"
+    given-names: "Kibrom Kidane"
 url: "https://github.com/kuwrom/one-field"
 identifiers:
   - type: doi
@@ -12,4 +12,4 @@ identifiers:
     description: "Zenodo archive of this repository"
 license: MIT
 type: software
-version: "0.2"
+version: "0.4"
