@@ -326,12 +326,9 @@ def _derive_alpha_em(lepton_masses, quark_masses, mu_GeV):
     # amplitude (root.C_EFF: one quantity, one name).
     # Λ_conf = 314.2 MeV comes out at the constituent scale (~1%).
     # Its 0.47% closeness to m_p/3 is partly fortuitous and is NOT
-    # claimed.  What IS forced is qualitative: SU(3)₃ fusion gives
-    # h(3̄) = 2/9 < h(6) = 5/9, hence m_N < m_Δ (observed 939 < 1232).
-    # A derived composite spectrum that contradicts this ordering
-    # kills it.  Once the composite Hamiltonian is derived, one
-    # measurement fixes the conversion and the baryon sector is
-    # overconstrained.
+    # claimed.  Hadron masses belong to the hadrons and nuclei rung,
+    # read from QCD with the engine's couplings and masses
+    # (tests/audit/emergence_ladder.py).
     Lambda_conf_GeV = C_EFF * M_Pl_GeV * math.exp(-S_lepton)
 
     # Quark charges from representation theory of E₈ → G₂ × F₄:

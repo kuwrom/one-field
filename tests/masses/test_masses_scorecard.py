@@ -187,9 +187,10 @@ def test_np_splitting_qcd_part(res):
     assert abs(pull) < 2.0          # +0.15 sigma
 
 
-def test_diquark_channel_ordering():
-    """3 x 3 = 3bar + 6 is forced. Since h(3bar) = 2/9 < h(6) = 5/9,
-    the nucleon (good diquark) is forced to sit below the Delta."""
+def test_fundamental_pair_channel_ordering():
+    """3 x 3 = 3bar + 6 is forced, and the antisymmetric 3bar, the
+    channel the B/A map reads, carries the lower weight:
+    h(3bar) = 2/9 < h(6) = 5/9."""
     import mixing as _mx
     w = _mx._compute_wzw()
     IDX, NF, P = w['IDX'], w['N_fus'], w['PRIMARIES']
