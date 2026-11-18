@@ -1,5 +1,5 @@
 """
-mtc_spectrum.py: the mass spectrum assembled at the MTC layer.
+The mass spectrum assembled at the MTC layer.
 
 The superselection argument fixes the layer. Three masses need three
 conserved labels, and these exist only where Z3 is a fusion category
@@ -17,7 +17,7 @@ charge. This probe runs the full chain AT THAT LAYER:
 The mass phase and channel to circulant maps are model identifications.
 This probe evaluates the complete map without inserting measured masses.
 
-Usage: python3 mtc_spectrum.py
+Usage: python3 tests/probes/mtc_spectrum.py
 """
 
 import math

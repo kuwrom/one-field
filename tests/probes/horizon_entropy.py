@@ -48,15 +48,15 @@ STATEMENTS (the numbers below check each one).
      regulator scheme" (Donnelly and Wall arXiv:1412.1895).  The
      contact coefficient c of the list measures that spread.
   H4 (the one list). The entanglement of the list is
-     182/6 + 90/12 + 36/6 = 43.8333, the stiffness at contact c = 0.
-     As a fraction of A/(4G), set by the stiffness, it is 1.70, 1.00
+     182/6 + 94/12 + 36/6 = 44.1667, the stiffness at contact c = 0.
+     As a fraction of A/(4G), set by the stiffness, it is 1.69, 1.00
      and 0.71 at the contacts +1, 0, -1.  At the covariant contact the
      vectors' contact term, -18, is the whole difference.
   H5 (the amount). Minimally coupled, the amount's 30.33 is
      entanglement entirely, 69 percent of the list's. With the label's
      xi = 1/(48 pi) its weight would contain 1.21 that no image sum
-     supplies. The nameable rows alone carry entanglement 13.5 against
-     a stiffness of -4.5 at the covariant contact: a horizon of
+     supplies. The nameable rows alone carry entanglement 13.83 against
+     a stiffness of -4.17 at the covariant contact: a horizon of
      negative entropy, which the amount makes positive.
 
 RESULT. On the one list a horizon's entropy is the entanglement of the
@@ -129,7 +129,7 @@ def run(report=print):
     sig = {c: B.sigma(one, 0.0, c, XI) for c in B.CONTACTS}
     share = {c: ent / s for c, s in sig.items()}
     vectors = sum(n for _, n, kind in live if kind == "vector")
-    assert abs(ent - sig[0.0]) < 1e-12 and abs(ent - 43.8333333) < 1e-6
+    assert abs(ent - sig[0.0]) < 1e-12 and abs(ent - 44.1666667) < 1e-6
     assert abs((ent - sig[1.0]) - vectors / 2) < 1e-12 and vectors / 2 == 18
     out.update(entanglement=ent, share=share, contact_term=-(ent - sig[1.0]))
     report(f"H4 one list: entanglement {ent:.4f} = Sigma at contact 0. Over the horizon's Sigma it is "
@@ -142,7 +142,7 @@ def run(report=print):
     label_gap = 182 * XI
     named_ent, named_sig = ent - amount, sig[1.0] - amount_sigma
     assert abs(amount - amount_sigma) < 1e-12 and abs(label_gap - 1.2069) < 1e-3
-    assert named_ent > 0 > named_sig and abs(named_ent - 13.5) < 1e-12 and abs(named_sig + 4.5) < 1e-12
+    assert named_ent > 0 > named_sig and abs(named_ent - 83 / 6) < 1e-12 and abs(named_sig + 25 / 6) < 1e-12
     out.update(amount=amount, amount_share=amount / ent, label_gap=label_gap, named=(named_ent, named_sig))
     report(f"H5 amount: {amount:.4f}, all entanglement, {100 * amount / ent:.0f}% of the list's. With the label's "
            f"xi its weight would contain {label_gap:.3f} that no image sum supplies. The nameable rows alone entangle "

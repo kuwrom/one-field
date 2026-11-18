@@ -57,7 +57,9 @@ STATEMENTS (the numbers below check each one).
   F5 (not every cloud gives one lump). With the same settings, seed 4
      sends its charge into the layer as travelling lumps.
 
-RECORD, eight seeds at T = 600 with these settings (not rerun here).
+RECORD, eight seeds at T = 600 with these settings, a long run outside
+the suite: evolve(-1.0, G1_OVER_G0, 1.0, seed, T=600.0, samples=120)
+for seeds 1 to 8, read in the windows 100..300 and 300..600 (not asserted).
 Seven give a centred lump, seed 4 does not. Lock of the seven, as
 cloud -> 100..300 -> 300..600: seed 1 -0.64, +0.29, +0.41. Seed 2 -0.50,
 +0.80, +0.83. Seed 3 -0.13, -0.39, -0.30. Seed 5 +0.36, +0.52, +0.52.
@@ -67,50 +69,10 @@ any of the seven and ends above its cloud value in six. The same
 seven at g1 = 0 are frozen and take either sign. Excess over the clock
 lump: +0.02 to +0.06.
 
-Three dimensions are not run here. RECORD (Kaggle kernel
-scratchpad/kaggle/formation3d, 80^3, complex128, box 40, absorbing
-beyond r = 14, cloud of charge 300, t = 2000): both seeds leave a
-centred bound lump (N_w = 150, 191, E_w < 0, peak 0.98, 0.96). The
-lock rises from the cloud's -0.25 and +0.28 to +0.66 and +0.48 and then
-holds. The excess over the lattice clock lump at the same charge stays
-at +3.07 -> +3.05 and +6.18 -> +6.05 from t = 500 to 2000, the Z3 shares
-settle near (0.25, 0.37, 0.37), and the g1 = 0 control is frozen. The
-registered prediction, a soft mode excess draining as (1 + Gamma t)^(-1/3)
-(the 3D soft mode sits at 0.28 of the continuum edge), is not seen on
-this horizon. A 48^3 reproduction of seed 1 ends on one clock orientation
-(q = 1 in every interior cell, interior lock 0.90): the content of the
-excess is resolution dependent and is not settled by these runs.
-
-RECORD, a fluctuating field in a closed box (Kaggle kernel
-scratchpad/kaggle/universe3d, 128^3, box 80, Gaussian random field in
-all three components at mean density 0.08, no absorber, nothing held,
-t = 2000; charge conserved to 6e-7 and energy to 6e-6). The field clumps
-into 92 lumps by t = 125, which merge to 20 by t = 2000 (largest
-N = 4077) while 46% of the charge sits in lumps and the rest stays a
-dilute background. The charge weighted lock rises 0.52, 0.64, 0.74,
-0.83, 0.87, 0.91 at t = 200, 400, 600, 1000, 1600, 2000. So in a
-populated box the lumps keep turning toward the clock as they merge,
-whereas the isolated lump stalls. Each large lump sits on one clock orientation
-(0.93 to 0.95 of its charge in q = 1 or in q = 2) and the two
-orientations come in equal numbers (41/46 at t = 125, 9/11 at
-t = 2000). One lump (N = 2220) holds both, 0.63 and 0.33. No lump
-spins: |L|/N stays below 0.25 and ends below 0.06 for every lump above
-N = 300.
-
-RECORD, the same field at seed 2 run to t = 4000 with orientation
-domains and vortex plaquettes counted inside each lump (kernel
-kuwrom/z3nls-universe3d-2; charge conserved to 5e-6, energy to 1e-4).
-The lumps coarsen from 87 to 8 while their share of the charge grows to
-62%, and the charge weighted lock reaches 0.94. The orientations stay
-balanced in number (41:43 at t = 400, 3:5 at t = 4000) but not in
-charge. Mergers pass the lumps to the larger orientation, so the charge
-in the two goes 0.57:0.41, 0.22:0.78, 0.17:0.83 at t = 400, 2000, 4000.
-Seed 1 drifts the other way (0.66:0.34 at t = 2000). Lumps holding both
-orientations number 25 at t = 400 and none from t = 2800. Vortices
-appear inside large lumps during mergers (544 plaquettes in a lump of
-charge 4532 at t = 2000) and are gone by t = 2800. No lump keeps spin
-(|L|/N at most 0.16, 0.04 at t = 4000). Every lump at t = 4000 sits on
-one orientation with lock 0.93 to 0.95.
+RESULT. Computed on the self bound sign. A random cloud in the empty
+field leaves a bound lump at the centre, and the G2 term raises its lock
+from the cloud's value but not to one. On the gas sign the same cloud
+disperses, and seed 4 leaves no single centred lump.
 
 Usage: python3 tests/probes/lump_formation.py     (about fifteen seconds)
 """

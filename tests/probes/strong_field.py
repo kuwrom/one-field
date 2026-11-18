@@ -11,7 +11,7 @@ PREMISES.  P1 the vacuum traceless equations R_mn - (1/4) g_mn R = 0.
 P2 the metric -f(r) dt^2 + dr^2/h(r) + r^2 dOmega^2.  P3 the entropy of
 a horizon of area A on the one list, "A/(4G) = A Sigma/(8 pi t0)", with
 the G of the anchor (horizon_entropy.py).  P4 the kernel's departures
-from the Einstein value, 10 and 50 percent at q = 0.130 and 0.432 M_b
+from the Einstein value, 10 and 50 percent at q = 0.129 and 0.430 M_b
 (horizon_amount.py A4), and G = M_b^-2 (root.py).
 
 STATEMENTS (the numbers below check each one).
@@ -70,7 +70,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _bootstrap  # noqa: E402,F401
 from interference import root as r_  # noqa: E402
 
-DEPARTURES = (0.130, 0.432)                # horizon_amount.py A4, in M_b (its test freezes them)
+DEPARTURES = (0.129, 0.430)                # horizon_amount.py A4, in M_b (its test freezes them)
 SOLAR_IN_PLANCK = 1.98841e30 / 2.176434e-8  # one solar mass in Planck masses (IAU nominal over CODATA)
 
 t, r, th, ph = sp.symbols("t r theta phi", positive=True)
@@ -183,7 +183,7 @@ def run(report=print):
     scale = 0.75**0.25                                      # K^(1/4) M / M_b^2 at the horizon, G = M_b^-2
     floors = tuple(scale / q for q in DEPARTURES)
     solar = scale / SOLAR_IN_PLANCK
-    assert abs(scale - 0.9306) < 1e-4 and abs(floors[0] - 7.16) < 0.01 and abs(floors[1] - 2.15) < 0.01
+    assert abs(scale - 0.9306) < 1e-4 and abs(floors[0] - 7.21) < 0.01 and abs(floors[1] - 2.16) < 0.01
     assert 1.0e-38 < solar < 1.1e-38 and solar / DEPARTURES[0] < 1e-37
     out.update(horizon_scale=scale, mass_floors=floors, solar_scale=solar, solar_ratio=solar / DEPARTURES[0])
     report(f"F5 regime: K^(1/4) at the horizon is {scale:.3f} M_b^2/M. It reaches the kernel's 10 and 50 percent "

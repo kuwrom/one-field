@@ -40,22 +40,22 @@ STATEMENTS (the numbers below check each one).
      of a clock falls as a second closure approaches, so closures that
      slow together stay together. On the one list the stiffness is
      positive at every contact. FAILS on the list without the amount:
-     the stiffness is -4.5 at the covariant contact, the rate rises,
+     the stiffness is -4.17 at the covariant contact, the rate rises,
      and nothing gathers.
   M (the grain is a count of the boundary). The regulator in units of
-     the boundary, t0 M_b^2 = Sigma / 2 pi, is a pure number, 4.11,
-     6.98 and 9.84 at the three contacts, inside 0.6 to 15. FAILS on
+     the boundary, t0 M_b^2 = Sigma / 2 pi, is a pure number, 4.16,
+     7.03 and 9.89 at the three contacts, inside 0.6 to 15. FAILS on
      the list without the amount, where no regulator solves the list
-     at the covariant contact, and on the labelled bridge at the
-     boundary's mass (horizon_amount.py A5), which keeps b0 and fails
-     S and M.
+     at the covariant contact. The labelled bridge at the
+     boundary's mass (horizon_amount.py A5) keeps b0, fails
+     S and passes M.
   T (a ring of clocks records two patterns). A bias passing through a
      ring of clocks is recorded in two transverse patterns that keep
      the ring's area.  A sphere of clocks that expands and contracts
      (a breathing mode) sends none. F0/F2 = -2 is not a choice: the kernel's q^2 term is local
      only there (composite_pole.py K9). FAILS for the labelled list,
      the bridge read with its searchlight label at the boundary's mass:
-     solved freely, its kernel has a zero at 0.624 M_b, inside the
+     solved freely, its kernel has a zero at 0.621 M_b, inside the
      boundary (one_list_kernel.py K3).
   P (a local ratio does not record the place). The bias moves rulers
      and clocks by one fraction, gamma = 1, so no ratio taken inside a
@@ -167,13 +167,13 @@ def run(report=print):
     assert all(one["inside"]) and band(one) and one["sigma"] > 0 > bare["sigma"]
     assert not all(bare["inside"]) and not band(bare)
     labelled = ha.run(report=_silent)["readings"]["boundary"]     # (keeps b0, S, M) for the labelled bridge
-    assert labelled == (True, False, False)
+    assert labelled == (True, False, True)
     out.update(sigma=one["sigma"], sigma_bare=bare["sigma"], grain=one["t0"], readings_boundary=labelled,
                bias_sign=-1 if one["sigma"] > 0 else 1, bias_sign_bare=-1 if bare["sigma"] > 0 else 1)
     report(f"S stiffness {one['sigma']:.2f}, the rate falls near a second closure. Without the amount "
            f"{bare['sigma']:.2f}, the rate rises")
     report("M t0 M_b^2 = " + ", ".join(f"{t:.2f}" for t in one["t0"]) + ". Without the amount no regulator at "
-           "the covariant contact. The labelled bridge at the boundary keeps b0 and fails S and M")
+           "the covariant contact. The labelled bridge at the boundary keeps b0, fails S and passes M")
 
     # T: the patterns a ring of clocks records.
     quad = qr.run(report=_silent)

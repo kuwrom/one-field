@@ -73,7 +73,7 @@ def test_theta_is_unique_blind_survivor(search):
 
 
 def test_cross_derived_edges(search):
-    """The two edges beyond the word/correction menus are derivations
+    """The two edges beyond the word/echo menus are derivations
     with stated witnesses (m_s: Schur unique norm conversion; m_d:
     the exact on menu identity). The report only down-gen-1 stage
     shows canon (aa + h10) as the unique ladder conditioned hit."""
@@ -87,7 +87,7 @@ def test_cross_derived_edges(search):
 
 def test_word_counts_unique_at_1pct(search):
     """At the 1% band the data selects the word
-    COUNT uniquely at each up-type stage. The subpercent corrections
+    COUNT uniquely at each up-type stage. The subpercent echoes
     are what the hits differ in.  U2: all 18 hits carry count 12.
     U3: all 7 hits carry count 97."""
     import edge_grammar as eg

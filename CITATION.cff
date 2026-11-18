@@ -13,3 +13,10 @@ identifiers:
 license: MIT
 type: software
 version: "0.4"
+preferred-citation:
+  type: article
+  title: "The Octavian Coherence Gate: The Four Irreducible Integers of the E_8(1) > G_2(1) x F_4(1) Conformal Embedding"
+  authors:
+    - family-names: "Kahsay"
+      given-names: "Kibrom Kidane"
+  doi: 10.5281/zenodo.20493955

@@ -29,7 +29,7 @@ def test_the_self_loop_fails_every_measurement(r):
     assert t["canon"][2]["Rb recoil"] == pytest.approx(-14.2, abs=0.1)
 
 
-def test_what_a_rescue_needs(r):
+def test_what_a_deeper_em_term_would_need(r):
     """The data require -0.01, +0.46, +0.50, +0.61. The self-loop supplies 2 and 4."""
     a = r["ask"]
     assert a["Cs recoil"] == pytest.approx(-0.014, abs=0.005)

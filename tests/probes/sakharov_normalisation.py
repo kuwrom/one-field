@@ -26,8 +26,8 @@ FACT 3 (the cutoff schemes).  The substrate natural cutoffs give
 G_ind/G_N = (target implied by t0) / (counted Sigma), in the exact
 ratios 1 : 2 : 4 : 12 for t0 = xi0^2, 2 xi0^2, l_Pl^2, d11 l_Pl^2
 (with xi0 = l_Pl/2).  With the standard per state weights the counted
-Sigma is 27, so the d11 scheme reads 2 pi/9 = 0.698 and the unfactored
-schemes read 0.058, 0.116, 0.233.
+Sigma is 82/3, so the d11 scheme reads 9 pi/41 = 0.690 and the unfactored
+schemes read 0.057, 0.115, 0.230.
 
 FACT 4 (one cutoff identity written in two equivalent forms).
   (i)  channel coupling reading, the law behind alpha_G2
@@ -63,26 +63,26 @@ gradient bilinear of the carrier in the empty field
 
 FACT 6 (no coefficient is read from the ledger; three derivation routes
 are closed).  With the standard per state weights the ledger as entered gives
-6 pi/Sigma = 0.698 under a covariant regulator and t0 = d11 l_Pl^2 (a diagnostic, FACT 7).  Closing at 6 pi would need
-either a per channel weight 0.122 in place of the minimal 1/6, or
-t0 = 4.297 l_Pl^2.  None of the places such a number could come from
+6 pi/Sigma = 0.690 under a covariant regulator and t0 = d11 l_Pl^2 (a diagnostic, FACT 7).  Closing at 6 pi would need
+either a per channel weight 0.120 in place of the minimal 1/6, or
+t0 = 4.350 l_Pl^2.  None of the places such a number could come from
 supplies it:
   (a) Depth.  Every post searchlight term in the web reads
-      eq_loop = (alpha/2pi)^2. The depth-4 terms are 5e-7 to 3e-6
-      relative and a depth-5 echo would move Sigma by ~4e-8.  The
-      gap is 0.43.  No stiffness node reads eq_loop (the bridge carries
+      eq_loop = (alpha/2pi)^2. The depth 4 terms are 5e-7 to 3e-6
+      relative and a depth 5 echo would move Sigma by ~4e-8.  The
+      gap is 0.45.  No stiffness node reads eq_loop (the bridge carries
       the loop and receives no echo of it), asserted below. The common
       mode's own node reads it once, at 3.6e-5 (root.py).
   (b) The Albert junction.  In the Tits construction the bridge is
       Im(O) x J3(O)_0, traceless in both factors, so a channel has
       zero linear projection on the unit and its quadratic vent into
-      the unique (1,1) invariant is its own trace norm.  The depth-4
+      the unique (1,1) invariant is its own trace norm.  The depth 4
       transport is an Albert automorphism, block diagonal on 1 + 26,
       so the per channel multiplier is exactly 1 (theorem; the
       explicit J3(O) check is kept with this probe).
   (c) The substrate.  The q=0 channel is shift symmetric, so xi = 0
-      exactly. The quantum pressure corrections (1/4) grad^2 ln rho
-      and p^4/4 multiply p^2 and are metric corrections, not curvature
+      exactly. The quantum pressure terms (1/4) grad^2 ln rho
+      and p^4/4 multiply p^2 and are metric terms, not curvature
       couplings.  The p^4 dispersion softens the induced-1/G
       divergence from 1/t0 to sqrt(pi) Lambda_h/sqrt(t0) and does not
       remove it (asserted below). It belongs to a condensate, not to the
@@ -93,8 +93,8 @@ supplies it:
       the numerical factor depends on the cut off procedure).
   (d) The spectrum.  Only the bridge count 182 and the 14 G2 vectors
       are forced. The ledger as entered, with the G2 scalars light,
-      gives 0.698. The engine's one list, with the G2 scalars as the R6
-      composite, gives 0.730.  The amount has no G2 vertex, so no radiative xi
+      gives 0.690. The engine's one list, with the G2 scalars as the R6
+      composite, gives 0.720.  The amount has no G2 vertex, so no radiative xi
       is available to it (interference/boundary.py, THE AMOUNT'S
       COUPLING).
 Result: the bridge's sign repair and the lane are derived. The ledger
@@ -115,9 +115,9 @@ Its number is regulator dependent.  Asserted below: under the same
 rows, the vector contact coefficient +1 (covariant proper time: Kabat's
 contact term, which Donnelly-Wall 1412.1895 identify as the entanglement
 entropy of the gauge field's edge modes), 0 (hard momentum cutoff on
-the physical polarizations) and -1 give 0.698,
-0.419 and 0.299, all attractive; a smooth regulator shape
-f(u) = (1 - e^-u)^2 rescales 1/G by int f/u^2 = 2 ln 2 and gives 0.504.
+the physical polarizations) and -1 give 0.690,
+0.416 and 0.298, all attractive; a smooth regulator shape
+f(u) = (1 - e^-u)^2 rescales 1/G by int f/u^2 = 2 ln 2 and gives 0.497.
 What survives every scheme is the sign and the order of magnitude.
 Every row couples to one universal tensor metric: the gradient
 bilinear of the carrier, written without a background. Each row's
@@ -133,7 +133,14 @@ t0 = Sigma/(2 pi) l_Pl^2 (g_path_trials.py G10).  Given a cutoff, the
 DeWitt Seeley theorem fixes the arithmetic on the composite metric.
 The coefficient it returns is FACT 6's.
 
-Usage: python3 sakharov_normalisation.py
+RESULT. With the standard per state weights the ledger counts Sigma =
+82/3, so under t0 = d11 l_Pl^2 the ratio is 6 pi/Sigma = 9 pi/41 = 0.690.
+The vector contact coefficient +1, 0 and -1 gives 0.690, 0.416 and
+0.298, all attractive, so the ratio is a regulator dependent diagnostic.
+G is the anchor inversion read through the common mode (root.py), not a
+reading of this ratio.
+
+Usage: python3 tests/probes/sakharov_normalisation.py
 """
 
 import math
@@ -156,7 +163,7 @@ from root import (d10, d11, n7, n26,   # noqa: E402
 from nls_soliton import (bogoliubov_omega_sq,        # noqa: E402
                          _bdg_analysis, G1_OVER_G0)
 
-G_RATIO_FROZEN = 0.698131701
+G_RATIO_FROZEN = 0.689617900
 
 
 def engine_sigma():
@@ -168,6 +175,7 @@ def engine_sigma():
     rows = [
         ("gauge", 2 * d11 * (d11 + 1), a_g),
         ("fermions", d10 * n_gen * (d11 * d10**2 + d10 + 1), a_f),
+        ("right handed neutrinos", d10 * (n26 - 3 * (d11**2 - 1)), a_f),
         ("coset", d10 * (2 * n7 - (d11**2 - 1)), a_g),
         ("G2-scal", n7, a_s),
         ("bridge", n7 * n26, a_s),            # the amount, minimally coupled (boundary.xi_of)
@@ -255,8 +263,8 @@ def run(report=print):
            f"metric (FACT 6).")
 
     # # FACT 6: the closed derivation routes, executable parts #
-    # (a) no stiffness node reads the depth-3 carrier. The depth-4 web
-    #     terms are ppm scale against a 0.43 gap
+    # (a) no stiffness node reads the depth 3 carrier. The depth 4 web
+    #     terms are ppm scale against a 0.45 gap
     from root import WEB, Ledger, SEARCHLIGHT_DEPTH
     grav_reads_carrier = any(
         t.parent == "eq_loop"
@@ -288,7 +296,7 @@ def run(report=print):
         assert abs(C / pred - 1.0) < 1e-3
         consts.append(C * math.sqrt(t0) / L)
     assert consts[-1] > consts[0]          # approaches sqrt(pi) from below
-    report(f"FACT 6: no stiffness node reads eq_loop. Max depth-4 term "
+    report(f"FACT 6: no stiffness node reads eq_loop. Max depth 4 term "
            f"{max_depth4_rel:.1e} relative vs gap {gap:.2f}; p^4 "
            f"dispersion leaves C(t0) sqrt(t0)/Lambda_h -> "
            f"{consts[-1]:.3f} (sqrt(pi) = {math.sqrt(math.pi):.3f}), "
@@ -300,7 +308,7 @@ def run(report=print):
     # of Donnelly-Wall 1412.1895; c = 0 hard momentum cutoff on the
     # physical polarizations). The bridge row is unchanged
     n0 = n7
-    n_weyl = d11 * (d11 * d10**2 + d10 + 1)
+    n_weyl = d11 * (d11 * d10**2 + d10 + 1) + (n26 - 3 * (d11**2 - 1))   # with the two right handed neutrinos
     n_vec = d11 * (d11 + 1) + (2 * n7 - (d11**2 - 1))
     bridge_row = n7 * n26 * (1.0 / 6)
     regulator = {}

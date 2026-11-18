@@ -175,7 +175,7 @@ def test_protected_forgetting():
     assert abs(result['Q'] - 2.0 / 3.0) < 1e-12
     assert result['amplitude_pinned_by_koide'] is True
     # the excluded harmonic is degenerate at Q = 1/2
-    assert abs(result['retired_Q'] - 0.5) < 1e-12
+    assert abs(result['excluded_Q'] - 0.5) < 1e-12
     assert result['theta0_degenerate'] is True
     # the short root direction gives three distinct masses
     assert result['short_root_three_distinct'] is True
@@ -198,7 +198,7 @@ def test_bell_fork():
 #  The derivation chain, asserted against the engine
 #
 #  These are the identities the chain stands on: the dimensional
-#  transmutation actions and their two face readings, the depth-4
+#  transmutation actions and their two face readings, the depth 4
 #  response weights, the per mode condensate reading behind the
 #  alpha_s threshold, and the CKM lambda form.  Each is computed in
 #  the module that owns it. Each is read back here so a refactor
@@ -208,7 +208,7 @@ def test_bell_fork():
 def test_transmutation_actions_and_their_two_faces():
     """S_lepton = 2pi/(b0 alpha) on the F4 face. The h-dual metric
     transports it to the G2 face: b_face = b0 h(F4)/h(G2) = 24, which is
-    also the embedding invariant h(E8) - C2(26). Hence S_baryo =
+    also the embedding invariant h(E8) - C2(26). Hence S_G2 =
     (4/9) S_lepton = 2 pi^2, read at web depth 4."""
     import root
 
@@ -217,11 +217,11 @@ def test_transmutation_actions_and_their_two_faces():
         2.0 * math.pi / (float(root.b0_G2) * root.alpha_G2_Pl), abs=1e-12)
     assert root.S_lepton == pytest.approx(
         9.0 * math.pi**2 / 2.0, abs=1e-12)
-    assert root.b_baryo_face == root.hv_E8 - root.C2_26 == 24
-    assert root.S_baryo == pytest.approx(
+    assert root.b_G2_face == root.hv_E8 - root.C2_26 == 24
+    assert root.S_G2 == pytest.approx(
         (root.hv_G2 / root.hv_F4) * root.S_lepton, abs=1e-12)
-    assert root.S_baryo == pytest.approx(2 * math.pi**2, abs=1e-12)
-    assert root.WEB["S_baryo"].web_depth == 4
+    assert root.S_G2 == pytest.approx(2 * math.pi**2, abs=1e-12)
+    assert root.WEB["S_G2"].web_depth == 4
     assert root.alpha_G2_Pl == pytest.approx(1.0 / (24.0 * math.pi),
                                              abs=1e-15)
     assert root.delta_S == pytest.approx(15.0 / 512.0, abs=1e-15)

@@ -1,5 +1,5 @@
 """
-bell.py: the Bell test, read correctly.
+The Bell test, read relationally.
 
 Bell's theorem bounds LOCAL REALIST theories at CHSH S <= 2: theories
 where each wing's outcome is a +/-1 fact assigned locally (a local
@@ -19,8 +19,7 @@ the two wings merge through ordinary local channels.  (Standard QM already carri
 value assignments: Kochen-Specker.)  The substrate dynamics stays perfectly
 local. Bell forbids local outcome assignment, not local dynamics.
 
-There is no loophole and no tension. Once the realism premise is
-rejected, Bell's bound does not apply, and the violation is permitted.
+Once the realism premise is rejected, Bell's bound does not apply, and the violation is permitted.
 Emergent QM is exactly linear (linearity from closure, octonions.py),
 so the framework inherits the full quantum predictions: S = 2*sqrt(2)
 exactly, never more.
@@ -37,8 +36,7 @@ THE TWO READINGS, computed below:
     into spatial parts. The object that determines the outcome is the
     shared record, and it is not a field over space.  S = 2*sqrt(2).
 
-The framework's own documents already contain the ingredients of the
-nonrealist reading: "the emergent state is the LEDGER, not the displacement"
+The nonrealist reading is the framework's own: "the emergent state is the LEDGER, not the displacement"
 (octonions.py). The Born rule gives |amplitude|^2 because PvP = 0
 erases the linear entries and keeps the second moments (per mode
 E[v^2] = 1/2, total Pv^2P = P).
@@ -49,7 +47,7 @@ STRUCTURAL, zero parameters:
      framework (as it would kill QM). Any confirmed subquantum cap
      for ideal singlets also kills it: the ledger algebra has no
      attenuation mechanism.
-  2. The derivation that promotes the Born conjecture to a theorem:
+  2. Born weights, a registered target:
      obtain E(a,b) = -a.b from two knots born of one closure plus
      protected forgetting (closed records from knot detector
      closure, Born weights from Pv^2P).

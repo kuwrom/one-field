@@ -44,6 +44,13 @@ STATEMENTS (the numbers below check each one).
      P = gamma E0 v / c^2, for v both below and above the sound speed of
      its own interior. Under band limited noise it stays a clock.
 
+RESULT. Computed on the self bound sign. Z3 lumps with the clock inside
+exist in the empty field from N_min = 43.87, and their integrated stress
+vanishes to 1e-10 (von Laue), so weight equals energy with binding
+included and gamma = 1. In 1+1 dimensions a boosted lump moves at v with
+E = gamma E0, also above its interior sound speed, and the gas sign
+(+,+) holds no lump in the empty field.
+
 Usage: python3 tests/probes/lump_in_empty_field.py     (about ten seconds)
 """
 

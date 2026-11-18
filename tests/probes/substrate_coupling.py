@@ -47,6 +47,13 @@ reading) is a consequence of the premise. No observable fixes it on
 the committed sign (parameter_ledger.py P8), so it stands as a
 prediction of the premise.
 
+RESULT. The medium's static response gives the force between two quanta
+as alpha_sub = 1/(8 pi n xi^3), matched at three states to better than
+1e-6. Reading this exchange coupling as alpha_G2(M_Pl) = 1/(24 pi) gives
+the substrate depth rho xi^3 = 3 exactly (4.25 under the Hartree reading
+of channel_response.py). The depth belongs to the realization program
+and feeds no scorecard number.
+
 Usage: python3 tests/probes/substrate_coupling.py
 """
 

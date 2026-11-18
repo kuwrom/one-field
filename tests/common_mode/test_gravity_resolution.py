@@ -28,7 +28,7 @@ def test_gravity_resolution_anchor_reads_ledger_silhouettes(res):
     assert rd["ledger_placed_response"] == pytest.approx(-0.5, abs=1e-12)
     sh = out["silhouette"]
     assert sh["all_attractive"]
-    assert (sh["sigma_min"], sh["sigma_max"]) == pytest.approx((109 / 6, 371 / 6), abs=1e-9)
-    assert sh["decades"] == pytest.approx(1.93, abs=0.01)
+    assert (sh["sigma_min"], sh["sigma_max"]) == pytest.approx((111 / 6, 373 / 6), abs=1e-9)
+    assert sh["decades"] == pytest.approx(1.92, abs=0.01)
     assert out["echoes"]["anchor_web_depth"] == 4 and out["echoes"]["common_mode_web_depth"] == 4
     assert all(n["max_term_depth"] <= 1 for n in out["echoes"]["nodes"].values())

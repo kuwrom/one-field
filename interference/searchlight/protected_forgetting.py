@@ -1,6 +1,6 @@
 """
 Protected forgetting: the Z₃ harmonic, its two moments, and what
-actually fixes it.
+fixes it.
 
 THE HARMONIC.  The Z₃-symmetric substrate has three components ψ_k
 (k=0,1,2).  Any Z₃-equivariant insertion is a real circulant, so its
@@ -43,8 +43,8 @@ v act as a diagonal operator (elementwise multiplication).
   The quantity consumed by the gravity/Higgs ledger (root.py `E_v2`,
   gravity.py ξ_bridge = α_G₂·E[v²]·h_bridge = 1/(48π)) is the PER-MODE
   power, because the bridge couples one Z₃ channel at a time.  It is ½
-  at the canonical amplitude.  The TOTAL is 1.  Both are correct; they
-  are different contractions; the notation "Pv²P = ½P" conflates
+  at the canonical amplitude.  The TOTAL is 1.  Both are correct. They
+  are different contractions, and the notation "Pv²P = ½P" conflates
   them.  No numerical value in the web changes: E[v²] = ½ throughout.
 
 ═══════════════════════════════════════════════════════════════════════
@@ -64,12 +64,12 @@ A normalisation therefore fixes the AMPLITUDE and can never fix the
 phase.  θ is fixed by Sugawara, not by any moment condition.
 
 ═══════════════════════════════════════════════════════════════════════
-RETIRED: the long-root normalisation argument
+EXCLUDED: the long-root normalisation argument
 ═══════════════════════════════════════════════════════════════════════
 
 The long-root normalisation argument selects v = (1, −½, −½), the
 G₂ long root at ‖v‖² = 3/2, by requiring the TOTAL moment to equal
-½.  That argument is retired, and the scan below shows why, rather
+½.  That argument is excluded, and the scan below shows why, rather
 than asserting it:
 
   • v = (1, −½, −½) is (B, θ) = (1, 0), giving √m = (2, ½, ½):
@@ -77,7 +77,7 @@ than asserting it:
   • θ = 0 forces √m = (1+B, 1−B/2, 1−B/2) for EVERY B, so the
     θ = 0 family can never carry three generations.
   • the short-root direction, scaled to the same norm, gives three
-    DISTINCT positive masses (1 : 55.7 : 194); a discriminant
+    DISTINCT positive masses (1 : 55.7 : 194). A discriminant
     printed without consulting the computed ratios reads the
     opposite.
 
@@ -90,7 +90,7 @@ RESULTS
 
 PROVES (computed here):
   • PvP = 0 for every (B, θ): forgetting is generic, not selected.
-  • Pv²P = B²/2 and E[v²] = B²/4 exactly; the factor 2 is the
+  • Pv²P = B²/2 and E[v²] = B²/4 exactly. The factor 2 is the
     two-channel Z₃ split, verified by explicit Fourier transform.
   • Q = 1/3 + B²/6, θ-independent, to machine precision.
   • θ = 0 ⟹ exact two-fold degeneracy, for every B.
@@ -104,8 +104,6 @@ RELATED COMPUTATIONS:
   • circulant_normalization.py constructs a stable hermitian uniform state
     at (B, θ) = (√2, 2/9).
   • knot_circulant.py measures the anomalous channel of a stationary knot.
-    The current probe suite has no reproducible reconstruction of the
-    isolated knot's internal mass spectrum.
 
 Reference:
     Kahsay, Kibrom Kidane (2026). The Octavian Coherence Gate: The Four
@@ -118,7 +116,7 @@ import math
 import numpy as np
 
 # The canonical harmonic parameters (canonical values live in
-# root.py; duplicated here as literals so this file stays runnable
+# root.py, duplicated here as literals so this file stays runnable
 # standalone).  DRIFT GUARD: when the engine is importable (every
 # test and run context) the literals are asserted equal to root's
 # values, so the two copies cannot diverge silently
@@ -283,18 +281,18 @@ def derive(verbose=True):
     print(f"    → the θ = 0 family cannot carry three generations, "
           f"for ANY amplitude")
 
-    # The retired harmonic, computed rather than asserted.
+    # The excluded harmonic, computed rather than asserted.
     v_old = np.array([1.0, -0.5, -0.5])
     PvP_old, tot_old, mode_old = moments(v_old)
     r_old = mass_ratios(v_old)
     Q_old = koide_spectrum(v_old)[2]
-    print(f"\n  retired harmonic v = (1, −½, −½) = (B, θ) = (1, 0):")
+    print(f"\n  excluded harmonic v = (1, −½, −½) = (B, θ) = (1, 0):")
     print(f"    Pv²P total = {tot_old:.6f}   E[v²] = {mode_old:.6f}")
     print(f"    mass ratios 1 : {r_old[1]:.3f} : {r_old[2]:.3f}"
           f"   → two masses degenerate")
     print(f"    Q = {Q_old:.6f}  (= ½, not 2/3)")
     assert abs(Q_old - 0.5) < 1e-12
-    assert abs(r_old[1] - 1.0) < 1e-9, "retired harmonic must be degenerate"
+    assert abs(r_old[1] - 1.0) < 1e-9, "excluded harmonic must be degenerate"
 
     # ═══════════════════════════════════════════════════════════════════
     #  4. The short-root claim, computed
@@ -318,13 +316,7 @@ def derive(verbose=True):
         print(f"    mass ratios 1 : {r_s[1]:.3f} : {r_s[2]:.3f}")
         print(f"    three distinct positive masses: "
               f"{'YES' if short_three_distinct else 'NO'}")
-    print(f"    NOTE: the short root gives three DISTINCT masses; a "
-          f"degeneracy")
-    print(f"    discriminant would select against the working "
-          f"direction.  Both")
-    print(f"    directions are ruled out for the real reason instead: "
-          f"neither has")
-    print(f"    B = √2, so neither gives Q = 2/3.")
+    print(f"    Neither direction has B = √2, so neither gives Q = 2/3.")
 
     # ═══════════════════════════════════════════════════════════════════
     #  5. Positivity window at the Koide-forced amplitude
@@ -339,7 +331,7 @@ def derive(verbose=True):
           f"(margin {min_cos + 1/math.sqrt(2):+.6f})")
     print(f"    smallest gap √m_min = {gap_min:.6f}  → the electron sits "
           f"near the")
-    print(f"    positivity boundary; the lepton hierarchy is that "
+    print(f"    positivity boundary. The lepton hierarchy is that "
           f"thinness.")
     assert gap_min > 0, "canonical harmonic must be on the positive-gap branch"
 
@@ -390,7 +382,7 @@ def derive(verbose=True):
         'sqrt_masses': [float(s) for s in sq_m],
         'mass_ratios': mass_ratios(v),
         'theta0_degenerate': bool(theta0_degenerate),
-        'retired_Q': Q_old,
+        'excluded_Q': Q_old,
         'short_root_three_distinct': bool(short_three_distinct),
         'positivity_fraction': frac,
         'gap_min': gap_min,

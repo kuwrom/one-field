@@ -25,7 +25,7 @@ FROZEN_MASSES_MEV = {
     'm_tau': 1776.9092814,
     'm_u': 2.157551125,
     'm_d': 4.712545879,
-    'm_s': 93.8395306,           # depth-2 bridge value
+    'm_s': 93.8395306,           # depth 2 bridge value
     'm_c': 1273.770419,
     'm_b': 4193.80675,
     'm_t': 172508.2761,
@@ -207,7 +207,7 @@ def test_fundamental_pair_channel_ordering():
 
 
 def test_depth4_response_weights():
-    """The depth-3 e<->q carrier, read through each node's own channel,
+    """The depth 3 e<->q carrier, read through each node's own channel,
     gives two weights: action -> charge_trace * C2(26) = 16 and
     amplitude -> W(fund) * dim J3(O) = 27/2. The Albert lift is unital,
     so the junction normalization is one and no third weight enters."""

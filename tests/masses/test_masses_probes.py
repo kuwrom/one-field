@@ -46,14 +46,14 @@ def test_edge_derivations():
     assert r["anti_associative"] == 28
 
 
-def test_lambda_assignment_forced():
+def test_koide_assignment_forced():
     """The Koide representation assignment (the insertion rule) is
     derived. Given the neutral lane premise, adjoint -> Q(c,b,t) and
     fundamental -> Q(s,c,b) are forced by two canon lemmas. The swapped
     assignment is excluded."""
     from fractions import Fraction
-    from probes import lambda_assignment
-    r = lambda_assignment.run(report=_silent)
+    from probes import koide_assignment
+    r = koide_assignment.run(report=_silent)
     assert r["Q_cbt"] == Fraction(289, 432)
     assert r["Q_scb"] == Fraction(649, 972)
     assert r["neutral_stepper"] == (1, 1)
@@ -61,7 +61,7 @@ def test_lambda_assignment_forced():
 
 
 def test_vertex_pinning_locks():
-    """Each depth-4 response is pinned by its own observable. Each
+    """Each depth 4 response is pinned by its own observable. Each
     has a unique 2-sigma survivor (2, 16, 27/2) over the 29-value menu."""
     from fractions import Fraction
     from probes import vertex_pinning
@@ -71,7 +71,7 @@ def test_vertex_pinning_locks():
 
 
 def test_echo_naturality_regenerates():
-    """The response rule. A web with zero per node depth-4
+    """The response rule. A web with zero per node depth 4
     declarations (one loop object read through channel responses)
     regenerates the canonical precision block exactly."""
     from probes import echo_naturality

@@ -90,6 +90,14 @@ STATEMENTS (the numbers below check each one, for both weights).
      holds on traceless h as well: the traceless form the lane reads
      admits no other ratio.
 
+RESULT. For the carrier in the empty field at one loop, under both
+regulator weights, the kernel carries only the spin-2 and spin-0 form
+factors and annihilates every gauge direction. At low momentum the
+stiffness is the heat kernel weight a1 = 1/6 per real component and
+F0/F2 = -2, so the static exchange is Newton's law with gamma = 1 in
+the full and the traceless form. A q^2 term off F0/F2 = -2 is
+nonlocal and is excluded.
+
 Usage: python3 tests/probes/composite_pole.py     (a few seconds)
 """
 

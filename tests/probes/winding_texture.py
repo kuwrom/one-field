@@ -28,18 +28,17 @@ is derived by counting the three Dirac species ('t Hooft anomaly
 matching, tests/probes/bookkeeping.py). Its PRESENCE is forced by the
 same matching GIVEN the confined phase: the anomaly must be
 reproduced in the IR, and the WZ term is the unique local functional
-that does it. The citation is corroborating, not a derivation.  With the level-3 WZ term, a B = 1 texture acquires
+that does it.  With the level-3 WZ term, a B = 1 texture acquires
 exchange phase e^{i pi k B} = e^{3 pi i} = -1: FERMION.  What is
-computed here: the texture EXISTS and carries unit charge.  The
-single open premise is the confined phase itself
-(the confined phase entry test, confined_phase.py).
+computed here: the texture EXISTS and carries unit charge.  It
+rests on the confined phase (the confined phase entry test,
+confined_phase.py).
 
-SIGN.  The hedgehog profile here is the static texture of the gas sign
-probes (tests/substrate/substrate3d.py).  The committed self-bound sign
-holds the clock lump, which carries no pi_3 texture (knot_in_lump.py).
-Its closure is the spinning lump (spinning_lump.py).
+SCOPE.  The static hedgehog of the gas sign probes
+(tests/substrate/substrate3d.py).  On the committed sign the particle
+is the spinning lump (spinning_lump.py).
 
-Usage: python3 winding_texture.py   (~15 s)
+Usage: python3 tests/probes/winding_texture.py   (~15 s)
 """
 
 import numpy as np

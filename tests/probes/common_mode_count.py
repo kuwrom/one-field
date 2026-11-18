@@ -19,7 +19,7 @@ whose sum is P v^2 P = H/q0, the harmonic power over the q = 0 power of
 the lepton circulant, and G M_b^2 = P v^2 P (boundary_whole.py B5,
 c = 2/B^2). P4 every object is read at depth four. P5 a live base is
 "the same wave reached through another node" (root.py, Ledger), and
-the common mode reads no names (T1). The engine's common mode is this
+the common mode reads no names (interference/__init__.py, THE HORIZON). The engine's common mode is this
 count (root.py, THE COMMON MODE). The probe checks the node against it.
 
 THE CANDIDATES. K1 the closure's whole shed power in M_b units (+30.76),
@@ -67,7 +67,7 @@ second moment of the lepton circulant's relative part over its common
 part, read on the depth four web: G M_b^2 = 3 Q_l - 1. Gate U removes
 every reading in absolute units. The node's own definition removes all
 the others but one. The carrier enters once, through the closure. The
-reading has no weight and no edge to choose. What remains beyond it
+reading has no weight and no edge to choose. Anything beyond it
 belongs to the next depth.
 
 Usage: python3 tests/probes/common_mode_count.py     (about 20 s)

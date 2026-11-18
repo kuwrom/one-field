@@ -125,8 +125,8 @@ def test_effective_action_stabilizer():
     exact CP^1 split and the Mermin-Ho relation hold on the repo's
     texture (checked by resolution convergence).  The induced
     Faddeev-Skyrme quartic (coefficient rho/8m^2, m the measured ring
-    down gap) gives a Derrick minimum a few healing lengths wide: 2.5 xi
-    at the measured gap, 1.0 xi under the nonvariational variant.  The
+    down gap) gives a Derrick minimum 1.9 to 5.3 healing lengths wide
+    across the two conversions of the measured gap.  The
     local limit is self-consistent at its own minimum (R* m = 1.41)."""
     from probes import effective_action
     r = effective_action.run(report=_silent)
@@ -139,8 +139,8 @@ def test_effective_action_stabilizer():
 
 
 @pytest.mark.slow
-def test_knot_charge_not_protected():
-    """pi_3 winding is NOT a substrate level invariant.  The estimator
+def test_knot_charge_unwinds_on_the_gas_sign():
+    """On the gas sign pi_3 winding is not a substrate invariant.  The estimator
     converges, the saturated knot unwinds through amplitude node
     events, and no Noether charge protects internal rotation (the
     Q-lump loophole is closed).  This freezes the result for the
@@ -152,12 +152,11 @@ def test_knot_charge_not_protected():
 
 @pytest.mark.slow
 def test_skyrmion_3d_formation():
-    """3D knot formation (the review's sim3d experiment, rebuilt as a
-    repo probe).  The seeded texture grows only under the true G2
+    """3D knot formation.  The seeded texture grows only under the true G2
     coupling (the control disperses).  The growth rate matches the
     computed BdG instability, and the common mode density dips at the
-    core.  Charge protection is NOT claimed: knot_charge.py measures
-    the unwinding, and protection belongs to the confined phase."""
+    core.  Protection belongs to the confined phase (knot_charge.py
+    measures the unwinding on the gas sign)."""
     from probes import skyrmion_3d
     r = skyrmion_3d.run(report=_silent)   # frozen assertions inside
     assert r["growth"] > 5.0 and r["decay"] < 0.05
@@ -175,6 +174,7 @@ def test_confined_phase_entry():
     The imprinted ring is the positive control, the endpoint carries
     proliferated defects, and the g1 = 0 control remains defect free.
     test_confined_phase_area_law measures the separate loop area law.
+    The asserts live in the probe.
     """
     from probes import confined_phase
     confined_phase.run(report=_silent)
@@ -185,15 +185,24 @@ def test_knot_spectrum_tower():
     """The saturated lump's ring down tower is gapped, with the first
     internal excitation at the relative sector binding scale.  There
     are no extra states below the lock in scale.  This result feeds the
-    D4 prediction channel."""
+    surplus edge scan."""
     from probes import knot_spectrum
     r = knot_spectrum.run(report=_silent)
     assert len(r["pk_rel"]) >= 1
 
 
 @pytest.mark.slow
+def test_stationary_windings_mix():
+    """On the gas sign a seeded pure winding persists as a lump but mixes
+    to equal q = 1 and q = 2 shares (the asserts live in the probe)."""
+    from probes import stationary
+    r = stationary.run(report=_silent)
+    assert r["persistent"] and r["omega_rel"] > 0.0
+
+
+@pytest.mark.slow
 def test_confined_phase_area_law():
-    """The second half of conjecture #1, measured.  The Z3 disorder
+    """The confined phase's area law, measured.  The Z3 disorder
     operator with fractional test charge 1/3 obeys an AREA law at the
     saturated endpoint (c = 0.021, residual 8x better than a perimeter
     law).  The values are frozen inside the probe."""
@@ -354,7 +363,7 @@ def test_spinning_lump_persists_or_splits_in_three_components():
 
 
 @pytest.mark.slow
-def test_knot_in_lump_unwinds_and_drains():
+def test_knot_in_lump_flows_to_the_clock_lump():
     """A unit hedgehog written into the relative spinor of the 3D clock
     lump on the self-bound sign flows at fixed N to the plain clock lump:
     the winding estimate goes to zero, the relative charge drains, and

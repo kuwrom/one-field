@@ -8,7 +8,7 @@ and asks which of them close. Each part of the problem has a
 counterpart here.
   The theory. Gauge forces are collective motions of the confined
      phase, not fields put in by hand (interference/__init__.py, THE
-     GAUGE FIELDS VERIFICATION PROGRAM). The theory is there when the
+     GAUGE FIELDS). The theory is there when the
      colour record closes (P2, P3).
   The group. It is not chosen. SU(3) appears when G2 breaks (Coherence
      Gate paper, Sec. III), and the other levels are tested and fail (Y2).
@@ -24,8 +24,6 @@ counterpart here.
      vacuum (Y1), at the scale of Y4.
 The test below asks the problem in these terms. It does not build a
 continuum field.
-
-THE TEST.
 
 THE QUESTION. What closes is what lasts (dimension_by_closure.py). A
 particle is a closed standing wave of the substrate whose phase turns
@@ -133,8 +131,8 @@ turns by at least a third of a turn, so none is massless, and the
 masses above the vacuum have a smallest value. The strong sector closes
 with a gap and its centre unbroken, at Lambda_conf. The continuum lives
 on the bridge, the one channel with no identity. Running the substrate
-in this phase is the framework's outstanding dynamical verification
-(THE GENERATIVE DIRECTION). Its classical signature, measured on the
+in this phase is the generative direction (interference/__init__.py,
+THE GENERATIVE DIRECTION). Its classical signature, measured on the
 gas sign, is the area law of confined_phase.py.
 
 KILLED BY. A colour braid of the engine of infinite order, a finite
@@ -315,9 +313,9 @@ def run(report=print, chain=None):
     said = lambda doc, *quotes: all(q in " ".join(doc.split()) for q in quotes)
     assert said(interference.__doc__, "never closes into anything further",
                 "does not add a physical line", "not postulated fields",
-                "outstanding dynamical verification")
+                "THE GENERATIVE DIRECTION", "absorption program")
     assert said(boundary.__doc__, "amount without identity") and said(
-        masses.__doc__, "one Web reading, including every echo") and said(
+        masses.__doc__, "one Web reading per fermion, with every echo") and said(
         open(os.path.join(_here, "emergent_clock.py")).read(), "Mass is a rate (E = ħω)")
     rungs = {r["key"]: r for r in emergence_ladder.RUNGS}
     assert said(rungs["algebra"]["keeps"], "braid image is finite") and rungs[

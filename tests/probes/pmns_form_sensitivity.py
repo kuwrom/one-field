@@ -9,6 +9,13 @@ Declared axes (144 = 3*3*2*2*2*2): rotation planes, order, sign(phi),
 theta reading {h10, lambda}, and phi scale {total, per mode}, with the
 TBM convention and delta = acos(-lambda) fixed.  The phi scale pair and
 the form axes are the sensitivity axes of the scan.
+
+RESULT. Of the 144 declared rows, 2 lie within 1 sigma of the NuFIT
+marginals, and no theta sign or label permutation turns a miss into a
+hit. The committed R13 rotation phase arccos(-lambda) = 103.02 deg lies
+inside the 0.5 sigma solar band. It is not delta_CP: the engine carries
+the sign -1 on this phase, whose rephasing invariant is delta_CP =
+275.74 deg.
 """
 
 import cmath
@@ -97,29 +104,29 @@ def run(report=print):
     pm = _derive_pmns(_compute_wzw(), lam, 1.0, mmu_over_me)
     U_TBM = pm["U_TBM"]
 
-    legacy_theta = (("h10", float(h10)), ("lambda", lam))
-    legacy = _scan(U_TBM, r, delta, legacy_theta)
-    assert len(legacy) == 144
+    declared_theta = (("h10", float(h10)), ("lambda", lam))
+    declared = _scan(U_TBM, r, delta, declared_theta)
+    assert len(declared) == 144
 
     committed = ("23", "13", "phi_first", -1,
                  "h10", "per_mode", 1)
-    committed_row = next(row for row in legacy if row[0] == committed)
+    committed_row = next(row for row in declared if row[0] == committed)
     for angle in ("12", "23", "13"):
         assert abs(committed_row[2][angle] - pm["pulls"][angle]) < 1e-9
 
-    legacy_hits = {tol: [row for row in legacy if _hit(row[2], tol)]
+    declared_hits = {tol: [row for row in declared if _hit(row[2], tol)]
                    for tol in (1.0, 0.5)}
-    unique_fingerprints = {_fingerprint(U) for _, U, _ in legacy}
+    unique_fingerprints = {_fingerprint(U) for _, U, _ in declared}
 
     # Same plane rows are reducible to a single SU(2) plane up to phase
     # conventions.  Removing them changes 144 -> 96 but not the hits.
-    distinct_planes = [row for row in legacy if row[0][0] != row[0][1]]
+    distinct_planes = [row for row in declared if row[0][0] != row[0][1]]
     distinct_hits = {tol: sum(_hit(row[2], tol) for row in distinct_planes)
                      for tol in (1.0, 0.5)}
 
     # The engine source names arctan(lambda) as the nearby theta fork.
     # arcsin(lambda) is included as a second standard angle map.
-    extended_theta = legacy_theta + (("atan_lambda", math.atan(lam)),
+    extended_theta = declared_theta + (("atan_lambda", math.atan(lam)),
                                      ("asin_lambda", math.asin(lam)))
     extended = _scan(U_TBM, r, delta, extended_theta)
     extended_hits = {tol: sum(_hit(row[2], tol) for row in extended)
@@ -146,26 +153,26 @@ def run(report=print):
 
     # delta -> -delta complex conjugates the construction because TBM
     # and the phi rotation are real. The three angle observables agree.
-    conjugate = _scan(U_TBM, r, -delta, legacy_theta)
+    conjugate = _scan(U_TBM, r, -delta, declared_theta)
     assert all(_fingerprint(a[1]) == _fingerprint(b[1])
-               for a, b in zip(legacy, conjugate))
+               for a, b in zip(declared, conjugate))
 
     # Adding the theta sign doubles the raw rows. Record whether a negative
     # theta row turns a nonhit of the declared scan into a hit, rather
     # than only adding conventions.
-    signed = _scan(U_TBM, r, delta, legacy_theta, theta_signs=(1, -1))
-    legacy_hit_keys = {row[0][:-1] for row in legacy_hits[1.0]}
+    signed = _scan(U_TBM, r, delta, declared_theta, theta_signs=(1, -1))
+    declared_hit_keys = {row[0][:-1] for row in declared_hits[1.0]}
     theta_sign_promotions = {
         row[0][:-1] for row in signed
         if row[0][-1] == -1 and _hit(row[2], 1.0)
-        and row[0][:-1] not in legacy_hit_keys
+        and row[0][:-1] not in declared_hit_keys
     }
 
     # Check all physical label permutations as a diagnostic, without
     # counting them as grammar generated alternatives.
     perms = tuple(itertools.permutations(range(3)))
     permutation_promotions = set()
-    for key, U, pulls in legacy:
+    for key, U, pulls in declared:
         if _hit(pulls, 1.0):
             continue
         if any(_hit(_pulls(U[np.ix_(rp, cp)]), 1.0)
@@ -193,10 +200,10 @@ def run(report=print):
 
     report("PMNS FORM SENSITIVITY (local audit around the committed ansatz)")
     report("=" * 70)
-    report(f"  declared menu: {len(legacy)} rows, "
+    report(f"  declared menu: {len(declared)} rows, "
            f"{len(unique_fingerprints)} unique angle fingerprints")
-    report(f"  marginal box hits: {len(legacy_hits[1.0])} at 1σ, "
-           f"{len(legacy_hits[0.5])} at 0.5σ")
+    report(f"  marginal box hits: {len(declared_hits[1.0])} at 1σ, "
+           f"{len(declared_hits[0.5])} at 0.5σ")
     report(f"  distinct plane diagnostic: {len(distinct_planes)} rows, "
            f"{distinct_hits[1.0]} / {distinct_hits[0.5]} hits")
     report(f"  add atan/asin theta maps: {len(extended)} rows, "
@@ -215,10 +222,10 @@ def run(report=print):
            f"delta = {math.degrees(delta):.2f}°")
 
     return {
-        "legacy_n_rows": len(legacy),
-        "legacy_unique_fingerprints": len(unique_fingerprints),
-        "legacy_n_within_1sigma": len(legacy_hits[1.0]),
-        "legacy_n_within_half_sigma": len(legacy_hits[0.5]),
+        "declared_n_rows": len(declared),
+        "declared_unique_fingerprints": len(unique_fingerprints),
+        "declared_n_within_1sigma": len(declared_hits[1.0]),
+        "declared_n_within_half_sigma": len(declared_hits[0.5]),
         "committed": committed,
         "committed_pulls": committed_row[2],
         "distinct_plane_n_rows": len(distinct_planes),

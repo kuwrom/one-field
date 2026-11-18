@@ -16,7 +16,7 @@ def _silent(*args, **kwargs):
 
 
 def test_bridge_decoupling(res):
-    """D3+D4: 182 bridge modes from E8 branching. They decouple from
+    """Count and decoupling: 182 bridge modes from E8 branching. They decouple from
     the running but gravitate through the scalar heat kernel weight."""
     from probes import bridge_decoupling
     r = bridge_decoupling.run(report=_silent)
@@ -36,8 +36,8 @@ def test_bridge_decoupling(res):
 def test_sakharov_ratio_is_a_regulator_dependent_diagnostic():
     """The Sakharov ratio 6 pi/Sigma is a regulator dependent
     diagnostic (sakharov_normalisation.py FACT 7). Under the same rows
-    the vector contact coefficient +1, 0 and -1 gives 0.698, 0.419 and
-    0.299, all attractive. No stiffness node reads the carrier, so no G
+    the vector contact coefficient +1, 0 and -1 gives 0.690, 0.416 and
+    0.298, all attractive. No stiffness node reads the carrier, so no G
     is read from the ledger. The cutoff schemes sit in the ratios
     1 : 2 : 4 : 12, the q=0 dispersion is omega^2 = mu p^2 + p^4/4
     exactly, and the symmetric to clock rebase factor is computed."""
@@ -46,14 +46,14 @@ def test_sakharov_ratio_is_a_regulator_dependent_diagnostic():
     r = sakharov_normalisation.run(report=_silent)
 
     # 1. the ledger reproduces the engine reading
-    assert r["g_ratio"] == pytest.approx(0.698131701, abs=1e-8)
-    assert r["sigma"] == pytest.approx(6.0 * math.pi / 0.698131701,
+    assert r["g_ratio"] == pytest.approx(0.689617900, abs=1e-8)
+    assert r["sigma"] == pytest.approx(6.0 * math.pi / 0.689617900,
                                        abs=1e-6)
     # 2. the ratio moves with the regulator and no G is read from it
     v = r["regulator_variants"]
-    assert v[1.0] == pytest.approx(0.698, abs=1e-3)
-    assert v[0.0] == pytest.approx(0.419, abs=1e-3)
-    assert v[-1.0] == pytest.approx(0.299, abs=1e-3)
+    assert v[1.0] == pytest.approx(0.690, abs=1e-3)
+    assert v[0.0] == pytest.approx(0.416, abs=1e-3)
+    assert v[-1.0] == pytest.approx(0.298, abs=1e-3)
     assert all(x > 0 for x in v.values())
     assert r["gravity_reads_carrier"] is False
     assert abs(r["eh_coefficient_lpl2"] / r["eh_target_lpl2"]
@@ -214,10 +214,10 @@ def test_composite_metric_tensor_term_is_the_vacuum_term(res):
     assert st["clock_eigs"][2] < 1e-12 < st["clock_eigs"][3]
     assert st["random_min"] > -1e-10 and st["texture_rank3"] > 0.9
     assert st["q_identity"] < 1e-10
-    assert led["str1"] == 135
+    assert led["str1"] == 131
     assert led["sigma"] == pytest.approx(res["g"]["Sigma_total_UV"], rel=1e-12)
-    assert led["sigma_matter"] == pytest.approx(-10.0 / 3.0, abs=1e-12)
-    assert led["lambda_G"] == pytest.approx(-0.2909, abs=1e-3)
+    assert led["sigma_matter"] == pytest.approx(-3.0, abs=1e-12)
+    assert led["lambda_G"] == pytest.approx(-0.2754, abs=1e-3)
 
 
 def test_determinant_vectors_closed_form_is_maxwell_on_the_composite_metric():
@@ -320,11 +320,11 @@ def test_ledger_kernel_rows_are_einstein_with_the_ledger_weights():
     for label, value in want.items():
         assert r["weights"][label][0] == pytest.approx(value, abs=2e-4)
         assert r["weights"][label][1] == pytest.approx(-2.0, abs=5e-3)
-    assert r["sigma_rows"] == pytest.approx(27.0, abs=1e-3)
+    assert r["sigma_rows"] == pytest.approx(82 / 3, abs=1e-3)
     assert r["sigma_kernel"] == pytest.approx(r["sigma_rows"], abs=2e-2)
     assert r["zeros_spin2"] == [] and r["zeros_spin0"] == []
     assert r["real_time"][10.0].real > 0 > r["real_time"][12.0].real
-    assert min(r["next_order"].values()) > 19 and max(r["next_order"].values()) < 24.5
+    assert min(r["next_order"].values()) > 19 and max(r["next_order"].values()) < 25
 
 
 def test_regulator_free_ratios_higgs_is_the_dimension_two_ratio(res):
@@ -333,7 +333,7 @@ def test_regulator_free_ratios_higgs_is_the_dimension_two_ratio(res):
     the stiffness squared depends on the weight's shape. Under one
     regulator the Higgs mass term over 1/(16 pi G) is C_H/Sigma. With
     the engine's couplings the Standard Model rows give the Veltman
-    combination -0.218 at M_Pl/sqrt(d11), zero only near 2e23 GeV, while
+    combination -0.214 at M_Pl/sqrt(d11), zero only near 1.7e23 GeV, while
     the data need C_H/Sigma = -2.6e-33. The engine's quartic boundary
     lambda(M_Pl) = -0.01245 sits near zero with a small beta."""
     from probes import regulator_free_ratios as rf
@@ -344,14 +344,14 @@ def test_regulator_free_ratios_higgs_is_the_dimension_two_ratio(res):
     shape = r["vacuum_over_stiffness2"]
     assert shape["proper time t0 = 0.0001"] == pytest.approx(1.0, abs=5e-3)
     assert shape["Pauli-Villars L = 30 m"] == pytest.approx(2.107, abs=0.05)
-    assert r["str1"] == 135
+    assert r["str1"] == 131
     assert r["transport_check"] < 1e-8
-    assert r["CV_reg"] == pytest.approx(-0.218, abs=2e-3)
-    assert r["CV_Pl"] == pytest.approx(-0.206, abs=2e-3)
+    assert r["CV_reg"] == pytest.approx(-0.214, abs=2e-3)
+    assert r["CV_Pl"] == pytest.approx(-0.202, abs=2e-3)
     assert 1e23 < r["mu_zero"] < 4e23
     assert abs(r["data_ratio"]) < 1e-32 and r["induced_ratio"] < -1e-2
     assert r["yt_needed"] < r["yt_reg"] - 0.04
-    assert r["bridge_need"] == pytest.approx(0.436, abs=5e-3)
+    assert r["bridge_need"] == pytest.approx(0.428, abs=5e-3)
     assert r["lambda_Pl"] == pytest.approx(-0.01245, abs=1e-5)
     assert abs(r["beta_lambda_Pl"]) < 1e-3
     portal = r["bridge_portal"]
@@ -360,46 +360,47 @@ def test_regulator_free_ratios_higgs_is_the_dimension_two_ratio(res):
     assert portal["the regulator scale"] == pytest.approx(80.8, abs=0.5)
     assert r["M1_needed"] > 5e3
     assert r["v_over_MPl"] == pytest.approx(r["transmuted"], rel=1e-12)
-    assert r["alpha_s_MZ_chain"] == pytest.approx(0.11839, abs=2e-5)
-    assert r["kappa_g_tracking"] == pytest.approx(-3.52, abs=0.02)
+    assert r["alpha_s_MZ_chain"] == pytest.approx(0.11869, abs=2e-5)
+    assert r["kappa_g_tracking"] == pytest.approx(-9 / 2, abs=1e-6)
     assert r["kappa_g_both"] > 0 > r["kappa_g_top"]
 
 
 def test_log_class_stiffness_holds_and_extra_modes_sit_at_the_cutoff(res):
     """The logarithmic class of the induced action is regulator free:
-    over the ledger's rows c = 9/2 and d = 21/8. Switching every
+    over the ledger's rows c = 91/20 and d = 21/8. Switching every
     Standard Model mass off moves G by 1.2e-33. The scalaron lies
     within a factor 3.2 of the reduced Planck mass, 5.9e8 or more short
     of Starobinsky inflation, and m0^2/|m2^2| = c/(3d)."""
     from probes import log_class
 
     r = log_class.run(report=_silent)
-    assert r["c"] == pytest.approx(9 / 2, abs=1e-12)
+    assert r["c"] == pytest.approx(91 / 20, abs=1e-12)
     assert r["d"] == pytest.approx(2.625, abs=1e-12)
     assert 1e-33 < r["accumulation"] < 2e-33
     assert r["m0_over_M"][100.0] == pytest.approx(0.317, abs=2e-3)
     assert r["starobinsky_shortfall"] > 5.9e8
-    assert r["m0_over_m2_sq"] == pytest.approx(4 / 7, abs=1e-4)
+    assert r["m0_over_m2_sq"] == pytest.approx(26 / 45, abs=1e-4)
 
 
 @pytest.mark.slow
-def test_higgs_mass_from_the_boundary_is_a_fit(res):
+def test_higgs_boundary_vent_menu(res):
     """The bridge boundary, run with the Standard Model equations and
-    matched to the pole mass, gives M_h = 125.36 GeV.  The vent menu
-    holds two readings within 1 sigma, (1 - h10) and 1/6 (125.04 GeV).
-    So the measured mass selects the vent, and the engine's outputs
-    contain no M_h."""
+    matched to the pole mass, gives M_h = 125.08 GeV.  The vent menu
+    holds two readings within 1 sigma, (1 - h10) and 1/4 (125.24 GeV).
+    So the elementary route takes M_h as data, and the engine, which reads
+    the boson as the condensate's radial mode, excludes it
+    (regulator_free_ratios.py R6)."""
     from probes import higgs_mass
 
     r = higgs_mass.run(report=_silent)
-    assert r["lam_mt"] == pytest.approx(0.126508, abs=2e-6)
-    assert r["tree"] == pytest.approx(123.85, abs=0.02)
-    assert r["M_h"] == pytest.approx(125.36, abs=0.02)
+    assert r["lam_mt"] == pytest.approx(0.125940, abs=2e-6)
+    assert r["tree"] == pytest.approx(123.57, abs=0.02)
+    assert r["M_h"] == pytest.approx(125.08, abs=0.02)
     assert abs(r["pull"]) < 1.0
-    assert r["scan"][0.0] == pytest.approx(129.39, abs=0.05)
-    assert r["M_h_msbar"] == pytest.approx(125.48, abs=0.03)
-    assert r["landings"] == ["1/6", "h10"]
-    assert r["vent_mh"]["1/6"] == pytest.approx(125.04, abs=0.03)
+    assert r["scan"][0.0] == pytest.approx(129.13, abs=0.05)
+    assert r["M_h_msbar"] == pytest.approx(125.21, abs=0.03)
+    assert r["landings"] == ["1/4", "h10"]
+    assert r["vent_mh"]["1/4"] == pytest.approx(125.24, abs=0.03)
 
 
 def test_self_consistent_graviton_row(res):
@@ -409,7 +410,7 @@ def test_self_consistent_graviton_row(res):
     from probes import self_consistent_gravity
 
     r = self_consistent_gravity.run(report=_silent)
-    assert r["sigma_ledger"] == pytest.approx(27.0, abs=1e-3)
+    assert r["sigma_ledger"] == pytest.approx(82 / 3, abs=1e-3)
     assert r["sigma_ledger"] == pytest.approx(res["g"]["Sigma_total_UV"], rel=1e-12)
     assert r["literature"]["on_shell"] == pytest.approx(-8 / 3, abs=1e-9)
     assert r["kappa_CW"] < 0.01
@@ -418,7 +419,7 @@ def test_self_consistent_graviton_row(res):
 def test_closed_event_scale_record_closure_needs_a_planckian_carrier():
     """The smallest length the lump interior resolves is at least half
     its carrier's Compton length (c_s^2/c^2 = 2|mu0|/mc^2 <= 1/2 x 2).
-    So the record closure xi = 1.918 l_Pl needs m >= 0.26 M_Pl, and the
+    So the record closure xi = 1.930 l_Pl needs m >= 0.26 M_Pl, and the
     identification xi0 = l_Pl/2 is m = M_Pl at the stability edge.  A
     smallest closed event at the electron mass has a keV carrier whose
     interior records 8e-52 of 1/(4G).  The matter and regulator
@@ -430,16 +431,16 @@ def test_closed_event_scale_record_closure_needs_a_planckian_carrier():
 
     r = closed_event_scale.run(report=_silent)
     assert r["cs2_identity_error"] < 1e-12
-    assert r["t0"] == pytest.approx(4.297, abs=2e-3)
+    assert r["t0"] == pytest.approx(4.350, abs=2e-3)
     assert r["xi_over_lambda_c"][0.5] == pytest.approx(0.5, abs=1e-12)
     ps = r["readings"]["per state record"]
-    assert ps["m_min"] == pytest.approx(0.2607, abs=5e-3)
-    assert ps["E2"] == pytest.approx(0.477, abs=5e-3)
+    assert ps["m_min"] == pytest.approx(0.2590, abs=5e-3)
+    assert ps["E2"] == pytest.approx(0.473, abs=5e-3)
     assert r["readings"]["one record per quantum"]["m_min"] == pytest.approx(0.110, abs=2e-3)
     ident = r["readings"]["identification l_Pl/d10"]
     assert ident["m_min"] == pytest.approx(1.0, abs=1e-12)
-    assert ident["E2"] == pytest.approx(2.25e-3, rel=0.02)
-    assert r["per_state_m_min_o4"] == pytest.approx(0.369, abs=5e-3)
+    assert ident["E2"] == pytest.approx(2.12e-3, rel=0.02)
+    assert r["per_state_m_min_o4"] == pytest.approx(0.366, abs=5e-3)
     e = r["electron"]
     assert e["binding_fraction"] == pytest.approx(0.964, abs=2e-3)
     assert e["m_carrier_MeV"] == pytest.approx(1.08e-3, rel=0.01)

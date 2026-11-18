@@ -11,7 +11,7 @@ reading that the repository computes:
   C, U  a frame vector in the vacuum;
   S, M  the list without the amount;
   T     the amount carrying the label's coupling xi = 1/(48 pi), whose
-        kernel has a zero inside the boundary at 1.295 M_b
+        kernel has a zero inside the boundary at 1.268 M_b
         (tests/probes/horizon_amount.py q_zero_label);
   P     the amount treated as massive below the boundary. It passes S
         and M, but its stiffness depends on that mass at order one

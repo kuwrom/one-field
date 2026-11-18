@@ -4,7 +4,7 @@ THE QUESTION. The engine fixes the Higgs quartic at the Planck scale by
 the bridge echo, lambda(M_Pl) = -N_bridge alpha_G2^2 E[v^2] (1 - h10)
 = -0.01245 (root.py WEB["lambda_MPl"]), and transports it to the top
 scale with the Standard Model equations (higgs_ew.py), reaching
-lambda(m_t) = 0.126508. What pole mass does that quartic mean?
+lambda(m_t) = 0.125940. What pole mass does that quartic mean?
 
 PREMISES. The Higgs read as an elementary doublet from M_Pl down, so
 the Standard Model transport applies over the whole interval (the
@@ -16,27 +16,27 @@ Buttazzo et al., arXiv:1307.3536v2, eq. 55:
                   - 0.00004 (M_t/GeV - 173.10) +- 0.00030 (theory).
 
 STATEMENTS (the numbers below check each one).
-  H1  At tree level sqrt(2 lambda(m_t)) v = 123.85 GeV.
-  H2  With the NNLO matching, M_h = 125.36 +- 0.15 GeV at the engine's
-      M_t = 172.508 GeV, against 125.20 +- 0.11 (PDG): +0.85 sigma.
-  H3  The boundary does the work: lambda(M_Pl) = 0 gives 129.39 GeV,
+  H1  At tree level sqrt(2 lambda(m_t)) v = 123.57 GeV.
+  H2  With the NNLO matching, M_h = 125.08 +- 0.15 GeV at the engine's
+      M_t = 172.508 GeV, against 125.20 +- 0.11 (PDG): -0.65 sigma.
+  H3  The boundary does the work: lambda(M_Pl) = 0 gives 129.13 GeV,
       and M_h moves by 0.35 GeV per 0.001 in lambda(M_Pl).  Matching
       within 0.2 GeV therefore needs the boundary within 5 percent.
   H4  The bridge coupling enters the boundary squared. Taken as the
       MS-bar coupling at M_Pl (two loop running up from pi/32 at mu*,
       1.5 percent below the action value 1/(24 pi)), the boundary gives
-      M_h = 125.48 GeV (+1.6 sigma).
+      M_h = 125.21 GeV (+0.05 sigma).
 
   H5  The vent factor (1 - h10) in the boundary is one entry of a
       21-term menu, fixed by the measured Higgs mass. In this transport
-      the menu has two readings within 1 sigma: 1/6 gives 125.04 GeV
-      (-0.85 sigma) and h10 = 2/9 gives 125.36 GeV (+0.86 sigma). No
-      vent gives 124.09 GeV.
+      the menu has two readings within 1 sigma: 1/4 gives 125.24 GeV
+      (+0.20 sigma) and h10 = 2/9 gives 125.08 GeV (-0.65 sigma). No
+      vent gives 123.80 GeV.
 
 RESULT. The boundary matches the Higgs mass. The measured mass
-constrains the vent and leaves two readings, 1/6 and h10.  The pole
+constrains the vent and leaves two readings, 1/4 and h10.  The pole
 matching is the extra stage higgs_ew.py excludes ("identified at the
-depth-4 Web endpoint rather than by an extra matching stage"). The
+depth 4 Web endpoint rather than by an extra matching stage"). The
 Higgs mass enters the chain as data on the vent, and the engine's
 outputs contain no M_h.
 
@@ -54,7 +54,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _bootstrap  # noqa: E402,F401
-from interference import couplings, gravity, higgs_ew, masses, mixing, root  # noqa: E402
+from interference import couplings, gravity, higgs_ew, masses, root  # noqa: E402
 
 M_H_PDG = (root.PDG_EW["m_H"], 0.11)
 TH = 0.00030 / 0.00206                     # GeV, the matching's stated theory error
@@ -69,7 +69,7 @@ def transport():
         R = root.derive()
         m = masses.derive(R)
         c = couplings.derive(R, m)
-        g = gravity.derive(R, m, mixing.derive(R, m), c)
+        g = gravity.derive(R, m, c)
     mt = m["m_t"] / 1e3
     lmz = math.log(mt / g["M_Z_derived"])
     g1 = higgs_ew._run_gauge_one_loop(
@@ -111,10 +111,10 @@ def run(report=print):
     vent_mh = {k: pole_mass(lam_mt(base * (1 - x)), mt) for k, x in vents.items()}
     sig = math.hypot(TH, M_H_PDG[1])
     landings = sorted(k for k, v in vent_mh.items() if abs(v - M_H_PDG[0]) < sig)
-    assert landings == ["1/6", "h10"]
-    assert abs(lam0 - 0.126508) < 2e-6 and abs(tree - 123.85) < 0.02
-    assert abs(Mh - 125.36) < 0.02 and abs(pull - 0.85) < 0.05
-    assert abs(scan[0.0] - 129.39) < 0.05 and 300 < slope < 360
+    assert landings == ["1/4", "h10"]
+    assert abs(lam0 - 0.125940) < 2e-6 and abs(tree - 123.57) < 0.02
+    assert abs(Mh - 125.08) < 0.02 and abs(pull + 0.65) < 0.05
+    assert abs(scan[0.0] - 129.13) < 0.05 and 300 < slope < 360
     report(f"H1 lambda(M_Pl) = {lam_pl:+.5f} -> lambda(m_t) = {lam0:.6f}. Tree sqrt(2 lambda) v = {tree:.2f} GeV")
     report(f"H2 NNLO pole matching at M_t = {mt:.3f} GeV: M_h = {Mh:.2f} +- {TH:.2f} GeV, "
            f"PDG {M_H_PDG[0]} +- {M_H_PDG[1]}: {pull:+.2f} sigma")

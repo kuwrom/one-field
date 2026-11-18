@@ -27,9 +27,9 @@ def err_pct(predicted: float, expected: float) -> float:
 def test_higgs_transport_coordinate(res):
     """The candidate boundary is transported in one MS-bar scheme."""
     g = res["g"]
-    assert g["lambda_mt_transport"] == pytest.approx(0.1265078, abs=2e-7)
+    assert g["lambda_mt_transport"] == pytest.approx(0.1259398, abs=2e-7)
     assert g["higgs_transport_coordinate_GeV"] == pytest.approx(
-        123.8501, abs=2e-3)
+        123.5718, abs=2e-3)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -40,7 +40,7 @@ def test_newton_internal_reading(res):
     """Freeze the gravity normalisation's internal reading under the
     diagnostic cutoff t0 = d11 l_Pl^2 (FACT 7; standard per state
     weights). Not an independent G test."""
-    assert abs(res["g"]["G_ratio_UV"] - 0.698131701) < 1e-8
+    assert abs(res["g"]["G_ratio_UV"] - 0.689617900) < 1e-8
 
 
 def test_newton_phase_independence(res):
@@ -54,10 +54,10 @@ def test_newton_phase_independence(res):
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_neutrino_rank_bound(res):
-    """Minimal type-I with two identified RH neutrinos has rank <= 2."""
+    """The two singlets are the right handed halves of two Dirac
+    neutrinos and give rank <= 2."""
     g = res["g"]
-    assert g["neutrino_mass_mechanism_assumption"] == \
-        "minimal type-I seesaw only"
+    assert g["neutrino_mass_term"] == "Dirac"
     assert g["n_RH"] == 2
     assert g["light_mass_rank_max"] == 2
     assert g["massless_light_states_min"] == 1
@@ -65,9 +65,19 @@ def test_neutrino_rank_bound(res):
         "normal": "m1", "inverted": "m3"}
 
 
-def test_neutrino_ordering_is_not_selected(res):
+def test_import_audit_is_compatible(res):
+    """The import audit (higgs_ew.py): the framework's m_t moves rho hat's
+    quadratic m_t term by less than one standard deviation of the import,
+    and the internal vacuum polarization stays within its declared 0.5%
+    of the dispersive 1/alpha hat(M_Z)."""
+    from root import PDG_EW
+    assert res["g"]["drho_mt_import_audit"] < PDG_EW["rho_hat_err"]
+    assert abs(res["g"]["inv_alpha_em_MZ"] / PDG_EW["inv_alpha_hat_MZ"] - 1.0) < 0.005
+
+
+def test_rank_bound_admits_both_orderings(res):
     """The rank bound permits both normal and inverted ordering."""
-    assert res["g"]["ordering"] == "undetermined"
+    assert res["g"]["ordering"] == "either"
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -106,7 +116,7 @@ def test_newton_constant_within_3sigma():
 
 def test_neutrino_spectrum(res):
     """Under the normal ordering benchmark, m1 = 0 plus measured
-    splittings gives the displayed sum, m_beta, and m_bb band."""
+    splittings gives the displayed sum and m_beta."""
     import root as _r
     pmns = res["mx"]
     s12sq = pmns.get('sin2_12', pmns.get('pmns_sin2_12'))
@@ -115,17 +125,14 @@ def test_neutrino_spectrum(res):
     m3 = math.sqrt(_r.NUFIT_OSCILLATION['dm2_31'][0])
     c13sq = 1.0 - s13sq
     m_beta = math.sqrt(c13sq * s12sq * m2**2 + s13sq * m3**2)
-    t2, t3 = s12sq * c13sq * m2, s13sq * m3
     assert abs((m2 + m3) * 1e3 - 58.78) < 0.05
     assert abs(m_beta * 1e3 - 8.81) < 0.05
-    assert abs(abs(t2 - t3) * 1e3 - 1.51) < 0.05
-    assert abs((t2 + t3) * 1e3 - 3.70) < 0.05
 
 
 def test_alpha_pins_higgs_coordinate_not_sigma(res):
     """The alpha_G2(M_Pl) pins stated in root.py, measured.
     (1) the transported Higgs coordinate responds to the bridge boundary.
-    (2) the amount is minimally coupled (xi = 0), so Sigma = 27 does not
+    (2) the amount is minimally coupled (xi = 0), so Sigma = 82/3 does not
     depend on alpha."""
     import numpy as np
     import higgs_ew as hew
@@ -162,8 +169,8 @@ def test_alpha_pins_higgs_coordinate_not_sigma(res):
     assert d_minus > 0.5
 
     # (2) the stiffness depends on no coupling: the amount is minimally
-    # coupled (boundary.xi_of), so Sigma is the count 162/6 = 27 at any alpha
-    assert abs(g["Sigma_total_UV"] - 27.0) < 1e-12
+    # coupled (boundary.xi_of), so Sigma is the count 164/6 = 82/3 at any alpha
+    assert abs(g["Sigma_total_UV"] - 82 / 3) < 1e-12
     assert rt.WEB["a1_bridge"].terms == []
     # executable: the counted list at alpha and at 1.1 alpha gives one Sigma
     from interference import boundary
@@ -171,12 +178,12 @@ def test_alpha_pins_higgs_coordinate_not_sigma(res):
     xi = float(rt.xi_bridge)
     s0 = boundary.sigma(booked, 0.0, 1.0, xi)
     s1 = boundary.sigma(booked, 0.0, 1.0, 1.1 * xi)
-    assert s0 == s1 == pytest.approx(27.0, abs=1e-12)
+    assert s0 == s1 == pytest.approx(82 / 3, abs=1e-12)
 
 
 def test_two_F4_singlets_available_for_RH_identification():
-    """The 26 decomposition contains two singlets. Identifying them as
-    RH neutrinos gives a rank at most two matrix only in minimal type-I."""
+    """The 26 decomposition contains two singlets, the right handed
+    halves of two Dirac neutrinos (tests/probes/neutrino_mass_term.py)."""
     import root
 
     assert root.n26 - 3 * (root.d11**2 - 1) == 2

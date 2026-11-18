@@ -1,13 +1,13 @@
 """The vacuum term, derived: the traceless form is the only lane that closes.
 
-THE AXIOM. "What is said to exist is what carries non-zero interference
-weight" (README, first paragraph).  A constant c added to the potential
-changes no relative phase between configurations of the field.  If it
-is to carry no interference weight, its contribution to the phase must
-be the same for every history.  The README's last section says the same
-of the empty field: "precisely because it is nothing the self-touching
-generates no amplitude".  A constant in the potential is the empty
-field's energy. It may not weigh one history against another.
+THE AXIOM. To be something is to carry non zero interference weight.
+A constant c added to the potential, the vacuum term, changes no
+relative phase between configurations of the field.  Interference is
+only about relative phase, so the constant carries no interference
+weight.  By the axiom it must then make no difference at all.  In
+particular it may not weigh one history against another, so its
+contribution to the phase must be the same for every history.  This is
+the condition of history independence.
 
 THE CLASSIFICATION. Let U enter a local action, algebraic in U and
 first order in the fields' derivatives, through L(h, U).  The shift
@@ -92,9 +92,9 @@ STATEMENTS (the numbers below check each one).
 RESULT. Given the axiom, the lane's three statements and locality, the
 vacuum term has one closing form: the traceless form, with Lambda an
 integration constant.  Its fixed density is case (iii) of the
-classification. It is forced, not chosen. The axiom and "nothing holds
-the field" cannot both hold strictly, and the one density that remains
-is what the axiom requires.  The scope stated here (algebraic in U,
+classification, forced by the axiom.  A fixed density is held
+structure, so the axiom and "nothing holds the field" cannot both hold
+strictly, and the one density the axiom admits is this one.  The scope stated here (algebraic in U,
 first order fields, D = 4, the gauge case by theta bar = 0) is reduced
 in lambda_scope.py to premises the lane already holds:
   - the null Lagrangian theorem covers every local order;

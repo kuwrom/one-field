@@ -68,7 +68,7 @@ is a pure number of the web, 54.6 ppm below the measured one.
 
 Scope: the edges on the searchlight's circulant are the forgetting's
 identity. The count is that of common_mode_count.py. That the node
-is G M_b^2 is the identification of T8. No exchange at the boundary is
+is G M_b^2 is the boundary identification (boundary_whole.py). No exchange at the boundary is
 computed.
 
 Usage: python3 tests/probes/common_mode_web.py     (about 20 s, runs the chain)
@@ -98,9 +98,9 @@ def _chain():
     with contextlib.redirect_stdout(io.StringIO()):
         R = r.derive()
         m = masses.derive(R)
-        mx = mixing.derive(R, m)
+        mixing.derive(R, m)
         c = couplings.derive(R, m)
-        gravity.derive(R, m, mx, c)
+        gravity.derive(R, m, c)
 
 
 def channel_powers(v):

@@ -3,18 +3,18 @@
 THE QUESTION. Read with its searchlight label as running charge, the
 182 bridge rows of interference/boundary.py can leave the running only
 at the boundary's mass (bridge="boundary"). Gate S then passes only if
-they enter the stiffness at the boundary with at least 0.370 of a
-massless row's weight (0.462 with the composite metric's own loop,
+they enter the stiffness at the boundary with at least 0.359 of a
+massless row's weight (0.450 with the composite metric's own loop,
 boundary_content.py B5). The engine's one list reads the bridge as
 amount: light, with no share of the running, and unaffected by any
 regulator's shape (tests/probes/horizon_amount.py). The ledger's sharp
 proper time cutoff gives E2(1) = 0.148. Over monotone regulators the
 weight can lie anywhere from 0.148 to 1, so the regulator's shape
-decides the sign. What do the sources fix, and what does each shape
+decides gate S. What do the sources fix, and what does each shape
 they write down give?
 
 PREMISES. P1 the labelled list and its weights (boundary.py): the light
-rows give Sigma_light = 13.5 - 18 c, the bridge gives 182 (1/6 - xi) =
+rows give Sigma_light = 83/6 - 18 c, the bridge gives 182 (1/6 - xi) =
 29.13 at a massless row's weight, and with G anchored,
 t0 = Sigma/(2 pi) M_b^-2. P2 one normalization for every shape, with
 one rho shared by every row. A row of mass m enters the Einstein term
@@ -51,7 +51,7 @@ STATEMENTS (the numbers below check each one).
      entropy (Dong, Khalkhali and van Suijlekom arXiv:1903.09624), with
      its amplitude fixed by its log: 0.181. Band pass cutoff functions
      at chi(0) = 1: eigenvalue counting theta(1 - u): 0. The heat
-     kernel exp(-u): exp(-1) = 0.368 (a near miss). The Gaussian in
+     kernel exp(-u): exp(-1) = 0.368 (a narrow pass). The Gaussian in
      D^2: 0.210. The exponential in |D| (Lizzi arXiv:1805.00411
      Eq. 2.3): 0.587. The fermionic entropy (Chamseddine, Connes and
      van Suijlekom arXiv:1809.02944): 0.426. Outside P2, Pauli-Villars
@@ -71,25 +71,25 @@ STATEMENTS (the numbers below check each one).
      stiffness.
   R3 (the gates). For the labelled bridge every monotone written shape
      fails S, with and without the loop. The best, the window edge,
-     leaves Sigma = 4.44 at the boundary, 1.85 short of 2 pi. Of the
-     band pass examples at chi(0) = 1, the exponential in |D| and the
-     fermionic entropy pass. R5 treats their amplitude. Gate M passes
-     under every shape except the sharp cutoff (t0* = 0.589). With the
-     loop, M also fails for the bosonic entropy, the Frolov-Fursaev
-     masses and three and four Pauli-Villars fields, which already fail
-     S. So the labelled bridge's verdict rests on S.
+     leaves Sigma = 4.77 at the boundary, 1.51 short of 2 pi. Of the
+     band pass examples at chi(0) = 1, the heat kernel, the exponential
+     in |D| and the fermionic entropy pass. R5 treats their amplitude.
+     Gate M passes under every shape (the sharp cutoff at
+     t0* = 0.606). With the loop, M fails for the sharp cutoff, the
+     bosonic entropy and three and four Pauli-Villars fields, which
+     already fail S. So the labelled bridge's verdict rests on S.
   R4 (what a pass needs). With one rho for every row, the sharp cutoff
      is the floor: w(1) = E[E2(z)] >= E2(E[z]) = E2(1) (Jensen). A pass
      needs the regulator spread over a wide range of proper times, and
      the size of that spread is a parameter the sources leave free.
      Three Pauli-Villars fields at masses squared 1, 100 and 10^4, Li
      and Vaman's count, give 0.465 and pass with the loop. Two levels
-     pass at a ratio r >= 13.4 (87.3 with the loop). A one scale onset
-     passes if it is slow: P(a, t) for a <= 1.650, outside the proper
-     time window, or (t/(1+t))^p for p <= 2.433. A band pass amplitude
-     passes below a ceiling: 2.28 for the exponential in |D| (1.63
-     with the loop), 1.19 for the fermionic entropy (0.89), 0.994 for
-     the heat kernel (0.773), 0.630 for counting (0.538). A finite
+     pass at a ratio r >= 10.2 (69.5 with the loop). A one scale onset
+     passes if it is slow: P(a, t) for a <= 1.698, outside the proper
+     time window, or (t/(1+t))^p for p <= 2.663. A band pass amplitude
+     passes below a ceiling: 2.38 for the exponential in |D| (1.70
+     with the loop), 1.23 for the fermionic entropy (0.93), 1.025 for
+     the heat kernel (0.798), 0.641 for counting (0.550). A finite
      vacuum term (rho below t^2 at small t) excludes the window edge
      and the two level split, which start as t^2. It leaves duality,
      0.280, as the best monotone written shape. (t/(1+t))^p starts as
@@ -101,13 +101,31 @@ STATEMENTS (the numbers below check each one).
      1/alpha_G2 = (b_m/4 pi) chi(0) with b_m = 4, so
      chi(0) = 4 pi/(b_m alpha_G2) = 24 pi^2 = 236.9 in one loop units
      (Chamseddine, Connes and Marcolli's f0 = pi/(8 alpha_G2) = 3 pi^2,
-     hep-th/0610241 Eq. 4.10). That is 104 times the ceiling of the
+     hep-th/0610241 Eq. 4.10). That is 99 times the ceiling of the
      exponential in |D|. At this amplitude the heat kernel, the
      exponential in |D| and the fermionic entropy give the bridge less
      than 1e-8, while a band pass shape with a second proper time keeps
      it (0.606). With the G2 field's own loop, the induced coupling is
      -(b0/4 pi) chi(0) < 0. B6 treats the coupling as a datum, which
      leaves chi(0) free.
+  R6 (inside the boundary). The list holds only up to M_b
+     (boundary_content.py P5), so a regulator inside the boundary reads
+     proper times t >= M_b^-2. A regulator that only removes has
+     0 <= rho <= 1. From those proper times it gives a row at M_b at
+     most x E2(1) = 0.148 x of a massless row's weight, x = M_b^2 t0,
+     whatever its shape. The sharp cutoff at the boundary, the ledger's
+     own, gives all of it. Read inside the boundary the labelled list
+     then has Sigma <= -4.17 + 4.33 x against the 2 pi x that S needs,
+     and S fails at every placement, with and without the loop. The
+     written shapes take 0.06 to 0.09 from inside the boundary and the
+     rest from above it. Every shape of R4 that passes takes 0.30 to
+     0.43 from above it, where the inequality asks for at least 0.210.
+     A band pass shape is not a factor that only removes. With
+     nonnegative weight on proper times inside the boundary it gives at
+     most exp(-1) = 0.368, so Sigma <= 6.55. That fails with the loop.
+     Without the loop one shape clears 2 pi, a single proper time at
+     amplitude 0.960 to 1.025 (R5). The two proper time shape of R5
+     reads t = 0.5 M_b^-2, above the boundary.
 
 RESULT. No regulator that a source writes down, read by its own
 source, gives the bridge rows the weight gate S needs at the boundary.
@@ -116,12 +134,12 @@ path integral duality, the one shape a stated principle fixes for every
 row and for the running, gives 0.280. The band pass examples pass at
 chi(0) = 1, but the spectral action ties chi(0) to the coupling at
 24 pi^2, and there the one scale shapes lose the bridge. The sources
-fix conditions and counts, not masses, widths or amplitudes, and those
-decide the sign. Within the sources' own families, a wide spread of
-proper times passes. For the labelled bridge, the regulator literature
-does not settle the sign gate. Settling it needs a principle that fixes
-the regulator's spread at the boundary. Read as amount beyond the
-horizon, the bridge is light and the spread does not enter
+fix conditions and counts, not masses, widths or amplitudes. Within the
+sources' own families a wide spread of proper times passes, and it
+passes by reading proper times above the boundary. Read inside the
+boundary, where the list holds, the labelled bridge fails S under every
+regulator that only removes (R6). Read as amount beyond the horizon,
+the engine's reading, the bridge is light and the spread does not enter
 (tests/probes/horizon_amount.py).
 
 Usage: python3 tests/probes/boundary_regulator.py
@@ -150,8 +168,8 @@ CONTACTS = B.CONTACTS
 ONE = B.rows(r.d10, r.d11, r.n7, r.n26, bridge="boundary")  # the labelled bridge at the boundary
 LIGHT = {c: B.sigma(B.rows(r.d10, r.d11, r.n7, r.n26, bridge="absent"), 0.0, c, XI) for c in CONTACTS}
 BRIDGE = r.n7 * r.n26 * (1 / 6 - XI)                        # the bridge at a massless row's weight
-NEED = (TWO_PI - LIGHT[1.0]) / BRIDGE                       # 0.370
-NEED_LOOP = (TWO_PI - LIGHT[1.0] - LOOP) / BRIDGE           # 0.462
+NEED = (TWO_PI - LIGHT[1.0]) / BRIDGE                       # 0.359
+NEED_LOOP = (TWO_PI - LIGHT[1.0] - LOOP) / BRIDGE           # 0.450
 INF = math.inf
 
 
@@ -204,14 +222,23 @@ def band(name, c):
     return entropy(h_fermi, c / math.log(2))[:2]                     # fermionic entropy
 
 
+def inside_part(rho, x=1.0):
+    """R6: the part of w(x) that comes from proper times inside the boundary, t >= M_b^-2."""
+    tau = 1.0 / quad(lambda t: rho(t) / t**2, 0, INF, limit=200)[0]
+    return tau * quad(lambda t: rho(t) * math.exp(-x * t / tau) / t**2, tau / x, INF, limit=200)[0]
+
+
 SHARP = ((lambda x: float(expn(2, x))), (lambda x: float(exp1(x))), -GAMMA)
+RHO = {                                                              # the written shapes given in proper time
+    "duality": lambda t: math.exp(-1 / t),
+    "window edge P(2)": lambda t: float(gammainc(2, t)),
+    "three equal PV": lambda t: float(gammainc(3, t)),
+    "four equal PV": lambda t: float(gammainc(4, t)),
+    "Frolov-Fursaev masses": lambda t: (1 - math.exp(-t))**3 * (1 + math.exp(-t)),
+}
 WRITTEN = {                                                          # name: (w, T, kappa), kind
     "sharp": (SHARP, "monotone"),
-    "duality": (proper_time(lambda t: math.exp(-1 / t)), "monotone"),
-    "window edge P(2)": (proper_time(lambda t: float(gammainc(2, t))), "monotone"),
-    "three equal PV": (proper_time(lambda t: float(gammainc(3, t))), "monotone"),
-    "four equal PV": (proper_time(lambda t: float(gammainc(4, t))), "monotone"),
-    "Frolov-Fursaev masses": (proper_time(lambda t: (1 - math.exp(-t))**3 * (1 + math.exp(-t))), "monotone"),
+    **{k: (proper_time(rho), "monotone") for k, rho in RHO.items()},
     "bosonic entropy": ((*entropy(k_bose, 2.0)[:2], 2 - math.log(12 * ZETA3)), "monotone"),
     **{k: ((*band(k, 1.0), None), "band") for k in ("eigenvalue counting", "heat kernel", "Gaussian in D^2",
                                                     "exponential in |D|", "fermionic entropy")},
@@ -274,12 +301,12 @@ def run(report=print):
     assert abs(B.sigma(ONE, 1.0, 1.0, XI, heavy=0.3) - (LIGHT[1.0] + BRIDGE * 0.3)) < 1e-12
     g = {k: gates(v[0][0]) for k, v in WRITTEN.items()}
     assert all(not g[k]["S"] and not g[k]["S_loop"] for k in mono)
-    assert {k for k, v in g.items() if v["S"]} == {"exponential in |D|", "fermionic entropy"}
-    assert {k for k, v in g.items() if not v["M"]} == {"sharp"}
+    assert {k for k, v in g.items() if v["S"]} == {"heat kernel", "exponential in |D|", "fermionic entropy"}
+    assert {k for k, v in g.items() if not v["M"]} == set()
     m_loop_fail = {k for k, v in g.items() if not v["M_loop"]}
-    assert m_loop_fail == {"sharp", "bosonic entropy", "Frolov-Fursaev masses", "three equal PV", "four equal PV"}
+    assert m_loop_fail == {"sharp", "bosonic entropy", "three equal PV", "four equal PV"}
     best = g["window edge P(2)"]["sigma"][1.0]
-    assert abs(best - 4.4375) < 1e-3 and abs(g["sharp"]["t0"][1.0] - 0.5885) < 1e-4
+    assert abs(best - 4.7709) < 1e-3 and abs(g["sharp"]["t0"][1.0] - 0.6055) < 1e-4
     out.update(gates=g, m_loop_fail=m_loop_fail)
     for k, v in g.items():
         report(f"R3 {k:22s} Sigma(M_b) = {v['sigma'][1.0]:+7.3f}  S {'PASS' if v['S'] else 'FAIL'}"
@@ -306,9 +333,9 @@ def run(report=print):
         cross[k + " loop"] = brentq(lambda c: band(k, c)[0](1.0) - NEED_LOOP, 0.05, 20)
     p2, slow = (lambda t: float(gammainc(2, t))), (lambda t: (t / (1 + t))**2.2)
     assert floor >= expn(2, 1.0) - 1e-12 and abs(pv3 - 0.46524) < 1e-4 and abs(onset(2.2) - 0.38566) < 1e-4
-    assert abs(cross["pv_ratio"] - 13.38) < 0.02 and abs(cross["pv_ratio_loop"] - 87.32) < 0.05
-    assert abs(cross["gamma_a"] - 1.6498) < 1e-3 and abs(cross["onset_p"] - 2.4332) < 1e-3
-    assert abs(cross["exponential in |D|"] - 2.283) < 2e-3 and abs(cross["fermionic entropy"] - 1.190) < 2e-3
+    assert abs(cross["pv_ratio"] - 10.22) < 0.02 and abs(cross["pv_ratio_loop"] - 69.53) < 0.05
+    assert abs(cross["gamma_a"] - 1.6979) < 1e-3 and abs(cross["onset_p"] - 2.6632) < 1e-3
+    assert abs(cross["exponential in |D|"] - 2.382) < 2e-3 and abs(cross["fermionic entropy"] - 1.234) < 2e-3
     assert abs(p2(1e-5) / 1e-10 - 0.5) < 1e-4 and slow(1e-6) / 1e-12 < 0.1   # t^2/2 against t^2.2
     out.update(jensen_floor=floor, pv3_spread=pv3, onset_22=onset(2.2), cross=cross, need=NEED, need_loop=NEED_LOOP)
     report(f"R4 need w(1) >= {NEED:.3f} ({NEED_LOOP:.3f}). 2000 mixtures stay above E2(1) (least {floor:.4f}). PV 1:100:1e4 {pv3:.3f}. "
@@ -332,9 +359,37 @@ def run(report=print):
     out.update(b_m=b_m, chi0=chi0, f0_ccm=f0, band_at_chi0=at_chi0, two_time=two_time)
     report(f"R5 chi(0) = 4 pi/(b_m alpha_G2) = {chi0:.1f} = 24 pi^2 (CCM f0 = {f0:.2f}). "
            + ", ".join(f"{k} {v:.1e}" for k, v in at_chi0.items()) + f". Two proper times {two_time:.3f}")
+
+    # R6: the proper times inside the boundary.
+    cap = float(expn(2, 1.0))
+    inside = {"sharp": cap, **{k: inside_part(rho) for k, rho in RHO.items()}}
+    passes = {"PV 1:100:1e4": pauli_villars([1.0, 100.0, 1e4]), "two PV levels": pauli_villars([1.0, cross["pv_ratio"]]),
+              "P(a, t)": lambda t: float(gammainc(cross["gamma_a"], t)), "(t/(1+t))^p": lambda t: (t / (1 + t))**cross["onset_p"],
+              "(t/(1+t))^2.2": slow}
+    above = {k: proper_time(rho)[0](1.0) - inside_part(rho) for k, rho in passes.items()}
+    assert all(0.0 <= rho(t) <= 1.0 + 1e-12 for rho in (*RHO.values(), *passes.values()) for t in np.logspace(-4, 4, 81))
+    assert all(v <= cap + 1e-9 for v in inside.values()) and all(0.06 < inside[k] < 0.09 for k in RHO)
+    assert all(inside_part(rho, x) <= x * cap + 1e-9 for rho in (*RHO.values(), *passes.values()) for x in (1.0, 2.0, 5.0))
+    assert LIGHT[1.0] < 0 and BRIDGE * cap < TWO_PI                 # so Sigma inside < 2 pi x at every placement
+    assert abs(LIGHT[1.0] + BRIDGE * cap - 0.158) < 1e-3 and abs(BRIDGE * cap - 4.325) < 1e-3
+    assert all(NEED - cap - 1e-3 <= v for v in above.values()) and 0.30 < min(above.values()) and max(above.values()) < 0.43
+    weights = rng.dirichlet(np.ones(5), 500)                         # nonnegative weight on proper times inside the boundary
+    one_time = max(float(np.sum(p * np.exp(-z))) for p, z in zip(weights, 1 + np.exp(rng.uniform(-6, 3, (500, 5)))))
+    sig_one = LIGHT[1.0] + BRIDGE * math.exp(-1)
+    place = lambda c: brentq(lambda x: LIGHT[1.0] + BRIDGE * math.exp(-c * x) - TWO_PI * x, 1e-6, 50.0)
+    window = (brentq(lambda c: c * place(c) - 1, 0.5, 1.0), brentq(lambda c: place(c) - 1, 1.0, 1.2))
+    assert one_time <= math.exp(-1) and abs(sig_one - 6.548) < 1e-3 and sig_one + LOOP < TWO_PI < sig_one
+    assert abs(window[0] - 0.960) < 2e-3 and abs(window[1] - 1.025) < 2e-3 and abs(two_time - math.exp(-0.5)) < 1e-3
+    out.update(inside=inside, above=above, inside_cap=cap, sigma_inside=LIGHT[1.0] + BRIDGE * cap, one_time_window=window)
+    report(f"R6 inside the boundary a regulator that only removes gives at most x E2(1) = {cap:.3f} x: Sigma <= "
+           f"{LIGHT[1.0]:+.2f} + {BRIDGE * cap:.2f} x < 2 pi x, S fails at every placement. Written shapes take "
+           f"{min(inside[k] for k in RHO):.3f} to {max(inside[k] for k in RHO):.3f} from inside. The passes of R4 take "
+           f"{min(above.values()):.3f} to {max(above.values()):.3f} from above it (at least {NEED - cap:.3f}). "
+           f"One proper time inside: Sigma <= {sig_one:.2f}, amplitude {window[0]:.3f} to {window[1]:.3f} without the loop")
     report("RESULT: no regulator a source writes down gives the labelled bridge the weight S needs at the boundary when read by "
            f"its own source (best monotone {table['window edge P(2)']['w1']:.3f}, duality {table['duality']['w1']:.3f}). "
-           "The sources leave the spread of proper times free, and a wide spread passes.")
+           "A wide spread passes by reading proper times above the boundary. Read inside the boundary, every regulator "
+           "that only removes fails S.")
     return out
 
 

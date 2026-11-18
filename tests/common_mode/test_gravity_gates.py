@@ -8,9 +8,11 @@ What is frozen:
      does not depend on the proper time cutoff's shape or placement.
      With the regulator solved from the anchored G, S and M pass at
      every contact.  The bridge read with its searchlight label at the
-     boundary's mass gives a repulsive stiffness there under the
-     ledger's own cutoff.  The regulator literature leaves that sign
-     unsettled.  The counted ledger passes both gates;
+     boundary's mass gives +0.158 there under the ledger's own
+     cutoff, below the 2 pi that S needs.  Inside the boundary no
+     regulator that only removes gives more
+     (tests/probes/boundary_regulator.py R6).  The counted ledger
+     passes both gates;
   2. every gate names its witness tests, and each named test exists,
      so a verdict cannot outlive the probe that supports it.  U, C and
      P name the tests that contain the case in which they fail;
@@ -40,18 +42,18 @@ def test_sign_and_magnitude_are_computed_on_the_one_list(res):
     assert gates["M magnitude"]["status"] == (
         "PASS" if all(0.6 < v["t0"] < 15.0 for v in one.values()) else "FAIL")
     assert gates["S sign"]["status"] == "PASS" and gates["M magnitude"]["status"] == "PASS"
-    assert [one[c]["sigma"] for c in (1.0, 0.0, -1.0)] == pytest.approx([25.8333, 43.8333, 61.8333], abs=1e-4)
+    assert [one[c]["sigma"] for c in (1.0, 0.0, -1.0)] == pytest.approx([26.1667, 44.1667, 62.1667], abs=1e-4)
     assert all(v["sigma_at_boundary"] == pytest.approx(v["sigma"], abs=1e-9) and v["inside"] for v in one.values())
-    assert one[1.0]["t0"] == pytest.approx(4.1115, abs=1e-4) and one[1.0]["t0"] ** -0.5 < 1.0
+    assert one[1.0]["t0"] == pytest.approx(4.1646, abs=1e-4) and one[1.0]["t0"] ** -0.5 < 1.0
     lab = g["labelled_bridge"]
-    assert lab["sigma_at_boundary"] == pytest.approx(-0.175, abs=1e-3)
-    assert lab["t0"] == pytest.approx(0.5885, abs=1e-4) and lab["w_need"] == pytest.approx(0.3702, abs=1e-4)
+    assert lab["sigma_at_boundary"] == pytest.approx(0.158, abs=1e-3)
+    assert lab["t0"] == pytest.approx(0.6055, abs=1e-4) and lab["w_need"] == pytest.approx(0.3588, abs=1e-4)
     assert g["booked_gates"] == {"S sign": "PASS", "M magnitude": "PASS"}
 
 
 def test_sign_and_magnitude_hold_in_exact_arithmetic():
     """S and M on the one list without floating point: the weights are
-    rationals, Sigma = 155/6, 263/6, 371/6 across the contacts, and pi
+    rationals, Sigma = 157/6, 265/6, 373/6 across the contacts, and pi
     lies between 333/106 and 355/113, so Sigma >= 2 pi and
     0.6 < Sigma/(2 pi) < 15 are inequalities between rationals. The
     xi band of the amount is certified the same way."""
@@ -63,16 +65,16 @@ def test_sign_and_magnitude_hold_in_exact_arithmetic():
     table = boundary.rows(root.d10, root.d11, root.n7, root.n26)
     live = [(n, kind) for _, n, kind, _, reading in table if reading in ("light", "amount")]
     sig = {c: sum(n * weight[kind](c) for n, kind in live) for c in (1, 0, -1)}
-    assert sig == {1: Fraction(155, 6), 0: Fraction(263, 6), -1: Fraction(371, 6)}
+    assert sig == {1: Fraction(157, 6), 0: Fraction(265, 6), -1: Fraction(373, 6)}
     for c, s in sig.items():
         assert s >= 2 * hi                                     # S: Sigma >= 2 pi
         assert Fraction(3, 5) * 2 * hi < s < 15 * 2 * lo       # M: 0.6 < Sigma/(2 pi) < 15
         assert float(s) == pytest.approx(boundary.sigma(table, 0.0, float(c), 0.0), abs=1e-12)
     named = {c: s - Fraction(182, 6) for c, s in sig.items()}
-    for xi in (Fraction(-178, 1000), Fraction(107, 1000)):     # the band's quoted edges, inside it
+    for xi in (Fraction(-176, 1000), Fraction(109, 1000)):     # the band's quoted edges, inside it
         s_xi = {c: named[c] + 182 * (Fraction(1, 6) - xi) for c in named}
         assert all(s >= 2 * hi and Fraction(3, 5) * 2 * hi < s < 15 * 2 * lo for s in s_xi.values())
-    for xi in (Fraction(-179, 1000), Fraction(108, 1000)):     # one step outside, a gate fails
+    for xi in (Fraction(-177, 1000), Fraction(110, 1000)):     # one step outside, a gate fails
         s_xi = {c: named[c] + 182 * (Fraction(1, 6) - xi) for c in named}
         assert not all(s >= 2 * lo and s < 15 * 2 * hi for s in s_xi.values())
 

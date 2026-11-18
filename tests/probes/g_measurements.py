@@ -10,7 +10,7 @@ their uncertainties by 3.9.  Where does the anchor's value sit in the
 set itself, and what is the joint statistic of the precision block?
 
 PREMISES.  P1 the sixteen input data of the adjustment, as printed in
-Table XXX of Mohr, Newell, Taylor and Tiesinga, "CODATA recommended
+Table XXX (30) of Mohr, Newell, Taylor and Tiesinga, "CODATA recommended
 values of the fundamental physical constants: 2022" (arXiv:2409.03787),
 with its three correlation coefficients.  P2 its Sec. XV.A: "the same
 3.9 expansion factor is used in this adjustment", and "The factor 3.9
@@ -106,7 +106,7 @@ from interference.reference import PDG_EW  # noqa: E402
 import gravity_resolution as gr  # noqa: E402
 import vertex_pinning as vp  # noqa: E402
 
-# Table XXX of arXiv:2409.03787, in 1e-11 m^3 kg^-1 s^-2: label, value, standard uncertainty.
+# Table XXX (30) of arXiv:2409.03787, in 1e-11 m^3 kg^-1 s^-2: label, value, standard uncertainty.
 TABLE = (
     ("NIST-82", 6.67248, 0.00043), ("TR&D-96", 6.6729, 0.0005), ("LANL-97", 6.67398, 0.00070),
     ("UWash-00", 6.674255, 0.000092), ("BIPM-01", 6.67559, 0.00027), ("UWup-02", 6.67422, 0.00098),

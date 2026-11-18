@@ -4,7 +4,7 @@ above which the two derivative action holds there."""
 
 import pytest
 
-sp = pytest.importorskip("sympy")
+sp = pytest.importorskip("sympy", reason="needs sympy (pip install -r requirements.txt)")
 
 
 def _silent(*args, **kwargs):
@@ -25,7 +25,7 @@ def test_strong_field_schwarzschild_de_sitter_with_two_integration_constants():
     assert r["constants"] == 2 and r["scalar_curvature"] == "4 Lambda" and r["first_law"]
     assert r["temperature"] == "1/(8*pi*G*M)"
     assert r["horizon_scale"] == pytest.approx(0.9306, abs=1e-4)
-    assert r["mass_floors"] == pytest.approx((7.16, 2.15), abs=0.01)
+    assert r["mass_floors"] == pytest.approx((7.21, 2.16), abs=0.01)
     assert r["solar_ratio"] < 1e-37
     assert ha.run(report=_silent)["q_departure"] == pytest.approx(list(sf.DEPARTURES), abs=1e-3)
 

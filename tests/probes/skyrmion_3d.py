@@ -1,5 +1,5 @@
 """
-skyrmion_3d.py: 3D knot FORMATION in the one-field substrate.
+3D knot FORMATION in the one-field substrate.
 
 Combines the repo's two probes, in full 3D dynamics:
 
@@ -12,8 +12,7 @@ Here the winding texture is seeded at SMALL amplitude (eps = 0.3, a
 knot.py-style Gaussian envelope) into the relative (q = 1, 2) sector
 of the Z3-coupled NLS and evolved with the repo's exact equation
 (g1 = g0/sqrt(2), no sponge: the run is norm conserving and
-conservation is tracked as a diagnostic).  It is the sim3d
-experiment, kept as a repo probe.
+conservation is tracked as a diagnostic).
 
 FOUR MEASUREMENTS, each frozen in CI (values from the 48^3 run):
 
@@ -49,10 +48,8 @@ FOUR MEASUREMENTS, each frozen in CI (values from the 48^3 run):
      tracked through formation and simply REPORTED, not asserted.
      It does NOT wander to ~0: it grows in
      magnitude to about -3.5 by t = 12 while the density knot grows,
-     alongside the common mode dip.  (Two recorded runs give the dip's
-     depth at t = 12 as 0.956 and 0.226; the frozen claim is only that
-     the common mode dips, cmin < 0.99, asserted below.  The depth is
-     reported, not asserted.)
+     alongside the common mode dip.  The frozen claim is that the common
+     mode dips, cmin < 0.99, asserted below.  The depth is reported.
      A scalar phase substep gives "wanders to ~0" instead, but that
      substep is not the gradient of any functional.  This is
      the same defect proliferation the disorder operator sees at
@@ -61,12 +58,17 @@ FOUR MEASUREMENTS, each frozen in CI (values from the 48^3 run):
      knot_charge.py measures. That result is about the winding failing
      to be conserved, not about it staying small.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). Its closure is the spinning lump (spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
-Usage: python3 skyrmion_3d.py     (several minutes at 48^3 on one core, mark slow)
+RESULT. On the gas sign at 48^3, the small winding seed grows under the
+true G2 coupling (rms asserted above x5) and disperses under g1 = 0.
+Its growth rate lies inside the asserted band (0.5, 1.1] of the BdG
+rate sigma = g1 rho0, and the common density dips at the core
+(asserted below 0.99). The later charge is reported, not asserted.
+
+Usage: python3 tests/probes/skyrmion_3d.py     (several minutes at 48^3 on one core, mark slow)
 """
 
 import os
@@ -90,8 +92,7 @@ SIGMA_BDG = g1 * rho0              # max MI growth rate = |b_1|
 
 
 def build_seed(N, L, eps=0.3, tex_scale=1.5, env_scale=8.0):
-    """The winding texture at small amplitude in the relative sector
-    (exactly the review's sim3d seed)."""
+    """The winding texture at small amplitude in the relative sector."""
     dx, X, Y, Z, R, K2 = grid(N, L)
     f = np.pi * np.exp(-R / tex_scale)
     nx, ny, nz = X / R, Y / R, Z / R

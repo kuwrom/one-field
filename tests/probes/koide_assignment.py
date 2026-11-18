@@ -1,5 +1,5 @@
 """
-lambda_assignment.py: the Koide representation assignment, derived.
+The Koide representation assignment, derived.
 
 WHAT THIS DERIVES.  The Koide representation assignment
 
@@ -35,9 +35,9 @@ THE INSERTION RULE:
      a triplet's Koide insertion obeys the superselection of the
      deepest interface that its members close through.  The (c,b,t)
      triplet contains the terminus generation. t closes at orbit
-     completion (J^3 = 1, the vacuum row), behind the confining
-     interface, so its insertion must pass through that interface.
-     The (s,c,b) triplet contains no terminus member. Its insertion
+     completion (J^3 = 1, the vacuum row), behind the ladder's
+     confining interface, so its insertion must pass through that
+     interface. The (s,c,b) triplet contains no terminus member. Its insertion
      is not subject to the neutral lane superselection.
 
   The rule is the SAME physical statement that forces the step letter
@@ -68,8 +68,7 @@ CORROBORATION (data contact, once, last):
   ONCE, in the diagonal channel, and (c,b,t) is the diagonal Z3
   triplet (the F₄ ⊃ SU(3) × SU(3) branching, Slansky).
 
-Usage: python3 lambda_assignment.py   (from tests/probes/, or give the
-       repo root as argv[1])
+Usage: python3 tests/probes/koide_assignment.py   (or give the repo root as argv[1])
 """
 
 import math
@@ -104,13 +103,13 @@ def run(report=print):
                      + 3 * p[0] + 3 * p[1], 18) for p in prims}
     t = {p: (p[0] + 2 * p[1]) % 3 for p in prims}
     # the channel menu: every nonidentity primary. The lightest ones
-    # are the N-ality-changing fundamentals (t != 0)
+    # are the N-ality changing fundamentals (t != 0)
     changers = [p for p in prims if p != (0, 0)]
     hmin = min(h[p] for p in changers)
     lightest = sorted(p for p in changers if h[p] == hmin)
     assert hmin == h10 and lightest == [(0, 1), (1, 0)]
     assert all(t[p] != 0 for p in lightest)
-    report(f"  L1 lightest N-ality-changing channel: {lightest} at h = {hmin} "
+    report(f"  L1 lightest N-ality changing channel: {lightest} at h = {hmin} "
            f"= h10 (conjugate pair, weight blind)")
 
     ## L2: the unique neutral stepper (recomputed) ##

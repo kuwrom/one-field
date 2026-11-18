@@ -1,4 +1,4 @@
-"""dust_gate.py: can the carrier itself supply the amount's dust?
+"""Can the carrier itself supply the amount's dust?
 
 THE QUESTION. dark_sector.py compares Omega_DM/Omega_b = 2 pi - 1 with
 omega_c/omega_b, the amplitude of a component pressureless at
@@ -71,10 +71,10 @@ constant form exists. Every identically conserved current has zero
 mean density in the empty field state. The only nonexact current needs
 a ruler and a name. The conserved charge is either stiff (gas sign) or
 a liquid whose sound speed is the phonon speed (committed sign).  The
-dust gate cannot be passed at the classical level. Two routes remain.
-One is the amount's induced stress, which needs its state. The other
-is to read the amount as a conserved count that does no work, which
-gives w = 0 and c_s = 0 as a declared premise.
+carrier's classical currents do not supply the dust, so the dust is
+the amount's: either its induced stress, which needs its state, or
+the amount read as a conserved count that does no work, which gives
+w = 0 and c_s = 0 (dark_sector.py, THE DUST READING).
 
 Usage: python3 tests/probes/dust_gate.py     (a few seconds)
 """
@@ -208,9 +208,9 @@ def run(report=print, seed=11):
     report("D4 the common phase charge: w = 1 on the gas sign. On the committed sign w = 0 at the "
            "zero pressure point but c_s^2 = -a R0 (0.757 c relativistic) against c_s^2 < 3.2e-6, and it "
            "fills space. Lumps are pressureless but are closures, not the amount")
-    report("RESULT: the carrier supplies no dust for the amount. The dust gate is not passed at the "
-           "classical level. What remains is the amount's induced stress, or its reading as a "
-           "conserved count that does no work (w = 0, c_s = 0) as a declared premise.")
+    report("RESULT: the carrier supplies no dust for the amount, so the dust is the amount's: its "
+           "induced stress, or its reading as a conserved count that does no work (w = 0, c_s = 0, "
+           "dark_sector.py).")
     return dict(d1=r1, d2=r2, d3=r3)
 
 

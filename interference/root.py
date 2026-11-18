@@ -1,8 +1,8 @@
 """
-The algebraic root: depth-3 searchlight vocabulary.
+The algebraic root: depth 3 searchlight vocabulary.
 
 The conformal embedding E₈(1) ⊃ G₂(1) × F₄(1) determines four
-integers at the depth-3 tracking layer.  Every dimensionless coupling,
+integers at the depth 3 tracking layer.  Every dimensionless coupling,
 mass ratio, and mixing angle in the framework is a closed form
 expression in these four plus π.  The electron mass sets the scale.
 M_Pl, G, and all other dimensionful values are derived.
@@ -51,7 +51,7 @@ d11 = round(WIRING_DATA["d11"])   # quantum dim of (1,1) in SU(3)₃
 n7  = WIRING_DATA["n7"]            # dim of G₂ fundamental
 n26 = WIRING_DATA["n26"]           # dim of F₄ fundamental
 
-# Sugawara CONSISTENCY CHECK (not a selector): h₁₀ =
+# Sugawara CONSISTENCY CHECK: h₁₀ =
 # C₂(fund,SU(d₁₁))/(k+h∨) = (d₁₁²−1)/(4d₁₁²) must equal d₁₀/d₁₁²,
 # i.e. d₁₁²−1 = 4d₁₀.  The closing values satisfy it, but it does not
 # single them out: (6,5), (12,7), ... satisfy it too.  What selects
@@ -59,8 +59,7 @@ n26 = WIRING_DATA["n26"]           # dim of F₄ fundamental
 # embedding gate (embedding_uniqueness.py: E₈(1) ⊃ G₂(1)×F₄(1)) fixes
 # n₇ = 7, n₂₆ = 26.  The level-3 gate (h(J) = 1 forces k = 3) gives the
 # MTC quantum dimensions d₁₀ = 2, d₁₁ = 3, computed in
-# wiring.su3_qdims.  The assert below checks that this closure is
-# consistent.  It does not produce it.
+# wiring.su3_qdims.  The assert below checks this closure's consistency.
 assert d11**2 - 1 == 4 * d10, "Sugawara consistency: d₁₁² − 1 = 4d₁₀"
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -70,7 +69,7 @@ assert d11**2 - 1 == 4 * d10, "Sugawara consistency: d₁₁² − 1 = 4d₁₀"
 #  The first closure sets the unit.  Everything later is measured in
 #  that unit.  The electron mass is the most precisely measured mass in
 #  physics (0.3 ppb), five orders of magnitude sharper than G (22 ppm),
-#  and G is the only direct route to M_Pl.  With the depth-4 lepton
+#  and G is the only direct route to M_Pl.  With the depth 4 lepton
 #  response (see THE ECHO LAW below), the lepton formula inverts
 #  exactly: m_e fixes M_Pl, and m_mu, m_tau, v_EW become PREDICTIONS.
 #  For G the statement is narrower.  The PREDICTED quantity is M_Pl
@@ -80,7 +79,7 @@ assert d11**2 - 1 == 4 * d10, "Sugawara consistency: d₁₁² − 1 = 4d₁₀"
 #  result.
 #
 #  THE PRECISION BLOCK AND WHAT ENDS IT.  G = 6.673936e-11 (−2.43σ of
-#  CODATA, +0.18σ with a spread added to each input:
+#  CODATA, +0.17σ with a spread added to each input:
 #  tests/probes/common_mode_count.py C6).  m_mu = 105.6583758 MeV
 #  (ppb, +0.12σ).  m_tau = 1776.9092814 MeV (−0.23σ).
 #  v_EW = 246.219645 GeV against G_F (+0.08σ at 1e-7).
@@ -108,14 +107,13 @@ C_SI      = 299792458.0               # c in m/s   (exact)
 assert abs(M_PL_CODATA_GEV / ((HBAR_SI * C_SI**5 / G_CODATA)**0.5 * GEV_PER_J)
            - 1.0) < 4.1e-7
 
-# Observational scale anchor (same status as M_E_ANCHOR: fixes a scale,
-# not a coupling). Used only for the Friedmann critical density
+# Comparison scale for the Friedmann critical density
 # ρ_crit = (3/8π)M_Pl²H₀².
 H_0_KM_S_MPC = 67.4                  # Planck 2018, ± 0.5
 H_0_SI  = H_0_KM_S_MPC * 1e3 / 3.0856775814913673e22  # s⁻¹
 H_0_GEV = H_0_SI * HBAR_SI * GEV_PER_J                # GeV
 
-# assigned by the anchor inversion below (not free placeholders)
+# assigned by the anchor inversion below
 M_Pl_GeV = None
 M_Pl_MeV = None
 
@@ -160,7 +158,7 @@ delta  = Fraction(1, d10 * d11**2)       # OPE gap = 1/18
 # Koide parameter, downstream of the octonionic/MTC channel map:
 # |B/A|^2 = d10, and the circulant identity gives
 # Q0 = 1/3 + |B/A|^2/6 = 1/3 + d10/6 (the 1/3 floor is one over
-# the sector count; d10/6 is the variance term). At d10 = 2 and d11 = 3,
+# the sector count, d10/6 is the variance term). At d10 = 2 and d11 = 3,
 # Q0 also equals d10/d11.
 Q0     = Fraction(1, 3) + Fraction(d10, 6)   # = 2/3
 assert Q0 == Fraction(d10, d11)              # the identity, frozen
@@ -241,17 +239,17 @@ alpha_EM = alpha_G2_WZW / singh_ratio    # π/512 = π/(32·16)
 # What is identified here is WHICH trace applies,
 # charge_trace × C₂(26) = (8/3)·6 = 16, not that a trace division
 # happens.  All downstream EM precision results (α(0), v_EW→G_F,
-# sin²θ_W, M_W, M_Z) inherit this choice of trace.
+# sin²θ_W, M_W, M_Z) inherit this trace.
 
 # ═══════════════════════════════════════════════════════════════════════
-#  THE ECHO LAW (inherent, not a correction pass)
+#  THE ECHO LAW
 # ═══════════════════════════════════════════════════════════════════════
 #
 #  A closed standing wave is not static.  A knot circulates, and
 #  whatever does not cancel locally vents.  Its echoes run through the
 #  channels that bind it and into the common mode (the coherent venting
-#  that IS gravity).  These echoes are part of the closure itself, not
-#  corrections applied afterwards.  Every quantity in the framework is
+#  that IS gravity).  These echoes are part of the closure itself.
+#  Every quantity in the framework is
 #  therefore a LEDGER: a base amplitude plus its stack of echoes, each
 #  with its source recorded.
 #
@@ -305,6 +303,9 @@ class EchoTerm:
     admissible B-violating edge: NONE, at any web depth.  Against
     tau_p > 1.6e34 yr (Super-K) the framework predicts no decay at
     any sensitivity, and any confirmed proton decay kills it.
+    A change of the weak winding is not an edge.  It moves baryon and
+    lepton number together by d₁₁ = 3, leaves B − L unchanged, and
+    cannot reach a single proton (tests/probes/weak_winding.py).
     """
 
     def __init__(self, path, factor, depth, status="FORCED", note="",
@@ -437,7 +438,7 @@ class Web(dict):
                     continue
                 if not term.parent:
                     raise ValueError(
-                        f"{node}: depth-{term.depth} term "
+                        f"{node}: depth {term.depth} term "
                         f"{'->'.join(term.path)} has no parent")
                 parent = self.get(term.parent)
                 if not isinstance(parent, Ledger):
@@ -445,8 +446,8 @@ class Web(dict):
                         f"{node}: missing ledger parent {term.parent!r}")
                 if parent.web_depth != term.depth - 1:
                     raise ValueError(
-                        f"{node}: depth-{term.depth} term requires a "
-                        f"depth-{term.depth - 1} parent; {term.parent!r} "
+                        f"{node}: depth {term.depth} term requires a "
+                        f"depth {term.depth - 1} parent; {term.parent!r} "
                         f"has depth {parent.web_depth}")
                 if not callable(term.factor):
                     raise ValueError(
@@ -461,7 +462,7 @@ class Web(dict):
                     pass
                 if term.parent not in tracker.reads:
                     raise ValueError(
-                        f"{node}: depth-{term.depth} term declares parent "
+                        f"{node}: depth {term.depth} term declares parent "
                         f"{term.parent!r} but does not read it")
 
     def solve(self, iters=300, tol=1e-15):
@@ -532,14 +533,14 @@ class Web(dict):
 #  in the EM bracket.  The coupling inside the loop is the physical one,
 #  and the bracket is solved self-consistently.
 #
-#  THE VERTEX COMPOSITION RULE (depth-4 response assignment).
-#  A depth-4 reading of the e↔q carrier has, at each endpoint, THE SAME
+#  THE VERTEX COMPOSITION RULE (depth 4 response assignment).
+#  A depth 4 reading of the e↔q carrier has, at each endpoint, THE SAME
 #  VERTEX WEIGHT that node's channel already carries at depth 1.  Echoes
 #  compose existing vertices.  They never invent new ones.  The
 #  multiplicity is the product of the two endpoint weights:
 #    • coupling node (1/α): no matter vertices (backreacts on itself) →
 #      orientation count alone = 2  (S,S† pair).
-#    • action node (S): its depth-1 vertices are the charge trace
+#    • action node (S): its depth 1 vertices are the charge trace
 #      (inside α_alg = α_G₂/16, the E8 current trace vent) and the Casimir
 #      C₂(26) (the −6 vent) → 8/3 × 6 = 16 = the Singh ratio.
 #    • amplitude node (m): its own channel weight is the Schur
@@ -577,7 +578,7 @@ class Web(dict):
 #    3. One standing wave, three windings     (leptons, masses.py)
 #    4. quarks = words on the generator       (walk counts, masses.py)
 #    5. Every knot vents into the common mode (Sigma, gravity.py)
-#    6. gravity closes on the column total    (gates on Sigma; G is step 2)
+#    6. gravity closes on the column total    (gates on Sigma, G is step 2)
 #    7. The unread remainder                  (dark_ratio = 2pi - 1)
 #  The reading of an observable is its value at the shortest initial
 #  part of this order that closes it.
@@ -603,7 +604,7 @@ WEB["eq_loop"] = Ledger(
 
 #  - EM coupling ledger: base 2⁹/π, additive bracket -
 #  depth 1: bridge self-interference (h=1, D²=1, c_coset=0)
-#  depth 4: recursive reading of the depth-3 electron↔quark carrier,
+#  depth 4: recursive reading of the depth 3 electron↔quark carrier,
 #  a state dependent cycle edge. The kernel's fixed point resums it.
 #
 #  EM CHANNEL FINALITY (not a global web depth cap).  Echo paths run
@@ -649,9 +650,9 @@ alpha_phys = 1.0 / inv_alpha_phys
 QED_factor = WEB.state["lepton_EM"]
 
 #  Closed form checks of the construction above.  The cubic is the
-#  ledger's own fixed point equation written out.  The depth-1 identity
+#  ledger's own fixed point equation written out.  The depth 1 identity
 #  is its truncation.
-#  • dropping the depth-4 response recovers the published depth-1 identity
+#  • dropping the depth 4 response recovers the published depth 1 identity
 assert abs(WEB["inv_alpha"].value(max_depth=1)
            - 256*(2*math.pi-1)/math.pi**2) < 1e-12
 #  • the full value is the real root of the cubic
@@ -670,7 +671,7 @@ assert abs(QED_factor - (1.0 - alpha_phys/(2.0*math.pi))) < 1e-15
 #   Factor: h₇ · α/(2π) = (2/5) · α/(2π)
 #
 # Depth-2 (FORCED): cross echo composing the G₂ emission vertex
-#   with the fundamental WZW channel.  The depth-1 emission (h₇)
+#   with the fundamental WZW channel.  The depth 1 emission (h₇)
 #   traverses the fundamental representation, suppressed by
 #   h₁₀/d₁₀ = 1/d₁₁² (quantum Schur, the SAME suppression as B/A).
 #   Factor: (h₇/d₁₁²) · α/(2π) = (2/45) · α/(2π)
@@ -740,7 +741,7 @@ assert E_v2 == Fraction(1, 2)
 # This is the same normalized dimension one current response used by
 # the bridge self-echo.  The algebraic coupling above uses P and h_J.
 #
-# # NOT a second derivation ###################
+# # One derivation, three forms ###################
 # |Z₃|/D²_tot = 1/FPdim(C₀) holds for ANY faithfully Z₃-graded fusion
 # category (each graded component carries FPdim(C)/3, Gelaki-Nikshych),
 # and h∨(E₈) − C₂(26) = 24 = d₁₀·FPdim(C₀) is a dictionary identity
@@ -758,15 +759,14 @@ assert E_v2 == Fraction(1, 2)
 # would put M_b on CODATA's Planck mass implies 1/α = 75.398187,
 # against 24π = 75.398224, a relative agreement of 4.9e-7.  That 4.9e-7
 # is the +22 ppm Planck mass agreement divided by S₀ = 44.41.  It is the
-# one G comparison rewritten in RG variables, NOT an independent
-# confirmation of 1/(24π).  The only other downstream quantity that
+# one G comparison rewritten in RG variables.  The only other downstream quantity that
 # moves with α is the Higgs.  Perturbing alpha moves the transported
 # Higgs running coordinate (through lambda(M_Pl) = -N_bridge*alpha²*E[v²]).
 # The heat kernel sum Sigma is a count and does not move with α
 # (boundary.py, THE AMOUNT'S COUPLING).
 #
 # The F₄/lepton action is derived below by one loop dimensional
-# transmutation, S_lepton = 2π/(b₀α). The later G₂ baryogenesis
+# transmutation, S_lepton = 2π/(b₀α). The G₂ face
 # reading is not obtained by equating a static texture energy with its
 # target space volume.  It is the same action, transported to the G₂
 # face by the h-dual response metric.  The exact web derivation
@@ -784,7 +784,7 @@ assert Fraction(hv_E8 - C2_26) == Fraction(32, 3) * hv_F4 / 4  # RG form
 # The bridge moment is generated by the W6 Schur trace in wiring.py.
 xi_bridge = alpha_G2_Pl * float(E_v2) * float(h_bridge)  # = 1/(48π)
 
-# # Instanton actions (dimensional transmutation) ########
+# # Transmutation actions ########
 #
 # Standard form: S₀ = 2π / (b₀ · α_G₂(M_Pl))
 #   b₀ = (11/3)C_A − (4/3)ΣT_R
@@ -829,25 +829,25 @@ assert abs(_inv0 - 1.0 / alpha_EM) == 0.0
 #             = h∨(E8) - C2(26) = d10 FPdim(C0).
 #
 # Therefore the recursive G2-face reading is
-#   S_baryo = 2pi/(24 alpha_G2) = 2pi^2 = (4/9) S_lepton.
-# This is the depth-4 web action that baryogenesis uses.
-b_baryo_face = b0_G2 * Fraction(hv_F4, hv_G2)
-assert b_baryo_face == hv_E8 - C2_26 == d10 * _D2_eff == 24
-S_baryo_from_response = 2.0 * math.pi / (
-    float(b_baryo_face) * alpha_G2_Pl)
-assert abs(S_baryo_from_response - Fraction(hv_G2, hv_F4)
+#   S_G2 = 2pi/(24 alpha_G2) = 2pi^2 = (4/9) S_lepton.
+# This is the depth 4 web action of the G₂ face.
+b_G2_face = b0_G2 * Fraction(hv_F4, hv_G2)
+assert b_G2_face == hv_E8 - C2_26 == d10 * _D2_eff == 24
+S_G2_from_response = 2.0 * math.pi / (
+    float(b_G2_face) * alpha_G2_Pl)
+assert abs(S_G2_from_response - Fraction(hv_G2, hv_F4)
            * S_lepton) < 1e-12
 
 WEB["S_lepton"] = Ledger(
     "S_lepton(action,F4-face)", S_lepton, "add", web_depth=3)
-WEB["S_baryo"] = Ledger(
-    "S_baryo(action,G2-face)",
+WEB["S_G2"] = Ledger(
+    "S_G2(action,G2-face)",
     lambda s: float(Fraction(hv_G2, hv_F4)) * s["S_lepton"],
     "add", web_depth=4)
 WEB.solve()
-S_baryo = WEB.state["S_baryo"]
-assert abs(S_baryo - S_baryo_from_response) < 1e-12
-assert abs(S_baryo - 2 * math.pi**2) < 1e-12
+S_G2 = WEB.state["S_G2"]
+assert abs(S_G2 - S_G2_from_response) < 1e-12
+assert abs(S_G2 - 2 * math.pi**2) < 1e-12
 
 # ═══════════════════════════════════════════════════════════════════════
 #  ANCHOR INVERSION: m_e → M_Pl → G  (all dimensionless data in hand)
@@ -883,7 +883,7 @@ M_Pl_GeV = M_Pl_MeV / 1e3
 # is the boundary written in proper time form, not a second unknown.
 # On the lattice of the engine's shares, the only fusion closed set
 # that contains every closure is the whole, c = 1
-# (tests/probes/boundary_lattice.py).  On the depth-4 web the common
+# (tests/probes/boundary_lattice.py).  On the depth 4 web the common
 # mode reads it as G M_b^2 = 3 Q_l - 1 (THE COMMON MODE, below).
 
 #  The unit as a graph node (a live base: the anchor inversion read
@@ -891,7 +891,7 @@ M_Pl_GeV = M_Pl_MeV / 1e3
 #  to the same fixed point.  The constant is stored nowhere.  It is the
 #  fixed point of the recursion.
 #  The lepton circulant's gaps Δₖ = 1 + √d₁₀ cos(h₁₀ + 2πk/3), and the
-#  depth-4 term each rate carries, −(d₁₁³/d₁₀)·L·Δₖ, have one
+#  depth 4 term each rate carries, −(d₁₁³/d₁₀)·L·Δₖ, have one
 #  definition.  The anchor, the lepton ledgers (masses.py) and the
 #  common mode all read it.
 LEPTON_GAPS = {name: 1.0 + math.sqrt(d10) * math.cos(float(h10) + 2*math.pi*k/3)
@@ -900,14 +900,14 @@ assert LEPTON_GAPS["e"] == _Delta_e
 
 
 def lepton_carrier_term(state, gap):
-    """The depth-4 term on a lepton rate: the carrier read at W(fund)·dim J₃(O) = 27/2, ∝ Δₖ."""
+    """The depth 4 term on a lepton rate: the carrier read at W(fund)·dim J₃(O) = 27/2, ∝ Δₖ."""
     return -(d11**3 / d10) * state["eq_loop"] * gap
 
 
 def _F_e_of(state):
     a = _alpha_of(state)
     qed = 1.0 - a / (2*math.pi)
-    # the electron's depth-4 term reads the carrier node, as its ledger does
+    # the electron's depth 4 term reads the carrier node, as its ledger does
     vent = 1.0 + lepton_carrier_term(state, _Delta_e)
     return C_EFF * math.exp(-S_lepton) * _Delta_e**2 * qed * vent
 
@@ -984,7 +984,7 @@ RHO_CRIT_MAPPED = (3.0 * H_0_GEV**2 * M_Pl_GeV**2
 #
 # v_EW = M_Pl · exp(−S_eff),  where S_eff = S₀ − C₂(26) + δS
 #
-#   S₀ = 9π²/2:  lepton instanton action (above)
+#   S₀ = 9π²/2:  lepton transmutation action (above)
 #   −C₂(26) = −d₁₀d₁₁ = −6:  functional determinant shift from quarks
 #       living in the 26 of F₄ (Casimir of 26-dimensional representation)
 #   δS = Tr_+(Q²) · α_EM / (2π): boundary current backreaction
@@ -998,20 +998,20 @@ N_vertex = vertex_charge_trace           # not a count: = Tr_+(Q²) = 30
 delta_S = N_vertex * alpha_EM / (2 * math.pi)  # = 15/512
 
 #  - quark layer action ledger: ALL departures from the lepton action
-#  are echoes.  The F4 knot vents its Casimir into the instanton
+#  are echoes.  The F4 knot vents its Casimir into the transmutation
 #  background (−C₂(26)).  The E8 current trace vents through the EM
 #  channel at its emergence reading (+Tr_+(Q²)α/2π).  One law, two
 #  channels.
 WEB["S_quark"] = (
     Ledger("S_quark(action)", S_lepton, "add", web_depth=4)
     .echo(["F4-knot(26)"], -float(C2_26), 1,
-          "FORCED", "Casimir vent of the 26 into the instanton background",
+          "FORCED", "Casimir vent of the 26 into the transmutation background",
           kind="vent")
     .echo(["EM(alg)"], delta_S, 1,
           "FORCED", f"E8 current trace {N_vertex} = 15/512",
           kind="vent")
     # Depth-4 response: the action's own
-    # depth-1 vertices compose across the e↔q loop,
+    # depth 1 vertices compose across the e↔q loop,
     # charge_trace × C₂(26) = (8/3)·6 = 16 (= the Singh ratio = d₁₀⁴).
     # The endpoint product is exactly 16. The reverse path composes with
     # the Albert transport as g^-1 g, fixing junction normalization to 1.
@@ -1020,7 +1020,7 @@ WEB["S_quark"] = (
     .echo(["read:eq_loop(Singh)"],
           lambda s: -float(charge_trace * C2_26)
           * s["eq_loop"], 4,
-          "FORCED", "depth-4 response: charge_trace × C₂(26) = 16",
+          "FORCED", "depth 4 response: charge_trace × C₂(26) = 16",
           parent="eq_loop"))
 
 #  - Higgs boundary ledger: the bridge echoes into the scalar channel -
@@ -1030,23 +1030,21 @@ WEB["S_quark"] = (
 #  under the confined SU(3).  The triality charged share cannot cross a
 #  confining interface (N-ality superselection, words.py).  A selection
 #  rule carries no altitude factor, so this is a vent, like the Casimir
-#  vent above.  The blocked share in the weight metric is h₁₀.  The edge
-#  remains a candidate, and no Higgs mass prediction rests on it.  That
-#  reading would need a mixed RGE convention, which is not canonical.
+#  vent above.  The blocked share in the weight metric is h₁₀.  No Higgs
+#  mass is read from the edge.  That reading would need a mixed RGE
+#  convention, which is not canonical.
 WEB["lambda_MPl"] = (
     Ledger("lambda(M_Pl)", 0.0, "add", web_depth=2)
     .echo(["bridge", "Higgs"], -(n7 * n26) * alpha_G2_Pl**2 * float(E_v2), 1,
           "FORCED", "N_bridge·α_G₂²·E[v²] bridge→Higgs echo")
     .echo(["WZW(fund)-vent"],
           (n7 * n26) * alpha_G2_Pl**2 * float(E_v2) * float(h10), 2,
-          "FORCED", "candidate fundamental share vent (1−h₁₀)",
+          "FORCED", "fundamental share vent (1−h₁₀)",
           kind="vent"))
 
 #  rerun the kernel so the new nodes join the solved state
 WEB.solve()
 S_quark = WEB.state["S_quark"]           # = 9π²/2 − 6 + 15/512
-sin2W_phys = WEB.state["sin2W"]          # 3/13 + Q₀²·α/(2π)
-bridge_sq_phys = WEB.state["bridge_sq"]  # 32/27 × (1 + h₁₁/K²)
 
 # # Koide Z₃ amplitude ratio (octonionic/MTC channel map) #
 #
@@ -1076,7 +1074,7 @@ BA_ratio = math.sqrt(d10)               # |B/A| = √d₁₀ = √2
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  PDG REFERENCE VALUES  (comparison only, not inputs)
+#  PDG REFERENCE VALUES
 # ═══════════════════════════════════════════════════════════════════════
 #  Kept in reference.py (its rules and declared entry list are there).
 #  Reexported here so consumers can read the references through
@@ -1085,7 +1083,7 @@ BA_ratio = math.sqrt(d10)               # |B/A| = √d₁₀ = √2
 from .reference import (PDG_MASSES, PDG_CKM, NUFIT_PMNS,       # noqa: F401
                         NUFIT_OSCILLATION, PDG_EW, PDG_COSMO,
                         PLANCK_2018, ACT_DR6, SUPER_K,
-                        PDG_LIGHT_RATIOS)
+                        PDG_LIGHT_RATIOS, ALPHA_INV_REF)
 
 
 def rk4_run(f, y, t0, t1, n_steps):
@@ -1143,11 +1141,11 @@ def derive():
     print(f"\n  Couplings:")
     print(f"    α_G₂(μ* = 253.5 GeV) = π/32,  α_EM = π/512 (zero edge base)")
     print(f"    1/α(0) = (512/π)(1−1/(2π)−2(α/2π)²) = {inv_alpha_phys:.9f}")
-    print(f"            [depth-1 truncation: (512/π)(1−1/(2π)) = 137.036439]")
+    print(f"            [depth 1 truncation: (512/π)(1−1/(2π)) = 137.036439]")
 
     print(f"\n  Action values (layer resolved web readings):")
     print(f"    S_lepton = d₁₁²π²/2 = {S_lepton:.4f}")
-    print(f"    S_baryo  = (4/9)S_lepton = {S_baryo:.4f}  [depth-4 G₂ face]")
+    print(f"    S_G2     = (4/9)S_lepton = {S_G2:.4f}  [depth 4 G₂ face]")
 
     return {
         'd10': d10, 'd11': d11, 'n7': n7, 'n26': n26,
@@ -1172,7 +1170,7 @@ def derive():
         'xi_bridge': xi_bridge,
         'E_v2': float(E_v2),
         'S_lepton': S_lepton,
-        'S_baryo': S_baryo,
+        'S_G2': S_G2,
         'b0_G2': float(b0_G2),
         'S_quark': S_quark,
         'vertex_charge_trace': vertex_charge_trace,

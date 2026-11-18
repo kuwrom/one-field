@@ -37,6 +37,12 @@ STATEMENTS (the numbers below check each one).
      conjugate data, which is degenerate with it), and the energy equals
      that of the closed form lump.
 
+RESULT. Computed on the self bound sign. The second variation has the
+stable count with every relative direction positive, and at g1 = 0 the
+lump still binds, so the common term binds and the g1 term makes the
+clock. Gradient flow at fixed N from random data ends on the clock lump,
+and the empty field is the global minimum iff m c^2 >= 2|mu0|.
+
 Usage: python3 tests/probes/lump_stability.py     (about ten seconds)
 """
 

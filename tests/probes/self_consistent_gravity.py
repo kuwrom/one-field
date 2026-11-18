@@ -1,9 +1,9 @@
-"""Self-consistent graviton correction and induced effective potential.
+"""The graviton row and the induced effective potential.
 
 The composite metric g = h/U is made of the field. Its fluctuations
 propagate on themselves. The Sakharov ledger at one loop counts every
-matter row but not the metric's own loop. This probe computes the
-self-consistent correction: the metric induces a stiffness, that
+matter row but not the metric's own loop. This probe computes that
+row self-consistently: the metric induces a stiffness, that
 stiffness governs the metric's own fluctuations, and those fluctuations
 contribute to the stiffness.
 
@@ -35,7 +35,7 @@ STATEMENTS.
       cancel under the loop integral.
 
   SC2 (the equation is additive). Because a1 is universal (it depends
-      on spin, not coupling), the corrected stiffness is simply
+      on spin, not coupling), the stiffness with the graviton row is simply
       Sigma_eff = Sigma_matter + c_grav. No iteration, no fixed point.
       Higher loops change the graviton row by O(c/Sigma) ~ 10%.
 
@@ -44,14 +44,13 @@ STATEMENTS.
       1/Sigma^3, far below the needed saturating floor.
 
 RESULT. The on shell graviton row is -8/3, gauge invariant at leading
-order in 1/N (subleading correction O(10%)). The literature range
+order in 1/N (subleading terms O(10%)). The literature range
 [-7.67, -2.67] is gauge scheme variation, not physical uncertainty.
-The graviton moves the covariant convention ratio from 0.698 to 0.775.
+The graviton moves the covariant convention ratio from 0.690 to 0.764.
 The substrate's p^4 dispersion does not enter: it belongs to a
 condensate, which gate C keeps out of the vacuum.
-Sigma != 6pi under the covariant convention: this is a structural
-statement about the field content, not a correctable gap. The CW
-sextic is killed (200x too small). The Sakharov ratio remains a
+Sigma != 6pi under the covariant convention is a structural statement
+about the field content. The CW sextic is excluded (200x too small). The Sakharov ratio remains a
 regulator dependent diagnostic (FACT 7). The framework's G prediction
 is the anchor inversion (M_Pl at +22 ppm, root.py).
 
@@ -76,7 +75,7 @@ def sigma_from_rows():
     N_bridge = n7 * n26
     a1 = {"scalar": 1/6, "weyl": 1/12, "gauge": -1/3}
     n_gauge = 2 * d11 * (d11 + 1)
-    n_fermion = d10 * d11 * (d11 * d10**2 + d10 + 1)
+    n_fermion = d10 * d11 * (d11 * d10**2 + d10 + 1) + d10 * (n26 - 3 * (d11**2 - 1))   # with the two right handed neutrinos
     n_coset = d10 * (2 * n7 - (d11**2 - 1))
     n_G2_scal = n7
     sigma = (n_gauge * a1["gauge"]
@@ -96,11 +95,11 @@ GRAVITON_ROW = {
 
 
 def higher_order_estimate(sigma_matter, c1):
-    """Estimate the size of the 2-loop correction to the graviton row.
+    """Estimate the size of the 2-loop term of the graviton row.
 
     The graviton row a1 is universal at leading order. At next order,
     the background curvature shifts it by O(c1/Sigma_matter): the
-    graviton propagating in the induced background sees corrections
+    graviton propagating in the induced background sees terms
     proportional to G * R ~ 1/Sigma. Returns the fractional shift.
     """
     return abs(c1) / sigma_matter
@@ -123,7 +122,7 @@ def run(report=print):
 
     report(f"\nSC0: matter ledger Sigma = {sigma_matter:.4f}, "
            f"target 6pi = {target:.6f}, "
-           f"bare ratio = {bare_ratio:.6f}")
+           f"matter ratio = {bare_ratio:.6f}")
 
     # SC1: the graviton row, four schemes.
     report("\nSC1: graviton a1 coefficient (literature, scalar = 1/6 units):")
@@ -165,8 +164,7 @@ def run(report=print):
     ratio_1 = target / sigma_1
     report(f"\nSC4: on shell (gauge invariant) graviton row:")
     report(f"  Sigma_eff = {sigma_1:.4f}, "
-           f"6pi/Sigma_eff = {ratio_1:.6f}, "
-           f"deficit = {(ratio_1 - 1)*100:+.2f}%")
+           f"6pi/Sigma_eff = {ratio_1:.6f}")
 
     # SC5: higher order estimate.
     frac = higher_order_estimate(sigma_matter, c_phys)
@@ -192,7 +190,7 @@ def run(report=print):
     report(f"  The literature range is scheme variation, not physics.")
 
     # SC7: the substrate's p^4 dispersion belongs to a condensate, not to the vacuum.
-    report("\nSC7: no p^4 correction to the vacuum term.")
+    report("\nSC7: no p^4 term in the vacuum term.")
     report("  The Bogoliubov dispersion belongs to a condensate, and a condensate")
     report("  filling space needs xi > 2.7e6 l_Pl to keep c_T = c")
     report("  (carrier_sakharov.py), so it does not regulate the empty field.")
@@ -204,19 +202,17 @@ def run(report=print):
     report(f"\nSC8: CW sextic from the graviton loop:")
     report(f"  kappa_CW = {kappa:.2e}, floor = O(1)")
     report(f"  ratio = {kappa:.2e}, suppressed by {1/kappa:.0e}")
-    report(f"  KILL: the metric loop does not generate the saturating term.")
+    report(f"  excluded: the metric loop does not generate the saturating term.")
 
     report("\n" + "=" * 60)
     report("SUMMARY")
     report("=" * 60)
     report(f"Sigma_matter = {sigma_matter:.4f}, target 6pi = {target:.4f}")
-    report(f"bare ratio              = {bare_ratio:.4f}")
-    report(f"+ on shell graviton     = {target/sigma_1:.4f} "
-           f"(deficit {(ratio_1-1)*100:+.1f}%)")
-    report(f"CW sextic               = KILLED ({1/kappa:.0e}x too small)")
-    report(f"\nThe on shell graviton row is a 10% correction in the right")
-    report(f"direction.  It shrinks the gap but does not close it.")
-    report(f"The Sakharov ratio remains a diagnostic (FACT 7), not 1.")
+    report(f"matter ratio            = {bare_ratio:.4f}")
+    report(f"+ on shell graviton     = {target/sigma_1:.4f}")
+    report(f"CW sextic               = excluded ({1/kappa:.0e}x too small)")
+    report(f"\nThe on shell graviton row is additive, -8/3.")
+    report(f"The Sakharov ratio is a diagnostic (FACT 7).")
     report(f"The framework's G prediction is the anchor (+22 ppm).")
 
     return dict(

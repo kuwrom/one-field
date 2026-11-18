@@ -74,15 +74,13 @@ STATEMENTS (each frozen by tests/audit/test_carrier_ledger.py).
      measurement resolves a weight there.  The venting ledger is a
      count of rows.
   C7 (the readings that are not web nodes).  The mixing matrices are
-     read from finite maps, not ledgers.  Every depth-4 term is either
+     read from finite maps, not ledgers.  Every depth 4 term is either
      sector blind or diagonal in its sector's mass basis.  Neither kind
      moves an eigenvector, so V = U_u^dag U_d is the same at depth four,
      to 1e-12.  The one live path is the lepton masses inside the PMNS
      map, which moves each PMNS pull by less than 1e-3
      (tests/probes/mixing_depth4.py B2, B3, frozen in
-     tests/mixing/test_mixing_probes.py).  eta_B reads J_lep from that
-     map and the G2 face action, and the data keep the action off the
-     carrier (C6).  The dark ratio is a ratio of the two shares of the
+     tests/mixing/test_mixing_probes.py).  The dark ratio is a ratio of the two shares of the
      bridge response.  It has no depth one edge, so the rule gives it
      weight zero.  Each of these is therefore compared at its depth
      four reading.
@@ -129,8 +127,8 @@ def chain():
     with contextlib.redirect_stdout(io.StringIO()):
         R = root.derive()
         m = masses.derive(R)
-        mx = mixing.derive(R, m)
-        gravity_out = gravity.derive(R, m, mx, couplings.derive(R, m))
+        mixing.derive(R, m)
+        gravity_out = gravity.derive(R, m, couplings.derive(R, m))
         dark_sector.derive(R, gravity_out)
     return root.WEB
 

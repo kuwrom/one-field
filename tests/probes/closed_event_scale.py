@@ -4,12 +4,12 @@ THE QUESTION. The gravity lane's coefficient is 1/G = Sigma/(2 pi t0)
 under a proper time cutoff t0 (sakharov_normalisation.py FACT 1). G is
 the anchor inversion m_e -> M_Pl (root.py). So t0 = Sigma/(2 pi) l_Pl^2.
 This is the boundary identification of root.py in proper time form:
-4.297 l_Pl^2 on the counted ledger this probe reads (FACT 7's
-reference), 4.112 on the engine's one list. A count of the states and
+4.350 l_Pl^2 on the counted ledger this probe reads (FACT 7's
+reference), 4.165 on the engine's one list. A count of the states and
 area of the smallest closed event could fix t0. clock_record.py K4
 makes that count. The minimal lump of lump_in_empty_field.py holds
 N_min = 164.1 x depth quanta on an area of 95.4 xi^2, and gives three
-readings of xi/l_Pl (1.918, 4.54, 0.5). What does each reading fix?
+readings of xi/l_Pl (1.930, 4.54, 0.5). What does each reading fix?
 Can the same lump be the particle of the matter reading and the pixel
 of the regulator reading?
 
@@ -44,15 +44,15 @@ STATEMENTS (the numbers below check each one).
      transition.)
   S2 (a Planck pixel needs a Planck carrier). Each reading xi/l_Pl
      bounds the carrier mass: m/M_Pl >= 1/(2 xi/l_Pl), larger by
-     1/sqrt(2 nu0) below the edge. Per state record 1.918: m >= 0.261
+     1/sqrt(2 nu0) below the edge. Per state record 1.930: m >= 0.259
      M_Pl. One record per quantum 4.54: m >= 0.110 M_Pl. The
      identification xi0 = l_Pl/d10 = 0.5 is exactly xi = hbar/(2 m c_s)
      at m = M_Pl, c_s = c. The carrier's own components then vent
-     E2(m^2 t0) = 0.48, 0.82 and 2.3e-3 of a massless row. At the
+     E2(m^2 t0) = 0.47, 0.82 and 2.1e-3 of a massless row. At the
      identification the carrier quanta sit above the regulator. The
      smallest closed event has mass N_min x 0.964 x m, from 52 to 474
      M_Pl at depth 3. In the O4 convention (sqrt 2 longer pixel) the
-     per state bound is 0.369 M_Pl: Planckian in either convention.
+     per state bound is 0.366 M_Pl: Planckian in either convention.
   S3 (the electron is not the smallest closed event). If the minimal
      lump had mass m_e, the carrier would be m = m_e/(N_min x 0.964) =
      1.08e-3 MeV, 8.8e-26 M_Pl, its interior pixel at least 5.7e24
@@ -85,8 +85,8 @@ STATEMENTS (the numbers below check each one).
 RESULT. The lump interior's pixel is bounded below by half the
 carrier's Compton length. So every reading of the record ties the
 regulator to a Planckian carrier mass that nothing reads. An electron
-mass lump records nothing of 1/(4G). The route from the smallest
-closed event to t0 is closed. t0 is the boundary identification of
+mass lump records nothing of 1/(4G), so the smallest closed event
+does not set t0. t0 is the boundary identification of
 root.py in proper time form, and G stays with the anchor. No carrier
 mass makes the minimal lump a particle (S5, S6), so the carrier mass
 is not a leftover free number. The lump is read in carrier units. It
@@ -130,7 +130,7 @@ def run(report=print):
     sigma = engine_sigma()[0]
     t0 = sigma / (2 * math.pi)                                   # l_Pl^2, G anchored
     out["sigma"], out["t0"] = sigma, t0
-    assert abs(t0 - 4.297) < 2e-3
+    assert abs(t0 - 4.350) < 2e-3
 
     # S1: the sound speed identity and the pixel bound.
     err = max(abs(cs2_over_c2(c) - 2 * (-L.MU0) / (c * c)) for c in (1.0, math.sqrt(-2 * L.MU0), 2.0))
@@ -168,7 +168,7 @@ def run(report=print):
                    m_at_nu0={nu: m_min / math.sqrt(2 * nu) for nu in nus})
         out["readings"][name] = row
     r_ps, r_q, r_id = (out["readings"][k] for k in readings)
-    assert abs(r_ps["m_min"] - 0.2607) < 5e-3 and abs(r_q["m_min"] - 0.110) < 2e-3
+    assert abs(r_ps["m_min"] - 0.2590) < 5e-3 and abs(r_q["m_min"] - 0.110) < 2e-3
     assert r_id["m_min"] == 1.0 and r_id["E2"] < 3e-3 and 0.4 < r_ps["E2"] < 0.5
     out["per_state_m_min_o4"] = r_ps["m_min"] * math.sqrt(2)
     report(f"S2 t0 = {t0:.3f} l_Pl^2, N_min = {n_min:.1f} at depth {DEPTH:.0f}, E_min/(N m c^2) = {frac:.3f} at the edge;")

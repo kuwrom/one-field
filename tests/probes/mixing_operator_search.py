@@ -4,13 +4,13 @@ The existing D6* closure words are polynomials in commuting fusion
 operators, so their scalar path sums cannot diagonalize one mass frame relative
 to another. On the open path space the exact D^(6)* cells change that
 conclusion. Their braid generators do not commute and satisfy
-Yang--Baxter, and at depth four they contain two three dimensional
+Yang-Baxter, and at depth four they contain two three dimensional
 carriers.
 Their assignment to sectors is an identification this probe does not
 make. It records the carriers.
 
 The Albert carrier does split explicitly as 26 = 2 + 8 + 8 + 8. But the
-bridge acts the same way on all of the irreducible 26, and the depth-4
+bridge acts the same way on all of the irreducible 26, and the depth 4
 transport reads the closed path g^-1 g = 1. Neither operation selects
 sector frames.
 
@@ -109,7 +109,7 @@ def run(report=print):
     assert d6["braid_commutator"] > 1e-12
     assert sorted(d6["depth4_carrier_dimensions"]) == [2, 3, 3]
     report("  Exact D6* cells restore the open information: the braid")
-    report("  connection is unitary/Yang--Baxter and noncommuting.")
+    report("  connection is unitary/Yang-Baxter and noncommuting.")
     report("  Depth four splits as 3+3+2, exposing two generation sized")
     report("  carriers before the scalar path sum is taken.")
 

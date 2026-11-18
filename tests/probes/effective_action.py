@@ -1,11 +1,10 @@
 """
-effective_action.py: the texture stabilizing term, derived
-(the topological protection derivation, branch (i), closed
-constructively).
+The texture stabilizing term, derived
+(the topological protection derivation, closed constructively).
 
 SCOPE. knot_charge.py measured that the Z3-NLS substrate on its own
 does not protect pi_3 winding. Textures undergo Derrick collapse and
-unwind through codim-4 amplitude node events.  DP #4 requires the confined
+unwind through codim-4 amplitude node events.  The knot chain needs the confined
 sector's effective action to contain a texture stabilizing term
 (Skyrme quartic or equivalent), or the chain breaks.  This probe
 exhibits that term CONSTRUCTIVELY, from the repo's own energy
@@ -63,12 +62,12 @@ coefficient and a self-consistent scale. The substrate field on its
 own escapes this term in exactly the way measured. The amplitude is
 classically soft, and node events (amplitude through zero) leave the
 fixed norm manifold. That is the only channel the quartic cannot see.
-Protection therefore rests on a single premise: the amplitude/node
+Protection therefore reads one condition: the amplitude/node
 channel is suppressed in the saturated quantum regime.  At Gaussian
 order it is (the measured gap). Beyond Gaussian order a node event is
 a finite action excursion, suppressed as exp(-c rho xi^3). The
 diluteness parameter rho xi^3 is a substrate depth parameter that the
-web does not fix.  That premise is the confined phase entry test
+web does not fix.  That condition is the confined phase entry test
 (confined_phase.py), sharpened to one quantitative condition.
 
 Corroboration: Babaev-Faddeev-Niemi (PRB 65, 100512, 2002) derive
@@ -76,13 +75,11 @@ the same induced Faddeev-Skyrme term for two component condensates.
 The follow up literature's finding that full GP knots still shrink
 through amplitude excursions is exactly our measured mechanism.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). For that sign the closure is the spinning lump
-(spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
-Usage: python3 effective_action.py     (static, fast. No PDE)
+Usage: python3 tests/probes/effective_action.py     (static, fast. No PDE)
 """
 
 import os
@@ -220,7 +217,7 @@ def run(report=print):
     report("  The one channel it cannot see is the amplitude node")
     report("  (exit from the fixed norm manifold), which is the")
     report("  measured unwinding mechanism.  Protection therefore")
-    report("  rests on a single premise: the node channel is gapped")
+    report("  reads one condition: the node channel is gapped")
     report("  in the saturated quantum regime (Gaussian order:")
     report("  measured. Beyond: exp(-c rho xi^3) suppression).")
     report("  That premise IS the confined phase entry test, sharpened.")

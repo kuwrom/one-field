@@ -53,7 +53,7 @@ STATEMENTS (the numbers below check each one).
      logarithmic running starts from, read whole at the boundary.  Both
      readers agree with a0 = 0 to those parts.
   R5 (on itself, in the ledger). The metric's own loop adds -8/3 to
-     the one list's stiffness on shell, 25.83 to 23.17 at the
+     the one list's stiffness on shell, 26.17 to 23.50 at the
      covariant contact, and -23/3 in the de Donder gauge. Gates S and
      M pass at every contact with either. The anchored G does not move
      with it: an identity (gravity_resolution.py R3).
@@ -78,7 +78,7 @@ Scope: one loop running with a power law term of the stated form. The
 self-echo is bounded by G alone, below a part in a thousand of its
 natural size.
 
-Usage: python3 tests/probes/gravity_back_reaction.py     (about 30 s, runs the chain)
+Usage: python3 tests/probes/gravity_backreaction.py     (about 30 s, runs the chain)
 """
 
 import math
@@ -212,7 +212,7 @@ def run(report=print, build=True):
         S = all(B.sigma(one, 1.0, c, xi) + loop >= 2 * math.pi for c in B.CONTACTS)
         t0 = [B.anchored(one, c, xi, extra=loop)[0] / (2 * math.pi) for c in B.CONTACTS]
         gates[loop] = (S, all(BAND[0] < t < BAND[1] for t in t0))
-    assert abs(sig[0.0][0] - 155 / 6) < 1e-9 and all(all(g) for g in gates.values())
+    assert abs(sig[0.0][0] - 157 / 6) < 1e-9 and all(all(g) for g in gates.values())
     out.update(sigma_with_loop={k: v[0] for k, v in sig.items()}, gates_with_loop=gates)
     report(f"R5 the metric's own loop: stiffness {sig[0.0][0]:.2f} to {sig[METRIC_LOOP[0]][0]:.2f} on shell and "
            f"{sig[METRIC_LOOP[1]][0]:.2f} in the de Donder gauge at the covariant contact; S and M pass with each")

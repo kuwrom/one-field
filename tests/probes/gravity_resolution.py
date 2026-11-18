@@ -40,6 +40,15 @@ R5 (where the frame is read).  The stiffness nodes of the web carry
    COMMON MODE).  The anchor node M_Pl_MeV sits at web depth four, read
    through the lepton loop.
 
+RESULT. Computed: the anchor puts M_Pl at -1139.9, +21.5 and +22.2 ppm
+from CODATA at web depth 1, 2 and 4, and the +22.2 ppm residual is 2.02
+sigma of M_Pl's 11 ppm uncertainty (half of G's 22 ppm), far above the
+moves of the measured inputs and the next echo of the ladder. The anchor
+moves one for one with m_e, a reading, while the ledger's G at the
+anchored regulator is an identity. At a placed regulator the ledger
+gives an attractive sign in every cell over a G range of about two
+decades.
+
 Usage: python3 tests/probes/gravity_resolution.py     (about 20 s, runs the chain)
 """
 
@@ -61,7 +70,7 @@ REL_M_E = 3.1e-10                       # CODATA relative uncertainty on m_e
 INV_ALPHA_CS, INV_ALPHA_RB = 137.035999046, 137.035999206
 ONE = B.rows(r.d10, r.d11, r.n7, r.n26)       # the one list: the bridge as amount (boundary.py)
 CONTACT_SIGMA = tuple(B.sigma(ONE, 0.0, c, float(r.xi_bridge)) for c in B.CONTACTS)   # contacts +1/0/-1
-assert all(abs(s - v) < 1e-9 for s, v in zip(CONTACT_SIGMA, (155 / 6, 263 / 6, 371 / 6)))
+assert all(abs(s - v) < 1e-9 for s, v in zip(CONTACT_SIGMA, (157 / 6, 265 / 6, 373 / 6)))
 METRIC_LOOP = (0.0, -8.0 / 3.0, -23.0 / 3.0)  # none, on shell, de Donder off shell
 BAND = (0.6, 15.0)                            # gate M: Planckian t0 M_b^2
 
@@ -93,7 +102,7 @@ def attribution():
     e = 1.0 / (2 * math.pi * r.inv_alpha_phys)
     from_m_e = REL_M_E                                   # M is linear in m_e
     from_alpha = abs(m_pl(inv_alpha=INV_ALPHA_RB) / m_pl(inv_alpha=INV_ALPHA_CS) - 1.0)
-    next_echo = e**3                                     # order of a depth-5 term
+    next_echo = e**3                                     # order of a depth 5 term
     step_4 = abs(m_pl(depth=4) / m_pl(depth=2) - 1.0)
     resid = M0 / CODATA_M - 1.0
     dS = math.log(M0 / CODATA_M)                         # M ~ e^S, so delta S = ln ratio
@@ -131,9 +140,9 @@ def _chain():
     with contextlib.redirect_stdout(io.StringIO()):
         R = r.derive()
         m = masses.derive(R)
-        mx = mixing.derive(R, m)
+        mixing.derive(R, m)
         c = couplings.derive(R, m)
-        gravity.derive(R, m, mx, c)
+        gravity.derive(R, m, c)
 
 
 GRAVITY_NODES = ("a1_bridge", "Sigma_vent(UV)", "Sigma_vent(broken)", "G_ratio")
@@ -168,7 +177,7 @@ def run(report=print, build=True):
     assert at["next_echo"] < 2e-9 and at["residual_over_next_echo"] > 1e4
     assert 1.5 < at["residual_over_sigma"] < 2.5
     report(f"R2 attribution: m_e moves M_Pl by {at['from_m_e']:.1e}, the Cs/Rb alpha split by "
-           f"{at['from_alpha']:.1e}. The depth-4 step was {at['step_4']:.1e} and a depth-5 term is "
+           f"{at['from_alpha']:.1e}. The depth 4 step was {at['step_4']:.1e} and a depth 5 term is "
            f"of order {at['next_echo']:.1e}.  The residual {1e6 * at['residual']:+.1f} ppm is "
            f"{at['residual_over_next_echo']:.1e} next echoes and "
            f"{at['residual_over_sigma']:.2f} sigma of G's measurement. As an action shift "

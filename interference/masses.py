@@ -32,7 +32,7 @@ because nothing inside it distinguishes which position came first.
 Most loops just cycle.
 
 In the engine's protected forgetting branch, the asymmetric label
-v_G2 = (1, −1/2, −1/2) is erased (NOT the canonical harmonic; see
+v_G2 = (1, −1/2, −1/2) is erased (NOT the canonical harmonic, see
 NAMING above) and the three positions become equivalent.  The
 resulting Z₃-circulant has three eigenstates, identified with the
 electron, muon and tau generations.  In the engine, mass is the
@@ -40,8 +40,8 @@ squared gap of that pattern.
 
 The substrate realizes the pattern as a localized clock.  The
 circulant spectrum (B/A = √2, θ = 2/9) is algebraically derived.
-Demonstrating that the confined 3D substrate locks onto it is the
-verification program (emergent_clock.py).
+Testing whether the confined 3D substrate locks onto it belongs to the
+realization program (emergent_clock.py).
 
 ═══════════════════════════════════════════════════════════════════════
 THE SUBSTRATE PICTURE (self-contained summary)
@@ -133,13 +133,13 @@ Step 4: Confinement scale. A² = ½ M_Pl exp(−S₀) is the amplitude in
         S = 9π²/2 − 6 + 15/512 − 16(α/2π)².
     The three added terms are the Casimir vent −C₂(26), the E8 positive
     root current trace Tr₊(Q²)·α_EM/(2π) = 30·α_EM/(2π) = 15/512, and
-    the depth-4 Singh vertex. This gives v_EW = M_Pl·exp(−S). The
+    the depth 4 Singh vertex. This gives v_EW = M_Pl·exp(−S). The
     exponent is the same in both readings.
 
 Step 5: EM response stack.
-    The depth-2 bridge→EM echo (root.py lepton_EM, path bridge→EM with
+    The depth 2 bridge→EM echo (root.py lepton_EM, path bridge→EM with
     the echoed coupling) multiplies the closure base by
-    (1 − α(0)/(2π)). The Ledger below then adds the depth-4 e↔q
+    (1 − α(0)/(2π)). The Ledger below then adds the depth 4 e↔q
     response. These are interference depths of one mass reading, not
     a conversion between two physical masses.
 
@@ -149,21 +149,18 @@ TWO SENSES OF "WHERE THE LEPTONS LIVE" (easy to collide)
 
 The F₄ SINGLET is a statement about SCALE. The charged lepton
 standing wave closes with no Casimir vent (S_lepton = 9π²/2). That is
-why it sits at Λ_conf rather than v_EW.  This is the sense used here,
-and the only one that enters this repository.
+why it sits at Λ_conf rather than v_EW.  This is the sense used here.
 
 The 8_v assignment inside the triality split 26 → 8_v ⊕ 8_s ⊕ 8_c ⊕
 2·1 is a statement about QUANTUM NUMBERS, in a Pati-Salam
-reading.  The engine never uses it and no scorecard
-number depends on it.
+reading.
 
 What the engine does use from the split is the triality SWAP
-(d₁₀² ↔ d₁₁², up versus down, below).  Suppose the two singlets are
-identified with right handed neutrinos. In a minimal type-I seesaw
-with no other light neutrino mass operators, the light neutrino mass
-matrix then has rank at most two, so at least one state is massless.
-The bound holds only under that assumption. It does not choose
-between normal and inverted ordering (gravity.py). The three
+(d₁₀² ↔ d₁₁², up versus down, below).  The two singlets are the
+right handed halves of two Dirac neutrinos. The searchlight forces
+this shape at depth three, and the lightest neutrino is massless
+(tests/probes/neutrino_mass_term.py).
+The three
 generations of each come from the same Z₃ that gives three lepton
 generations, not from triality.
 
@@ -171,19 +168,19 @@ generations, not from triality.
 UP-TYPE QUARKS, WZW emergence
 ═══════════════════════════════════════════════════════════════════════
 
-    m_q(n) = [base(n) + corr(n)] × m_lep(n)
+    m_q(n) = [base(n) + echo(n)] × m_lep(n)
 
     base ladder:  d₁₀²  →  d₁₀²d₁₁  →  d₁₁⁴+d₁₀⁴
-    corr ladder:  h₁₀   →  δ          →  1/(2K)
+    echo ladder:  h₁₀   →  δ          →  1/(2K)
                   2/9       1/18          1/12
-    Ratios: corr₁/corr₂ = d₁₀² = 4,  corr₂/corr₃ = Q₀ = 2/3  (alternating)
+    Ratios: echo₁/echo₂ = d₁₀² = 4,  echo₂/echo₃ = Q₀ = 2/3  (alternating)
 
 ═══════════════════════════════════════════════════════════════════════
 DOWN-TYPE QUARKS, Koide with WZW representation backreactions
 ═══════════════════════════════════════════════════════════════════════
 
 The Koide relation Q₀ = 2/3 is exact for the lepton circulant base
-(identity rep, h=0). The completed lepton reading, with its depth-4
+(identity rep, h=0). The completed lepton reading, with its depth 4
 backreaction included, sits at Q = 0.6666633, 5.1 ppm below it.
 Each quark triplet closes through a specific SU(3)₃ representation λ.
 This produces a subleading backreaction:
@@ -200,7 +197,7 @@ expansion.  The same theorem gives bridge² its K² altitude: a paired
 S S† insertion is invariant already at order 2.  (Witness:
 tests/audit/test_coverage.py::test_first_invariant_order_theorem.)
 THE ASSIGNMENT IS DERIVED by the insertion rule
-(tests/probes/lambda_assignment.py). The rule is N-ality
+(tests/probes/koide_assignment.py). The rule is N-ality
 superselection at the deepest interface the triplet closes through.
 The same superselection forces w₂'s step letter.  (c,b,t) contains
 the terminus, so its insertion crosses the confining interface. That
@@ -237,15 +234,22 @@ LIGHT QUARKS, d₁₀² ↔ d₁₁² swap
 THE MASS READING AND ITS COMPARISON COORDINATE
 ═══════════════════════════════════════════════════════════════════════
 
-A running mass m(μ) is a coordinate on an RG orbit. The framework does
-not derive a sequence of preliminary and corrected masses. It produces
-one Web reading, including every echo. Comparison then uses the
-coordinate attached to the external reference:
+The framework produces one Web reading per fermion, with every echo of
+its channels included: the EM channel to web depth 4 for the leptons,
+the WZW vents at depth 1 for the quarks. The reading does not run.
+A reading is the object read against itself, so it meets an entry the
+object fixes alone: the complete entry where the object is never bound
+into a hadron, the entry at its own mass where it is bound above
+confinement, and ratios alone where it fixes neither. Of the 19683 assignments of
+the nine fermions, 324 use entries that exist and one follows that order
+(tests/probes/bottom_coordinate.py, B4 to B7). Measured tables label
+each entry by the coordinate it is quoted in, and the labels below name
+the entry each reading meets:
 
   LEPTONS (e, μ, τ): the completed EM channel reading is compared with
     the measured lepton mass, conventionally listed as a propagator
     pole value. "Pole" is an external reference label, not a Web stage.
-    The depth-4 EM backreaction (27/2, ∝ Δₖ) is flavour dependent, so
+    The depth 4 EM backreaction (27/2, ∝ Δₖ) is flavour dependent, so
     it survives in the mass ratios. It contributes −9.8 ppm to the μ/e
     ratio, and the measurement resolves it. The completed reading comes
     out at +3e-9 (μ) and −0.0012% (τ). The Koide relation among the
@@ -258,9 +262,11 @@ coordinate attached to the external reference:
     a running coordinate, gravity.py translates this same reading for that
     calculation. It does not generate another top mass.
 
-  CONFINED HEAVY quarks (c, b): comparison uses the PDG self-scale m(m),
-    the fixed point of μ ↦ m(μ). This is reference metadata, not a
-    change to the algebraic reading.
+  CONFINED HEAVY quarks (c, b): the entry is the table's self-scale
+    m(m). The (c, b, t) Koide relation holds among the readings and the
+    entries they meet, as the lepton relation does. Carried to one
+    shared μ by beta order transport, which is not web depth, the same
+    values give Q ≈ 0.72.
 
   COORDINATE CHECK: comparing against a different conventional entry can
     change a residual without changing the framework. For example, the
@@ -286,9 +292,8 @@ coordinate attached to the external reference:
     27.30(8) and stays there, it kills 27.318.
 
 The algebra does not run to a scale. A requested coordinate translation
-uses standard RGE transport with the framework's own α_s(M_Z) = 0.1184
-(couplings.py). That translation is calculation metadata, not a further
-interference depth.
+uses standard RGE transport with the framework's own α_s(M_Z) = 0.1187
+(couplings.py). The translation is not a further interference depth.
 
 TWO FALSIFIERS ON THE HEAVY DOWN-TYPE SIDE, AND THE GENERATION COUNT.
   m_b = 4193.8 MeV with NO vent.  If the PDG m_b band shrinks below
@@ -328,13 +333,13 @@ def derive(R):
     #   octonionic CG |C₃̄|/|C₁| = √2 from Fano cross product,
     #   × quantum Schur suppression 2/d(fund) = 2/d₁₀ = 1
     #   → B/A = √2 × 1 = √2  (Fano CG × projector lemma,
-    #     searchlight/octonions.py, COMPUTED + IH)
+    #     searchlight/octonions.py, identified)
     #
     # θ = h₁₀ = d₁₀/d₁₁² = 2/9:
     #   Sugawara h(R) = C₂(R)/(k+h∨), fund: C₂ = (d₁₁²−1)/(2d₁₁) = 4/3
     #   → h₁₀ = (4/3)/(d₁₀d₁₁) = d₁₀/d₁₁² = 2/9
     #
-    # A = ½ M_Pl exp(−S₀), S₀ = d₁₁²π²/2 (instanton action, see root.py)
+    # A = ½ M_Pl exp(−S₀), S₀ = d₁₁²π²/2 (transmutation action, see root.py)
     #
     # Q₀ = 1/3 + |B/A|²/6 = 1/3 + d₁₀/6 = 2/3 = d₁₀/d₁₁
     #   (Z₃ circulant identity)
@@ -346,7 +351,7 @@ def derive(R):
     # plus its echo stack.  Charged knots vent through the EM channel, so
     # they inherit the lepton_EM echo from the web. No explicit
     # "× QED_factor" is applied. The echo law produces it.
-    lepton_tree, lepton_pred = {}, {}
+    lepton_pred = {}
     for k_idx, name in [(1, 'e'), (2, 'mu'), (0, 'tau')]:
         gap = 1.0 + BA_ratio * math.cos(h10 + 2*math.pi*k_idx/3)
         # live ratio base: the SAME standing wave, read from the solved
@@ -359,7 +364,7 @@ def derive(R):
         for t in WEB["lepton_EM"].terms:
             led.echo(t.path, t.factor, t.depth, t.status, t.note, t.kind,
                      t.parent)
-        # Depth-4 response. The depth-3 carrier is read recursively
+        # Depth-4 response. The depth 3 carrier is read recursively
         # through the mass node's own channel weight W(fund) = 1/d₁₀
         # (the B/A Schur projector). That weight composes with the
         # Albert traversal dim J₃(O) = 27 across the e↔q loop, giving
@@ -372,10 +377,9 @@ def derive(R):
         led.echo(["read:eq_loop(J₃(O))"],
                  (lambda s, g=gap: lepton_carrier_term(s, g)),
                  4, "FORCED",
-                 "depth-4 response: W(fund)·dim J₃(O) = 27/2, ∝ Δₖ",
+                 "depth 4 response: W(fund)·dim J₃(O) = 27/2, ∝ Δₖ",
                  parent="eq_loop")
         WEB[f"m_{name}"] = led
-        lepton_tree[name] = C_EFF * M_Pl_MeV * math.exp(-S_lepton) * gap**2
         lepton_pred[name] = led.value()
 
     m_e, m_mu, m_tau = lepton_pred['e'], lepton_pred['mu'], lepton_pred['tau']
@@ -394,13 +398,13 @@ def derive(R):
 
     # # Up-type quarks (WZW emergence) ###############
     #
-    # Unified: m_q(n) = [base(n) + corr(n)] × m_lep(n)
+    # Unified: m_q(n) = [base(n) + echo(n)] × m_lep(n)
     #
     #   base ladder:  d₁₀²  →  d₁₀²d₁₁  →  d₁₁⁴+d₁₀⁴
-    #   corr ladder:  h₁₀   →  δ          →  1/(2K)
+    #   echo ladder:  h₁₀   →  δ          →  1/(2K)
     #                 2/9      1/18          1/12
     #
-    #   Ratios: corr₁/corr₂ = d₁₀² = 4,  corr₂/corr₃ = Q₀ = 2/3 (alternating)
+    #   Ratios: echo₁/echo₂ = d₁₀² = 4,  echo₂/echo₃ = Q₀ = 2/3 (alternating)
 
     # ECHO LAW FORM (exact rational identities, same numbers, one law):
     # each quark knot binds to its generation lepton and VENTS through
@@ -409,11 +413,11 @@ def derive(R):
     #   m_c = d₁₀²d₁₁·(1 + K⁻³)· m_μ   [vent = 1/K³, SAME suppression
     #                                   as the down-type Koide terms]
     #   m_t = base₃·(1 + 1/(2K·base₃))·m_τ  [base₃ = d₁₁⁴+d₁₀⁴ = 97.
-    #                                   vent = corr₃/base₃, the
+    #                                   vent = echo₃/base₃, the
     #                                   generation ladder rule (the
     #                                   additive word_multiplier form
-    #                                   m_q = (base+corr)·m_lep makes
-    #                                   every quark vent = corr/base)]
+    #                                   m_q = (base+echo)·m_lep makes
+    #                                   every quark vent = echo/base)]
     # Proof of exactness: d₁₀²(1+δ) = 4·19/18 = 38/9.
     # d₁₀²d₁₁(1+1/216) = 12·217/216 = 217/18. 97(1+1/1164) = 1165/12.
     # The word lemma integers are IMPORTED from the lemma (words.py
@@ -442,7 +446,7 @@ def derive(R):
     # and independently killed by experiment.
     led_t = Ledger("m_t", lambda s: base_t * s["m_tau"], "mul", "MeV").echo(
         ["WZW(2K)"], 1.0 / (2 * K * base_t), 1,
-        "FORCED", "vent = corr₃/base₃. words lemma, terminus DERIVED")
+        "FORCED", "vent = echo₃/base₃. words lemma, terminus DERIVED")
     WEB["m_u"], WEB["m_c"], WEB["m_t"] = led_u, led_c, led_t
 
     m_u, m_c, m_t = led_u.value(), led_c.value(), led_t.value()
@@ -491,62 +495,11 @@ def derive(R):
     Q_cbt = led_Qcbt.value()             # 2/3 + (1/d₁₀)/(d₁₀d₁₁)³ = 289/432
     Q_scb = led_Qscb.value()             # 2/3 + (d₁₀/d₁₁²)/(d₁₀d₁₁)³ = 649/972
 
-    # Bottom from Q(c,b,t)
-    sc, st = math.sqrt(m_c), math.sqrt(m_t)
-    a = Q_cbt - 1
-    b = 2*Q_cbt*(sc + st)
-    c_coeff = (Q_cbt - 1)*(m_c + m_t) + 2*Q_cbt*sc*st
-    disc = b**2 - 4*a*c_coeff
-    x1 = (-b + math.sqrt(disc)) / (2*a)
-    x2 = (-b - math.sqrt(disc)) / (2*a)
-    m_b = x1**2 if m_c < x1**2 < m_t else x2**2
-
-    # Strange from Q(s,c,b) + bridge
-    sc_r, sb_r = math.sqrt(m_c), math.sqrt(m_b)
-    a_r = 1 - Q_scb
-    b_r = 2*Q_scb*(sc_r + sb_r)
-    c_r = m_c + m_b - Q_scb*(sc_r + sb_r)**2
-    disc_r = b_r**2 - 4*a_r*c_r
-    x1_r = (-b_r + math.sqrt(disc_r)) / (2*a_r)
-    x2_r = (-b_r - math.sqrt(disc_r)) / (2*a_r)
-    x_phys = x1_r if x1_r > 0 else x2_r
-    # # COMPRESSION: the 8/3 trinity ################
-    # One object, three appearances.  The dictionary identity
-    #     d₁₀³ = d₁₁² − 1 = d₁₀² + d₁₁ + 1   (= 8)
-    # (equivalent to the Sugawara lock d₁₁²−1 = 4d₁₀ at d₁₀ = 2) makes
-    # d₁₀³/d₁₁ = (d₁₀²+1+d₁₁)/d₁₁ = CHARGE TRACE = 8/3 (root.py), so:
-    #   • Singh ratio       = charge_trace × C₂(26) = 16
-    #   • strange bridge²   = Q₀² × charge_trace × (1 + h₁₁/K²) = 32/27 × 73/72
-    #   • top backreaction  = h₁₀ / charge_trace    = corr₃ = 1/12
-    from .root import charge_trace, WEB
-    assert d10**3 == d11**2 - 1 == d10**2 + d11 + 1
-    assert Fraction(d10**3, d11) == charge_trace
-    assert Fraction(2, 9) / charge_trace == Fraction(1, 12)  # corr₃
-    bridge_sq = WEB.state["bridge_sq"]   # web ledger: 32/27 × (1 + h₁₁/K²)
-    m_s = x_phys**2 * math.sqrt(bridge_sq)
-
-    # Light quarks: d₁₀² ↔ d₁₁² swap gives up vs down
-    #   m_u/m_e = d₁₀² + h₁₀ = 38/9   (up-type base)
-    #   m_d/m_e = d₁₁² + h₁₀ = 83/9   (down-type base)
-    # m_d = d₁₁²(1 + d₁₀/d₁₁⁴) m_e exactly: 9·(1+2/81) = 83/9
-    #     = (count(aa) + h₁₀) m_e, the SAME committed
-    # word_multiplier operation as the up sector (the Z₂ swap changes
-    # only the seed word ff -> aa. Corr(1) = h₁₀ is inherited from the
-    # generation ladder).  ON THE MENU: this identity sits on the committed
-    # menu (tests/audit/closure_search.py, down-gen-1 stage).
-    led_d = Ledger("m_d", lambda s: d11**2 * s["m_e"], "mul", "MeV").echo(
-        ["WZW(h₁₀)"], d10 / d11**4, 1,
-        "FORCED", "vent = h₁₀/d₁₁² = d₁₀/d₁₁⁴ (triality swapped)")
-    WEB["m_d"] = led_d
-    m_d = led_d.value()                  # (83/9) m_e
-
-    # # m_b, m_s as CONSTRAINT NODES of the web (live ratio bases) #
-    # These are the same Koide quadratics as the closed form computation
-    # above, read live from the state. m_b is the middle root between
-    # m_c and m_t. m_s is the positive root scaled by the bridge.  The
-    # kernel carries them while the state is away from the fixed point.
-    # At the fixed point they equal the closed forms exactly (asserted
-    # after the final solve).
+    # # m_b, m_s: one Koide quadratic each, read from a state #
+    # m_b is the middle root between m_c and m_t. m_s is the positive
+    # root scaled by the bridge.  The same functions give the direct
+    # values below and the web's live constraint nodes, so the kernel
+    # carries them while the state is away from the fixed point.
     def _m_bottom_of(s):
         sc_, st_ = math.sqrt(s["m_c"]), math.sqrt(s["m_t"])
         Q = s["Q_cbt"]
@@ -575,6 +528,40 @@ def derive(R):
         x2 = (-b_ - math.sqrt(d_)) / (2.0*a_)
         x = x1 if x1 > 0 else x2
         return x * x * math.sqrt(s["bridge_sq"])
+
+    # Bottom from Q(c,b,t)
+    m_b = _m_bottom_of({"m_c": m_c, "m_t": m_t, "Q_cbt": Q_cbt})
+
+    # # COMPRESSION: the 8/3 trinity ################
+    # One object, three appearances.  The dictionary identity
+    #     d₁₀³ = d₁₁² − 1 = d₁₀² + d₁₁ + 1   (= 8)
+    # (equivalent to the Sugawara lock d₁₁²−1 = 4d₁₀ at d₁₀ = 2) makes
+    # d₁₀³/d₁₁ = (d₁₀²+1+d₁₁)/d₁₁ = CHARGE TRACE = 8/3 (root.py), so:
+    #   • Singh ratio       = charge_trace × C₂(26) = 16
+    #   • strange bridge²   = Q₀² × charge_trace × (1 + h₁₁/K²) = 32/27 × 73/72
+    #   • top backreaction  = h₁₀ / charge_trace    = echo₃ = 1/12
+    from .root import charge_trace, WEB
+    assert d10**3 == d11**2 - 1 == d10**2 + d11 + 1
+    assert Fraction(d10**3, d11) == charge_trace
+    assert Fraction(2, 9) / charge_trace == Fraction(1, 12)  # echo₃
+    bridge_sq = WEB.state["bridge_sq"]   # web ledger: 32/27 × (1 + h₁₁/K²)
+    # Strange from Q(s,c,b) + bridge
+    m_s = _m_strange_of({"m_c": m_c, "m_b": m_b, "Q_scb": Q_scb, "bridge_sq": bridge_sq})
+
+    # Light quarks: d₁₀² ↔ d₁₁² swap gives up vs down
+    #   m_u/m_e = d₁₀² + h₁₀ = 38/9   (up-type base)
+    #   m_d/m_e = d₁₁² + h₁₀ = 83/9   (down-type base)
+    # m_d = d₁₁²(1 + d₁₀/d₁₁⁴) m_e exactly: 9·(1+2/81) = 83/9
+    #     = (count(aa) + h₁₀) m_e, the SAME committed
+    # word_multiplier operation as the up sector (the Z₂ swap changes
+    # only the seed word ff -> aa. Echo(1) = h₁₀ is inherited from the
+    # generation ladder).  ON THE MENU: this identity sits on the committed
+    # menu (tests/audit/closure_search.py, down-gen-1 stage).
+    led_d = Ledger("m_d", lambda s: d11**2 * s["m_e"], "mul", "MeV").echo(
+        ["WZW(h₁₀)"], d10 / d11**4, 1,
+        "FORCED", "vent = h₁₀/d₁₁² = d₁₀/d₁₁⁴ (triality swapped)")
+    WEB["m_d"] = led_d
+    m_d = led_d.value()                  # (83/9) m_e
 
     WEB["m_b"] = Ledger("m_b", _m_bottom_of, "mul", "MeV")
     WEB["m_s"] = Ledger("m_s", _m_strange_of, "mul", "MeV")
@@ -639,11 +626,8 @@ def derive(R):
     WEB.solve()          # masses nodes join the solved web state
     v_EW_MeV = M_Pl_MeV * math.exp(-R['S_quark'])
 
-    # THE SYNC GUARD: m_b and m_s are deliberately implemented twice
-    # (closed form quadratics above; live constraint nodes
-    # _m_bottom_of/_m_strange_of in the web) and these two asserts
-    # keep the pair from drifting: edit one implementation without
-    # the other and this line fails
+    # The solved web's m_b and m_s equal the direct evaluation of the
+    # same quadratics at the derived masses (fixed point consistency).
     assert abs(WEB.state["m_b"] / m_b - 1.0) < 1e-12
     assert abs(WEB.state["m_s"] / m_s - 1.0) < 1e-12
     assert abs(WEB.state["v_EW_GeV"] * 1e3 / v_EW_MeV - 1.0) < 1e-12

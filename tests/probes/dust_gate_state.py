@@ -1,4 +1,4 @@
-"""dust_gate_state.py: what the amount's state would need to pass the dust gate.
+"""What the amount's state would need to pass the dust gate.
 
 THE QUESTION. dust_gate.py closes the classical route: the carrier
 carries no conserved current with a mean density in the empty field.
@@ -41,8 +41,7 @@ STATEMENTS (the numbers below check each one).
 RESULT.  The induced route passes the gate only if the amount has a mass
 and a velocity dispersion below 3e-3 c at recombination, or is a
 coherent massive mode.  Mass and occupation are species data of the
-amount, and the framework does not name them. The route reopens only
-if a closure fixes them.  Light at the regulator (dark_sector.py, the
+amount, and the framework does not name them.  Light at the regulator (dark_sector.py, the
 gravity ledger) means m far below M_b, not m = 0, so it does not
 conflict with a cold amount.
 
@@ -92,7 +91,7 @@ def run(report=print):
            f"{c['total']:.2f}, {c['sigmas']:.0f} sigma of the Planck bound. Coupled through the common mode alone "
            "the amount does not thermalize below the boundary")
     report("RESULT: the induced route needs a mass and a cold state for the amount, species data the "
-           "framework does not name. It reopens only if a closure fixes them.")
+           "framework does not name.")
     return dict(s1=a, s2=b, s3=c)
 
 

@@ -1,4 +1,4 @@
-"""Option D3 of notes/lambda_plan.md against the data: a record count per grain.
+"""Lambda option D3 against the data: a record count per grain.
 
 THE MODEL. Everpresent Lambda (Ahmed, Dodelson, Greene, Sorkin,
 astro-ph/0209274; Zwane, Afshordi, Sorkin arXiv:1703.06265 Eqs. 5-8):
@@ -12,7 +12,7 @@ galaxies.  The
 heuristic causal set value is of order one per element.
 
 THE FRAMEWORK'S GRAIN. With G anchored the regulator is
-t0 = Sigma/(2 pi) l_Pl^2 = 4.112 l_Pl^2 on the one list
+t0 = Sigma/(2 pi) l_Pl^2 = 4.165 l_Pl^2 on the one list
 (boundary.py), l_Pl^2 = G hbar.  Take one record per grain 4-volume
 v_g = k t0^2, where k is a shape factor (1 for t0^2, pi^2/2 for the
 4-ball of radius sqrt(t0)). The count is then N = V / v_g. With an
@@ -20,10 +20,10 @@ order one action per record, the amplitude in the paper's units is
 beta = 1 / sqrt(v_g / l_p^4).
 
 E1. In the paper's stated units (l_p^2 = 8 pi G hbar) the grain is
-    v_g = k (4.112 / 8 pi)^2 l_p^4 = 0.0268 k l_p^4, and beta is 6.1,
-    2.8 and 1.0 for k = 1, pi^2/2 and 40: above the window by a factor
+    v_g = k (4.165 / 8 pi)^2 l_p^4 = 0.0275 k l_p^4, and beta is 6.0,
+    2.7 and 1.0 for k = 1, pi^2/2 and 40: above the window by a factor
     of 50 to 600.
-E2. With the unreduced length (l_p^2 = G hbar), v_g = 16.9 k and
+E2. With the unreduced length (l_p^2 = G hbar), v_g = 17.3 k and
     beta = 0.24 and 0.11 for k = 1 and pi^2/2: above the window by 5 to
     25.
 E3. The window needs a grain 4-volume of 2.5e3 to 1e4 l_p^4, or an
@@ -32,7 +32,7 @@ E3. The window needs a grain 4-volume of 2.5e3 to 1e4 l_p^4, or an
 RESULT. With the anchor's Planckian grain and an order one action per
 record, the record count fluctuates too strongly for the data in
 either convention. The density turns negative before today.  D3 in
-this form needs an unexplained small factor, which is a tuning.  The
+this form is excluded: it needs a small factor the state does not supply.  The
 estimate carries the shape factor k and the action per record as
 order one conventions. No verdict here rests on better than a factor
 of a few.
@@ -42,7 +42,7 @@ Usage: python3 tests/probes/everpresent_grain.py     (instant)
 
 import math
 
-T0_LPL2 = 4.112                      # anchored regulator, units of G hbar (boundary.py)
+T0_LPL2 = 4.165                      # anchored regulator, units of G hbar (boundary.py)
 WINDOW = (0.01, 0.02)                # beta allowed by the data (1703.06265 Model 1)
 SHAPES = {"t0^2": 1.0, "4-ball": math.pi**2 / 2, "k = 40": 40.0}
 

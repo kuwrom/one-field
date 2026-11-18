@@ -4,7 +4,7 @@ test_g_path_trials.py: freeze the trials ledger of the G prediction.
 What is frozen:
   1. each coarse menu on the G path (C_EFF, b0, loop order, alpha_G2)
      has every alternative off by an O(1) factor in M_Pl;
-  2. the depth-2 coefficient carries M_Pl from -1140 to +22.2 ppm, on a
+  2. the depth 2 coefficient carries M_Pl from -1140 to +22.2 ppm, on a
      menu spaced by alpha/2pi;
   3. G_F, through the M_Pl free ratio v_EW/m_e, admits exactly one of
      145 combinations (c2, w16) at N = 30 within 2 sigma, the canonical
@@ -46,11 +46,11 @@ def test_the_boundary_is_the_identification_g_tests(ledger):
 def test_gate_s_bounds_the_boundary_and_g_selects(ledger):
     bg = ledger["boundary_gate"]
     assert bg["survives"] == {"full": True, "reduced": False, "cutoff": True, "regulator at M_b": True}
-    assert [bg["c_max"][c] for c in (1.0, 0.0, -1.0)] == pytest.approx([4.112, 6.976, 9.841], abs=1e-3)
-    assert max(bg["t0"]["reduced"].values()) == pytest.approx(0.392, abs=1e-3)
-    assert min(bg["t0"]["cutoff"].values()) == pytest.approx(1.371, abs=1e-3)
+    assert [bg["c_max"][c] for c in (1.0, 0.0, -1.0)] == pytest.approx([4.165, 7.029, 9.894], abs=1e-3)
+    assert max(bg["t0"]["reduced"].values()) == pytest.approx(0.394, abs=1e-3)
+    assert min(bg["t0"]["cutoff"].values()) == pytest.approx(1.388, abs=1e-3)
     assert all(t == pytest.approx(1.0) for t in bg["t0"]["regulator at M_b"].values())
-    assert bg["mpl_shift"]["regulator at M_b"] == pytest.approx(2.028, abs=1e-3)
+    assert bg["mpl_shift"]["regulator at M_b"] == pytest.approx(2.041, abs=1e-3)
 
 
 def test_gr_menu_narrows_to_full_and_rationalized(ledger):
@@ -64,7 +64,7 @@ def test_gr_menu_narrows_to_full_and_rationalized(ledger):
     assert bg["wired"]["2pi"] == (False, True)          # fails S at the covariant contact
     assert bg["wired"]["4pi"] == (False, False)
     assert bg["wired"]["2 (off menu)"] == bg["wired"]["3 (off menu)"] == (True, True)
-    assert bg["c_window"] == pytest.approx((0.656, 4.11), abs=2e-3)
+    assert bg["c_window"] == pytest.approx((0.660, 4.165), abs=2e-3)
     assert bg["gr_menu"]["2 (off menu)"] == bg["gr_menu"]["3 (off menu)"] == 4
     assert bg["x_half"] == pytest.approx(0.2674, abs=1e-4)
 
@@ -90,7 +90,7 @@ def test_gf_fixes_the_depth2_coefficient(ledger):
 def test_alpha_s_excludes_two_loop_g2_running(ledger):
     lo = ledger["loop"]
     assert lo["inv_alpha_star_one"] == pytest.approx(32 / 3.141592653589793, abs=1e-6)
-    assert lo["alpha_MZ_one"] == pytest.approx(0.11839, abs=5e-5)
+    assert lo["alpha_MZ_one"] == pytest.approx(0.11869, abs=5e-5)
     assert (lo["alpha_MZ_two"] - 0.1180) / 0.0009 > 20
 
 
@@ -103,8 +103,8 @@ def test_alpha_s_needs_the_scheme_identification_at_mu_star(ledger):
 
 def test_pi_over_32_is_the_msbar_coupling_to_one_percent(ledger):
     sb = ledger["band"]
-    assert sb["band"][0] == pytest.approx(-0.0157, abs=5e-4)
-    assert sb["band"][1] == pytest.approx(0.0101, abs=5e-4)
+    assert sb["band"][0] == pytest.approx(-0.0178, abs=5e-4)
+    assert sb["band"][1] == pytest.approx(0.0079, abs=5e-4)
     assert (sb["alpha_s"]["V"] - 0.1180) / 0.0009 < -7
     assert (sb["alpha_s"]["MS"] - 0.1180) / 0.0009 > 30
 

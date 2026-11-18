@@ -2,12 +2,12 @@
 
 THE QUESTION. root.py reads 1/alpha(0) as the real root of
 x^3 = (512/pi)[(1 - 1/(2 pi)) x^2 - 1/(2 pi^2)]. The two terms are the
-bridge's depth one edge and the depth-4 reading of the closed carrier
+bridge's depth one edge and the depth 4 reading of the closed carrier
 with orientation count 2, and "no separate (alpha/2pi)^3 edge exists"
 (EM CHANNEL FINALITY). The reading matches the Cs recoil value and
 sits -7.8 and -14 standard deviations from the electron moment and the
 Rb recoil. Is finality a computed exclusion? Which further edges does
-the web's own structure allow, and what would an edge that rescues the
+the web's own structure allow, and what would an edge that reaches the
 other two values have to be?
 
 PREMISES. P1 the sector node rule: the EM channel couples the two

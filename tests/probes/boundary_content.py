@@ -3,7 +3,7 @@
 THE QUESTION. The transmutation of root.py runs alpha_G2 = 1/(24 pi)
 down from the boundary M_b with b0 = 32/3. It counts the G2 gauge field
 and d11 Dirac 7s. The stiffness entered in interference/gravity.py
-counts 24 + 12 vector states, 90 fermion states, 7 G2 scalars and the
+counts 24 + 12 vector states, 94 fermion states, 7 G2 scalars and the
 182 bridge channels, with every row massless at the regulator. With its
 searchlight label, the bridge is n26 real 7s of the same G2 and the
 scalars are one real 7, and the running counts neither. What does one
@@ -30,7 +30,7 @@ not a lump, since no carrier mass makes a lump a point particle
 t0 >= M_b^-2. The list below M_b is the stiffness's list only up to
 M_b, and every placement the repository adopts is inside: the
 diagnostic's t0 = d11 l_Pl^2 sits at 0.577 M_b, and the
-identification's Sigma/(2 pi) l_Pl^2 sits at 0.482 M_b on the
+identification's Sigma/(2 pi) l_Pl^2 sits at 0.479 M_b on the
 gravity.py ledger.
 
 STATEMENTS (the numbers below check each one).
@@ -46,23 +46,22 @@ STATEMENTS (the numbers below check each one).
   B2 (light in both). If they are also counted as light in the
      running, the bridge gives b0 = 19/3, the scalars 21/2, and both
      together 37/6. Running down to Lambda_G2, M_Pl then moves by
-     1.6e13, 2.02 and 1.2e14. Through root.py's S_baryo =
-     (h(G2)/h(F4)) S_lepton, eta_B moves by 1.4e-6, 0.73 and 5.6e-7.
+     1.6e13, 2.02 and 1.2e14.
      If they leave the running at mu* = M_b exp(-(S0 - C2(26))), M_Pl
      moves by 6.0e6, 1.82 and 1.1e7. The G2 endpoint alpha(mu*) =
      2 pi/(b0 C2(26)) moves away from pi/32. The anchor holds only if
      neither is light.
-  B3 (absent from both). The light rows give Sigma = 13.5 - 18 c:
-     -4.5 at the covariant contact, and 13.5 and 31.5 at c = 0 and -1.
-     Attraction needs c < 3/4. The carrier's own six components (+1 at
+  B3 (absent from both). The light rows give Sigma = 83/6 - 18 c:
+     -4.17 at the covariant contact, and 13.83 and 31.83 at c = 0 and
+     -1. Attraction needs c < 83/108. The carrier's own six components (+1 at
      most) and the composite metric's own loop (-8/3) do not change
-     the sign. A list of the knots alone (7.5) drops the vector rows.
+     the sign. A list of the knots alone (7.83) drops the vector rows.
      But b0's 44/3 is the G2 gauge field's own loop, and an elementary
      vector's stiffness is the heat trace row (determinant_vectors.py
      V5). So on one list the vectors count.
   B4 (the regulator inside the boundary). Given P1, t0^(-1/2) lies at
      or below the boundary exactly when Sigma >= 2 pi. That is the
-     condition P5 imposes. The 27 of the gravity.py ledger, with the
+     condition P5 imposes. The 27.33 of the gravity.py ledger, with the
      bridge read as amount and minimally coupled, puts the regulator
      at 0.48 M_b.
   B5 (the labelled bridge at the boundary). Suppose a mass operator
@@ -71,27 +70,27 @@ STATEMENTS (the numbers below check each one).
      than 5.5e-5 in the log, it would move M_Pl past the anchor's
      22 ppm. It enters the stiffness with its heavy row weight. Under
      the sharp cutoff, with the regulator inside the boundary, that
-     weight is at most 182 (1/6 - xi) E2(1) = 4.33. So Sigma <= -0.175
-     at c = +1, which is 6.46 short of the 2 pi of B4 (9.12 with the
+     weight is at most 182 (1/6 - xi) E2(1) = 4.33. So Sigma <= +0.158
+     at c = +1, which is 6.12 short of the 2 pi of B4 (8.79 with the
      metric loop). An attractive stiffness whose anchored regulator
-     lies inside the boundary needs a boundary row at 0.370 of a
-     massless row's weight (0.462 with the loop). The sign alone needs
-     0.154. E2 is convex, so among regulators with the same massless
+     lies inside the boundary needs a boundary row at 0.359 of a
+     massless row's weight (0.450 with the loop). The sign alone needs
+     0.143. E2 is convex, so among regulators with the same massless
      normalization the sharp cutoff gives a heavy row its smallest
      weight. The regulator exp(-t0/t) gives 2 K1(2) = 0.280, so
-     Sigma = +3.65 at t0 = M_b^-2. That is attractive, but 2.64 short
+     Sigma = +3.98 at t0 = M_b^-2. That is attractive, but 2.30 short
      of the 2 pi that would put its anchored regulator there. Solved
-     freely under this regulator, the regulator sits at 1.11 M_b. A
-     broader shape can reach 0.370. The coefficient also depends on
+     freely under this regulator, the regulator sits at 1.10 M_b. A
+     broader shape can reach 0.359. The coefficient also depends on
      the regulator's field content. Under Pauli-Villars the same
      composite metric gives
      M_Pl^2 = N M^2/(192 pi^2) with three regulator fields and
      N M^2/(288 pi^2) with four (Li and Vaman arXiv:2512.06132,
      Eq. 2.41 and Sec. II). Solved freely under the sharp cutoff,
-     Sigma = 3.70 and t0 = 0.589 l_Pl^2. This puts the regulator at
-     1.30 M_b, outside the boundary, with 6 pi/Sigma = 5.10 and the
-     spin-2 zero at 0.624 M_b (one_list_kernel.py K3). At c = 0,
-     Sigma = 14.27 and t0 = 2.27 l_Pl^2, inside.
+     Sigma = 3.80 and t0 = 0.606 l_Pl^2. This puts the regulator at
+     1.29 M_b, outside the boundary, with 6 pi/Sigma = 4.95 and the
+     spin-2 zero at 0.621 M_b (one_list_kernel.py K3). At c = 0,
+     Sigma = 14.56 and t0 = 2.32 l_Pl^2, inside.
   B6 (the boundary coupling is not induced). Treat the coupling as a
      compositeness condition with the stiffness's cutoff (Akama,
      Terazawa). The matter rows then induce 1/alpha_G2(mu) =
@@ -100,35 +99,33 @@ STATEMENTS (the numbers below check each one).
      (55.7 with the gravity.py list, b_m = 17/2). That is a cutoff far
      above the boundary, while t0^(-1/2) = 0.48 M_b. The engine's
      coupling at M_b is a boundary datum, not an induced one.
-  B7 (what the labelled bridge's sign needs). Under the ledger's own
-     cutoff, the 6.46 of B5 equals 39 light G2-singlet real scalars
-     beyond the list, or 78 Weyl states. The G2-singlet content that
-     the repository names adds 2.34, each item at its most favourable
-     weight: the carrier's six components massless (+1), the 26's two
-     F4 singlets taken as light G2 singlets rather than bridge
-     channels (+1/3), the G2 scalars at the boundary (+0.17), the
-     bridge at the anchor's mass edge (+7e-4), the G2-face radial mode
-     light (+1/6) and an elementary Higgs doublet light (+2/3, which
-     R6 excludes). Sigma at the boundary is then +2.17, still 4.12
-     short. The two F4 singlets alone move the anchored regulator to
-     t0 = 0.606 l_Pl^2, inside gate M's band, but the sign still fails
-     under that cutoff.
+  B7 (what the labelled bridge's gate S needs). Under the ledger's own
+     cutoff, the 6.12 of B5 equals 37 light G2-singlet real scalars
+     beyond the list, or 74 Weyl states. The G2-singlet content that
+     the repository names adds 2.01, each item at its most favourable
+     weight: the carrier's six components massless (+1), the G2
+     scalars at the boundary (+0.17), the bridge at the anchor's mass
+     edge (+7e-4), the G2-face radial mode light (+1/6) and an
+     elementary Higgs doublet light (+2/3, which R6 excludes). Sigma
+     at the boundary is then +2.17, still 4.12 short.
 
 RESULT. With its searchlight label on one list, the bridge cannot be
 light, and neither can the 7 G2 scalars (the anchor moves by 1.6e13
-and 2.02). Without them the covariant contact stiffness is -4.5, which
-is repulsive. It is attractive only for a vector contact below 3/4.
+and 2.02). Without them the covariant contact stiffness is -4.17, which
+is repulsive. It is attractive only for a vector contact below 83/108.
 Given a mass operator, the labelled bridge at the boundary leaves the
 running intact. It enters the stiffness with a heavy row weight set by
 the regulator's shape. An attractive list whose anchored regulator
-lies inside the boundary needs 0.370 of a massless row's weight there.
-The ledger's own sharp cutoff gives 0.148 (Sigma = -0.175, repulsive).
-exp(-t0/t) gives 0.280 (Sigma = +3.65, attractive, but its anchored
-regulator lies outside the boundary). The G2-singlet content the
-repository names supplies 2.34 of the 6.46 the sign needs under the
-ledger's own cutoff. So for the labelled bridge the sign depends on
-the regulator's shape at the boundary, and the regulator literature
-leaves that shape unsettled. Read as amount beyond the horizon, as the
+lies inside the boundary needs 0.359 of a massless row's weight there.
+The ledger's own sharp cutoff gives 0.148 (Sigma = +0.158, 6.12 short
+of 2 pi). exp(-t0/t) gives 0.280 (Sigma = +3.98, attractive, but its
+anchored regulator lies outside the boundary). The G2-singlet content the
+repository names supplies 2.01 of the 6.12 gate S needs under the
+ledger's own cutoff. So for the labelled bridge gate S depends on
+the regulator's shape at the boundary, which no source fixes. Read
+inside the boundary it fails under every regulator that only removes
+(boundary_regulator.py R6). Read as
+amount beyond the horizon, as the
 gravity.py ledger counts it and boundary.py's one list reads it, the
 bridge takes no share of the running. The sign then holds for any
 cutoff shape (tests/probes/horizon_amount.py).
@@ -187,11 +184,10 @@ def smooth_weight(x):
 
 
 def light_shift(b0_new):
-    """M_Pl and eta_B factors and the G2 endpoint when the running counts b0_new."""
+    """M_Pl factors and the G2 endpoint when the running counts b0_new."""
     S_new = 2 * math.pi / (float(b0_new) * ALPHA)
     return dict(b0=b0_new, M_Pl=math.exp(S_new - S0),
                 M_Pl_mu_star=math.exp((S0 - C2) * (1 - float(b0_new / r.b0_G2))),
-                eta_B=math.exp(-float(Fraction(r.hv_G2, r.hv_F4)) * (S_new - S0)),
                 alpha_star=2 * math.pi / (float(b0_new) * C2))
 
 
@@ -206,7 +202,7 @@ def run(report=print):
     booked = rows(bridge="amount", scalars="light")           # the gravity.py ledger: the bridge as amount, xi = 0
     both_light = rows(bridge="light", scalars="light")
     sig_booked = sigma(booked, 0.0, 1.0)
-    assert abs(sig_booked - 27.0) < 1e-12 and 1.3e-17 < v_break < 1.5e-17
+    assert abs(sig_booked - 82 / 3) < 1e-12 and 1.3e-17 < v_break < 1.5e-17
     out.update(index_E8=index_E8, v_break=v_break, sigma_booked=sig_booked)
     report(f"B1 T(248)|G2 = {r.hv_G2} + {r.n26} T(7) = {index_E8} = h(E8): read with this label the bridge is "
            f"{r.n26} real 7s of the running G2. The 7 scalars are G2's breaking at v_break = {v_break:.1e} M_b, no row by R6. "
@@ -224,22 +220,24 @@ def run(report=print):
     out["light"] = shifts
     for k, v in shifts.items():
         report(f"B2 {k:10s} light in both: b0 = {str(v['b0']):5s} M_Pl x{v['M_Pl']:.3g} (x{v['M_Pl_mu_star']:.3g} "
-               f"leaving at mu*), eta_B x{v['eta_B']:.3g}, alpha(mu*) = {v['alpha_star']:.4f} (pi/32 = {math.pi / 32:.4f})")
+               f"leaving at mu*), alpha(mu*) = {v['alpha_star']:.4f} (pi/32 = {math.pi / 32:.4f})")
 
     # B3: absent from both.
     absent = rows(bridge="absent")
     sig_absent = {c: sigma(absent, 0.0, c) for c in CONTACTS}
-    assert all(abs(sig_absent[c] - (13.5 - 18 * c)) < 1e-12 for c in CONTACTS)
+    assert all(abs(sig_absent[c] - (83 / 6 - 18 * c)) < 1e-12 for c in CONTACTS)
     assert sig_absent[1.0] + CARRIER < 0 and sig_absent[1.0] + CARRIER + METRIC_LOOP < 0
-    out["sigma_absent"] = sig_absent
-    report(f"B3 absent: Sigma = 13.5 - 18 c = {sig_absent[1.0]:+.2f}/{sig_absent[0.0]:+.2f}/{sig_absent[-1.0]:+.2f} "
-           f"(c = +1/0/-1). Attractive only for c < 3/4. With the carrier {sig_absent[1.0] + CARRIER:+.2f}, "
-           f"and its metric loop {sig_absent[1.0] + CARRIER + METRIC_LOOP:+.2f}")
+    knots = sigma([row for row in absent if row[2] != "vector"], 0.0, 1.0)     # the list without its vector rows
+    assert abs(knots - 47 / 6) < 1e-12
+    out.update(sigma_absent=sig_absent, sigma_knots=knots)
+    report(f"B3 absent: Sigma = 83/6 - 18 c = {sig_absent[1.0]:+.2f}/{sig_absent[0.0]:+.2f}/{sig_absent[-1.0]:+.2f} "
+           f"(c = +1/0/-1). Attractive only for c < 83/108. With the carrier {sig_absent[1.0] + CARRIER:+.2f}, "
+           f"and its metric loop {sig_absent[1.0] + CARRIER + METRIC_LOOP:+.2f}. The knots alone {knots:.2f}")
 
     # B4: the regulator lies inside the boundary iff Sigma >= 2 pi.
     t0_booked = sig_booked / (2 * math.pi)
     out.update(t0_booked=t0_booked, regulator_booked=t0_booked**-0.5)
-    assert abs(t0_booked - 4.297) < 1e-3 and t0_booked**-0.5 < 1 and r.d11**-0.5 < 1
+    assert abs(t0_booked - 4.350) < 1e-3 and t0_booked**-0.5 < 1 and r.d11**-0.5 < 1
     report(f"B4 t0 = Sigma/(2 pi) M_b^-2: the regulator is inside the boundary iff Sigma >= 2 pi; "
            f"gravity.py ledger t0 = {t0_booked:.3f}, regulator at {t0_booked**-0.5:.3f} M_b (t0 = d11: {r.d11**-0.5:.3f} M_b)")
 
@@ -260,11 +258,11 @@ def run(report=print):
     free = {c: fixed_points(at_b, c) for c in CONTACTS}
     assert all(len(v) == 1 for v in free.values())
     s1, s0 = free[1.0][0], free[0.0][0]
-    assert abs(edge - 0.999945) < 2e-6 and abs(unit * w_sharp - 4.325) < 1e-3 and -0.2 < sig_inside < 0
-    assert w_sharp < w_smooth < w_need < w_need_loop and abs(w_need - 0.3702) < 1e-3 and 0 < sig_smooth < 2 * math.pi
-    assert w_sharp < w_sign < w_smooth and f_smooth(2 * math.pi) < 0 and reg_smooth > 1
-    assert abs(s1 - 3.698) < 1e-3 and (s1 / (2 * math.pi))**-0.5 > 1.3 and 6 * math.pi / s1 > 5
-    assert abs(s0 - 14.271) < 1e-3 and s0 > 2 * math.pi
+    assert abs(edge - 0.999945) < 2e-6 and abs(unit * w_sharp - 4.325) < 1e-3 and 0 < sig_inside < 0.2
+    assert w_sharp < w_smooth < w_need < w_need_loop and abs(w_need - 0.3588) < 1e-3 and 0 < sig_smooth < 2 * math.pi
+    assert w_sign < w_sharp < w_smooth and f_smooth(2 * math.pi) < 0 and reg_smooth > 1
+    assert abs(s1 - 3.805) < 1e-3 and (s1 / (2 * math.pi))**-0.5 > 1.28 and 6 * math.pi / s1 < 5
+    assert abs(s0 - 14.560) < 1e-3 and s0 > 2 * math.pi
     assert max(fixed_points(at_b, 1.0, extra=need + 0.01)) > 2 * math.pi
     out.update(anchor_edge=edge, bridge_cap=unit * w_sharp, sigma_inside=sig_inside, needed=need,
                needed_loop=need - METRIC_LOOP, needed_scalars=math.ceil(6 * need), w_sharp=w_sharp,
@@ -293,22 +291,20 @@ def run(report=print):
            f"ln(Lambda/M_b) = {log_needed:.1f} ({out['induced_log_booked']:.1f} on the gravity.py list), against a regulator "
            f"at {t0_booked**-0.5:.2f} M_b")
 
-    # B7: what the sign needs, against the G2-singlet content the repository names.
-    named = {"carrier": CARRIER, "F4 singlets light": 4 / 12, "G2 scalars at M_b": 7 / 6 * w_sharp,
+    # B7: what gate S needs, against the G2-singlet content the repository names.
+    named = {"carrier": CARRIER, "G2 scalars at M_b": 7 / 6 * w_sharp,
              "bridge at the mass edge": unit * (float(expn(2, edge**2)) - w_sharp),
              "radial mode light": 1 / 6, "Higgs doublet light": 4 / 6}
     stack = sum(named.values())
-    t0_f4 = fixed_points(at_b, 1.0, extra=named["F4 singlets light"])[0] / (2 * math.pi)
-    assert abs(stack - 2.341) < 2e-3 and abs(need - stack - 4.117) < 2e-3 and 0.6 < t0_f4 < 1
-    out.update(named=named, stack=stack, stack_short=need - stack, needed_weyl=math.ceil(12 * need),
-               t0_f4_singlets=t0_f4)
-    report(f"B7 under the ledger's own cutoff the labelled bridge's sign needs {need:.2f} at the boundary ({math.ceil(6 * need)} light G2-singlet real scalars, "
+    assert abs(stack - 2.007) < 2e-3 and abs(need - stack - 4.117) < 2e-3
+    out.update(named=named, stack=stack, stack_short=need - stack, needed_weyl=math.ceil(12 * need))
+    report(f"B7 under the ledger's own cutoff the labelled bridge's gate S needs {need:.2f} at the boundary ({math.ceil(6 * need)} light G2-singlet real scalars, "
            f"{math.ceil(12 * need)} Weyl states). The named G2-singlet content adds {stack:.2f} at its most "
-           f"favourable weights, {need - stack:.2f} short. The two F4 singlets light alone: t0 = {t0_f4:.3f} l_Pl^2")
+           f"favourable weights, {need - stack:.2f} short.")
     report(f"RESULT: read with its label, the bridge at the boundary needs {w_need:.3f} of a massless row's weight "
            f"for an attractive list with its anchored regulator inside the boundary, which the sharp cutoff "
-           f"({w_sharp:.3f}, repulsive) and exp(-t0/t) ({w_smooth:.3f}, attractive, regulator outside) do not give. "
-           "Its sign depends on the regulator's shape. Read as amount it takes no share (horizon_amount.py).")
+           f"({w_sharp:.3f}, attractive, regulator outside) and exp(-t0/t) ({w_smooth:.3f}, attractive, regulator outside) do not give. "
+           "Its S verdict depends on the regulator's shape, and inside the boundary it fails (boundary_regulator.py R6). Read as amount it takes no share (horizon_amount.py).")
     return out
 
 

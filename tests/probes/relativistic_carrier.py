@@ -23,7 +23,7 @@ is boost invariant with c^2 = C/K. P1 supplies locality only.
     g_i = G_i / (4 m^2 c^4)   (g_i = G_i/(4 m^2) at c = 1),  g1/g0 = G1/G0,
     i psi' = -grad^2 psi/(2m) + dw/dpsi* + psi''/(2 m c^2).
 V is U(1) invariant, so V(exp(-i theta) phi) = V(phi) identically: no
-harmonic, no averaging, no generated invariant. The one correction is
+harmonic, no averaging, no generated invariant. The one added term is
 psi''/(2mc^2). A REAL carrier u_a = (psi_a e^{-i theta} + c.c.)/sqrt(2m)
 needs the rotating wave average, which sends a real quartic T_abcd u^4 to
 the fully symmetric tensor 6 T_abcd psi_a psi_b psi*_c psi*_d/(4m^2):
@@ -71,6 +71,15 @@ If light were the phonon, every carrier quantum at p >> mc would outrun it.
 Units in the code: hbar = m = 1, g0 rho = 1, g1 = g0/sqrt(2) (NLS units of
 gravity_tensor.clock_background). Nu = mu_NR/(m c^2) sets c^2 = mu_w/kappa,
 kappa = nu + nu^2/2. Nothing is fitted. Nu is a scanned input.
+
+RESULT. Given P1 to P5 the carrier is Lorentz invariant (argued from the
+boost invariance of the two derivative form), its rescaled Lagrangian is
+the Z3-NLS up to |psi'|^2/(2mc^2), and complex carrier fields are
+forced. About the gas sign clock condensate every branch ends on E^2 =
+c^2 p^2 + M_x^2 with group velocity below c, and the phonon obeys c_s^2
+= c^2 kappa/(1 + 3 kappa). c_s and c_rel are internal speeds of that
+condensate, and the principal symbol (omega^2 - c^2 p^2) I_3 makes the
+carrier cone the one causal cone.
 
 Usage: python3 tests/probes/relativistic_carrier.py     (a few seconds)
 """

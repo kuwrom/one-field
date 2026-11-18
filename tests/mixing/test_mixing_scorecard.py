@@ -95,23 +95,8 @@ def test_pmns_delta_invariant(res):
     assert 96 < delta < 422, f"delta = {delta:.2f} outside NuFIT 3sigma"
 
 
-# ═══════════════════════════════════════════════════════════════════════
-#  Baryogenesis  (eta_B from G_2 instanton + Fano orientation)
-# ═══════════════════════════════════════════════════════════════════════
-
-def test_baryon_asymmetry(res):
-    """eta_B = -n_7 * J_lep * exp(-2 pi^2) within 2% of Planck."""
-    eta_B = res["g"]["eta_B"]
-    eta_B_obs = res["g"]["eta_B_obs"]
-    assert err_pct(eta_B, eta_B_obs) < 2.0
-
-
 def test_ckm_lambda_is_the_base_plus_echo_form():
-    """The λ candidate exactly reuses bridge²'s 73/72 factor.
-
-    This freezes the arithmetic identity only.  It does not freeze a
-    CKM specific rule that would force the transfer or its power K².
-    """
+    """λ exactly reuses bridge²'s 73/72 factor: λ = h10 · 73/72."""
     import root
 
     assert 1 + root.h11 / root.K**2 == Fraction(73, 72)

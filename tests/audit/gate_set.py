@@ -87,7 +87,7 @@ def _coherence_rows():
                 "(b) h_bridge = 1": EU.h_fund(g) + EU.h_fund(f) == 1,
                 "(c) every mode assigned": gd["dim"] + fd["dim"] + bridge == pd["dim"],
                 "(d) bridge > 0": bridge > 0,
-                "(e) self-adjoint parent": pd["fund_dim"] == pd["dim"],
+                "(e) self adjoint parent": pd["fund_dim"] == pd["dim"],
                 "(f) trivial centres": gd["centre_order"] == 1 and fd["centre_order"] == 1,
             }))
     return rows
@@ -114,7 +114,7 @@ def menus():
         "(b) h_bridge = 1": "R1: the bridge is a current, not a W generator",
         "(c) every mode assigned": "every mode is assigned: gauge + matter + bridge",
         "(d) bridge > 0": "the closure carries matter",
-        "(e) self-adjoint parent": "self-presence: the parent is its own deepest representation",
+        "(e) self adjoint parent": "self-presence: the parent is its own deepest representation",
         "(f) trivial centres": "quantum numbers crystallise on breaking, not written on the vacuum",
     }
     return {"lattice": lat, "pair": pairs, "level": levels, "coherence": _coherence_rows()}, premises

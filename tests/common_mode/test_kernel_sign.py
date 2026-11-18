@@ -2,7 +2,7 @@
 
 import pytest
 
-pytest.importorskip("flint")
+pytest.importorskip("flint", reason="needs python-flint (pip install -r requirements.txt)")
 
 
 def _silent(*args, **kwargs):
@@ -12,17 +12,17 @@ def _silent(*args, **kwargs):
 def test_kernel_sign_closed_form_and_limit():
     """The closed form equals the node kernel to 1e-6 for y <= 10 and its
     two integral forms agree to 1e-8. At y = 5e4 the node kernel is
-    negative where the form factor is 8.1241. Certified positive on
-    [1e-3, 0.1] and [1e3, 1e12]. The limit is 65/8, positive for more
-    than 117 scalars, and the label's xi on the amount puts a zero
-    between y = 6.5 and 6.7."""
+    negative where the form factor is 7.8741. Certified positive on
+    [1e-3, 0.1] and [1e3, 1e12]. The limit is 63/8, positive for more
+    than 119 scalars, and the label's xi on the amount puts a zero
+    between y = 6.3 and 6.5."""
     from probes import kernel_sign as ks
 
     r = ks.run(report=_silent, full=False)
     assert r["node_agreement"] < 1e-6 and r["form_agreement"] < 1e-8
-    assert r["node_at_5e4"] < 0 and r["phi_at_5e4"] == pytest.approx(8.1241, abs=1e-4)
-    assert r["least"] > 0 and r["limit"] == 65 / 8 and r["scalars_needed"] == 117
-    assert r["phi_110"] < 0 and r["label_zero"] == (6.5, 6.7)
+    assert r["node_at_5e4"] < 0 and r["phi_at_5e4"] == pytest.approx(7.8741, abs=1e-4)
+    assert r["least"] > 0 and r["limit"] == 63 / 8 and r["scalars_needed"] == 119
+    assert r["phi_110"] < 0 and r["label_zero"] == (6.3, 6.5)
 
 
 @pytest.mark.slow

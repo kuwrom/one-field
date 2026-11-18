@@ -58,11 +58,11 @@ one channel share of the Albert traversal. G_F and m_mu test them, and
 each alternative fails. c2's alternatives fail by the response's
 definition and by G_F. C_EFF's fail by G_F (the first order reading)
 and the Koide bound. w4's fail by the lepton ratio. Each coefficient
-remains an identification. The frame's reading of the closure's common
+is an identification. The frame's reading of the closure's common
 mode, C_EFF P Delta^2 P = 1, is a normalization that the data test,
 not one that a gate computes. C_EFF and w4 are B/A = sqrt(d10) read
 again through P v^2 P = 1, not a second identification. The channel
-map of B/A remains an identification (interference/__init__.py, the
+map of B/A is an identification (interference/__init__.py, the
 selection table).
 
 Scope: the electron's ruler at the depth the engine reads it. The

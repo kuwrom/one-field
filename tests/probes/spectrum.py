@@ -1,5 +1,5 @@
 """
-spectrum.py: what does the knot ring at?
+What does the knot ring at?
 
 Spectroscopy of the saturated lump: evolve past saturation, record
 the winding amplitudes at the core over a long window, remove the
@@ -8,17 +8,18 @@ discrete internal lines.
 
 PRE STATED MEANINGS (written before looking):
   (a) three lines with ratios ~ Delta_k of the circulant fringe
-      (0.040 : 0.580 : 2.379, i.e. 1 : 14.4 : 59) -> the mass
-      spectrum is dynamical: the framework's strongest possible
-      result.
+      (0.040 : 0.580 : 2.379, i.e. 1 : 14.4 : 59) -> the classical
+      lump rings at the mass spectrum itself.
   (b) one line + its harmonics -> the 1D lump is a single mode
-      oscillator. The circulant spectrum lives at the MTC layer,
-      and the literal PDE reading is constrained (NOT a kill: the
-      papers derive the spectrum at the topological layer).
-  (c) broadband -> turbulent state, inconclusive. A true stationary
-      profile is needed first.
+      oscillator, and the circulant spectrum lives at the MTC layer
+      (mtc_spectrum.py), where the papers derive it.
+  (c) broadband -> turbulent state. A true stationary profile is
+      needed first.
 
-Usage: python3 spectrum.py   (~35 s)
+RESULT. Outcome (a) is absent: no three lines sit in the fringe ratios.
+The circulant spectrum is read at the MTC layer (mtc_spectrum.py).
+
+Usage: python3 tests/probes/spectrum.py   (~35 s)
 """
 
 import os

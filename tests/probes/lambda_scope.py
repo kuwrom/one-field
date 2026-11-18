@@ -55,7 +55,7 @@ S5 (nonlocal densities). The nonlocal densities that make the
    as sqrt g / int sqrt g, the shape of vacuum energy sequestering
    (arXiv:1309.6562).  They cancel the classical constant but not the
    induced vacuum term, unless the matter scale varies over histories.
-   The anchor fixes m_e / M_b locally (candidates L-sequester, FAIL).
+   The anchor fixes m_e / M_b locally, so sequestering is excluded.
    Every other nonlocal density is excluded by the axiom itself:
    "the locality is an axiom of self-presence: a nonlocal self-term
    would be interference with a presence elsewhere, i.e. with a second

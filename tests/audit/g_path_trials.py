@@ -70,15 +70,15 @@ THE CHOICES (the explanation each has in the repository):
                           29-entry menu (vertex_pinning.py)
 
 STATEMENTS (the numbers below check each one).
-  G1  Every choice except the depth-2 coefficient and the depth-4
+  G1  Every choice except the depth 2 coefficient and the depth 4
       weight moves M_Pl by an O(1) factor, so its menu supports the
       0.1% statement: given the menus, M_Pl from the four integers
       comes out within -0.11% at depth 1.
-  G2  The step from -1140 ppm to +21.5 ppm is the depth-2 coefficient
+  G2  The step from -1140 ppm to +21.5 ppm is the depth 2 coefficient
       alone. Its menu is spaced by alpha/2pi = 1161 ppm in M_Pl
       (581 ppm for half integers). For an unexplained coefficient, a
       match within the achieved 22 ppm has a 3.8% (7.7%) chance.
-  G3  The depth-4 weight moves M_Pl by 0.7 ppm. Across its whole
+  G3  The depth 4 weight moves M_Pl by 0.7 ppm. Across its whole
       menu it spans 0 to 26 ppm.
   G4  The same coefficient enters the electron in the ratio v_EW/m_e,
       where M_Pl cancels: v_EW = M_Pl e^{-S_quark} with
@@ -90,7 +90,7 @@ STATEMENTS (the numbers below check each one).
       29-entry w16 menu, 145 combinations, exactly one lies within
       2 sigma: (c2, N, w16) = (-1, 30, 16), at +0.019 ppm. The next is
       2.7 ppm away (11 sigma), and 465 ppm among the readings at
-      w16 = 16. The vertex unit pi/512 and the depth-2 unit alpha(0)
+      w16 = 16. The vertex unit pi/512 and the depth 2 unit alpha(0)
       are incommensurate, so no integer trade between N and c2 exists.
   G5  The chance that a random G_F target finds a combination within
       2 sigma is 0.22% with N = 30 and w16 = 16 taken as derived
@@ -123,15 +123,15 @@ STATEMENTS (the numbers below check each one).
       1/alpha(mu*) = 24 pi - (b0/2pi)(S0 - 6) = 32/pi exactly, the
       couplings.py boundary pi/32 = 2pi/(b0 C2(26)). Two loop G2
       running over the same interval gives alpha_G2(mu*) = 0.1112 and
-      alpha_s(M_Z) = 0.1374, 21.5 sigma from PDG. One loop gives
-      0.11839 (+0.4 sigma). So 1/(24 pi) is not the MS-bar coupling at
+      alpha_s(M_Z) = 0.1378, 22.0 sigma from PDG. One loop gives
+      0.11869 (+0.8 sigma). So 1/(24 pi) is not the MS-bar coupling at
       M_Pl. The G2 coupling is the closure action, alpha = 2pi/(b0 S).
       Actions add (S(mu*) = C2(26)), and G tests the exponent at 5e-7.
   G8  The action reading meets MS-bar at mu* only by identification.
       With the standard two loop MS-bar Lambda taken as the action's
-      Lambda, alpha_MS(mu*) = 0.0855 and alpha_s(M_Z) = 0.1007
-      (-19.2 sigma). Scheme constants of +-0.5 give -8.4 and
-      -28.3 sigma. The engine's alpha_s holds for alpha_MS(mu*) = pi/32
+      Lambda, alpha_MS(mu*) = 0.0855 and alpha_s(M_Z) = 0.1010
+      (-18.9 sigma). Scheme constants of +-0.5 give -8.1 and
+      -28.0 sigma. The engine's alpha_s holds for alpha_MS(mu*) = pi/32
       exactly, a scheme constant k = -(b1/2b0^2) ln(b0/128) = +0.8445,
       Lambda_action = 2.327 Lambda_MSbar. Since b0/128 = 1/12 is
       b0 alpha/4pi at alpha = pi/32, k is the two loop Lambda factor
@@ -144,11 +144,11 @@ STATEMENTS (the numbers below check each one).
       action to MS-bar conversion that gives any other constant kills
       the alpha_s reading.
   G9  The band is narrow: alpha_s within 2 sigma allows
-      alpha_MS(mu*) between -1.57% and +1.01% of pi/32. Read as the
+      alpha_MS(mu*) between -1.78% and +0.79% of pi/32. Read as the
       static potential (V) scheme coupling, a1 = (31/9)C_A -
       (20/9)T_F n_f = 64/9 for G2 with three Dirac 7s, pi/32 gives
-      alpha_s = 0.1111 (-7.7 sigma). Read in MS without the 4pi e^-gamma
-      rescaling, 0.1465 (+31.6 sigma). The identification is
+      alpha_s = 0.1114 (-7.3 sigma). Read in MS without the 4pi e^-gamma
+      rescaling, 0.1469 (+32.1 sigma). The identification is
       therefore specific: the closure action's coupling at the
       matching scale is the MS-bar coupling, to about one percent.
   G10 The boundary. The inversion computes M_b, the scale at which
@@ -157,8 +157,8 @@ STATEMENTS (the numbers below check each one).
       it moves M_Pl by sqrt(8 pi) = 5.01. As the regulator scale of the
       cutoff identification t0 = d11 l_Pl^2, by sqrt(d11) = 1.73. With
       1/G = Sigma/(2 pi t0) the full Planck reading is
-      t0 = Sigma/(2 pi) M_b^-2 = 4.112 l_Pl^2 on the engine's one list,
-      4.297 on the full ledger (boundary_content.py B4). The
+      t0 = Sigma/(2 pi) M_b^-2 = 4.165 l_Pl^2 on the engine's one list,
+      4.350 on the full ledger (boundary_content.py B4). The
       regulator is the boundary written in proper time form, and the
       cutoff menu of sakharov_normalisation.py FACT 3 is its menu.
       Write G = 1/(c M_b^2). The anchored regulator is the root of
@@ -167,11 +167,11 @@ STATEMENTS (the numbers below check each one).
       regulator (sakharov_normalisation.py FACT 6, 7). Every other
       dimensionful output of the engine is computed from M_b, so c
       affects G alone (and rho_crit, which is G times H0^2).
-      Gate S, with no measured G, asks t0 >= M_b^-2, so c <= 4.11 /
-      6.98 / 9.84 at contacts +1 / 0 / -1.
+      Gate S, with no measured G, asks t0 >= M_b^-2, so c <= 4.16 /
+      7.03 / 9.89 at contacts +1 / 0 / -1.
       Two readings place the regulator: the cutoff scale, c = d11
       (t0 = d11 l_Pl^2, FACT 7's diagnostic), and the regulator at the
-      boundary, c = Sigma/(2 pi) (t0 = M_b^-2, on S's edge, M_Pl x2.03).
+      boundary, c = Sigma/(2 pi) (t0 = M_b^-2, on S's edge, M_Pl x2.04).
       Each obtains G from the ledger with the regulator placed at a
       chosen scale, which the lane excludes. The regulator's
       normalization is scheme dependent (FACT 6, 7), so identifying
@@ -185,8 +185,8 @@ STATEMENTS (the numbers below check each one).
       half weight, the nominal point, its mirror), with a sharp or a
       smooth regulator (FACT 7's 2 ln 2). k = 1 passes under every
       convention; 8 pi, 16 pi and 32 pi fail under every convention
-      (at the nominal threshold 8 pi would need 758 to 974 bridge
-      units across the contacts, against the 65-376 window); 4 pi
+      (at the nominal threshold 8 pi would need 756 to 972 bridge
+      units across the contacts, against the 63-374 window); 4 pi
       passes under two of six. At the wired threshold, the nominal
       point at every contact (gravity.py gate S), 4 pi fails at each
       contact and 2 pi at the covariant one, and gate M, the anchored
@@ -200,7 +200,7 @@ STATEMENTS (the numbers below check each one).
       rationalized one, and a single definition gives the common mode
       in the same variable (tests/probes/coupling_normalization.py).
       The menu itself, the factors of general relativity, is a
-      judgment. The wired gates hold c between 0.656 and 4.11.
+      judgment. The wired gates hold c between 0.660 and 4.16.
       Why c stays an identification. c has one observable in nature as
       well as in the engine: general relativity has one coupling
       besides Lambda, so every gravitational observable measures G.
@@ -327,14 +327,14 @@ def loop_order():
 
     def alpha_MZ(a_star):
         MV = math.sqrt(4 * math.pi * a_star) * v0 * math.sqrt(float(r.E_v2) / 3)
-        lam3 = 1 - r.d11 * r.n7 * math.log(MV / mu_star)
+        lam3 = 1 - float(cpl.W_COSET) * math.log(MV / mu_star)
         a = 1 / (1 / a_star - lam3 / (12 * math.pi))
         return cpl._run_SM_2loop(cpl._run_SM_2loop(a, mu_star, mt, 6), mt, 91.1876, 5)
     one, two = down(a_pl, 0), down(a_pl, 1)
     out = dict(inv_alpha_star_one=1 / one, alpha_star_two=two,
                alpha_MZ_one=alpha_MZ(one), alpha_MZ_two=alpha_MZ(two), alpha_MZ_of=alpha_MZ)
     assert abs(1 / one - 32 / math.pi) < 1e-6
-    assert abs(out["alpha_MZ_one"] - 0.11839) < 5e-5 and out["alpha_MZ_two"] > 0.135
+    assert abs(out["alpha_MZ_one"] - 0.11869) < 5e-5 and out["alpha_MZ_two"] > 0.135
     return out
 
 
@@ -350,7 +350,7 @@ def scheme_conversion():
         f = lambda a: 2 * math.pi / (b0 * a) + (b1 / (2 * b0**2)) * math.log(b0 * a / (4 * math.pi)) + k - 6
         a_ms = brentq(f, 1e-3, 2.0)
         out[k] = (a_ms, alpha_MZ(a_ms))
-    assert abs(out[0.0][1] - 0.1007) < 3e-4 and abs(k_needed - 0.8445) < 1e-3
+    assert abs(out[0.0][1] - 0.1010) < 3e-4 and abs(k_needed - 0.8445) < 1e-3
     return out
 
 
@@ -497,7 +497,7 @@ def run(report=print):
         report(f"  {name:9s}: " + ", ".join(f"{k} {v:+.3g}" for k, v in res.items()))
     report(f"  w4 menu  : 29 entries span {w4_span:.1f} ppm in M_Pl; 27/2 sits at "
            f"{out['w4']['27/2'] - out['w4']['0']:+.2f} ppm from 'no term'")
-    report(f"depth-2 coefficient: menu spacing {spacing:.0f} ppm (integer), {spacing / 2:.0f} ppm "
+    report(f"depth 2 coefficient: menu spacing {spacing:.0f} ppm (integer), {spacing / 2:.0f} ppm "
            f"(half integer). Chance of a match within {achieved:.1f} ppm: "
            f"{100 * luck_int:.1f}% / {100 * luck_half:.1f}%")
     gf = gf_lock()
@@ -531,7 +531,7 @@ def run(report=print):
            + ". At the wired threshold S and M pass "
            + ", ".join(f"k = {n}" for n, v in bg["wired"].items() if all(v))
            + f"; c window {bg['c_window'][0]:.3f} to {bg['c_window'][1]:.2f}; G tests k = 1")
-    report("RESULT: the depth-2 coefficient is fixed by G_F on the derived N = 30 and w16 = 16, "
+    report("RESULT: the depth 2 coefficient is fixed by G_F on the derived N = 30 and w16 = 16, "
            "so the ppm statement on G is a prediction. The 0.1% statement rests on O(1)-spaced "
            "menus: C_EFF is fixed by G_F (G6). The wired gates leave k = 1 alone on the GR menu "
            "without G, and G tests it (G10). The loop order takes the closure action whole. The point "

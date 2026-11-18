@@ -25,20 +25,20 @@ STATEMENTS (the numbers below check each one).
   R2  In healing units kappa = (S/A) xi^2 = 0.0057 per phonon branch.
   R3  Read as a minimal scalar's area law, t0 = xi^2/(48 pi kappa)
       = 1.17 xi^2, which at xi0 = l_Pl/2 is 0.29 l_Pl^2 against the
-      4.297 l_Pl^2 the counted ledger needs (4.112 on the engine's one
-      list, a factor 14.1). It is short by a factor near 15, and by 28
-      and 56 for the other healing conventions. Closing would
-      need xi0 = 1.92 l_Pl.
+      4.350 l_Pl^2 the counted ledger needs (4.165 on the engine's one
+      list, a factor 14.3). It is short by a factor near 15, and by 29
+      and 57 for the other healing conventions. Closing would
+      need xi0 = 1.93 l_Pl.
 
   R4  Read the other way, the closure fixes the resolution. With the
       substrate's regulator under every ledger state, 1/(4G) = 6 Sigma
       kappa / xi^2 for Sigma in units of one scalar = 1/6, so
-      xi0/l_Pl = sqrt(24 kappa Sigma) = 1.918 for the counted ledger's
-      covariant contact term, 2.48 and 2.93 for the contact coefficients 0 and
+      xi0/l_Pl = sqrt(24 kappa Sigma) = 1.930 for the counted ledger's
+      covariant contact term, 2.49 and 2.94 for the contact coefficients 0 and
       -1, against the identification l_Pl/d10 = 0.5.
   R5  As a vacuum regulator the closure fails gate C. A condensate
       filling space shifts the tensor speed by order one unless
-      xi > 2.7e6 l_Pl (GW170817, carrier_sakharov.py), so 1.918 l_Pl
+      xi > 2.7e6 l_Pl (GW170817, carrier_sakharov.py), so 1.930 l_Pl
       misses by six orders of magnitude. The vacuum of the lane is the
       empty field, whose Fock vacuum carries no record. The Bogoliubov record is a
       lump interior quantity, and a lump interior does not set a
@@ -53,9 +53,10 @@ STATEMENTS (the numbers below check each one).
 RESULT. The substrate fixes a finite record area. It is a lump interior
 record that acts as a regulator only for a Planckian carrier
 (closed_event_scale.py). With the Planck identification xi0 = l_Pl/2
-it gives an induced stiffness about 14 times too strong.
-The identification and this reading of the record do not both hold.
-Taken as the closure, the substrate's healing length is 1.9 to 2.9
+it gives an induced stiffness about 14 times the measured one, so the
+identification and this reading of the record do not both hold.  Gate
+C (R5) places the record in the lump interior, not the vacuum
+regulator.  Taken as the closure, the substrate's healing length is 1.9 to 2.9
 Planck lengths, the spread being the vector contact convention. The
 premise is that every ledger state is an excitation of the substrate
 (the gauge as substrate program). This record area is then the only
@@ -103,7 +104,7 @@ def run(report=print, fine=False):
     kappa = limit / 4.0                                    # xi^2 = 1/(4 mu)
     t0_xi2 = 1 / (48 * math.pi * kappa)
     t0_lpl2 = t0_xi2 / 4.0                                 # xi0 = l_Pl/2
-    need = 4.297                                           # the counted ledger's t0 (FACT 7's reference)
+    need = 4.350                                           # the counted ledger's t0 (FACT 7's reference)
     assert abs(vals[0.2] - 0.02108) < 2e-4 and abs(vals[0.1] - 0.02217) < 2e-4
     assert 0.0222 < limit < 0.0232 and 10 < need / t0_lpl2 < 18
     report("R1 S/A = " + ", ".join(f"{v:.5f} (a = {a})" for a, v in vals.items())
@@ -112,9 +113,9 @@ def run(report=print, fine=False):
     report(f"R3 t0 = {t0_xi2:.3f} xi^2 = {t0_lpl2:.3f} l_Pl^2 at xi0 = l_Pl/2 against {need} "
            f"(short by {need / t0_lpl2:.1f}). Closing needs xi0 = {math.sqrt(need / t0_xi2):.2f} l_Pl")
     bridge = 182 / 6                                       # the amount, minimally coupled
-    xi_closure = {c: math.sqrt(24 * kappa * (7 / 6 + 45 / 6 + 36 * (1 / 6 - c / 2) + bridge))
+    xi_closure = {c: math.sqrt(24 * kappa * (7 / 6 + 47 / 6 + 36 * (1 / 6 - c / 2) + bridge))
                   for c in (1.0, 0.0, -1.0)}
-    assert abs(xi_closure[1.0] - 1.918) < 0.02
+    assert abs(xi_closure[1.0] - 1.930) < 0.02
     report("R4 closure: xi0/l_Pl = sqrt(24 kappa Sigma) = " + ", ".join(
         f"{v:.3f} (contact {k:+.0f})" for k, v in xi_closure.items()) + ". Identification 0.5")
     return dict(xi_closure=xi_closure, S_over_A=vals, limit=limit, kappa=kappa, t0_xi2=t0_xi2, t0_lpl2=t0_lpl2,

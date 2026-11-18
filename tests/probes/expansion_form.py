@@ -52,7 +52,7 @@ expansion the form of a constant vacuum term with pressureless matter.
 That is the rate equation with Lambda as its integration constant,
 w = -1, and a dark to baryon ratio that does not move.  The form does
 not fix Lambda's value or the spatial curvature k. Those are data of
-the state (notes/open_derivation_tasks.md T3), and the rate today is
+the state, and the rate today is
 an anchor (root.py).  A measured w(z) away from -1, or a ratio that
 drifts, falsifies it.
 

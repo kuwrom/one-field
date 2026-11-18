@@ -1,5 +1,5 @@
 """
-orientation_bit.py: ONE Fano orientation bit propagates through the
+ONE Fano orientation bit propagates through the
 CP-odd observables. No second CP sign datum is inserted.
 
 THE COMPUTATION: build the octonion cross product from the Fano
@@ -8,21 +8,19 @@ recompute every orientation sensitive quantity, and verify:
 
   (i)   CP EVEN data are invariant: |C1| = 1, |C3bar| = sqrt(2),
         hence B/A, masses, mixing angle magnitudes.
-  (ii)  ONE DECLARED MAP, applied by hand here: the Fano orientation
-        sign epsilon multiplies the modular phase (eta_bar = epsilon
-        pi/d11^2) and the PMNS phase (delta = -epsilon arccos(-lambda),
-        CKM convention).  This Fano to phase sign map is declared in
-        this probe (the engine's mixing.py fixes the forward sign by its
-        Kac-Peterson convention and reports signed J_lep).  With the map
-        declared, the CKM and PMNS matrices are recomputed in both
-        orientations, so eta_bar, J_CKM, J_lep, and eta_B flip
-        together; eta_B follows from -J_lep (sphaleron sign).
-  (iii) therefore CP sign and baryon excess sign are ONE propagated bit.
+  (ii)  ONE MAP: the Fano orientation sign epsilon multiplies the
+        modular phase (eta_bar = epsilon pi/d11^2) and the PMNS phase
+        (delta = -epsilon arccos(-lambda), CKM convention).  The
+        engine's mixing.py fixes the forward sign by its Kac-Peterson
+        convention and reports signed J_lep.  Under the map, the CKM
+        and PMNS matrices are recomputed in both
+        orientations, so eta_bar, J_CKM and J_lep flip together.
+  (iii) therefore the quark and lepton CP signs are ONE propagated bit.
         This is the forced correlation that the one orientation bit
         argument states, verified at the algebra level.
 
 COMPUTED SCOPE. Reversing the Fano orientation recomputes the Fano
-pseudoscalar, CKM matrix, PMNS matrix, and baryogenesis expression. Every
+pseudoscalar, CKM matrix and PMNS matrix. Every
 listed CP-odd value flips and the CP-even mixing magnitudes are unchanged.
 
 COMPOSITION. This probe covers the CP sign propagation only. Three other
@@ -30,9 +28,9 @@ results are established in their own branches: the mass protection
 selection of the chiral branch, the gauge representation embedding, and
 the Skyrmion-Dirac spectral flow. They combine with this one under the
 repository's stated fermion/knot identification. This probe does not
-recompute them. That is a division of scope, not an open step.
+recompute them.
 
-Usage: python3 orientation_bit.py
+Usage: python3 tests/probes/orientation_bit.py
 """
 
 import math
@@ -45,7 +43,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..", "..", "interference")))
 import _bootstrap  # noqa: E402,F401
 from octonions import FANO_TRIPLES, FANO_SIGNS
-from interference.root import d10, d11, n7, h10, alpha_phys, BA_ratio
+from interference.root import d10, d11, h10, alpha_phys, BA_ratio
 
 
 def cross(a, b, signs):
@@ -95,7 +93,7 @@ def ckm_data(orientation):
 
 
 def pmns_data(orientation):
-    """Recompute the charged lepton corrected TBM matrix."""
+    """Recompute the TBM matrix with the charged lepton rotation."""
     def mass_factor(k):
         gap = 1.0 + BA_ratio * math.cos(float(h10) + 2*math.pi*k/3)
         vent = 1.0 - (d11**3/d10) * (alpha_phys/(2*math.pi))**2 * gap
@@ -145,15 +143,13 @@ def run(report=print):
     assert epsf == -epsr
     report("  -> CP-even data INVARIANT. Epsilon FLIPS.")
 
-    # Recompute the downstream matrices and baryogenesis expression.
+    # Recompute the downstream matrices.
     ckm_f, ckm_r = ckm_data(epsf), ckm_data(epsr)
     pmns_f, pmns_r = pmns_data(epsf), pmns_data(epsr)
     odd_f = {"eta_bar": ckm_f["eta_bar"], "J_CKM": ckm_f["J_CKM"],
              "J_lep": pmns_f["J_lep"]}
     odd_r = {"eta_bar": ckm_r["eta_bar"], "J_CKM": ckm_r["J_CKM"],
              "J_lep": pmns_r["J_lep"]}
-    odd_f["eta_B"] = -n7 * odd_f["J_lep"] * math.exp(-2*math.pi**2)
-    odd_r["eta_B"] = -n7 * odd_r["J_lep"] * math.exp(-2*math.pi**2)
     for name in odd_f:
         assert math.isclose(odd_r[name], -odd_f[name], rel_tol=1e-12,
                             abs_tol=1e-15)
@@ -166,7 +162,7 @@ def run(report=print):
 
     report("-" * 64)
     report("  VERDICT: the framework contains one Fano orientation")
-    report("  datum. Reversing it flips CP sign and matter excess")
+    report("  datum. Reversing it flips the quark and lepton CP signs")
     report("  TOGETHER and touches no computed CP-even magnitude.")
     report("  Chirality closure, gauge representations, and knot spectral")
     report("  flow are separate branches that combine with this one.")

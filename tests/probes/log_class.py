@@ -11,7 +11,7 @@ of the induced metric?
 
 PREMISES. The rows of interference/gravity.py as counted in
 ledger_kernel.py (189 real scalars, minimally coupled,
-18 massless vectors, 45 Weyl fermions), one loop, the proper time
+18 massless vectors, 47 Weyl fermions), one loop, the proper time
 cutoff t0 = d11 l_Pl^2 for the Einstein term, the diagnostic's cutoff
 (sakharov_normalisation.py FACT 1, FACT 7). The logarithmic moment
 M_1 = ln(1/(mu^2 t0)) at the scale mu where an operator is evaluated.
@@ -27,7 +27,7 @@ hep-th/9308075 Eqs. 30-31, Herranen et al. arXiv:1407.3141 Table I):
 
 STATEMENTS (the numbers below check each one).
 
-  L1 (the sums). Over the ledger's rows c = 9/2, a = 69/16,
+  L1 (the sums). Over the ledger's rows c = 91/20, a = 3127/720,
      d = 21/8. Massless vectors and fermions are conformal: R^2 comes
      from the scalars alone.
   L2 (accumulation). A row of mass m contributes a1 (M_2 - m^2 M_1) to
@@ -101,7 +101,7 @@ def sums():
 
 def run(report=print):
     c, a, d = sums()
-    assert abs(c - 9 / 2) < 1e-12 and abs(d - 2.625) < 1e-12
+    assert abs(c - 91 / 20) < 1e-12 and abs(d - 2.625) < 1e-12
     sigma = cm.ledger()["sigma"]
     M_Pl = root.M_Pl_GeV
     t0 = root.d11 / M_Pl**2                     # GeV^-2

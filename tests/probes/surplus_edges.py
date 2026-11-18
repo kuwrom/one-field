@@ -1,6 +1,6 @@
 """
-surplus_edges.py: web completeness, run in the SURPLUS direction
-(derivation program D4 of the edge grammar (tests/audit/edge_grammar.py)).
+Web completeness, run in the SURPLUS direction
+(the edge grammar, tests/audit/edge_grammar.py).
 
 The scorecard runs the grammar TOWARD the PDG: nine targets, nine
 hits.  Completeness demands the opposite scan too: enumerate every
@@ -17,12 +17,18 @@ things, and the probe labels which:
       canonical examples, already excluded against the top.
 
 The menus come from tests/audit/edge_grammar.py (the committed D1 spec).
-The selection lemmas come from interference/words.py. N-ality
+The admissibility lemmas come from interference/words.py. N-ality
 superselection: steps must be triality neutral. Conversion lemma:
 bases are pure tower integer ranks, and mixed words belong to the
 vent side.
 
-Usage: python3 surplus_edges.py    (fast: pure linear algebra)
+RESULT. The grammar enumerates a finite menu of 15 edges, and every
+base in use is admissible under its own lemmas. The excluded generation
+3 mixed words, at about 64 and 139 GeV, match no PDG state and stand as
+falsifiers that must stay absent. The one admissible surplus edge, the
+generation 2 word aaa at 2.85 GeV, is reported, not asserted.
+
+Usage: python3 tests/probes/surplus_edges.py    (fast: pure linear algebra)
 """
 
 import os

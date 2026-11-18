@@ -1,6 +1,6 @@
 """
-knot_circulant.py: the knot generates the anomalous phase
-(stage zero and the first reading of the two phase bridge).
+The knot generates the anomalous phase
+(the saturated start and the first reading of the two phase bridge).
 
 CONTEXT.  The Koide readable and knot forming phases of the substrate
 are disjoint for every admissible uniform coupling (r, alpha)
@@ -33,8 +33,7 @@ MEASURED (seed 11, N = 256, L = 40, residual ~1e-3).
   in the normal channel).  The stationary knot has |sin beta| = 0.70
   at the core and 0.57 as the density weighted mean. This is a
   genuinely complex anomalous channel that NO uniform state carries.
-  The circular mean is beta = +0.171. It lies between the canonical
-  alpha class (0.145) and 2/9 (0.222) and is identified with neither.
+  The circular mean is beta = +0.171, identified with no target.
   ONE SEED. The existence facts are frozen. No quantitative
   identification is pinned.
 
@@ -58,13 +57,18 @@ in circulant_normalization.py. The classical layer provides the slots,
 the ratios are set at the deeper foldings, and a classical measurement
 of Q = 2/3 would falsify that scoping.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). At that sign the closure is the spinning lump
-(spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
-Usage: python3 knot_circulant.py     (~2 min, mark slow)
+RESULT. On the gas sign the certified stationary knot carries a
+genuinely complex anomalous phase, against sin beta = 0 to 1e-9 on the
+uniform alpha = 0 control, and the value of beta is identified with no
+target. bdg() finds the two zero modes and low modes that mix the q = 1
+and q = 2 channels. The asserts are internal to run() and bdg(), only
+run() executes, and no pytest test freezes either.
+
+Usage: python3 tests/probes/knot_circulant.py     (~2 min, mark slow)
 """
 import os
 import sys

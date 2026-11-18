@@ -11,15 +11,15 @@ def _silent(*args, **kwargs):
     pass
 
 
-def test_condensate_map_is_the_per_mode_reading():
+def test_condensate_map_probe_excludes_the_linear_reading():
     """Runs the condensate map's field map. In the real canonical norm
     the SM broken generator sum rule uses all of v_EW. A linear
     identification of the 7-singlet therefore carries v7 = v_EW
-    (alpha_s at -2.5 sigma). The coded v7^2 = E[v^2] v_EW^2 is the
+    (alpha_s at -2.3 sigma). The coded v7^2 = E[v^2] v_EW^2 is the
     per mode contraction moment of the bridge. It reproduces
     M_V = 111.648 exactly. The two contractions are 3 sigma apart.
     Every nonelectroweak scale on the ladder fails by tens of sigma.
-    The look elsewhere count over bare factors is recorded: five atoms
+    The look elsewhere count over plain factors is recorded: four atoms
     lie within 1 sigma, so the role fixes the choice, not the fit."""
     import contextlib
     import io
@@ -46,18 +46,18 @@ def test_condensate_map_is_the_per_mode_reading():
     assert r["per_mode"]["M_V"] == pytest.approx(
         (math.pi / (2.0 * math.sqrt(2.0))) * r["v_EW_GeV"]
         / math.sqrt(6.0), abs=1e-9)
-    assert abs(r["per_mode"]["pull"]) < 0.5
+    assert abs(r["per_mode"]["pull"]) < 1.0
     # 3. the linear map (= the total contraction) is the excluded row
     assert r["linear_map"]["M_V"] == pytest.approx(157.894, abs=1e-2)
     assert r["linear_map"]["pull"] < -2.0
-    assert r["dichotomy_separation_sigma"] == pytest.approx(2.95, abs=0.1)
+    assert r["dichotomy_separation_sigma"] == pytest.approx(3.11, abs=0.1)
     # 4. the scale menu: every nonelectroweak condensate row is excluded
     menu = r["scale_menu_pulls"]
-    assert abs(menu["M_R:per_mode"]) > 50
+    assert abs(menu["M_G2:per_mode"]) > 50
     assert abs(menu["Lambda_conf:per_mode"]) > 50
     assert abs(r["no_threshold_pull"]) > 5
     # 5. look elsewhere count: the 1-sigma atom count is frozen
-    assert len(r["atoms_within_1sigma"]) == 5
+    assert len(r["atoms_within_1sigma"]) == 4
     assert "E_v2 = 1/2" in r["atoms_within_1sigma"]
 
 
@@ -72,20 +72,23 @@ def test_ew_internal_reclassification():
 
 
 def test_scale_ties_gluon_coupling_admits_the_radial_mode_alone(res):
-    """On the engine's two loop alpha_s chain the coset threshold moves
-    1/alpha_s(125 GeV) by -4.52 times the top per unit ln v. The 125 GeV
-    state as the radial mode of the electroweak condensate, with G2
-    broken by its own field, gives kappa_g = 1. Moving M_V gives -3.52.
-    A dilaton of the transmuted scale (mu*, M_V, m_t) gives +10.31.
-    Only the first lies within 2 sigma of CMS 0.92 +/- 0.08."""
+    """At beta order 1, the order of the threshold, the coset threshold
+    moves 1/alpha_s(125 GeV) by -11/2 times the top per unit ln v. The
+    125 GeV state as the radial mode of the electroweak condensate, with
+    G2 broken by its own field, gives kappa_g = 1. Moving M_V gives -9/2.
+    A dilaton of the transmuted scale (mu*, M_V, m_t) gives +23/2.
+    Only the first lies within 2 sigma of CMS 0.92 +/- 0.08. The two
+    loop chain gives -3.73 and +10.31, with the same verdicts."""
     from probes import scale_ties
 
     r = scale_ties.run(report=_silent)
     assert r["passes"] == {"A": True, "B": False, "C": False}
-    assert r["kappa"]["B"] == pytest.approx(-3.52, abs=0.02)
-    assert r["kappa"]["C"] == pytest.approx(10.31, abs=0.05)
-    assert r["coset_only"] / r["top"] == pytest.approx(-4.52, abs=0.01)
-    assert r["alpha_s_MZ"] == pytest.approx(0.11839, abs=5e-5)
+    assert r["kappa"]["B"] == pytest.approx(-9 / 2, abs=1e-6)
+    assert r["kappa"]["C"] == pytest.approx(23 / 2, abs=1e-6)
+    assert r["coset_only"] / r["top"] == pytest.approx(-11 / 2, abs=1e-6)
+    assert r["kappa_chain"]["B"] == pytest.approx(-3.73, abs=0.02)
+    assert r["kappa_chain"]["C"] == pytest.approx(10.31, abs=0.05)
+    assert r["alpha_s_MZ"] == pytest.approx(0.11869, abs=5e-5)
 
 
 def test_yang_mills_strong_sector_closes_gapped(res):

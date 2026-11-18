@@ -67,13 +67,13 @@ def res():
         m = masses.derive(R)
         mx = mixing.derive(R, m)
         c = couplings.derive(R, m)
-        g = gravity.derive(R, m, mx, c)
+        g = gravity.derive(R, m, c)
         d = dark_sector.derive(R, g)
     return {
         "R": R,        # algebraic root (four integers + all derived rationals)
         "m": m,        # 9 masses + v_EW + bridge factor
         "mx": mx,      # CKM + PMNS
         "c": c,        # alpha_s + alpha(0) (bridge self-interference)
-        "g": g,        # Newton's G + Higgs + baryogenesis + neutrinos + EW
-        "d": d,        # dark sector + cosmological density bookkeeping
+        "g": g,        # Newton's G + Higgs + neutrinos + EW
+        "d": d,        # dark sector + cosmological densities
     }

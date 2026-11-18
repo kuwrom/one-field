@@ -6,14 +6,14 @@ distinguishes. Whatever folds beyond it is read as amount without
 identity" (interference/__init__.py, THE HORIZON). On the one list of
 interference/boundary.py the bridge is that amount.  It vents, takes
 no share of the running, and gates S and M pass. The searchlight counts it as
-n7 n26 = 182 channels, a depth-3 count. How much of the closure rests on
+n7 n26 = 182 channels, a depth 3 count. How much of the closure rests on
 that count, on the bridge's labels, on a xi in its weight, on its mass
 and on the regulator?
 
 PREMISES. P1 the one list and its weights (boundary.py, ledger_kernel.py
 R2): the nameable rows are the G2 and electroweak gauge fields, 36
 vector states at 1/6 - c/2 for vector contact c (c = +1 the covariant
-value), and the 90 fermion states at 1/12. The G2 scalars are the R6
+value), and the 94 fermion states at 1/12. The G2 scalars are the R6
 composite. The amount enters at the minimal real scalar weight 1/6
 and takes no share of the running.  One covariant operator gives a
 row both its share of b0 and its stiffness.  A row with no share
@@ -27,66 +27,67 @@ with E2(m^2 t0) under the ledger's sharp proper time cutoff, the least
 weight among monotone regulators with the same massless normalization
 (Jensen, boundary_regulator.py R4); a band pass cutoff function with a
 free amplitude has no such floor (R5).
-P5 depth: the web's depth-4 terms are 5e-7 to 3e-6 relative and no
+P5 depth: the web's depth 4 terms are 5e-7 to 3e-6 relative and no
 gravity node reads them (sakharov_normalisation.py FACT 6 (a)), against
 the factor two margins of A2.
 
 STATEMENTS (the numbers below check each one).
 
-  A1 (the nameable rows). They give Sigma = 13.5 - 18 c: -4.5 at the
-     covariant contact, -7.17 with the metric loop, repulsive there.
-     Attraction at every contact needs more than 27.0 real scalar units
-     of amount, 43.0 with the loop. One octonion's worth of nameable
+  A1 (the nameable rows). They give Sigma = 83/6 - 18 c: -4.17 at the
+     covariant contact, -6.83 with the metric loop, repulsive there.
+     Attraction at every contact needs more than 25.0 real scalar units
+     of amount, 41.0 with the loop. One octonion's worth of nameable
      real scalars adds 8/6 = 1.33, and every G2-singlet addition the
-     repository names adds 2.34 at its most favourable weights
+     repository names adds 2.01 at its most favourable weights
      (boundary_content.py B7).  What the searchlight can name leaves
      gravity repulsive at the covariant contact.
   A2 (the window). A light amount passes S and M at every contact for
-     N between 80.7 and 392.5 real scalar units with the metric loop.
-     The searchlight's 182 sits a factor 2.26 above the lower edge and
-     2.16 below the upper.  Without the loop the window is 64.7 to 376.5
-     (factors 2.81 and 2.07). A light row has weight one under every
-     shape and placement of the cutoff, so Sigma = 25.8333/43.8333/61.8333
+     N between 78.7 and 390.5 real scalar units with the metric loop.
+     The searchlight's 182 sits a factor 2.31 above the lower edge and
+     2.15 below the upper.  Without the loop the window is 62.7 to 374.5
+     (factors 2.90 and 2.06). A light row has weight one under every
+     shape and placement of the cutoff, so Sigma = 26.1667/44.1667/62.1667
      across the contacts does not move with them. With the label's
-     coupling on the amount, weight 1/6 - 1/(48 pi), the edges are 84.0
-     and 408.8 with the loop (67.4 and 392.1 without). At the count
+     coupling on the amount, weight 1/6 - 1/(48 pi), the edges are 82.0
+     and 406.7 with the loop (65.3 and 390.0 without). At the count
      182 the gates hold for every coupling of the amount with
-     -0.178 < xi < 0.107 (-0.193 to 0.093 with the loop).  The band
+     -0.176 < xi < 0.109 (-0.191 to 0.095 with the loop).  The band
      contains zero and the label's value, but not the conformal 1/6.
      No S or M verdict rests on xi.
   A3 (the mass). With a mass m under P4, S and M hold at every contact
-     for m < 0.672 M_b, 0.574 M_b with the loop. Band pass cutoff
+     for m < 0.685 M_b, 0.586 M_b with the loop. Band pass cutoff
      functions set no such floor: at the spectral action's
-     chi(0) = 24 pi^2 (boundary_regulator.py R5) the sign needs m below
-     0.052 to 0.101 M_b across the heat kernel, the exponential in |D|,
+     chi(0) = 24 pi^2 (boundary_regulator.py R5) gate S needs m below
+     0.053 to 0.103 M_b across the heat kernel, the exponential in |D|,
      the Gaussian in D^2, eigenvalue counting and the fermionic entropy.
      Read with its searchlight label, the bridge runs below its mass, and
      the anchor's 22 ppm holds only for m >= 0.999945 M_b
      (boundary_content.py B5), where the ledger's own cutoff gives
-     Sigma = -0.174.
+     Sigma = +0.159, below the 2 pi that S needs.
   A4 (the kernel). The one list's summed kernel (one_list_kernel.py's
-     rows and form factors) has stiffness 25.8333 with F0/F2 = -2, its
+     rows and form factors) has stiffness 26.1667 with F0/F2 = -2, its
      static potential is the attractive Newton value, and its spin-2
      form factor keeps the Einstein sign from q^2 t0 = 1e-3 to 1e3. In
      closed form it has no zero to 1e12 and tends to a positive
-     constant, since the scalars outnumber the 117 that limit needs
-     (tests/probes/kernel_sign.py). The anchored t0 = 4.112 M_b^-2 puts
-     the regulator at 0.493 M_b, and the kernel leaves the Einstein
-     value by 10 and 50 percent at q = 0.130 and 0.432 M_b. In the lower
-     part of the S and M window, below 139.3 units, a zero falls inside
-     the boundary. The count sits a factor 1.31 above that edge.  From
+     constant, since the scalars outnumber the 119 that limit needs
+     (tests/probes/kernel_sign.py). The anchored t0 = 4.165 M_b^-2 puts
+     the regulator at 0.490 M_b, and the kernel leaves the Einstein
+     value by 10 and 50 percent at q = 0.129 and 0.430 M_b. In the lower
+     part of the S and M window, below 140.1 units, a zero falls inside
+     the boundary. The count sits a factor 1.30 above that edge.  From
      165 units to the window's upper edge the axis up to 1e3 has no
      zero. With the label's coupling
-     on the amount the zero would lie at 1.295 M_b, and it stays
-     outside the boundary for every xi below 0.0151: a coupling xi
+     on the amount the zero would lie at 1.268 M_b, and it stays
+     outside the boundary for every xi below 0.0147: a coupling xi
      takes its share from the Einstein term alone, so the zero moves
      in as xi grows.
   A5 (the readings). The list can read the bridge five ways
      (boundary.py). Read as light, with its label as running charge, it
      moves b0 away from the value the anchor uses. Absent or composite it leaves
-     the stiffness at -4.5 and S fails. At the boundary's mass it keeps
-     b0 and gives -0.175 under the ledger's own cutoff, a sign the
-     regulator literature leaves unsettled. As amount it keeps b0 and
+     the stiffness at -4.17 and S fails. At the boundary's mass it keeps
+     b0 and gives +0.158 under the ledger's own cutoff, below the 2 pi
+     that S needs. Inside the boundary no regulator that only removes
+     gives more (boundary_regulator.py R6). As amount it keeps b0 and
      passes S and M at every contact. One reading of the five closes
      the running and both gates together.
   A6 (the share is quantized). A share of b0 is a Dynkin index: a real
@@ -103,20 +104,20 @@ STATEMENTS (the numbers below check each one).
      list's own order, and the masses enter only at order m^2 t0
      (log_class.py L2, 1.2e-33 for every Standard Model mass switched
      off).  The amount read as massive below the boundary passes S and M
-     (A3), but its stiffness depends on that mass at order one, -0.99 at
+     (A3), but its stiffness depends on that mass at order one, -0.98 at
      0.5 M_b.  Whatever sets the mass then sets G, and a local ratio
      records the place.  This is gate P's failing case.
 
 RESULT. What the searchlight can name gives a repulsive stiffness at the
 covariant contact. Gravity's sign and size need content past its
-horizon, and of that content only an amount. A light amount of 81 to
-392 real scalar units with the composite metric's own loop (65 to 376
+horizon, and of that content only an amount. A light amount of 79 to
+390 real scalar units with the composite metric's own loop (63 to 374
 without) passes S and M at every contact, for any shape and placement
 of the cutoff. No S or M verdict rests on the count's exact value, on
 xi or on a label.  The amount's size has no source except the
 searchlight's count, 182, which sits inside the window with a factor
 of about two to spare. With a mass, the amount keeps both gates for
-masses below 0.672 M_b (0.574 M_b with the loop) under the least
+masses below 0.685 M_b (0.586 M_b with the loop) under the least
 favourable monotone regulator. Band pass shapes
 with a free amplitude set no such floor. Read as amount, the one list's
 kernel keeps the Einstein sign on the whole axis.
@@ -143,7 +144,7 @@ CONTACTS = B.CONTACTS
 LOOP = bc.METRIC_LOOP                        # -8/3 on shell (ledger_kernel.py R5)
 BAND = (0.6, 15.0)                           # gate M: t0 in M_b^-2 (gravity.py)
 OCTONION = 8                                 # one octonion's worth of real scalars
-NAMED_SINGLETS = 2.34                        # boundary_content.py B7 (its test checks this copy)
+NAMED_SINGLETS = 2.007                       # boundary_content.py B7 (its test checks this copy)
 CHI0_SPECTRAL = 24 * math.pi**2              # boundary_regulator.py R5
 BAND_PASS = ("heat kernel", "exponential in |D|", "Gaussian in D^2", "eigenvalue counting", "fermionic entropy")
 ONE = B.rows(r.d10, r.d11, r.n7, r.n26)      # the one list: the bridge as amount
@@ -189,7 +190,8 @@ def gates_at(m, loop=0.0):
 
 def zero_q(n, xi, hi=1e3):
     """Spin-2 zero of the light list with n amount units at coupling xi, in M_b at the anchored t0."""
-    rows_k = [("vector", 18.0, 0.0, 0.0), ("dirac", 22.5, 0.0, 0.0), ("scalar", float(n), xi, 0.0)]
+    weyl_states = sum(s for _, s, k, _, rd in NAMED if k == "weyl")
+    rows_k = [("vector", 18.0, 0.0, 0.0), ("dirac", weyl_states / 4, 0.0, 0.0), ("scalar", float(n), xi, 0.0)]
     t0 = (B.sigma(NAMED, 0.0, 1.0, XI) + n * (1 / 6 - xi)) / (2 * math.pi)
     zero = olk.axis(rows_k, t0, hi=hi)[1]
     return None if zero is None else math.sqrt(zero / t0)
@@ -205,7 +207,7 @@ def run(report=print):
     attract = max(-named[c] / w for c in CONTACTS)
     attract_loop = max(-(named[c] + LOOP) / w for c in CONTACTS)
     octo = OCTONION / 6.0
-    assert abs(named[1.0] + 4.5) < 1e-12 and named[1.0] + octo + NAMED_SINGLETS < 0 < named[0.0]
+    assert abs(named[1.0] + 25 / 6) < 1e-12 and named[1.0] + octo + NAMED_SINGLETS < 0 < named[0.0]
     assert B.b0(ONE) == r.b0_G2 and [row[3] for row in ONE if row[0] == "bridge"] == [0]
     out.update(named=named, named_loop=named[1.0] + LOOP, attract=attract, attract_loop=attract_loop,
                octonion=octo)
@@ -245,7 +247,7 @@ def run(report=print):
         assert gates_at(0.999 * m, loop) == (True, True) and not gates_at(1.001 * m, loop)[0]
         assert all(gates_at(f * m, loop) == (True, True) for f in (1e-3, 0.1, 0.5, 0.9))
     band_pass = {}
-    need = (2 * math.pi - named[1.0]) / (COUNT * w)      # the amount's weight the sign needs: 0.3555
+    need = (2 * math.pi - named[1.0]) / (COUNT * w)      # the amount's weight gate S needs: 0.3445
     for k in BAND_PASS:
         wk = br.band(k, CHI0_SPECTRAL)[0]
         band_pass[k] = math.sqrt(brentq(lambda x: wk(x) - need, 1e-12, 50.0))
@@ -254,7 +256,7 @@ def run(report=print):
     edge = math.exp(-bc.ANCHOR_PPM * 1e-6 * float(r.b0_G2 / (r.b0_G2 - b0_light)))
     labelled = B.rows(r.d10, r.d11, r.n7, r.n26, bridge="boundary")
     labelled_at_edge = B.sigma(labelled, 1.0, 1.0, XI, m_over_Mb=edge)
-    assert m_star["no loop"] < edge and labelled_at_edge < 0
+    assert m_star["no loop"] < edge and labelled_at_edge < 2 * math.pi
     out.update(m_star=m_star, band_pass=band_pass, anchor_edge=edge, labelled_at_edge=labelled_at_edge)
     report(f"A3 mass: S and M hold for m < {m_star['no loop']:.4f} M_b ({m_star['loop']:.4f} with the loop) under the "
            f"least favourable monotone regulator. Band pass shapes at chi(0) = 24 pi^2 need m < "
@@ -263,7 +265,7 @@ def run(report=print):
 
     # A4: the kernel of the one list, its edge in the amount, and minimal coupling.
     rows_k = olk.kernel_rows(ONE)
-    assert olk.content(rows_k) == {("vector", 0.0): 18, ("dirac", 0.0): 22.5, ("scalar", 0.0): 182}
+    assert olk.content(rows_k) == {("vector", 0.0): 18, ("dirac", 0.0): 23.5, ("scalar", 0.0): 182}
     t0 = full[1.0] / (2 * math.pi)
     s_k, shape = olk.stiffness(rows_k, t0)
     values, zero = olk.axis(rows_k, t0)
@@ -273,11 +275,11 @@ def run(report=print):
     content = olk.content(rows_k)                         # the large momentum limit (kernel_sign.py S4)
     limit = (content["scalar", 0.0] - 2 * content["dirac", 0.0] - 4 * content["vector", 0.0]) / 8
     assert abs(s_k - full[1.0]) < 1e-3 and abs(shape + 2) < 1e-3 and abs(sign - 1) < 1e-3
-    assert zero is None and all(v > 0 for v in values) and limit == 65 / 8 and 1.0 > t0**-0.5 and max(q_dep) < 1.0
+    assert zero is None and all(v > 0 for v in values) and limit == 63 / 8 and 1.0 > t0**-0.5 and max(q_dep) < 1.0
     n_edge = brentq(lambda n: zero_q(n, 0.0) - 1.0, 120.0, 150.0, xtol=1e-4)
     zero_free = all(zero_q(n, 0.0) is None for n in (165.0, COUNT, win["no loop"][1], win["loop"][1]))
     q_label = zero_q(COUNT, XI)                           # the same list with the label's coupling on the amount
-    assert 1.25 < COUNT / n_edge < 1.35 and zero_free and abs(q_label - 1.295) < 2e-3
+    assert 1.25 < COUNT / n_edge < 1.35 and zero_free and abs(q_label - 1.268) < 2e-3
     assert win["loop"][0] < n_edge < COUNT
     xi_edge = brentq(lambda x: zero_q(COUNT, x) - 1.0, 0.008, 0.05, xtol=1e-8)
     assert XI < xi_edge < band["loop"][1] and zero_q(COUNT, -0.01) is None
@@ -298,7 +300,7 @@ def run(report=print):
         readings[rd] = (B.b0(table) == r.b0_G2, all(B.inside(table, c, XI) for c in CONTACTS),
                         all(x and BAND[0] < x[0] / (2 * math.pi) < BAND[1] for x in roots))
     closing = [rd for rd, v in readings.items() if all(v)]
-    assert closing == ["amount"] and not readings["light"][0] and readings["boundary"] == (True, False, False)
+    assert closing == ["amount"] and not readings["light"][0] and readings["boundary"] == (True, False, True)
     assert readings["absent"][1:] == readings["composite"][1:] == (False, False)
     out.update(readings=readings)
     report("A5 readings (keeps b0, S, M): " + "; ".join(

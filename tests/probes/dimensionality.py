@@ -1,5 +1,5 @@
 """
-dimensionality.py: 3+1 from the substrate's own structure, derived
+3+1 from the substrate's own structure, derived
 rather than assumed.
 
 THE ARGUMENT.  Three components force a C^2 relative sector (the
@@ -12,7 +12,7 @@ dimension:
      topological content (winding_texture.py, knot_charge.py), first
      exists at three spatial dimensions.  d_spatial >= 3.
 
-  2. POINTLIKE EVENTS.  Zeros of a generic 4-real-component field
+  2. POINTLIKE EVENTS.  Zeros of a generic four real component field
      have codimension 4, so the set where the charge can change has
      dimension D - 4 in D-dimensional spacetime.  Charge changing is
      eventlike (isolated points, the node events knot_charge.py
@@ -39,17 +39,15 @@ INPUTS OF THE DERIVATION: the three component structure (engine
 data), genericity, and the demand that topological charge exists and
 changes at discrete events (the mechanism knot_charge.py measures).
 This last premise excludes D = 5, where zeros are lines.
-Given those inputs, D = 3+1 is derived. The premises that remain are
-genericity and the eventlike change premise.
+Given those inputs, D = 3+1 is derived. It rests on genericity and
+the eventlike change premise.
 
-SIGN.  The relative sector is populated over the gas sign's held
-uniform background (tests/substrate/nls_soliton.py, THE SIGN), and the
-texture argument uses that sector.  The committed self-bound sign holds
-the clock lump, which does not populate it (knot_in_lump.py). For that
-sign the closure is the spinning lump (spinning_lump.py), and the
-dimension follows from closure (dimension_by_closure.py).
+SCOPE.  The texture argument reads the relative sector of the gas
+sign's held uniform background (tests/substrate/nls_soliton.py, THE
+SIGN).  On the committed sign the dimension follows from closure
+(dimension_by_closure.py).
 
-Usage: python3 dimensionality.py     (a few seconds)
+Usage: python3 tests/probes/dimensionality.py     (a few seconds)
 """
 import os
 import sys
@@ -203,7 +201,7 @@ def run(report=print):
            "measured), zeros are")
     report("  codim 4 (PART A, measured), and knots need d >= 3.  "
            "3+1 is derived, not")
-    report("  assumed. The premises that remain are genericity and "
+    report("  assumed. It rests on genericity and "
            "that charge changes")
     report("  at pointlike events (the premise that excludes D = 5).")
     return dict(codim=out, unique_D=4,

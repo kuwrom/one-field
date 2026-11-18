@@ -5,7 +5,7 @@ import sys
 
 import pytest
 
-pytest.importorskip("sympy")
+pytest.importorskip("sympy", reason="needs sympy (pip install -r requirements.txt)")
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "audit"))
 import gate_verdicts  # noqa: E402
 
@@ -40,5 +40,5 @@ def test_each_decider_fails_on_its_failing_case(computed):
     assert fail["T tensor carrier"][0] == "the amount with the label's coupling"
     assert fail["P no preferred location"][0] == "the amount read as massive below the boundary"
     amount = computed["evidence"]["amount"]
-    assert amount["mass_response_one"] == 0.0 and amount["mass_response_massive"] == pytest.approx(-0.988, abs=1e-3)
-    assert computed["evidence"]["amount"]["q_zero_label"] == pytest.approx(1.295, abs=2e-3)
+    assert amount["mass_response_one"] == 0.0 and amount["mass_response_massive"] == pytest.approx(-0.979, abs=1e-3)
+    assert computed["evidence"]["amount"]["q_zero_label"] == pytest.approx(1.268, abs=2e-3)

@@ -1,8 +1,7 @@
 """
-knot_spectrum.py: the excitation tower of the saturated lump.
-This is derivation program D7 of the edge grammar
-(tests/audit/edge_grammar.py). It feeds the surplus edge prediction
-channel, D4.
+The excitation tower of the saturated lump.
+It feeds the surplus edge scan (surplus_edges.py) of the edge
+grammar (tests/audit/edge_grammar.py).
 
 SCOPE.  knot_charge.py showed that the substrate's stable attractor is
 a nodeless B = 0 lump.  Whatever the confined phase adds, the
@@ -15,9 +14,9 @@ down.  Two facts are frozen as assertions:
   2. The first internal excitation sits at or above the substrate's
      own binding scale (measured omega = 1.178 = 0.27 mu, against
      |lam1| = g1 rho0 and mu = (3 g0 + 2 g1) rho0). There is no extra
-     light internal state below the BdG scales.  If a refactor pushes a
+     light internal state below the BdG scales.  If a change pushes a
      mode far below |lam1|, that mode is a surplus state: register it
-     (D4) or treat it as a falsifier.  (Taking |lam1| as the scale of
+     (surplus_edges.py) or treat it as a falsifier.  (Taking |lam1| as the scale of
      the MTC lock in the spectrum is an interpretation, not a
      derivation.  The frozen assertion uses only the substrate's own
      scale.)
@@ -29,13 +28,17 @@ observables densely to t = 24: the relative mode core norm (charged
 channel) and the common mode core density (neutral channel).  The
 peaks of the FFT of the ring down are the tower.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). At that sign the closure is the spinning lump
-(spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
-Usage: python3 knot_spectrum.py     (~17 min single core, mark slow)
+RESULT. On the gas sign the classical ring down tower of the saturated B
+= 0 lump is gapped. The lowest of its five dominant charged peaks sits
+above the FFT floor 2 pi/16 and above half the relative binding scale
+|lam1| = g1 rho0. No peak of the classical ring down sits below half
+that binding scale.
+
+Usage: python3 tests/probes/knot_spectrum.py     (~17 min single core, mark slow)
 """
 
 import os
@@ -138,7 +141,7 @@ def run(report=print):
     #    sector binding scale |lam1|. There are no extra light internal
     #    states below the substrate's own binding scale.  If a refactor
     #    pushes a peak far below |lam1|, that peak is a surplus state:
-    #    register it (D4) or treat it as a falsifier.
+    #    register it (surplus_edges.py) or treat it as a falsifier.
     assert w_min > 0.5 * lam1, \
         f"internal mode at {w_min:.3f} << |lam1| = {lam1:.3f}: " \
         f"surplus state below the binding scale. Register or falsify it"

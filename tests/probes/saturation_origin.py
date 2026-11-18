@@ -45,12 +45,12 @@ STATEMENTS (the numbers below check each one).
      volume. No classical lump exists there, since a classical lump
      needs R xi^3 >> 1. The fluctuations are not the saturating term. Under
      the node event reading of the proton lifetime the depth is above
-     196/c (substrate_depth.py). At that depth their correction to the
+     196/c (substrate_depth.py). At that depth their term in the
      equation of state is below 1e-5 c. If the common mode carries the
      gauge coupling, alpha_G2 = 1/(24 pi) fixes the depth at 3 in the
      range convention xi = 1/(2 c_s) (substrate_coupling.py), which is
      8.49 in this probe's convention xi^2 = 1/(2|a|R0) (channel_
-     response.py X3). The correction is then 1.2e-4 and the sextic
+     response.py X3). The term is then 1.2e-4 and the sextic
      coefficient kappa = 126 (O4).
   O4 (the coefficient is the depth). With the sextic, R0 = 3|a|/(2
      kappa) and the depth is R0 xi^3 = sqrt(kappa) / (2 sqrt 3 a^2):
@@ -132,9 +132,16 @@ def lift_mu(R, mc2):
 
 
 def lhy_integral(l1, l2):
-    """int sqrt(s) [sqrt((s+l1)(s+l2)) - s - (l1+l2)/2 + (l1-l2)^2/(8s)] ds."""
-    f = lambda s: math.sqrt(s) * (math.sqrt((s + l1) * (s + l2)) - s - (l1 + l2) / 2
-                                  + (l1 - l2)**2 / (8 * s))
+    """int sqrt(s) [sqrt((s+l1)(s+l2)) - s - (l1+l2)/2 + (l1-l2)^2/(8s)] ds.
+
+    The bracket is rewritten without cancellation: with m = (l1+l2)/2 and
+    S = sqrt((s+l1)(s+l2)) it equals (l1-l2)^2/8 (m + (2ms+l1 l2)/(S+s))
+    / (s (S+s+m)), which falls as s^-2 and integrates cleanly to infinity."""
+    m, d2 = (l1 + l2) / 2, (l1 - l2)**2
+
+    def f(s):
+        S = math.sqrt((s + l1) * (s + l2))
+        return math.sqrt(s) * d2 / 8 * ((2 * m * s + l1 * l2) / (S + s) + m) / (s * (S + s + m))
     return quad(f, 0, np.inf, limit=800)[0]
 
 
@@ -285,7 +292,7 @@ def run(report=print):
            f"R0 = {R0_q:.3e}, depth R0 xi^3 = {out['depth_lhy']:.2e} against the floor "
            f"{FLOOR:.0f}/c.")
     out["correction_at_floor"] = C / (abs(A) * FLOOR * (2 * abs(A))**1.5)
-    report(f"   at the floor the zero point correction to the equation of state is "
+    report(f"   at the floor the zero point term in the equation of state is "
            f"{out['correction_at_floor']:.1e} c.")
 
     # O4: the coefficient is the depth

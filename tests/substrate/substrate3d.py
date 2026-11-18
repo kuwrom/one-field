@@ -132,7 +132,7 @@ def evolve(psi, K2, R, n_steps, g1_eff=g1, callback=None, every=0,
 
     sponge=True (saturated knot probes) absorbs outgoing relative
     radiation in the far field.  sponge=False (formation probe,
-    matching the review's sim3d run) keeps the evolution exactly
+    skyrmion_3d.py) keeps the evolution exactly
     norm conserving, so conservation can be tracked as a diagnostic.
     callback(psi), if given, is called every `every` steps for
     frequent observables (node detection, ring down time series).

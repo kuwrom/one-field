@@ -4,11 +4,11 @@ boundary.py: the rows at the boundary M_b. One list serves both the running and 
 The transmutation (root.py) runs alpha_G2 = 1/(24 pi) down from the
 boundary M_b, using the G2-charged rows that are light there. The
 induced stiffness (gravity.py) sums the heat kernel weight of every row
-that propagates at the regulator. Both use the list below, so a row
+that is light at the regulator. Both use the list below, so a row
 cannot contribute to the running without also venting.
 
 How each row is read at M_b:
-  light      propagates below M_b. It runs, and it vents with weight 1.
+  light      lies below M_b. It runs, and it vents with weight 1.
   amount     lies past the searchlight's horizon. It vents with weight 1,
              is minimally coupled, and does not run.
   boundary   has mass M_b. It leaves the running at M_b and vents
@@ -22,12 +22,16 @@ How each row is read at M_b:
   G2 gauge           2 dim(G2) = 28 vector   (11/3) h(G2) = 44/3     light
   electroweak gauge  2 (d11 + 1) = 8 vector  0                       light
   fermions           90 Weyl                 -(4/3) d11 T(7) = -4    light
+  right handed nu    4 Weyl                  0                       light
   G2 scalars         n7 = 7 real             -(1/6) T(7)             composite
   bridge             n7 n26 = 182 real       none                    amount
 
 The G2 scalars are the field that breaks G2: the condensate at
 v_break = v_EW/sqrt 2 (couplings.py). Like the Higgs, they are not a
 row at the regulator.
+
+The right handed neutrinos are the two singlets of the 26
+(gravity.py, Neutrinos). They are G2 singlets, with no share of b0.
 
 THE BRIDGE.  "Given the norm multiplicative ledger gate, n_7 = 7 is the
 maximum number of imaginary directions this octonionic searchlight
@@ -41,8 +45,9 @@ scalar weight 1/6 and is light at the regulator.
 THE READING.  The list can read the bridge in five ways.  Read as light,
 with its label as a running charge, it moves b0 away from the value the
 anchor requires and moves M_Pl by 1.6e13. Read as absent or composite,
-it leaves the stiffness at -4.5 and gate S fails. Read at the boundary's
-mass, the sign of the stiffness depends on the spread of the regulator.
+it leaves the stiffness at -4.17 and gate S fails. Read at the boundary's
+mass, it keeps b0 and fails S inside the boundary
+(tests/probes/boundary_regulator.py R6).
 Read as amount, it keeps b0 and passes S and M at every contact value
 (tests/probes/horizon_amount.py A5).  The amount is the only reading
 that closes the running and both gates together.
@@ -53,7 +58,7 @@ Eqs. 4.27, 4.28).  The amount does not run, so its operator carries no
 G2 connection. The coupling xi = alpha_G2 E[v^2] h_bridge = 1/(48 pi)
 is a G2 self-coupling, so it has no vertex to come from. The amount is
 therefore minimally coupled, with weight 1/6 (xi_of).  No gate depends
-on this value: S and M hold at every contact for -0.178 < xi < 0.107
+on this value: S and M hold at every contact for -0.176 < xi < 0.109
 (tests/probes/horizon_amount.py A2, A4).  The readings bridge="light"
 and bridge="boundary" of rows() keep the labelled bridge available for
 comparison (tests/probes/boundary_content.py).
@@ -85,6 +90,7 @@ def rows(d10, d11, n7, n26, bridge="amount", scalars="composite"):
         ("electroweak gauge", 2 * (d11 + 1), "vector", Fraction(0), "light"),
         ("fermions", d10 * d11 * (d11 * d10**2 + d10 + 1), "weyl",
          -Fraction(4, 3) * d11 * T_7, "light"),
+        ("right handed neutrinos", d10 * (n26 - 3 * (d11**2 - 1)), "weyl", Fraction(0), "light"),
         ("G2 scalars", n7, "scalar", -Fraction(1, 6) * T_7, scalars),
         ("bridge", n7 * n26, "bridge", Fraction(0) if bridge == "amount" else label, bridge),
     ]

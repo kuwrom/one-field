@@ -13,6 +13,14 @@ the closed vacuum record action.  This probe computes the local result,
 checks the two independent freedoms, and compares it with the production
 derivation of bar(theta)=0.
 
+RESULT. On the closed vacuum record algebra A=1+B only z=1 preserves
+B*B=1+B, but local data alone admit two exhibited countermodels: a
+central character that induces the identity on A, and a right handed
+quark rephasing that keeps masses and CKM. The constitutive rule of the
+full record ontology assigns the complete winding character to the
+closed vacuum record action, so bar(theta)=0, as in the production
+derivation. Strong CP closes on that rule, not on local data alone.
+
 Usage: python3 tests/probes/strong_cp.py
 """
 
@@ -258,9 +266,8 @@ def run(report=print):
         "theta_QCD_separately_defined": False,
         "mass_determinant_phase_separately_defined": False,
         "bar_theta": bar_theta,
-        "bar_theta_from_local_data_alone": None,
         "strong_cp_closed_within_ontology": True,
-        "strong_cp_unconditional_local_theorem": False,
+        "closure_rests_on_constitutive_rule": True,
     }
 
 

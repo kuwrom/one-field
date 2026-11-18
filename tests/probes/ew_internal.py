@@ -1,5 +1,5 @@
 """
-ew_internal.py: how much of the two declared EW imports can the
+How much of the two declared EW imports can the
 framework compute from its own state?
 
 The two imports (world/refdata): dr_hat_W = 0.06937, rho_hat = 1.01016
@@ -18,11 +18,19 @@ exactly what remains in classes [1] and [3].
             driven by the DISPERSIVE hadronic vacuum polarization,
             e+e- spectral DATA, class [1], same admissibility as PDG
             masses.  The framework's internal VP (free quarks +
-            Lambda_conf cutoff) approximates it. The gap below
-            measures how close the internal computation comes.
+            Lambda_conf cutoff) approximates it. The comparison
+            below shows how close the internal computation comes.
             Remainder: EW loop remainder (~0.0029) = class [3].
 
-Usage: python3 ew_internal.py
+RESULT. Computed: G_F from the framework's own v_EW matches the measured
+value to better than 10 ppm, and the top doublet term delta_rho_t =
+0.00933 is computed from framework outputs. The remainders in rho_hat
+and dr_hat_W are classified as loop mathematics, class [3], and are not
+computed here. The hadronic vacuum polarization is e+e- spectral data,
+class [1], and the internal VP comes within 4.8% of the dispersive value
+(printed, not asserted).
+
+Usage: python3 tests/probes/ew_internal.py
 """
 
 import contextlib
@@ -46,9 +54,9 @@ def _solved_web():
         import gravity as _gravity
         R = root.derive()
         m = _masses.derive(R)
-        mx = _mixing.derive(R, m)
+        _mixing.derive(R, m)
         c = _couplings.derive(R, m)
-        _gravity.derive(R, m, mx, c)
+        _gravity.derive(R, m, c)
     return root.WEB
 
 

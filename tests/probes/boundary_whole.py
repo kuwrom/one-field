@@ -39,7 +39,7 @@ STATEMENTS (the numbers below check each one).
      wholes of B1, gates S and M pass at every contact for four:
      c = 1, 1.189, 2 and 2.379. Every reading with the pointed
      probability fails S, and so does the local response alone at the
-     covariant contact (c = 2 pi against 4.11). S's threshold is soft
+     covariant contact (c = 2 pi against 4.16). S's threshold is soft
      (g_path_trials.py G10). Across its six conventions, c = 1 is the
      only one of the twelve readings that passes under all six. The
      other three pass under five, four and four.

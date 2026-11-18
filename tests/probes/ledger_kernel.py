@@ -38,7 +38,7 @@ STATEMENTS (the numbers below check each one).
         scalar +1/6 - xi,  Weyl +1/12,  gauge vector -1/3,  Proca -1/6,
      the weights of the ledger.
   R3 (the ledger). The sum over the engine's rows has stiffness
-     Sigma = 27.0000 (the ledger's total)
+     Sigma = 27.3333 (the ledger's total)
      and F0/F2 -> -2. On the Euclidean axis its spin-2 form factor is
      positive and its spin-0 form factor negative from q^2 t0 = 1e-3
      to 1e3, with no zero. So the massless pole is the only one. The
@@ -56,11 +56,17 @@ STATEMENTS (the numbers below check each one).
      (Eq. 35; Solodukhin arXiv:1104.3712), -11/3 and -35/8 for the
      type I cutoffs of Codello, Percacci and Rahmede arXiv:0805.2909
      (Table I), in units where one real scalar is 1/6. Added to
-     Sigma = 27.00 these give 19.3 to 24.3. The stiffness stays
+     Sigma = 27.33 these give 19.7 to 24.7. The stiffness stays
      positive and moves by 10 to 30 percent, and K9 of
      composite_pole.py keeps the structure. No number in the lane
      depends on Sigma (interference/gravity.py), so the next order
      changes only a diagnostic ratio.
+
+RESULT. Computed. The second order heat trace matches the direct kernels
+to 1e-10, and the engine's rows sum to Sigma = 27.33 with no zero of
+either form factor from q^2 t0 = 1e-3 to 1e3, so the massless pole is
+the only one. The graviton's own loop keeps Sigma positive in all four
+listed conventions.
 
 Usage: python3 tests/probes/ledger_kernel.py     (a few seconds)
 """
@@ -172,7 +178,8 @@ def form_factors(kernel, q, J):
 def ledger_rows():
     """The engine's rows as (field kind, number of fields, xi): gravity.py counts."""
     d10, d11, n7 = root.d10, root.d11, root.n7
-    states = d10 * d11 * (d11 * d10**2 + d10 + 1)                  # 90 fermion states
+    states = (d10 * d11 * (d11 * d10**2 + d10 + 1)                 # 90 fermion states
+              + d10 * (root.n26 - 3 * (d11**2 - 1)))                # and the two right handed neutrinos, 4 states
     return [("vector", d11 * (d11 + 1), 0.0),                      # 24 gauge states
             ("dirac", states / 4, 0.0),
             ("vector", 2 * n7 - (d11**2 - 1), 0.0),                # 12 coset states
@@ -250,7 +257,7 @@ def run(report=print):
     sigma_rows = sum(n * want[{"scalar": "scalar" if xi == 0 else "bridge scalar",
                                "dirac": "Dirac", "vector": "gauge vector"}[kind]]
                      * {"scalar": 1, "dirac": 4, "vector": 2}[kind] for kind, n, xi in rows)
-    assert abs(sigma_rows - 27.0) < 1e-3 and abs(sigma_kernel - sigma_rows) < 2e-2
+    assert abs(sigma_rows - 82 / 3) < 1e-3 and abs(sigma_kernel - sigma_rows) < 2e-2
     assert abs(F0 / F2 + 2) < 1e-2
 
     def channel(i):

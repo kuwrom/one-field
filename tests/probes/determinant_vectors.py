@@ -58,6 +58,14 @@ STATEMENTS (the numbers below check each one).
      computed on a background metric in ledger_kernel.py (the VECTOR row,
      with its ghosts, F0/F2 -> -2). Nothing is recomputed here.
 
+RESULT. Computed: a gauge field has the closed metric free form S = int
+sqrt|det(h + i sqrt(U) F)| / U, and the determinant identity holds to
+1e-12. At second order in F it is the Maxwell density on the composite
+metric with U cancelling, and exact elimination of the auxiliary metric
+agrees at that order and differs at order F^4 by a contact term. On h =
+c eta the quadratic form is the flat Maxwell form, so the vector row of
+ledger_kernel.py carries over unchanged.
+
 Usage: python3 tests/probes/determinant_vectors.py     (a few seconds)
 """
 

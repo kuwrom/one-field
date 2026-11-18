@@ -1,5 +1,5 @@
 """
-bookkeeping.py: anomaly bookkeeping and the theta operator, computed.
+Anomaly bookkeeping and the theta operator, computed.
 
 WHY FERMIONS (the Witten route).  For solitons of a sigma model
 equipped with a Wess-Zumino term at level N, the exchange of two
@@ -20,10 +20,9 @@ confined phase.  't Hooft matching requires the IR
 effective theory to reproduce the UV global anomaly, and the WZ
 term at the matched level is the unique local functional that does
 (Wess-Zumino consistency. Witten's construction). The citation is
-corroboration grade: an established theorem, like Hurwitz. The
-single open premise behind BOTH halves is the confined phase
-itself (confined_phase.py). On the level: Witten quantization makes
-the WZ coefficient an integer, and 't Hooft anomaly matching fixes it
+corroboration grade: an established theorem, like Hurwitz. Both
+halves rest on the confined phase (confined_phase.py). On the level:
+Witten quantization makes the WZ coefficient an integer, and 't Hooft anomaly matching fixes it
 to the number of fermion species in the loop. Those are the d11 = 3
 Dirac fermions in the 7, the same matter content the alpha_s
 derivation uses. Two consequences follow. First, spin statistics
@@ -37,13 +36,12 @@ WHY THE KNOT IS CHARGED (persistence => charge, a CONFINED PHASE
 statement). In a topological sector the only protection is charge.
 An uncharged lump is contractible, so it is transient. In the
 confined phase, being a knot and carrying unit Z3 winding are the
-same property. In the substrate alone the converse was measured
-(knot_charge.py): a persistent B = 0 density lump exists and the
-charge unwinds. So this argument holds in the confined phase, where
-the topological sector lives, and not in the linear substrate field (the topological protection derivation:
-effective_action.py, knot_charge.py, knot_spectrum.py). Our own 1D
-data give negative evidence: without topological protection the
-windings mix (probes/stationary.py), as unprotected labels do.
+same property. In the substrate alone a persistent B = 0 density lump
+exists and the charge unwinds (knot_charge.py). So this argument holds
+in the confined phase, where the topological sector lives, and not in
+the linear substrate field (effective_action.py, knot_charge.py,
+knot_spectrum.py). In 1D, without topological protection, the windings
+mix (stationary.py), as unprotected labels do.
 
 WZ level: the anomaly bookkeeping of the branched matter.
   (a) CONSISTENCY: the child SU(3) cubic gauge anomaly of the
@@ -66,7 +64,13 @@ Theta: a check at the level of the Cardy states that the lightest
   operator. It is unique, and the gap to the next changer (5/9) is
   the largest possible.
 
-Usage: python3 bookkeeping.py
+RESULT. The branched 7 -> 3 + 3bar + 1 has zero child cubic anomaly. One
+child triplet per family over three families gives WZ level 3 = d11,
+which is odd, so by Witten's exchange phase exp(i pi N) the solitons are
+fermions. The lightest sector changing SU(3)_3 primary is the
+fundamental pair at h = 2/9.
+
+Usage: python3 tests/probes/bookkeeping.py
 """
 
 from fractions import Fraction

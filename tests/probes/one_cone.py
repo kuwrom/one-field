@@ -10,7 +10,7 @@ are closed form (tests/probes/gravity_tensor.py):
 
     omega_0     = sqrt(epsilon (epsilon + 2 mu)),          epsilon = p^2/2
     omega_+/-   = sqrt((epsilon + 5r/4)^2 - r^2/4) +/- 3r/4,
-    r = g1 rho,  mu = (3 g0 - g1) rho,  hbar = bare mass = 1.
+    r = g1 rho,  mu = (3 g0 - g1) rho,  hbar = carrier mass = 1.
 
 THE TEST. A relativistic particle at low momentum reads
     omega = Delta + p^2/(2 m*) - p^4/(8 m*^3 c^2) + ...
@@ -37,7 +37,7 @@ the repo's standing value, nls_soliton.G1_OVER_G0):
   3. A c-free test: the p^4 coefficient of a relativistic particle is
      fixed by Delta and m*. The branch misses it, because the gap lies
      at the healing scale where the Bogoliubov term is order one.
-  4. Pair no go: m*_+ = m*_- while Delta_+ - Delta_- = 3r/2, so no
+  4. Pair: m*_+ = m*_- while Delta_+ - Delta_- = 3r/2, so no
      single c satisfies the Einstein relation for both members of the
      doublet at any r > 0.
   5. No limiting speed on any branch, the phonon included: the group
@@ -48,10 +48,17 @@ six component Nambu matrix of gravity_tensor.py, fitted at small p.
 The symmetric background (1,1,1) is reported for completeness: it is
 not the vacuum (z3_vacuum.py) and its relative band curves downward.
 
-SCOPE. This is the uniform vacuum quasiparticle band. A bound knot's
-own dispersion E(P) is not measured anywhere in the repository
-(effective_action.py calls the in knot dispersion a registered
-target). This probe measures only the branch the knot is built from.
+SCOPE. This is the uniform vacuum quasiparticle band. The in knot
+dispersion E(P) is a registered target (effective_action.py). This
+probe measures the branch the knot is built from.
+
+RESULT. About the held uniform clock on the gas sign the two relative
+branches share the band mass m* = sqrt(21)/5, and their Einstein ratios
+against the phonon cone are 7.51 and 1.57, so the branch is Galilean
+there. Shifted by the charge term 3r/4 the pair is an exact Klein-Gordon
+doublet on its own speed c_rel = sqrt(5r/4). Every branch ends as a free
+particle at large p, so the medium carries two internal speeds and no
+limiting one.
 
 Usage: python3 tests/probes/one_cone.py     (under a second)
 """

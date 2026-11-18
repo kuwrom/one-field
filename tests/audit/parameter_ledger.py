@@ -3,17 +3,18 @@
 THE QUESTION. The substrate's "pixel" (healing length), "impedance"
 (dimensionless coupling) and smallest quantum, and the ledger's scales:
 which are units, which are derived or closure fixed, which are
-identifications, and which numbers are genuinely free?
+identifications, and what fixes each?
 
 THE INVENTORY (status words are the repository's).
   Units: hbar, m, c, |g0|, and the anchor m_e ("SOLE DIMENSIONAL INPUT").
   Closure fixed: the four integers (wiring scan), the sign g0 < 0 (the
     self-bound gate), the liquid density (zero pressure), the integer
     windings (phase closure: the smallest quantum is one closed winding).
-  Free continuous numbers: the depth rho xi^3, equivalently the sextic
+  A two point menu: the depth rho xi^3, equivalently the sextic
     kappa ("the coefficient is the depth", saturation_origin.py O4),
-    bounded only by data. And nu = mu/mc^2, a scanned regime number on
-    which no gate depends at leading order.
+    read through the exchange coupling as alpha_G2 (P9): 3 or 4.25 in
+    the range convention. And nu = mu/mc^2, a
+    scanned regime number on which no gate depends at leading order.
   Identifications, substrate: g1/g0 = 1/sqrt 2, the Z3 phase alpha = 0,
     xi0 = C_EFF l_Pl = l_Pl/d10.
   Identifications, ledger (discrete): the boundary M_b read as the full
@@ -23,14 +24,14 @@ THE INVENTORY (status words are the repository's).
     sakharov_normalisation.py FACT 7), the scheme
     constant at mu*, the one loop truncation,
     the (1 - h10) vent, the CKM/PMNS maps, the bridge read as amount
-    past the horizon, the declared premise T1 of
-    notes/open_derivation_tasks.md (boundary.py bridge="amount": no share in b0,
+    past the horizon (interference/__init__.py, THE HORIZON;
+    boundary.py bridge="amount": no share in b0,
     weight 1, light at the regulator;
-    tests/probes/horizon_amount.py A2, A3). G_F tests C_EFF, the depth-2
+    tests/probes/horizon_amount.py A2, A3). G_F tests C_EFF, the depth 2
     coefficient and N together (g_path_trials.py G4-G6), and each is an
     object the web already holds (tests/probes/frame_coefficients.py).
   Identifications read as objects the web holds, each alternative
-    failing against data: C_EFF = 1/2, the depth-2 coefficient,
+    failing against data: C_EFF = 1/2, the depth 2 coefficient,
     w4 = 27/2 (tests/probes/frame_coefficients.py).
   Read from computations with a failing case: the vector contact term
     (the Weitzenbock term) and the amount's zero share, tested by
@@ -56,7 +57,7 @@ FACTS (the numbers below check each one).
       (closed_event_scale.py S1, S2).
   P4  C_EFF carries two roles that the closure separates. As the
       electron's amplitude prefactor it is pinned at 1/2 by G_F. As
-      xi0/l_Pl the record closure would place it at 1.918 (record_area.py
+      xi0/l_Pl the record closure would place it at 1.930 (record_area.py
       R4). Gate C excludes that value for a vacuum regulator (R5: a
       medium filling space needs xi > 2.7e6 l_Pl). So the closure
       describes a record inside a lump and does not fix G's
@@ -80,7 +81,7 @@ FACTS (the numbers below check each one).
   P7  The inversion alpha_G2 = 1/(24 pi) -> depth is a menu until the
       gauge sector is derived as substrate excitations: the readings of
       "the substrate's coupling" span depth 0.32 to 655 (repo healing
-      convention). They fall in two classes. Read as a loop correction
+      convention). They fall in two classes. Read as a loop term
       (alpha or alpha/2pi equal to the quantum depletion or the LHY
       correction), the depth is 0.3 to 6.4 and the node event floor
       needs c of 30 to 600. Read as the tree level coupling (1/depth, or
@@ -99,8 +100,8 @@ FACTS (the numbers below check each one).
       bounded only by classicality: the quantum depletion
       4.21e-3/(rho xi^3) is well below one (1.3 percent at the smallest
       reading). Both classes of P7 survive. Only the reading of alpha
-      as a tree level coupling, not a loop correction, separates them.
-      The depth is free in the committed theory.
+      as a tree level coupling, not a loop term, separates them.
+      P9 reduces the depth to two discrete readings.
 
   P9  A coupling defined by physics, not by normalization: the force the
       medium carries between two of its quanta, in units of hbar c_s, is
@@ -121,8 +122,8 @@ FACTS (the numbers below check each one).
       depth 8.49 and kappa = 126, not 15.7.
 
 RESULT. Once units and closures are counted, the substrate holds one
-free physical number, the depth, with no data floor on the committed
-sign, plus a regime number nu on which no gate depends. Its other
+physical number, the depth, which the exchange coupling read as
+alpha_G2 places at 3 or 4.25 (P9), plus a regime number nu on which no gate depends. Its other
 content is two identifications (g1/g0, alpha). The link to the ledger is
 one more identification, xi0/l_Pl. It shares its value with a G_F
 pinned prefactor, but the record closure places it at 1.9 to 2.9.
@@ -195,7 +196,7 @@ def run(report=print):
     assert out["P1"] < 1e-12
     assert abs(depth - 0.756) < 1e-3 and abs(kappa_range3 - 125.9) < 0.1 and abs(kappa_o4_3 - 15.7) < 0.1
     assert abs(out["kappa_mu1"] / out["kappa_mu4"] - 1) < 1e-6
-    assert abs(out["xi0_closure"] / out["C_EFF"] - 3.84) < 0.05
+    assert abs(out["xi0_closure"] / out["C_EFF"] - 3.86) < 0.05
     assert out["conv_match"] < 1e-12
     report(f"P1 impedance = depth^(-2/3): max deviation {out['P1']:.1e}")
     report(f"P2 probe depth {depth:.3f} at kappa = 1 (a = {a:.3f}). Depth 3 (range convention) needs "
@@ -205,7 +206,7 @@ def run(report=print):
     report("P5 1/(2|a|R0) = 1/(4|mu0|) on the clock. The other convention, 1/mu, is 2x longer")
     report("P7 alpha -> depth menu: " + ", ".join(f"{k} {v:.2f}" for k, v in menu.items())
            + f". Loop class <= {max(loop):.1f}, tree class >= {min(tree):.1f}")
-    report("RESULT: one free physical number in the substrate (the depth), a regime number nu "
+    report("RESULT: one physical number in the substrate (the depth, 3 or 4.25 through the exchange coupling read as alpha_G2, P9), a regime number nu "
            "no gate depends on, two substrate identifications, and xi0/l_Pl as the ledger link, "
            "which ties the regulator to a Planckian carrier mass that no gate depends on.")
     return out

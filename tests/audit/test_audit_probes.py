@@ -33,14 +33,14 @@ def test_record_area_is_finite_and_depth_blind():
     cutoff (0.0227 mu). In healing units it is kappa = 0.0057 per xi^2,
     the pixel size alone (parameter_ledger.py P3 reads it at two
     chemical potentials).  Read as the closure, it places xi0 between
-    1.918 and 2.93 l_Pl across the vector contact coefficients (P4)."""
+    1.930 and 2.94 l_Pl across the vector contact coefficients (P4)."""
     from probes import record_area
 
     r = record_area.run(report=_silent)
     assert r["limit"] == pytest.approx(0.0227, abs=5e-4)
     assert r["kappa"] == pytest.approx(0.00568, abs=1.5e-4)
-    assert r["xi_closure"][1.0] == pytest.approx(1.918, abs=0.02)
-    assert r["xi_closure"][-1.0] == pytest.approx(2.93, abs=0.03)
+    assert r["xi_closure"][1.0] == pytest.approx(1.930, abs=0.02)
+    assert r["xi_closure"][-1.0] == pytest.approx(2.94, abs=0.03)
 
 
 def test_channel_response_common_is_binary_relative_is_computed():

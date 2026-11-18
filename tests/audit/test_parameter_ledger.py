@@ -33,7 +33,7 @@ def test_gravity_does_not_see_the_depth(audit):
 
 
 def test_c_eff_two_roles_split(audit):
-    assert audit["xi0_closure"] / audit["C_EFF"] == pytest.approx(3.84, abs=0.05)
+    assert audit["xi0_closure"] / audit["C_EFF"] == pytest.approx(3.86, abs=0.05)
     assert audit["conv_match"] < 1e-12
 
 

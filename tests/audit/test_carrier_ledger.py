@@ -18,7 +18,7 @@ def test_six_read_ten_follow_eleven_read_none(ledger):
     assert set(ledger["readers"]) == {"inv_alpha", "S_quark", "m_e", "m_mu", "m_tau", "common_mode"}
     assert ledger["followers"] == ["M_Pl_MeV", "lepton_EM", "m_b", "m_c", "m_d", "m_s", "m_t", "m_u",
                                    "sin2W", "v_EW_GeV"]
-    assert ledger["still"] == ["G_ratio", "Q_cbt", "Q_scb", "S_baryo", "S_lepton", "Sigma_vent(UV)",
+    assert ledger["still"] == ["G_ratio", "Q_cbt", "Q_scb", "S_G2", "S_lepton", "Sigma_vent(UV)",
                                "Sigma_vent(broken)", "a1_bridge", "bridge_sq", "dark_ratio", "lambda_MPl"]
     assert set(ledger["moved"]) == (set(ledger["readers"]) | set(ledger["followers"])) - {"m_e", "m_u", "m_d"}
     assert ledger["response"]["common_mode"] == pytest.approx(-7.502, abs=2e-3)

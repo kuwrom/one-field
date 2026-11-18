@@ -34,7 +34,7 @@ def test_canonical_freeze(res):
     assert abs(_r.M_Pl_GeV - 1.220917145099806e+19) < 1e10
 
     # regulator diagnostic 6pi/Sigma (no G is read from the ledger)
-    assert abs(g["G_ratio_UV"] - 0.698131701) < 1e-8
+    assert abs(g["G_ratio_UV"] - 0.689617900) < 1e-8
     assert abs(g["sin2W"] - 0.23128541) < 1e-7
 
     # EW transport chain (PDG 2024 imports)
@@ -45,8 +45,8 @@ def test_canonical_freeze(res):
     # alpha_s matched at mu* = M_Pl e^{-(9pi^2/2-6)} = v_EW e^{15/512}
     # (the endpoint of the gauge lever arm)
     assert abs(c["mu_star_GeV"] - 253.534) < 1e-2
-    assert abs(c["alpha_s_MZ_thresh"] - 0.118385) < 1e-5
-    assert abs(g["lambda_mt_transport"] - 0.1265078) < 2e-7
+    assert abs(c["alpha_s_MZ_thresh"] - 0.118693) < 1e-5
+    assert abs(g["lambda_mt_transport"] - 0.1259398) < 2e-7
 
     # words lemma bases (integer ranks, exact)
     import words as _w
@@ -61,7 +61,7 @@ def test_frozen_web_nodes(res):
     from root import WEB
     st = WEB.state
     assert abs(st["lambda_MPl"] - (-0.012450153)) < 1e-8  # ×(7/9): fundamental share vent
-    assert abs(st["G_ratio"] - 0.698131701) < 1e-8
+    assert abs(st["G_ratio"] - 0.689617900) < 1e-8
     assert abs(st["dark_ratio"] - (2.0 * math.pi - 1.0)) < 1e-12
     assert abs(st["v_EW_GeV"] - 246.219645) < 1e-5
     assert abs(st["M_Pl_MeV"] / 1e3 - 1.220917145e19) < 1e11

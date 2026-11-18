@@ -2,7 +2,7 @@
 
 THE QUESTION. record_area.py computed the substrate's record
 (entanglement entropy) per area on a one component gas sign medium and
-read xi0/l_Pl = 1.918 from it (R4). The committed medium is the three
+read xi0/l_Pl = 1.930 from it (R4). The committed medium is the three
 component clock at zero pressure (lump_in_empty_field.py). This probe
 asks three things. What record does that medium leave per healing
 area, sector by sector? How many quanta and how much area does the
@@ -38,7 +38,7 @@ STATEMENTS (the numbers below check each one).
      area at a = 0.4 xi and 0.2 xi is record_area's 0.02108 and
      0.02217 in units of c_s^2 (there, of mu). kappa_0 = 0.0057 per
      xi^2 with xi = 1/(2 c_s), depth free, so R4's closure value
-     xi/l_Pl = 1.918 (range convention) is the same number on the
+     xi/l_Pl = 1.930 (range convention) is the same number on the
      committed medium. It is the screening length at which the lump
      interior's record per area would equal the Einstein coefficient.
      By R5 it is not a vacuum regulator and does not fix G.
@@ -54,7 +54,7 @@ STATEMENTS (the numbers below check each one).
      95.4 xi^2 there, and holds N_min = 164.1 x depth quanta: 492 at
      the range convention depth 3 and 698 at 4.25. The values of
      xi/l_Pl are: the per state Bogoliubov record from the interior,
-     1.918. One record per quantum, sqrt(4 N_min xi^2 / A) = 4.54
+     1.930. One record per quantum, sqrt(4 N_min xi^2 / A) = 4.54
      (depth 3) or 5.41. The identification l_Pl/d10 = 0.5. No reading
      of the interior's record matches the identification. None of the
      interior readings is a candidate for G's normalization. Each is a
@@ -64,7 +64,7 @@ STATEMENTS (the numbers below check each one).
 
 RESULT. The committed medium's record is the one component record in
 its common sector plus a 15% gapped relative record. Both are records
-of a lump's interior. The closure value 1.918 l_Pl is the same number
+of a lump's interior. The closure value 1.930 l_Pl is the same number
 on this medium, and no reading reproduces the identification 0.5.
 Neither fixes G. G's normalization is the boundary identification of
 root.py (record_area.py R5). The smallest closed event is a lump of
@@ -201,18 +201,18 @@ def run(report=print):
     out.update(r_half_xi=r_half / xi_L, area_xi2=area, quanta_per_depth=per_depth)
     assert abs(r_half / xi_L - 2.755) < 3e-3 and abs(area - 95.4) < 0.3 and abs(per_depth - 164.1) < 0.2
     bridge = 182 / 6                                       # the amount, minimally coupled
-    sigma = 7 / 6 + 45 / 6 + 36 * (1 / 6 - 1 / 2) + bridge
+    sigma = 7 / 6 + 47 / 6 + 36 * (1 / 6 - 1 / 2) + bridge
     xi_state = math.sqrt(24 * out["kappa_0"] * sigma)
     readings = {"per state Bogoliubov": xi_state, "identification l_Pl/d10": 0.5}
     for D in (3.0, 4.254):
         readings[f"one record per quantum, depth {D}"] = math.sqrt(4 * per_depth * D / area)
     out["readings"] = readings
-    assert abs(xi_state - 1.918) < 0.03 and abs(readings["one record per quantum, depth 3.0"] - 4.54) < 0.02
+    assert abs(xi_state - 1.930) < 0.03 and abs(readings["one record per quantum, depth 3.0"] - 4.54) < 0.02
     assert min(abs(v - 0.5) for k, v in readings.items() if "identification" not in k) > 1.0
     report(f"K4 smallest closed event: r_half = {r_half / xi_L:.3f} xi, area {area:.1f} xi^2, N_min = {per_depth:.1f} x depth "
            f"(492 at 3, 698 at 4.25). Interior readings of xi/l_Pl: " + ", ".join(f"{k} {v:.3f}" for k, v in readings.items())
            + ". None normalizes G.")
-    report("RESULT: lump interior records only (record_area.py R5). The closure value 1.918 l_Pl is the same "
+    report("RESULT: lump interior records only (record_area.py R5). The closure value 1.930 l_Pl is the same "
            "number on this medium. No reading reproduces the identification 0.5. The relative sector adds "
            "a 15% record that no state reads. None of it normalizes G.")
     return out

@@ -1,5 +1,6 @@
 """
-Gravity + Higgs + Baryogenesis + Neutrinos from (d₁₀, d₁₁, n₇, n₂₆, pi)
+Gravity and neutrinos (the Higgs transport is in higgs_ew.py)
+from (d₁₀, d₁₁, n₇, n₂₆, pi)
 + the electron anchor (M_Pl is DERIVED in root.py from m_e).
 
 Import inventory: higgs_ew.py (the consolidated table lives there).
@@ -19,9 +20,7 @@ This is the metric of a field whose action carries no background metric
 (tests/probes/composite_metric.py).  The DeWitt–Seeley heat kernel
 theorem supplies its induced Einstein–Hilbert term.  The bridge ledger
 fixes that term's sign and form. Its size moves with the regulator, so
-the strength of gravity is the anchor inversion (root.py).  This module
-does not claim to enumerate every higher derivative operator in the
-effective action.
+the strength of gravity is the anchor inversion (root.py).
 
 In the empty field a particle is a self-trapped lump with the clock
 inside it (tests/probes/lump_in_empty_field.py).  Gravity is the common
@@ -69,42 +68,28 @@ COMMON MODE CONSEQUENCES.
 
 Higgs + EW: higgs_ew.py (SM RGE transport, M_W, M_Z, import audit).
 
-Baryogenesis assembly (the depth-4 G₂ face action):
-    eta_B = −n₇ × J_lep × exp(−h∨(G₂)π²/2) = −7 · J_ℓ · e^{−2π²}
-      • e^{−2π²}: root.py derives the G₂ face action from the F₄
-        dimensional transmutation action: b_face=(32/3)(9/4)=24=
-        h∨(E8)-C2(26), hence S_G2=2pi/(24 alpha_G2)=2pi². The same
-        derived factor is used for the
-        Majorana scale M_R = M_Pl e^{−2π²} ≈ 3.3×10¹⁰ GeV >> T_EW,
-        so out of equilibrium decay (3rd condition) needs no extra
-        ingredient.
-      • J_lep: leptonic Jarlskog (mixing.py).  CP violation traces
-        to the ORIENTED Fano plane: seven directed lines select a
-        common CP orientation sign.
-      • n₇ = 7: the asymmetry channels, one per directed Fano
-        line, each one octonionic multiplication.
-    The asymmetry is generated NON THERMALLY, at the
-    instanton level. It is a topological count, not a process that
-    needs a decay era.  The Majorana scale M_R = M_Pl e^{−2π²} >> T_EW means
-    the B−L asymmetry is frozen in before any thermal washout era
-    exists. The Boltzmann/washout machinery of thermal leptogenesis
-    describes a different mechanism and does not apply here.
+Baryon number:
+    Baryon and lepton number are conserved node labels at every web
+    depth (root.py, WHY THE PROTON IS STABLE), so no edge generates an
+    asymmetry. A unit of weak winding moves the two together by
+    d₁₁ = 3 (tests/probes/weak_winding.py), so neither changes B − L.
+    The net B − L is a global record of the state, like a total
+    charge.
 
 Neutrinos:
     26 -> 8_v + 8_s + 8_c + 1 + 1   (SO(8) triality decomposition
     of the F₄ fundamental: three 8's tied by triality + 2 singlets)
-    In a minimal type-I seesaw with no other light neutrino mass terms,
-    identifying the 2 singlets with RH neutrinos bounds the light neutrino
-    mass matrix to rank at most 2, hence at least one massless state.
-    This conditional rank bound does not select the ordering.
+    The searchlight forces the shape of the neutrino sector at depth
+    three: Dirac masses, the two singlets as the right handed halves,
+    the lightest neutrino massless, and no neutrinoless double beta
+    decay (tests/probes/neutrino_mass_term.py).
 
 ═══════════════════════════════════════════════════════════════════════
 Why the bridge contributes a SCALAR sign (not a vector sign)
 ═══════════════════════════════════════════════════════════════════════
 
-The bridge sector has 182 channels. Their scalar heat kernel reading is
-not inferred merely from 182 > 8 and is not a standalone consequence of
-Hurwitz. It follows along the framework's declared route: Lagrangian
+The bridge sector has 182 channels. Their scalar heat kernel reading
+follows the framework's route: Lagrangian
 algebra condensation absorbs the bridge into the vacuum module. The
 channel has no adjoint gauge redundancy or ghost sector. It enters
 the metric's stiffness as a scalar common mode row.  The amount carries
@@ -129,7 +114,7 @@ within the framework:
         c_coset = c(E₈) − c(G₂) − c(F₄) = 0
         In the unitary conformal embedding this removes an independent
         coset Virasoro sector. The absence of vector ghost subtraction
-        comes from the separate scalar/non-adjoint routing in (i), (iii).
+        comes from the separate scalar/nonadjoint routing in (i), (iii).
 
   (iii) Representation theory:
         The bridge transforms as the bifundamental (n₇, n₂₆), NOT as
@@ -185,17 +170,16 @@ from .higgs_ew import derive_higgs_ew
 #  Public interface
 # ═══════════════════════════════════════════════════════════════════════
 
-def derive(R, masses, mixing, couplings):
+def derive(R, masses, couplings):
     """
-    Derive gravity, Higgs, baryogenesis, and neutrinos.
+    Derive gravity, Higgs, and neutrinos.
 
     R          : dict from root.derive()
     masses     : dict from masses.derive()
-    mixing     : dict from mixing.derive()
     couplings  : dict from couplings.derive()
     """
     print("\n" + "=" * 78)
-    print("  GRAVITY + HIGGS + BARYOGENESIS + NEUTRINOS")
+    print("  GRAVITY + HIGGS + NEUTRINOS")
     print("=" * 78)
 
     # ══════════════════════════════════════════════════════════════════
@@ -206,7 +190,7 @@ def derive(R, masses, mixing, couplings):
 
     # Protected forgetting on the canonical Z₃ harmonic
     #   v_k = B cos(θ + 2πk/3),  B = √d₁₀ = √2,  θ = h₁₀ = 2/9
-    # (see protected_forgetting.py for the moment bookkeeping).
+    # (see protected_forgetting.py for the moments).
     #
     #   PvP    = Σv_k/3   = 0        forgetting, holds for every (B, θ)
     #   Pv²P   = Σv_k²/3  = B²/2 = 1 TOTAL second moment (both channels)
@@ -297,6 +281,7 @@ def derive(R, masses, mixing, couplings):
     n_gauge_UV = 2 * d11 * (d11 + 1)              # 24 = 2d₁₁(d₁₁+1)
     n_weyl_per_gen = d11 * d10**2 + d10 + 1        # 15 Weyl per generation
     n_fermion = d10 * n_gen * n_weyl_per_gen       # 90 fermionic states
+    n_nu_R = d10 * (n26 - 3 * (d11**2 - 1))        # 4 states: the two right handed neutrinos
     n_G2_vec = d10 * (2 * n7 - (d11**2 - 1))      # 6 coset vectors × 2 states
     n_G2_scal = n7                                 # 7 G₂ scalars
 
@@ -317,6 +302,7 @@ def derive(R, masses, mixing, couplings):
     led_Sigma_UV = _vent_ledger("Sigma_vent(UV)", [
         ("gauge(24)",    n_gauge_UV, a1_gauge,  "SM transverse"),
         ("fermions(90)", n_fermion,  a1_fermion, "3 generations"),
+        ("nu_R(4)",      n_nu_R,     a1_fermion, "right handed neutrinos"),
         ("coset(12)",    n_G2_vec,   a1_gauge,  "G₂/SU(3) vectors, massless"),
         ("G₂-scal(7)",   n_G2_scal,  a1_scalar, "G₂ fundamental"),
         ("bridge(182)",  N_bridge,   a1_bridge, "coherence channels"),
@@ -330,6 +316,7 @@ def derive(R, masses, mixing, couplings):
         ("gauge(18)",    2 * d11**2,       a1_gauge,  "gluons+photon"),
         ("W, Z(6)",      2 * d11,          a1_gauge,  "massive EW, transverse at the regulator"),
         ("fermions(90)", n_fermion,        a1_fermion, "3 generations"),
+        ("nu_R(4)",      n_nu_R,           a1_fermion, "right handed neutrinos"),
         ("coset(12)",    n_G2_vec,         a1_gauge,  "G₂/SU(3) vectors, massless"),
         ("G₂-scal(7)",   n_G2_scal,        a1_scalar, "G₂ fundamental"),
         ("bridge(182)",  N_bridge,         a1_bridge, "coherence channels"),
@@ -337,7 +324,7 @@ def derive(R, masses, mixing, couplings):
 
     # Σ is only the sum of its rows. The F₄ h∨ share of the
     # bridge self-echo returns to the circulation of the metric face
-    # and is entered on no ledger (root.py, the apportionment law).
+    # and does not enter Σ (root.py, the apportionment law).
 
     WEB.solve()          # gravity nodes join the solved web state
 
@@ -345,7 +332,6 @@ def derive(R, masses, mixing, couplings):
     Sigma_total_UV = led_Sigma_UV.value()
     Sigma_total_broken = led_Sigma_br.value()
     Sigma_min_UV = Sigma_total_UV - Sigma_bridge
-    Sigma_min_broken = Sigma_total_broken - Sigma_bridge
 
     # # The phase of the ledger #######################
     # The induced G integral localizes at the regulator, where there is
@@ -371,14 +357,11 @@ def derive(R, masses, mixing, couplings):
         web_depth=1)
     WEB.solve()          # gravity nodes join the solved web state
     assert abs(WEB.state["G_ratio"] / G_ratio_canonical - 1.0) < 1e-12
-    err_UV = 100.0 * (G_ratio_UV - 1.0)
-    err_broken = 100.0 * (G_ratio_broken - 1.0)
 
     Sigma_matter = Sigma_min_UV
     print(f"    Sigma_matter      = {Sigma_matter:+.4f}  [(N0 + N½ − 4 N1)/6, symmetric phase]")
     print(f"    Sigma_bridge      = {Sigma_bridge:+.4f}  [{N_bridge} * 1/6, the amount minimally coupled]")
-    print(f"    Sigma_total       = {Sigma_total_UV:.4f}")
-    print(f"    target 6pi        = {target:.6f}")
+    print(f"    Sigma_total       = {Sigma_total_UV:.4f}  [full ledger]")
 
     # # THE GRAVITY LANE: closure gates, not a coefficient ##########
     # Gravity is read the same way as the matter sector, as a closure.
@@ -398,7 +381,7 @@ def derive(R, masses, mixing, couplings):
     # clocks of different make whose ratio records a bias
     # (tests/probes/gates_as_records.py).
     N0_st = n_G2_scal                         # real scalars
-    Nh_st = n_fermion // 2                    # Weyl fermions
+    Nh_st = (n_fermion + n_nu_R) // 2         # Weyl fermions
     N1_st = (n_gauge_UV + n_G2_vec) // 2      # massless vectors
     ledger_ratio = {}
     for contact in (1.0, 0.0, -1.0):          # vector contact coefficient
@@ -406,14 +389,7 @@ def derive(R, masses, mixing, couplings):
                  + Sigma_bridge)
         ledger_ratio[contact] = target / sig_c
     assert abs(ledger_ratio[1.0] - G_ratio_canonical) < 1e-12
-    matter_only = (N0_st + Nh_st - 4 * N1_st) / 6.0
-    # Interior of a lump, the clock liquid at its zero pressure point
-    # (g₀ = −1): c_rel² = 5 g₁ρ/4 and c_ph² = −a R₀ with ρ = R₀/3, so
-    # the ratio is free of the sextic.
-    g1_lock = 1.0 / BA_ratio                              # |g₁/g₀| = 1/√d₁₀
-    a_clock = -(0.5 + g1_lock / 6.0)                      # quartic on the clock
-    c_rel_over_c_ph = math.sqrt(5.0 * g1_lock / (12.0 * -a_clock))
-    str_one = (N0_st + N_bridge + 2 * N1_st) - n_fermion  # bosonic − fermionic states
+    str_one = (N0_st + N_bridge + 2 * N1_st) - (n_fermion + n_nu_R)  # bosonic − fermionic states
     lambda_G = -(math.pi / 2.0) * str_one / Sigma_total_UV**2
     # # ONE LIST: the rows the running uses (boundary.py) ##########
     # The gates use the same list as b₀ (= 32/3, root.py). The bridge
@@ -441,7 +417,6 @@ def derive(R, masses, mixing, couplings):
         t0=_lab_roots[0] / (2.0 * math.pi) if _lab_roots else float("nan"),
         w_need=(2.0 * math.pi - _absent)
         / (N_bridge * (a1_scalar - float(xi_bridge))))    # the weight at M_b the labelled bridge would need to pass S
-    t0_booked = Sigma_total_UV / (2.0 * math.pi)
     lambda_G_one = -(math.pi / 2.0) * (str_one - N0_st) / one_list[1.0]["sigma"]**2  # no G₂ scalars
     # Gate verdicts.  S and M are computed on the one list. U, C, T and
     # P name the tests that derive them, each with the case in which it
@@ -483,7 +458,7 @@ def derive(R, masses, mixing, couplings):
           + "/".join(f"{v['sigma_at_boundary']:+.3f}" for v in one_list.values())
           + f". Anchored Sigma = " + "/".join(f"{v['sigma']:.3f}" for v in one_list.values())
           + f", t0 = " + "/".join(f"{v['t0']:.3f}" for v in one_list.values())
-          + " M_b^-2 (contacts +1/0/-1)")
+          + " M_b^-2 (vector contact +1 covariant / 0 hard cutoff / -1 opposite)")
     print(f"    GRAVITY LANE GATES (each PASS depends on the lane's three statements):")
     for name, g in gravity_gates.items():
         print(f"      {g['status']:4s} {g['tier']:8s} {name:16s} {g['note']}")
@@ -503,9 +478,9 @@ def derive(R, masses, mixing, couplings):
     # (2) Jacobson's thermodynamic argument recovers Einstein dynamics
     #     but leaves Lambda as an integration constant. It does not
     #     determine the observed vacuum density.
-    # (3) CKN saturation is an identification hypothesis for a scale.
+    # (3) CKN saturation is an outside bound, not a derivation.
     #
-    # H₀ is an observational scale anchor.  This code evaluates the
+    # H₀ is a comparison scale.  This code evaluates the
     # resulting relation.
     from .root import RHO_CRIT_MAPPED as rho_crit_mapped
     rho_naive = M_Pl_GeV**4                  # naive QFT: ρ ~ M_Pl⁴
@@ -515,7 +490,7 @@ def derive(R, masses, mixing, couplings):
     print(f"       full form ratio ΛG = −(π/2)·str(1)/Σ² = {lambda_G:+.3f} on the full "
           f"ledger, {lambda_G_one:+.3f} on the one list. The lane uses the traceless form, "
           f"where the vacuum term does not gravitate and Lambda is set by the state")
-    print(f"       Jacobson leaves Lambda free; CKN saturation is an IH")
+    print(f"       Jacobson leaves Lambda free. CKN saturation is an outside bound")
 
     # ══════════════════════════════════════════════════════════════════
     #  HIGGS + EW: SM RGE transport, M_W, M_Z, import audit (higgs_ew.py)
@@ -524,101 +499,27 @@ def derive(R, masses, mixing, couplings):
     higgs_ew_data = derive_higgs_ew(masses, couplings)
 
     # ══════════════════════════════════════════════════════════════════
-    #  BARYOGENESIS: eta_B = -n₇ * J_lep * exp(-d₁₀²pi²/2)
-    # ══════════════════════════════════════════════════════════════════
-
-    print(f"\n  --- BARYOGENESIS: n₇, J_lep, and the G₂ face action ---")
-
-    # Assembly: each factor maps to a Sakharov condition. The action is
-    # the depth-4 G₂ face reading derived in root.py.
-    #
-    # 1. B−L violation: G₂ instanton tunnelling
-    #    S_inst = h∨(G₂)·π²/2 = d₁₀²·π²/2 = 2π²
-    #    The h-dual bridge metric transports the F₄-face response to
-    #    the G₂ face: b_face=(32/3)(9/4)=24=h∨(E8)-C2(26), so
-    #    S_inst=2pi/(b_face alpha_G2)=(4/9)S_lepton=2pi^2.
-    #    Tunnelling probability: exp(−S_inst) = exp(−2π²) ≈ 2.68×10⁻⁹
-    #
-    # 2. CP violation: leptonic Jarlskog invariant J_lep
-    #    Derived from the conjugation modular invariant of SU(3)₃
-    #    with the charged lepton rotation (see mixing.py).
-    #
-    # 3. Multiplicity: n₇ = dim(G₂ fund) = 7
-    #    Seven directed Fano plane lines, each an independent asymmetry
-    #    channel.  The Fano plane is the incidence geometry of the
-    #    octonion multiplication table (G₂ = Aut(O)).
-    #
-    # Assembly: η_B = −n₇ · J_lep · exp(−d₁₀²π²/2)
-    # The minus sign is the sphaleron conversion B = −(28/79)L: the
-    # lepton sector CP asymmetry (J_lep < 0) converts to a positive
-    # baryon excess.
-    #
-    from .root import S_baryo
-    S_inst = S_baryo  # = 2π², the G₂ face action (root.py)
-    tunnelling = math.exp(-S_inst)
-    J_lep = mixing['J_lep']
-
-    # JOINT COSMOLOGY: eta_B here and Omega_DM/Omega_b
-    # (dark_sector.py) share one engine input, R(h) = h/2π.
-    # Omega_b h² = eta_10/273.9 = 0.02256 (+1.2σ), and carrying that
-    # through 2π−1 gives Omega_DM h² = 0.1192 (−0.7σ vs Planck
-    # 0.1200(12)). The BBN conversion eta_10 = 273.9 Omega_b h² is a
-    # cited change of variables applied to a printed number. No step
-    # of the chain uses it. The pair is falsified if Planck class data
-    # fix both densities at values whose ratio and product
-    # (eta_B, 2π−1) cannot match.
-    # In the traceless form Lambda is set by the state. root.py
-    # computes the Friedmann critical density from H0, and the current
-    # dark energy density uses the measured Omega_Lambda (dark_sector.py).
-    from .root import PDG_COSMO
-    eta_B = float(n7) * (-J_lep) * tunnelling
-    eta_B_obs = PDG_COSMO['eta_B']
-
-    ratio_B = eta_B / eta_B_obs
-    pull_pct_B = abs(1 - ratio_B) * 100
-    pull_sigma_B = (eta_B - eta_B_obs) / PDG_COSMO['eta_B_err']
-
-    print(f"    S_inst = d₁₀²pi²/2 = {d10}²pi²/2 = {S_inst:.4f}")
-    print(f"    exp(-S) = exp(-{d10}²pi²/2) = {tunnelling:.6e}")
-    print(f"    J_lep = {J_lep:+.6f}")
-    print(f"    eta_B = {n7} * {-J_lep:.6f} * {tunnelling:.4e}")
-    print(f"          = {eta_B:.4e}")
-    print(f"    Planck: {eta_B_obs:.2e}  ({(ratio_B - 1) * 100:+.2f}%, "
-          f"{pull_sigma_B:+.2f}σ)  [Thm + IH: n₇ Fano lines, J_lep from the PMNS map]")
-
-    # ══════════════════════════════════════════════════════════════════
     #  NEUTRINOS: rank bound from the F₄ singlet identification
     # ══════════════════════════════════════════════════════════════════
 
     print(f"\n  --- NEUTRINOS: F₄ singlet structure ---")
 
     # n₂₆ → 8_v + 8_s + 8_c + (n₂₆ − 3×8) singlets
-    # The framework identifies the (n₂₆ − 24) = 2 singlets with RH
-    # neutrinos. In a minimal type-I seesaw with no additional Weinberg
-    # operator, type II/III contribution, or other mass term, two RH
-    # neutrinos imply rank(M_nu) <= 2. Rank exactly 2 needs an additional
-    # full rank Yukawa assumption.
+    # The (n₂₆ − 24) = 2 singlets are the right handed halves of two
+    # Dirac neutrinos, forced at depth three
+    # (tests/probes/neutrino_mass_term.py). Two right handed halves
+    # imply rank(M_nu) <= 2.
     n_singlets = n26 - 3 * (d11**2 - 1)   # = 26 - 24 = 2  (d₁₁²−1 = 8)
     print(f"    {n26} -> 8_v + 8_s + 8_c + {n_singlets}*1")
-    print(f"    Assumption: minimal type-I seesaw. No other neutrino mass terms")
-    print(f"    {n_singlets} identified RH neutrinos -> rank(M_nu) <= {n_singlets}")
-    print(f"    Conditional consequence: at least one massless light neutrino")
+    print(f"    Mass term: Dirac. The lepton label is conserved")
+    print(f"    {n_singlets} right handed neutrinos -> rank(M_nu) <= {n_singlets}")
+    print(f"    Consequence: at least one massless light neutrino, m_bb = 0")
 
-    # Structural rank bound only. No external Δm² input is needed for it.
-    # The absolute neutrino mass scale and ordering are not selected by the
-    # algebraic framework. PROVENANCE of the normal ordering benchmark
-    # (Σm_ν = 58.78 meV, m_β = 8.81 meV, m_ββ ∈ [1.51, 3.70] meV):
-    # it assumes normal ordering and m₁ = 0, and combines that
-    # assumption with the MEASURED splittings
-    # (reference.NUFIT_OSCILLATION, reference data the engine does not
-    # read). It sets m₂ = √Δm²₂₁ and m₃ = √Δm²₃₁, then forms the
-    # standard Σ/β/ββ combinations with NuFit angles.  The frozen values in
-    # tests/common_mode/test_common_mode_scorecard.py are conditional benchmark arithmetic.
-    #
     # WHAT FALSIFIES THIS. Three established nonzero light neutrino
-    # masses falsify the rank bound from two RH neutrinos. The ordering
-    # alone does not.
-    print(f"    Ordering: not selected (NO -> m₁ = 0; IO -> m₃ = 0)")
+    # masses falsify the rank bound from two right handed neutrinos.
+    # The ordering alone does not. An observed neutrinoless double
+    # beta decay falsifies the Dirac term.
+    print(f"    Ordering: either (NO: m₁ = 0, IO: m₃ = 0)")
 
     result = {
         # Gravity
@@ -631,7 +532,6 @@ def derive(R, masses, mixing, couplings):
         'E_v2': float(E_v2),
         'a1_bridge': a1_bridge,
         'Sigma_min_UV': Sigma_min_UV,
-        'Sigma_min_broken': Sigma_min_broken,
         'Sigma_bridge': Sigma_bridge,
         'Sigma_total_UV': Sigma_total_UV,
         'Sigma_total_broken': Sigma_total_broken,
@@ -643,25 +543,14 @@ def derive(R, masses, mixing, couplings):
         'one_list': one_list,
         'labelled_bridge': labelled_bridge,
         'booked_gates': booked_gates,
-        'err_UV': err_UV,
-        'err_broken': err_broken,
         'rho_crit_mapped': rho_crit_mapped,
-        # Baryogenesis
-        'eta_B': eta_B,
-        'eta_B_obs': eta_B_obs,
-        'ratio_B': ratio_B,
-        'pull_sigma_B': pull_sigma_B,
-        'S_inst': S_inst,
-        'tunnelling': tunnelling,
-        'J_lep': J_lep,
-        'dim_G2_fund': n7,
         # Neutrinos (structural rank bound, no Δm² input)
-        'ordering': 'undetermined',
+        'ordering': 'either',
         'n_RH': n_singlets,
         'light_mass_rank_max': n_singlets,
         'massless_light_states_min': d11 - n_singlets,
         'massless_state_by_ordering': {'normal': 'm1', 'inverted': 'm3'},
-        'neutrino_mass_mechanism_assumption': 'minimal type-I seesaw only',
+        'neutrino_mass_term': 'Dirac',
     }
     result.update(higgs_ew_data)
     return result

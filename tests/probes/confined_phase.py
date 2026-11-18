@@ -1,6 +1,6 @@
 """
-confined_phase.py: the layer bridge test (substrate verification
-ledger entry #1. Derivation program D6 of the edge grammar (tests/audit/edge_grammar.py)).
+The layer bridge test, from the substrate to the
+edge grammar (tests/audit/edge_grammar.py).
 
 SCOPE.  The web's statistics/Skyrmion chain passes through a
 CONFINED TOPOLOGICAL PHASE of the substrate (unbroken Z3 centre). The
@@ -72,13 +72,11 @@ disorder signature is complete: vortex proliferation plus area law.
 The corresponding quantum topological order diagnostics are spectra
 on distinct backgrounds and box size scaling.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). For that sign the closure is the spinning lump
-(spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
-Usage: python3 confined_phase.py     (~7 min single core, mark slow)
+Usage: python3 tests/probes/confined_phase.py     (~7 min single core, mark slow)
 """
 
 import os
@@ -205,7 +203,7 @@ def run(report=print):
 
 
 def area_law(report=print):
-    """Conjecture #1's second half: the disorder operator W(C) versus
+    """The confined phase's area law: the disorder operator W(C) versus
     loop size at the saturated endpoint.  W(a) = |<exp(i circ_C)>|
     over square loops of side a in the three coordinate planes,
     centres in the core.  Dilute vortex gas prediction: area law

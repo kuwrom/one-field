@@ -4,7 +4,7 @@ THE QUESTION. boundary_content.py builds one list of boundary rows. In
 it the bridge carries its searchlight label, and both the G2 running
 and the stiffness see that label. The list sums per state weights: a
 row of mass m enters with E2(m^2 t0) (its P3). The stiffness of this
-labelled list is -0.175 with the regulator at the boundary and 3.698 at
+labelled list is +0.158 with the regulator at the boundary and 3.805 at
 the self-consistent regulator. ledger_kernel.py computes the counted
 rows (the rows the ledger counts) as tensor kernels of one composite
 metric. Written as one metric free action that contains every row of a
@@ -39,7 +39,7 @@ composite_pole.proper_time(m2, t0), whose q^2 term carries
 int_t0 dt t^-2 exp(-m^2 t) = E2(m^2 t0)/t0. P3 the lists.
 The counted list is ledger_kernel.py's rows, all massless. Field for
 field it is the counted list of boundary_content.py. The labelled list is
-boundary_content.rows('boundary'): 36 vector states and 90 fermion
+boundary_content.rows('boundary'): 36 vector states and 94 fermion
 states massless, the 182 bridge channels at mass M_b with
 xi = 1/(48 pi), no G2 scalars. t0 is in units of M_b^-2, and the
 boundary identification M_b^2 t0 = Sigma/(2 pi) (root.py,
@@ -59,33 +59,32 @@ STATEMENTS (the numbers below check each one).
      0.1, -0.3, and the heavy row's heat trace matches the direct
      diagrams of ledger_kernel.py to 2.3e-13. This is boundary_content.py
      P3, read off the kernel.
-  K2 (the counted list). The summed kernel has stiffness 27.0000 and
+  K2 (the counted list). The summed kernel has stiffness 27.3333 and
      F0/F2 = -2.0000, and its spin-2 form factor keeps the Einstein
      sign from q^2 t0 = 1e-3 to 1e3, with no zero. The amount is
      minimally coupled (boundary.xi_of). The zero of ledger_kernel.py R3
      belongs to a row at xi = 1/(48 pi). With
-     M_b^2 t0 = Sigma/(2 pi) = 4.297 the regulator scale t0^(-1/2) is
-     0.482 M_b, inside the boundary. Barcelo, Liberati and Visser
+     M_b^2 t0 = Sigma/(2 pi) = 4.350 the regulator scale t0^(-1/2) is
+     0.479 M_b, inside the boundary. Barcelo, Liberati and Visser
      (arXiv:gr-qc/0505065v4 Sec. 7.9, Sec. 7.8 of the Living Reviews
      text) take the scale where the geometric picture disappears to be
      the cutoff itself. Read that way, the counted list breaks down at
-     its regulator, 0.482 M_b. It departs from the Einstein value by 10
-     and 50 percent at q^2 t0 = 0.072 and 0.805, 0.129 and 0.433 M_b,
+     its regulator, 0.479 M_b. It departs from the Einstein value by 10
+     and 50 percent at q^2 t0 = 0.072 and 0.805, 0.129 and 0.430 M_b,
      inside the boundary.
   K3 (the labelled list). Its kernel has the stiffness of
-     boundary_content.sigma, -0.1749 at t0 = 1 and +3.6978 at the
-     self-consistent t0 = 0.5885, both to 1.1e-5, with F0/F2 = -2 to
-     1.0e-4. At t0 = 1 the stiffness is negative and F2 stays negative
-     up to q^2 t0 = 1e3, with no zero. The massless spin-2 pole between
-     conserved sources has negative residue, so it is a ghost. The
+     boundary_content.sigma, +0.1585 at t0 = 1 and +3.8047 at the
+     self-consistent t0 = 0.6055, both to 1.1e-5, with F0/F2 = -2 to
+     1.1e-4. At t0 = 1 the stiffness is positive and F2 keeps the
+     Einstein sign only below q^2 t0 = 0.0040, q = 0.063 M_b. The
      static potential between two positive masses is the attractive
-     Newton value times -1.000, so it is repulsive. Its spin-0 form factor changes sign
-     at q^2 t0 = 0.043, 0.208 M_b. At the self-consistent t0 it is
+     Newton value times +1.000, so it is attractive. Its spin-0 form factor changes sign
+     at q^2 t0 = 172.8, 13.1 M_b. At the self-consistent t0 it is
      attractive (+1.000), and the spin-2 form factor vanishes at
-     q^2 t0 = 0.2295, q = 0.624 M_b. It keeps the Einstein sign only
-     below 0.624 M_b, under the boundary and under the regulator scale
-     1.304 M_b. It departs from the Einstein value by 10 and 50 percent
-     at 0.137 and 0.380 M_b. So on the labelled list the composite metric
+     q^2 t0 = 0.2333, q = 0.621 M_b. It keeps the Einstein sign only
+     below 0.621 M_b, under the boundary and under the regulator scale
+     1.285 M_b. It departs from the Einstein value by 10 and 50 percent
+     at 0.136 and 0.377 M_b. So on the labelled list the composite metric
      loses the Einstein sign inside the very boundary that defines the
      list.
   K4 (the carrier alone). The six real components have F2 > 0 from
@@ -108,10 +107,10 @@ That kernel carries the weights boundary_content.py sums: at low
 momentum a heavy row is the Einstein operator with stiffness
 (1/6 - xi) E2(m^2 t0). Under the ledger's sharp cutoff the labelled
 list has two cases. With the regulator at the boundary its stiffness
-is -0.175, the massless spin-2 pole is a ghost and the static potential
-repels. At the self-consistent regulator its stiffness is 3.698 and it
-attracts, but its spin-2 form factor vanishes at 0.624 M_b, below the
-boundary and the regulator. The counted list keeps the Einstein sign
+is +0.158, the static potential attracts and its spin-2 form factor
+vanishes at 0.063 M_b. At the self-consistent regulator its stiffness is
+3.805 and it attracts, but its spin-2 form factor vanishes at 0.621 M_b,
+below the boundary and the regulator. The counted list keeps the Einstein sign
 at every momentum computed. Both lists depart from the Einstein value
 inside the boundary. The carrier alone keeps the Einstein sign over the
 whole range and departs from the Einstein value at q^2 t0 of order one
@@ -275,7 +274,7 @@ def run(report=print):
     values_b, zero_b = axis(booked, 1.0)
     t0_b = sig_b / (2 * math.pi)
     reg_b = t0_b**-0.5
-    assert abs(sig_b - 27.0) < 1e-3 and abs(shape_b + 2) < 1e-3
+    assert abs(sig_b - 82 / 3) < 1e-3 and abs(shape_b + 2) < 1e-3
     dep_b = departures(booked, 1.0)
     qdep_b = [math.sqrt(y / t0_b) for y in dep_b]
     assert zero_b is None and all(v > 0 for v in values_b) and reg_b < 1.0 and max(qdep_b) < 1.0
@@ -291,7 +290,7 @@ def run(report=print):
     table = bc.rows(bridge="boundary")
     one = kernel_rows(table)
     counts = content(one)
-    assert counts == {("vector", 0.0): 18, ("dirac", 0.0): 22.5, ("scalar", round(XI, 12)): 182}
+    assert counts == {("vector", 0.0): 18, ("dirac", 0.0): 23.5, ("scalar", round(XI, 12)): 182}
     t0_s = bc.fixed_points(table, 1.0)[0] / (2 * math.pi)
     k3 = {}
     for name, t0 in (("boundary", 1.0), ("self", t0_s)):
@@ -303,7 +302,7 @@ def run(report=print):
     agree = max(abs(v["sigma"] - v["want"]) for v in k3.values())
     shape_one = max(abs(v["shape"] + 2) for v in k3.values())
     assert agree < 1e-3 and shape_one < 1e-3
-    assert at_b["sigma"] < 0 and at_b["negative"] and at_b["zero"] is None and abs(at_b["sign"] + 1) < 1e-3
+    assert at_b["sigma"] > 0 and not at_b["negative"] and at_b["zero"] is not None and abs(at_b["sign"] - 1) < 1e-3
     assert at_s["sigma"] > 0 and abs(at_s["sign"] - 1) < 1e-3
     qz_s = math.sqrt(at_s["zero"] / t0_s)
     f0_zero = first_zero(lambda ly: form_factors(one, 1.0, math.exp(ly))[1])
@@ -316,7 +315,7 @@ def run(report=print):
     report(f"K3 labelled list ({2 * counts['vector', 0.0]:.0f} vector and {4 * counts['dirac', 0.0]:.0f} fermion states "
            f"massless, {counts['scalar', round(XI, 12)]:.0f} bridge channels at M_b, no G2 scalars)")
     report(f"   t0 = 1 M_b^-2: Sigma = {at_b['sigma']:+.4f} (boundary_content {at_b['want']:+.4f}); "
-           f"F2 < 0 from q^2 t0 = 1e-3 to 1e3: {at_b['negative']}. Static potential over attractive "
+           f"F2 vanishes at q^2 t0 = {at_b['zero']:.4f}, q = {math.sqrt(at_b['zero']):.3f} M_b. Static potential over attractive "
            f"Newton {at_b['sign']:+.3f}; F0 changes sign at q^2 t0 = {f0_zero:.4f}, q = {math.sqrt(f0_zero):.3f} M_b")
     report(f"   self-consistent t0 = {t0_s:.4f} M_b^-2: Sigma = {at_s['sigma']:+.4f} (boundary_content "
            f"{at_s['want']:+.4f}), static potential {at_s['sign']:+.3f}; F2 vanishes at q^2 t0 = "
@@ -346,8 +345,8 @@ def run(report=print):
            "t0^-1/2: the regulator scale. Heavy, 10% at q^2 t0 = "
            + ", ".join(f"{v[0]:.3f} (m^2 t0 = {z:g})" for z, v in heavy_dep.items()))
     report("RESULT: the one action's kernel carries the weights boundary_content.py sums. Under the ledger's sharp "
-           "cutoff the labelled list's spin-2 pole is a ghost with the regulator at the boundary, and at its "
-           f"self-consistent regulator its spin-2 form factor vanishes at {qz_s:.3f} M_b, inside the boundary "
+           f"cutoff the labelled list's spin-2 form factor vanishes at {math.sqrt(at_b['zero']):.3f} M_b with the regulator at the boundary, and at its "
+           f"self-consistent regulator it vanishes at {qz_s:.3f} M_b, inside the boundary "
            "(counted list: no zero). The carrier departs from Einstein at the regulator scale at every mass.")
     return out
 

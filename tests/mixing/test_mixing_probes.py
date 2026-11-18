@@ -21,21 +21,19 @@ def test_orientation_bit(res):
     from probes import orientation_bit
     r = orientation_bit.run(report=_silent)
     assert r["flip_coherent"]
-    assert set(r["cp_odd_forward"]) == {"eta_bar", "J_CKM", "J_lep", "eta_B"}
+    assert set(r["cp_odd_forward"]) == {"eta_bar", "J_CKM", "J_lep"}
     for name, value in r["cp_odd_forward"].items():
         assert r["cp_odd_reversed"][name] == pytest.approx(-value)
     assert r["cp_odd_forward"]["eta_bar"] == pytest.approx(res["mx"]["eta"])
     assert r["cp_odd_forward"]["J_CKM"] == pytest.approx(res["mx"]["J_ckm"])
     assert r["cp_odd_forward"]["J_lep"] == pytest.approx(res["mx"]["J_lep"])
-    assert r["cp_odd_forward"]["eta_B"] == pytest.approx(res["g"]["eta_B"])
     assert r["ckm_magnitudes_invariant"]
     assert r["pmns_angles_invariant"]
 
 
 def test_sign_exhaustion_theorem(res):
     """D1: the PMNS sign rows against the data.  Under the one
-    orientation bit axiom, the NuFIT 3 sigma range and eta_B > 0 leave
-    one row.  It is the same row the blind gates of pmns_sign_bits.py
+    orientation bit axiom, the NuFIT 3 sigma range leaves one row.  It is the same row the blind gates of pmns_sign_bits.py
     leave.  U_TBM is real, so epsilon enters the lepton sector only
     through delta."""
     from probes import sign_exhaustion_theorem
@@ -45,8 +43,6 @@ def test_sign_exhaustion_theorem(res):
     assert r["angles_invariant"]
     assert r["closing_count"] == 1
     assert r["closing_row"]["delta_sign"] == -1
-    assert r["closing_row"]["eta_sign"] == -1
-    assert r["eta_B_positive"]
 
 
 def test_strong_cp_closure_and_null_directions(res):
@@ -72,8 +68,7 @@ def test_strong_cp_closure_and_null_directions(res):
     assert abs(r["mass_rephasing_countermodel"][
         "determinant_multiplier"] - 1.0) > 0.1
     assert r["strong_cp_closed_within_ontology"]
-    assert not r["strong_cp_unconditional_local_theorem"]
-    assert r["bar_theta_from_local_data_alone"] is None
+    assert r["closure_rests_on_constitutive_rule"]
     assert not r["theta_QCD_separately_defined"]
     assert not r["mass_determinant_phase_separately_defined"]
     assert r["bar_theta"] == 0.0
@@ -194,10 +189,10 @@ def test_pmns_form_sensitivity_is_scoped():
     it from being mislabeled as a complete PMNS form space grammar."""
     from probes import pmns_form_sensitivity
     r = pmns_form_sensitivity.run(report=_silent)
-    assert r["legacy_n_rows"] == 144
-    assert r["legacy_unique_fingerprints"] == 144
-    assert r["legacy_n_within_1sigma"] == 2
-    assert r["legacy_n_within_half_sigma"] == 1
+    assert r["declared_n_rows"] == 144
+    assert r["declared_unique_fingerprints"] == 144
+    assert r["declared_n_within_1sigma"] == 2
+    assert r["declared_n_within_half_sigma"] == 1
     assert r["distinct_plane_n_rows"] == 96
     assert r["distinct_plane_hits"] == {1.0: 2, 0.5: 1}
     assert r["extended_n_rows"] == 288
@@ -243,7 +238,7 @@ def test_pmns_sign_is_fixed_by_two_blind_gates(res):
 
 
 def test_lambda_menu_closes_on_one_reading(res):
-    """lambda_admissibility.py: the twelve entry menu lambda = h10 (1 + x/K^n)
+    """cabibbo_menu.py: the twelve entry menu lambda = h10 (1 + x/K^n)
     closes on one reading without using a measured value.  The order
     lemma, the SU(3)_3 weights, the simple current's trivial boundary
     action and f x fbar = 1 + 8 leave three entries.  The overlap
@@ -251,7 +246,7 @@ def test_lambda_menu_closes_on_one_reading(res):
     insertion h11/K^2, lambda = 73/324.
     The data check it: of the twelve entries it is the only one within 1 sigma,
     and the two single insertions the lemmas leave miss by more than 3 sigma."""
-    from probes import lambda_admissibility as la
+    from probes import cabibbo_menu as la
     from interference import mixing
 
     out = la.run(report=_silent)

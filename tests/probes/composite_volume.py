@@ -1,4 +1,4 @@
-"""Route A of notes/lambda_plan.md: a volume element built from the carrier.
+"""Lambda route A: a volume element built from the carrier.
 
 THE CONSTRUCTION. The carrier's common phase current J = Im sum_a
 conj(phi_a) d phi_a gives the exact four form Phi = dJ ^ dJ, a density
@@ -43,7 +43,7 @@ STATEMENTS (the numbers below check each one).
      argument needed.  A nonzero <Phi> needs Im C of rank four, an
      antisymmetric correlator that fixes a frame.
 
-RESULT. Route A closes. The carrier's own volume element is nonzero
+RESULT. Route A is excluded. The carrier's own volume element is nonzero
 only where its metric is Euclidean, and its expectation vanishes in
 every vacuum with a symmetric gradient correlator. The gauge field
 version (Pontryagin density of an independent Yang-Mills field) needs
@@ -136,7 +136,7 @@ def run(report=print, seed=11):
     report(f"A4 Wick <Phi>: Lorentz invariant vacuum {r4['lorentz']:.1e}, any real symmetric "
            f"correlator {r4['real_symmetric']:.1e}, a frame fixing Hermitian correlator "
            f"{r4['frame_fixing']:.3f}.")
-    report("RESULT: route A closes. The carrier's volume element is nonzero only where its "
+    report("RESULT: route A is excluded. The carrier's volume element is nonzero only where its "
            "metric is Euclidean, and vanishes in expectation in every vacuum with a symmetric "
            "gradient correlator.")
     return out

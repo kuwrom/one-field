@@ -1,4 +1,4 @@
-"""Freezes tests/probes/bottom_coordinate.py: the bottom mass's relation and coordinate."""
+"""Freezes tests/probes/bottom_coordinate.py: the bottom mass's relation and the entries it meets."""
 
 import pytest
 
@@ -21,3 +21,13 @@ def test_the_references_bracket_the_engine(r):
     assert p["PDG m_b(m_b)"] == pytest.approx(1.54, abs=0.01)
     assert p["FLAG Nf=2+1+1"] == pytest.approx(-0.44, abs=0.01)
     assert p["FLAG Nf=2+1"] == pytest.approx(1.14, abs=0.01)
+
+
+def test_the_entries_are_forced(r):
+    """B4 to B7: the entries the readings meet are the one assignment of
+    19683 that exists and follows the order. Read against one outside
+    scale, the same values give Q(c,b,t) near 0.72."""
+    assert r["assignments"] == (19683, 324, 1)
+    assert r["survivor"]["t"] == "complete" and r["survivor"]["b"] == "own mass"
+    assert r["floor_rel"]["t"] < 0.002 < 0.03 < r["floor_rel"]["b"]
+    assert all(0.717 < x["Q"] < 0.722 for x in r["outside"].values())

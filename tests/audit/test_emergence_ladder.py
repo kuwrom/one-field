@@ -3,13 +3,12 @@ test_emergence_ladder.py: freeze the record of couplings per rung.
 
 What is frozen:
   1. placement: every web node sits on exactly one rung, every channel
-     maps to a rung, every counterfactual id exists in candidates.tsv,
-     and every source a rung is read from exists;
+     maps to a rung, and every source a rung is read from exists;
   2. the common mode: Sigma_vent(UV) is fed by exactly the four rungs
      that carry degrees of freedom, its rows sum to Sigma, and without
-     the bridge row the sum is -10/3 (the sign gate as entered in the ledger);
-  3. one path for the deepest backreaction: every depth-4 echo couples
-     to the depth-3 e<->q loop;
+     the bridge row the sum is -3 (the sign gate as entered in the ledger);
+  3. one path for the deepest backreaction: every depth 4 echo couples
+     to the depth 3 e<->q loop;
   4. sparse rungs: u, d, c, t are read from their lepton by ratio, and the rungs
      without a web node are exactly the algebra, the substrate, hadrons,
      atoms and the cosmological constant.
@@ -30,7 +29,6 @@ def test_every_node_channel_and_source_is_placed(ladder):
     assert ladder["unplaced_channels"] == []
     assert ladder["doubly_placed"] == []
     assert ladder["phantom_nodes"] == []
-    assert ladder["missing_candidates"] == []
     assert ladder["missing_sources"] == []
 
 
@@ -38,8 +36,8 @@ def test_common_mode_is_fed_by_every_rung_with_degrees_of_freedom(ladder):
     assert ladder["feeders"]["Sigma_vent(UV)"] == {
         "bridge", "forces", "leptons", "quarks"}
     assert ladder["sigma_sum"] == pytest.approx(ladder["sigma"], abs=1e-12)
-    assert ladder["sigma"] == pytest.approx(27.0, abs=1e-4)
-    assert ladder["sigma_without_bridge"] == pytest.approx(-10 / 3, abs=1e-12)
+    assert ladder["sigma"] == pytest.approx(82 / 3, abs=1e-4)
+    assert ladder["sigma_without_bridge"] == pytest.approx(-3.0, abs=1e-12)
 
 
 def test_depth_four_echoes_read_the_charged_loop(ladder):

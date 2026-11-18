@@ -64,7 +64,7 @@ _DECLARED = {
 # NUFIT_OSCILLATION is a recorded reference. No interference/ code
 # consumes it (the ν block is structural, no Δm² input).  Left
 # unperturbed.
-_REF_NAMES = ("PDG_MASSES", "PDG_CKM", "NUFIT_PMNS", "PDG_EW",
+_REF_NAMES = ("PDG_MASSES", "PDG_CKM", "NUFIT_PMNS", "PDG_EW", "ALPHA_INV_REF",
               "PDG_COSMO", "PLANCK_2018", "ACT_DR6")
 # PLANCK_2018 / ACT_DR6 live in reference.py and sit inside the
 # perturbation set: the DM/baryon prediction must not move when they
@@ -103,7 +103,7 @@ def _rerun(through_gravity=False):
         c = couplings.derive(R, m)
         if not through_gravity:
             return R, m, mx, c, None, None
-        g = gravity.derive(R, m, mx, c)
+        g = gravity.derive(R, m, c)
         d = dark_sector.derive(R, g)
     return R, m, mx, c, g, d
 
@@ -117,11 +117,11 @@ _MIX_KEYS = ("lam", "A", "eta", "rho", "sin2_12", "sin2_13",
 _COUP_KEYS = ("alpha_s_MZ_thresh", "alpha_s_mu_star", "inv_alpha_phys",
               "mu_star_GeV", "bar_theta")
 _GRAV_KEYS = ("lambda_mt_transport", "sin2W",
-              "M_W_derived", "M_Z_derived", "eta_B", "rho_crit_mapped")
+              "M_W_derived", "M_Z_derived", "rho_crit_mapped")
 
 
 def _one_list_sigma(g):
-    """The one list's Sigma and t0 at each contact (boundary.py, 25.83 at the covariant contact)."""
+    """The one list's Sigma and t0 at each contact (boundary.py, 26.17 at the covariant contact)."""
     return {c: (v["sigma"], v["t0"]) for c, v in g["one_list"].items()}
 
 
@@ -187,6 +187,42 @@ def test_reference_quarantine_gravity(res):
         _rerun()
 
 
+# what the declared transport may move: the readings it carries to a
+# measurement's coordinate, and nothing the engine derives
+_TRANSPORT_KEYS = {"M_W_derived", "M_Z_derived", "alpha_em_MZ", "inv_alpha_em_MZ",
+                   "lambda_mt_transport", "higgs_transport_coordinate_GeV"}
+
+
+@pytest.mark.slow
+def test_declared_transport_reaches_no_engine_constant(res):
+    """The declared radiative terms (Δr̂_W, ρ̂) carry the engine's A₀ and
+    sin²θ_W to the coordinate M_W and M_Z are measured in.  Perturbed by
+    10%, they move only those transported readings.  Every mass, mixing
+    coordinate, coupling, G, sin²θ_W and the dark ratio stays
+    identical to 1e-12."""
+    canon_G = root.G_PRED
+    saved = dict(root.PDG_EW)
+    try:
+        root.PDG_EW["dr_hat_W"] = saved["dr_hat_W"] * 1.1
+        root.PDG_EW["rho_hat"] = saved["rho_hat"] * 0.9
+        _, m2, mx2, c2, g2, d2 = _rerun(through_gravity=True)
+        for k in _MASS_KEYS:
+            assert m2[k] == pytest.approx(res["m"][k], rel=1e-12), f"masses[{k}] moved"
+        for k in _MIX_KEYS:
+            assert mx2[k] == pytest.approx(res["mx"][k], rel=1e-12), f"mixing[{k}] moved"
+        for k in _COUP_KEYS:
+            assert c2[k] == pytest.approx(res["c"][k], rel=1e-12), f"couplings[{k}] moved"
+        assert _g_of(root.WEB.state) == pytest.approx(canon_G, rel=1e-12), "G moved"
+        moved = {k for k, v in res["g"].items()
+                 if isinstance(v, float) and g2[k] != pytest.approx(v, rel=1e-12)}
+        assert moved and moved <= _TRANSPORT_KEYS, f"transport reached {moved - _TRANSPORT_KEYS}"
+        assert d2["DM_baryon_ratio"] == pytest.approx(res["d"]["DM_baryon_ratio"], rel=1e-12)
+    finally:
+        root.PDG_EW.clear()
+        root.PDG_EW.update(saved)
+        _rerun(through_gravity=True)
+
+
 def test_alpha_s_evaluation_scale_immaterial(res):
     """The RGE endpoint M_Z is a coordinate (where PDG quotes α_s),
     not a steering input: a 5σ shift of M_Z moves α_s(M_Z) by less
@@ -213,7 +249,9 @@ def test_alpha_s_evaluation_scale_immaterial(res):
 # pass through packaging.
 _FROZEN_SURFACE = {
     "couplings.py": [
-        "PDG_EW", "PDG_EW['M_Z']", "PDG_EW['alpha_s_MZ']"],
+        "ALPHA_INV_REF", "ALPHA_INV_REF['*']",              # reference: 1/alpha(0) comparison display
+        "PDG_EW", "PDG_EW['M_Z']", "PDG_EW['alpha_s_MZ']",
+        "PDG_EW['alpha_s_MZ_err']"],
     # dark_sector: reference density fits, centralized in
     # reference.py
     "dark_sector.py": [
@@ -223,15 +261,14 @@ _FROZEN_SURFACE = {
         "PLANCK_2018", "PLANCK_2018['Omega_b_h2']",
         "PLANCK_2018['Omega_b_h2_err']", "PLANCK_2018['Omega_c_h2']",
         "PLANCK_2018['Omega_c_h2_err']"],
-    "gravity.py": [
-        "PDG_COSMO", "PDG_COSMO['eta_B']",
-        "PDG_COSMO['eta_B_err']"],   # reference: pull display only
     "higgs_ew.py": [
         "PDG_EW", "PDG_EW['G_F']", "PDG_EW['G_F_err']",   # reference: import audit display
         "PDG_EW['M_W']", "PDG_EW['M_W_err']", "PDG_EW['M_Z']",
         "PDG_EW['dr_hat_W']",
+        "PDG_EW['inv_alpha_hat_MZ']",                      # reference: import audit display
         "PDG_EW['m_H']",                                   # reference: printed, data class
-        "PDG_EW['rho_hat']",
+        "PDG_EW['m_t_EW_fit']",                            # reference: import audit display
+        "PDG_EW['rho_hat']", "PDG_EW['rho_hat_err']",
         "PDG_EW['sin2W_MSbar']", "PDG_EW['sin2W_err']"],
     "masses.py": [
         "PDG_LIGHT_RATIOS",                                # reference: printed pulls only
@@ -253,11 +290,12 @@ _FROZEN_SURFACE = {
     # reference.py: the definitions themselves (the single home;
     # root.py reexports and does not appear on the surface)
     "reference.py": [
-        "ACT_DR6", "NUFIT_OSCILLATION", "NUFIT_PMNS", "PDG_CKM",
+        "ACT_DR6", "ALPHA_INV_REF", "NUFIT_OSCILLATION", "NUFIT_PMNS", "PDG_CKM",
         "PDG_COSMO", "PDG_EW", "PDG_LIGHT_RATIOS", "PDG_MASSES",
         "PLANCK_2018", "SUPER_K"],
     "run.py": [
         "PDG_EW", "PDG_EW['G_F']",       # reference: v_EW comparison display
+        "PDG_EW['sin2W_MSbar']", "PDG_EW['sin2W_err']",   # sin2W comparison display
         "PDG_MASSES", "PDG_MASSES['*']"],
     "words.py": [
         "PDG_MASSES", "PDG_MASSES['tau']"],
@@ -286,7 +324,7 @@ _FROZEN_SURFACE_PROBES = {
         "PDG_MASSES", "PDG_MASSES['d']", "PDG_MASSES['s']"],
     "ew_internal.py": [
         "PDG_EW", "PDG_EW['dr_hat_W']", "PDG_EW['rho_hat']"],
-    "lambda_assignment.py": ["PDG_MASSES", "PDG_MASSES['b']"],
+    "koide_assignment.py": ["PDG_MASSES", "PDG_MASSES['b']"],
     # boundary_whole: references only.  The measured lepton masses are
     # the data side of two comparisons (the harmonic's m_mu/m_e at
     # depth one, and the mean rate against M_b e^-S); c = 1 and the
@@ -294,7 +332,7 @@ _FROZEN_SURFACE_PROBES = {
     "boundary_whole.py": [
         "PDG_MASSES", "PDG_MASSES['e']", "PDG_MASSES['mu']",
         "PDG_MASSES['tau']"],
-    # mixing_depth4: references only, read in PART C after the depth-4
+    # mixing_depth4: references only, read in PART C after the depth 4
     # frames and backreaction are computed blind. No derived number
     # consumes the reads.
     "mixing_depth4.py": [
@@ -315,6 +353,11 @@ _FROZEN_SURFACE_PROBES = {
     "g_measurements.py": [
         "PDG_EW", "PDG_EW['G_F']", "PDG_EW['G_F_err']"],
     "higgs_mass.py": ["PDG_EW", "PDG_EW['m_H']"],
+    # neutrino_mass_term: the two measured splittings are the probe's
+    # data gate (N3) and its benchmark masses. The label gate is
+    # computed without them. No engine number consumes the reads.
+    "neutrino_mass_term.py": [
+        "NUFIT_OSCILLATION", "NUFIT_OSCILLATION['*']"],
     "regulator_free_ratios.py": ["PDG_EW", "PDG_EW['m_H']"],
     "substrate_depth.py": [
         "SUPER_K", "SUPER_K['N_baryon']", "SUPER_K['t_Hubble_s']",

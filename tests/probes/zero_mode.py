@@ -1,5 +1,5 @@
 """
-zero_mode.py: the fermion spectral flow on the repository's 3D knot.
+The fermion spectral flow on the repository's 3D knot.
 
 OBJECT.  winding_texture.py and substrate3d.py construct the same
 degree one Skyrmion
@@ -44,7 +44,7 @@ net crossing. The static radial calculation here supplies a direct witness:
 one localized level crosses zero in the displayed spectral family. The
 crossing point depends on h and the profile. Topology protects the net flow,
 not a zero pinned at every h. In this Hamiltonian convention the negative-h
-interval selects the crossing parity branch for the repository's orientation.
+interval fixes the crossing parity branch for the repository's orientation.
 
 COMPOSITION. The framework identifies its fermions with BdG
 quasiparticles/knot states and obtains their representations from the
@@ -58,12 +58,11 @@ References: A. P. Balachandran and S. Vaidya, Int. J. Mod. Phys. A14
 S. Krusch, J. Phys. A36 (2003) 8141, arXiv:hep-th/0304264 (the
 Skyrmion-Dirac operator, radial reduction, and static crossing).
 
-SIGN.  The hedgehog profile here is the static texture of the gas sign
-probes (tests/substrate/substrate3d.py).  The committed self-bound sign
-holds the clock lump, which carries no pi_3 texture (knot_in_lump.py).
-Its closure is the spinning lump (spinning_lump.py).
+SCOPE.  The static hedgehog of the gas sign probes
+(tests/substrate/substrate3d.py).  On the committed sign the particle
+is the spinning lump (spinning_lump.py).
 
-Usage: python3 zero_mode.py
+Usage: python3 tests/probes/zero_mode.py
 """
 
 import numpy as np

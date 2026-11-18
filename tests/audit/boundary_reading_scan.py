@@ -21,7 +21,7 @@ inputs alone, combined with their Birge ratio.  P3 the menu, fixed
 before any comparison: eps = +-(p/q) x^n with p, q from 1 to 32
 coprime, n = 1 or 2, and x one of the engine's three loop parameters,
 alpha/2pi, alpha_G2(M_b)/2pi = 1/(48 pi^2) and alpha_G2(mu*)/2pi =
-1/64.  Every depth-2 and depth-4 echo of the engine has this form
+1/64.  Every depth 2 and depth 4 echo of the engine has this form
 (root.py, THE ECHO LAW).  Its weights are the small rationals of the
 engine's dictionary.
 

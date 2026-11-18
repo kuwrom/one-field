@@ -8,7 +8,7 @@ bounds, where is F2 positive?
 
 PREMISES. P1 the one list's massless rows under the proper time cutoff
 (boundary.py; ledger_kernel.py's heat trace form factors): N_v = 18
-vector fields with their ghosts, N_D = 22.5 Dirac fields, N_s = 182
+vector fields with their ghosts, N_D = 23.5 Dirac fields, N_s = 182
 real scalars at coupling xi. P2 on a transverse traceless perturbation
 the kernel of ledger_kernel.py reduces, with y = q^2 t0,
 Z = (y/4)(1 - v^2) and P_k = int_0^1 E_k(Z) dv, to
@@ -31,24 +31,24 @@ STATEMENTS (the numbers below check each one).
      one_list_kernel.py's F2 to 1e-6. The two forms of P2 agree to 1e-9
      at y = 301, 1e3 and 5e4.
   S2 (the nodes' reach). At y = 5e4 the node kernel gives a negative
-     F2 where Phi = 8.1241: the zero that kernel shows near y = 3.4e4
+     F2 where Phi = 7.8741: the zero that kernel shows near y = 3.4e4
      is the nodes' loss of the endpoints, not the form factor's.
   S3 (the sign, xi = 0). Phi > 0 for every y in [1e-3, 1e12]: the axis
      is covered by intervals on each of which the enclosure of Phi is
      positive, its least lower bound 0.0034 at the lower end.
   S4 (the limit). As y grows Phi tends to (N_s - 2 N_D - 4 N_v)/8, the
-     one list's 65/8 = 8.125. The enclosure at y in [1e9, 1e12] contains
+     one list's 63/8 = 7.875. The enclosure at y in [1e9, 1e12] contains
      it. The limit is positive when the scalars outnumber
-     2 N_D + 4 N_v = 117: with 110 scalars Phi is negative at y = 1e6.
+     2 N_D + 4 N_v = 119: with 110 scalars Phi is negative at y = 1e6.
   S5 (a coupling xi). xi takes N_s xi y/4 from Phi, a term that grows
      without bound, so every xi > 0 puts a zero on the axis: for the
-     label's 1/(48 pi) it lies in 6.5 < y < 6.7 (q = 1.295 M_b at that
+     label's 1/(48 pi) it lies in 6.3 < y < 6.5 (q = 1.268 M_b at that
      list's regulator), sign certified on both sides.
 
 RESULT. The one list's spin-2 form factor has the Einstein sign on the
 whole Euclidean axis from 1e-3 to 1e12 in q^2 t0 and tends to the
-positive constant 65/8 C16/(2 t0^2).  With the amount minimally
-coupled the kernel has no zero. The amount's count sits above the 117
+positive constant 63/8 C16/(2 t0^2).  With the amount minimally
+coupled the kernel has no zero. The amount's count sits above the 119
 the limit needs, and any positive xi on the amount brings a zero in.
 
 Scope: Euclidean momenta, massless rows, the covariant contact (two
@@ -155,13 +155,13 @@ def node_kernel(y):
 
 def run(report=print, full=True):
     out = {}
-    assert COUNTS[0] == 18 and COUNTS[2] == 182 and abs(float(COUNTS[1]) - 22.5) < 1e-12
+    assert COUNTS[0] == 18 and COUNTS[2] == 182 and abs(float(COUNTS[1]) - 23.5) < 1e-12
 
     # S1, S2: the closed form against the node kernel, and the two forms against each other.
     low = max(abs(node_kernel(y) / float(phi(y).mid()) - 1) for y in (1e-3, 1e-2, 0.1, 1.0, 10.0))
     forms = max(float(abs(phi(y, form="v") - phi(y, form="z")).upper()) for y in (301.0, 1e3, 5e4))
     far_node, far = node_kernel(5e4), phi(5e4)
-    assert low < 1e-6 and forms < 1e-8 and far_node < 0 < far and abs(float(far.mid()) - 8.1241) < 1e-4
+    assert low < 1e-6 and forms < 1e-8 and far_node < 0 < far and abs(float(far.mid()) - 7.8741) < 1e-4
     out.update(node_agreement=low, form_agreement=forms, node_at_5e4=far_node, phi_at_5e4=float(far.mid()))
     report(f"S1 closed form: equals the node kernel to {low:.0e} for y <= 10. The two forms agree to {forms:.0e}.  "
            f"S2 at y = 5e4 the node kernel gives {far_node:+.2f} where Phi = {float(far.mid()):.4f}")
@@ -180,19 +180,19 @@ def run(report=print, full=True):
     tail = phi(arb(1e9).union(arb(1e12)))
     need = 2 * float(nd) + 4 * nv
     few = phi(1e6, counts=(nv, nd, 110))
-    assert limit == 65 / 8 and tail.contains(arb(65) / 8) and float(tail.rad()) < 1e-3 and need == 117 and few < 0
+    assert limit == 63 / 8 and tail.contains(arb(63) / 8) and float(tail.rad()) < 1e-3 and need == 119 and few < 0
     out.update(limit=limit, scalars_needed=need, phi_110=float(few.mid()))
     report(f"S4 limit: Phi -> (N_s - 2 N_D - 4 N_v)/8 = {limit}. Positive for N_s > {need:.0f}. With 110 scalars "
            f"Phi(1e6) = {float(few.mid()):+.3f}")
 
     # S5: the label's coupling on the amount.
-    below, above = phi(arb(6.5), xi=XI), phi(arb(6.7), xi=XI)
+    below, above = phi(arb(6.3), xi=XI), phi(arb(6.5), xi=XI)
     assert below > 0 > above
-    out.update(label_zero=(6.5, 6.7))
-    report(f"S5 with xi = 1/(48 pi): Phi(6.5) = {float(below.mid()):+.4f}, Phi(6.7) = {float(above.mid()):+.4f}: "
+    out.update(label_zero=(6.3, 6.5))
+    report(f"S5 with xi = 1/(48 pi): Phi(6.3) = {float(below.mid()):+.4f}, Phi(6.5) = {float(above.mid()):+.4f}: "
            "a zero between")
     report("RESULT: minimally coupled, the one list's spin-2 form factor has no zero from q^2 t0 = 1e-3 to 1e12 "
-           "and tends to 65/8. A positive xi on the amount brings one in.")
+           "and tends to 63/8. A positive xi on the amount brings one in.")
     return out
 
 

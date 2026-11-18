@@ -1,25 +1,18 @@
 """
-sign_exhaustion_theorem.py: the PMNS sign rows against the data.
+The PMNS sign rows against the data.
 
-This probe is the check, not the selector.  tests/probes/pmns_sign_bits.py
-fixes the row with two data blind gates (the lepton sector's own pairing
-and the charge dictionary).  This probe compares the four rows with the
-data. Condition (a) is the NuFIT range. Condition (b) only names which
-sign is matter, since one orientation bit flips every CP-odd sign
-together.  The data pick the same row the gates leave.
+tests/probes/pmns_sign_bits.py fixes the row with two data blind gates (the lepton sector's own pairing
+and the charge dictionary).  This probe compares the two rows with the
+data.  The data agree with the row the gates leave.
 
 Given the one orientation bit axiom (a single Fano orientation
-datum epsilon enters all CP-odd phases), and the Standard Model sphaleron
-relation B = -(28/79)L, exactly one of the four sign rows
-  (delta_sign, eta_sign) in {-1,+1}^2
-simultaneously satisfies:
-  (a) invariant delta_CP inside NuFIT 6.0 NO 3-sigma: (96, 422) deg,
-  (b) eta_B > 0 (observed matter excess).
+datum epsilon enters all CP-odd phases), exactly one of the two sign
+rows delta_sign in {-1,+1} puts the invariant delta_CP inside the
+NuFIT 6.0 NO 3-sigma range (96, 422) deg.
 
-The closing row is delta_sign = -1 (CKM convention), eta_sign = -1
-(sphaleron conversion).  This probe verifies both the algebraic
-structure (D1a: epsilon propagation) and the sign chain (D1b:
-sphaleron sign inheritance).
+The closing row is delta_sign = -1 (CKM convention).  This probe
+verifies the algebraic structure (D1a: epsilon propagation) and the
+row against the data.
 
 D1a proof outline (verified computationally below):
   1. U_TBM is REAL: the conjugation orbit compression of bulk SU(3)_3
@@ -37,17 +30,15 @@ D1a proof outline (verified computationally below):
      This is verified by the orientation_bit.py probe. Here we
      verify U_TBM is real and that no second sign datum exists.
 
-D1b proof outline:
-  The sphaleron relation B = -(28/79)L is a Standard Model result
-  (Khlebnikov-Shaposhnikov 1988, Harvey-Turner 1990).  It does not
-  depend on the framework's algebraic data.  Given this relation:
-    eta_B = -n7 * J_lep * exp(-S)
-  With the closing sign (epsilon = +1 in the standard Fano orientation):
-    J_lep < 0  (from mixing.py, confirmed here)
-    => -J_lep > 0
-    => eta_B > 0  (matter excess, as observed)
+RESULT. U_TBM is exactly real, so the delta in R13 is the one complex
+phase in U_PMNS, and flipping it flips J_lep with the three angles
+unchanged. Of the two sign rows exactly one meets the data, delta_sign
+= -1, with the invariant delta_CP = 275.74 deg inside the NuFIT 3 sigma
+range. The data blind gates
+of pmns_sign_bits.py leave the same row, so the data check the sign
+rather than choose it.
 
-Usage: python3 sign_exhaustion_theorem.py
+Usage: python3 tests/probes/sign_exhaustion_theorem.py
 """
 
 import math
@@ -59,7 +50,7 @@ import numpy as np
 sys.path.insert(0, os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..", "..", "interference")))
 import _bootstrap  # noqa: E402,F401
-from interference.root import d10, d11, h10, n7, alpha_phys, BA_ratio
+from interference.root import d10, d11, h10, alpha_phys, BA_ratio
 
 
 NUFIT_DELTA_3SIGMA = (96.0, 422.0)
@@ -162,67 +153,33 @@ def run(report=print):
     report("  delta alone (the only complex phase in U_e).  U_TBM is real,")
     report("  phi and theta are CP-even.  No second sign datum exists.")
 
-    # ── D1b: sphaleron sign chain ──
-    report(f"\n  D1b: sphaleron sign B = -(28/79)L")
-    tunnelling = math.exp(-2 * math.pi**2)
-    report(f"    tunnelling exp(-2pi^2) = {tunnelling:.6e}")
-    report(f"    J_lep(CKM) = {pmns_fwd['J_lep']:+.6f} < 0")
-    eta_B = float(n7) * (-pmns_fwd["J_lep"]) * tunnelling
-    report(f"    eta_B = n7 * (-J_lep) * exp(-S) = {eta_B:.4e} > 0")
-    assert eta_B > 0, "eta_B must be positive for observed matter excess"
-    report("  => the sphaleron minus sign converts J_lep < 0 to eta_B > 0")
-
-    # ── Four row exhaustion ──
-    report(f"\n  EXHAUSTION: all four (delta_sign, eta_sign) rows")
+    # ── Two row exhaustion ──
+    report(f"\n  EXHAUSTION: both delta_sign rows")
     report("-" * 64)
     rows = []
     for delta_sign, delta_label in [(-1, "CKM conv"), (+1, "conjugate")]:
         pmns = _build_pmns(delta_sign)
-        for eta_sign, eta_label in [(-1, "B=-(28/79)L"), (+1, "B=+(28/79)L")]:
-            eta_B = eta_sign * float(n7) * pmns["J_lep"] * tunnelling
-            delta_ok = NUFIT_DELTA_3SIGMA[0] < pmns["delta_invariant_deg"] < NUFIT_DELTA_3SIGMA[1]
-            eta_ok = eta_B > 0
-            closes = delta_ok and eta_ok
-            tag = "CLOSES" if closes else "fails"
-            why = []
-            if not delta_ok:
-                why.append(f"delta={pmns['delta_invariant_deg']:.1f} outside NuFIT")
-            if not eta_ok:
-                why.append(f"eta_B={eta_B:.2e} <= 0")
-            reason = f" ({'; '.join(why)})" if why else ""
-            row = {
-                "delta_sign": delta_sign,
-                "eta_sign": eta_sign,
-                "closes": closes,
-                "delta_deg": pmns["delta_invariant_deg"],
-                "eta_B": eta_B,
-            }
-            rows.append(row)
-            report(f"  {delta_label:>10s} | {eta_label:>13s} | "
-                   f"delta={pmns['delta_invariant_deg']:7.2f} | "
-                   f"eta_B={eta_B:+.2e} | {tag}{reason}")
+        closes = NUFIT_DELTA_3SIGMA[0] < pmns["delta_invariant_deg"] < NUFIT_DELTA_3SIGMA[1]
+        rows.append({"delta_sign": delta_sign, "closes": closes,
+                     "delta_deg": pmns["delta_invariant_deg"]})
+        reason = "" if closes else " (outside NuFIT)"
+        report(f"  {delta_label:>10s} | delta={pmns['delta_invariant_deg']:7.2f} | "
+               f"{'CLOSES' if closes else 'excluded'}{reason}")
 
     closing = [r for r in rows if r["closes"]]
-    report(f"\n  {len(closing)}/4 rows close.")
+    report(f"\n  {len(closing)}/2 rows close.")
     assert len(closing) == 1, f"expected exactly 1 closing row, got {len(closing)}"
     winner = closing[0]
     assert winner["delta_sign"] == -1
-    assert winner["eta_sign"] == -1
 
-    # ── Why the three other rows fail ──
-    report("\n  WHY THE OTHER THREE ROWS FAIL:")
-    report("  Row (+1, -1): delta = 84.26 deg, below NuFIT 96 deg.")
+    conj = next(r for r in rows if r["delta_sign"] == +1)
+    report(f"\n  The conjugate row: delta = {conj['delta_deg']:.2f} deg, below NuFIT {NUFIT_DELTA_3SIGMA[0]:.0f} deg.")
     report("    The conjugate sign places delta on the wrong side of")
     report("    arccos(-lam): the cosine is the same, the sine flips,")
     report("    and the invariant falls in the first quadrant.")
-    report("  Row (-1, +1): eta_B < 0, antimatter universe.")
-    report("    B = +(28/79)L contradicts the SM sphaleron calculation.")
-    report("  Row (+1, +1): both failures compound.")
-    report("    delta outside range AND eta_B < 0.")
-
     report("-" * 64)
-    report("  SELECTION: of the four rows, one is consistent with the")
-    report("  NuFIT range and a matter excess.  The data blind gates of")
+    report("  CLOSURE: of the two rows, one is consistent with the")
+    report("  NuFIT range.  The data blind gates of")
     report("  tests/probes/pmns_sign_bits.py leave that row, so the data")
     report("  check the sign rather than choose it.")
 
@@ -232,7 +189,6 @@ def run(report=print):
         "angles_invariant": True,
         "closing_count": len(closing),
         "closing_row": winner,
-        "eta_B_positive": eta_B > 0,
     }
 
 

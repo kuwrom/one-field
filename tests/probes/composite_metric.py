@@ -60,6 +60,14 @@ STATEMENTS (the numbers below check each one).
      in the traceless form: repulsive. The binding is the coupling's
      (self_bound_vacuum.py), not the metric's.
 
+RESULT. Written without a background metric the carrier eliminates to
+g = h/U with a vanishing energy momentum tensor, and the traceless
+form is L = 2|det h|^(1/4) - U. At one loop under the Pauli-Villars
+regulator the q = 0 tensor term is -rho/4 in the full form and zero
+in the traceless form, and the q^2 stiffness is the heat kernel
+weight a1 = 1/6 per real component. The form binds nothing, and both
+contact energies are repulsive.
+
 Usage: python3 tests/probes/composite_metric.py     (about half a minute
 standalone: C6 solves the engine web once)
 """
@@ -75,7 +83,7 @@ from scipy.integrate import quad
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _bootstrap  # noqa: E402,F401
-from interference import couplings, gravity, masses, mixing, root  # noqa: E402
+from interference import couplings, gravity, masses, root  # noqa: E402
 from substrate3d import texture_state  # noqa: E402
 from gravity_tensor import neutral_tensor  # noqa: E402
 import carrier_sakharov as cs  # noqa: E402
@@ -247,14 +255,15 @@ def ledger():
         with contextlib.redirect_stdout(io.StringIO()):
             R = root.derive()
             m = masses.derive(R)
-            gravity.derive(R, m, mixing.derive(R, m), couplings.derive(R, m))
+            gravity.derive(R, m, couplings.derive(R, m))
     sigma = root.WEB.state[name]
     matter = sum(t.value(root.WEB.state) for t in root.WEB[name].terms
                  if not t.path[0].startswith("bridge"))
     d10, d11, n7 = root.d10, root.d11, root.n7
     bosons = (n7 + root.N_bridge + 2 * d11 * (d11 + 1)
               + d10 * (2 * n7 - (d11**2 - 1)))
-    fermions = d10 * d11 * (d11 * d10**2 + d10 + 1)        # rows of gravity.py
+    fermions = (d10 * d11 * (d11 * d10**2 + d10 + 1)       # rows of gravity.py
+                + d10 * (root.n26 - 3 * (d11**2 - 1)))     # with the two right handed neutrinos
     str1 = bosons - fermions
     return dict(str1=str1, sigma=sigma, sigma_matter=matter,
                 lambda_G=-(math.pi / 2) * str1 / sigma**2)

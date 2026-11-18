@@ -1,5 +1,5 @@
 """
-theta_menu.py: the mass phase map and its finite menu check.
+The mass phase map and its finite menu check.
 
 MASS PHASE MAP: the mass insertion is identified with the lightest
 operator that changes adjacent Z3 sectors. In SU(3)_3 this is the
@@ -12,7 +12,14 @@ ten primaries and their standard multiples, and measure each
 candidate's deviation from the PDG anchors m_mu/m_e and m_tau/m_e.
 Positivity and nondegeneracy leave h(fund) as the only surviving angle.
 
-Usage: python3 theta_menu.py
+RESULT. With B/A = sqrt(2), the scan of the nonzero SU(3)_3 primary
+weights times 1, pi and 2 pi leaves only theta = h(fund) = 2/9 with a
+positive nondegenerate three generation spectrum. Positivity and
+nondegeneracy alone leave 2/9 (the blind survivor frozen in
+test_coverage.py test_searchlight_absorption). The data only check it:
+mu/e lands within 1e-4 of the PDG ratio.
+
+Usage: python3 tests/probes/theta_menu.py
 """
 
 import math
@@ -48,7 +55,7 @@ def run(report=print):
         menu[f"h{name} = {h:.4f}"] = h
         menu[f"2*pi*h{name}"] = 2*math.pi*h
         menu[f"pi*h{name}"] = math.pi*h
-    report("THETA MENU: mechanism selects h(fund) = 2/9. The scan "
+    report("THETA MENU: the mechanism closes on h(fund) = 2/9. The scan "
            "checks uniqueness")
     report("=" * 70)
     report(f"  {'candidate':<22s} {'mu/e':>10s} {'tau/e':>10s} "

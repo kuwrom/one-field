@@ -1,5 +1,5 @@
 """
-circulant_normalization.py: three circulants, one slot, and which of
+Three circulants, one slot, and which of
 them can be the mass matrix.
 
 THE SLOT.  Lepton masses come from a Z₃-equivariant insertion, which is
@@ -93,7 +93,13 @@ assert it.
 FALSIFIER: a classical measurement of Q = 2/3 would falsify the layer
 scoping.
 
-Usage: python3 circulant_normalization.py
+RESULT.  Q = 1/3 + (B/A)²/6 for every θ, so Q = 2/3 pins B/A = √2 and
+leaves θ free. Of the three claimants only CANON, (√2, 2/9), sits on
+the positive gap branch with Q = 2/3, and HARMONIC (Q = ½, a
+degenerate pair) is excluded. The α = 0 BdG circulant reaches
+B/A = √2 only at negative g₁/g₀, where no instability forms knots.
+
+Usage: python3 tests/probes/circulant_normalization.py
 """
 
 import cmath
@@ -553,7 +559,7 @@ def run(report=print):
     report("    alone, and the phase must come from elsewhere "
            "(Sugawara).")
     report("  AND WITH THE COMPLEX PHASE: a complex Z₃ coupling IS "
-           "hermitian-admissible")
+           "hermitian admissible")
     report("    and reaches the canonical point, ONE physical point in "
            "two coordinate patches, and it is STABLE")
     report("    (PART F, 6x6 BdG; PART G, direct dynamics), so the "

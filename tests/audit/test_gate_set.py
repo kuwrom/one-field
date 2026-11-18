@@ -34,7 +34,7 @@ def test_what_each_gate_removes(out):
     assert {k for k, s in status.items() if s == "shares"} == {
         ("lattice", "even"), ("lattice", "irreducible"), ("pair", "non-pointed"),
         ("level", "modular extension"), ("coherence", "(c) every mode assigned"),
-        ("coherence", "(e) self-adjoint parent")}
+        ("coherence", "(e) self adjoint parent")}
     assert g[("lattice", "unimodular")]["rivals"] == [("A8", 8), ("D8", 8)]
     assert g[("lattice", "minimal_rank")]["rivals"] == [("D16+", 16)]
     assert g[("level", "h_J = 1")]["rivals"] == [(6,), (9,), (12,)]

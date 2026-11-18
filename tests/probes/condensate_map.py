@@ -19,7 +19,7 @@ same doublet (real canonical and complex).  The 7 of G2 is a real
 representation with the same canonical norm and the same trace
 arithmetic C2 = dim(G) T(R)/dim(R).  So a LINEAR identification of the
 7-singlet with the condensing direction carries over the real norm
-length: v7 = v_EW, M_V = 157.9 GeV, alpha_s(M_Z) = 0.1157, -2.5
+length: v7 = v_EW, M_V = 157.9 GeV, alpha_s(M_Z) = 0.1159, -2.3
 sigma.  Reading v7 as "the neutral component of the complex doublet"
 applies the complex component norm to a real field.  The factor
 1/sqrt(2) is structural, not notational.
@@ -35,14 +35,15 @@ The engine consumes the per mode contraction at every quadratic
 bridge reading (xi_bridge, delta_bridge).  Applied to the transported
 condensate second moment it gives v7^2 = E[v^2] v_EW^2.  That
 reproduces the coded M_V = g v_EW/sqrt(6) = 111.648 GeV exactly.
-alpha_s(M_Z) separates the two contractions by 3.0 sigma: per mode
-+0.43, total -2.53.
+alpha_s(M_Z) separates the two contractions by 3.11 sigma: per mode
++0.77, total -2.34.
 
 FACT 3 (the scale menu closes on the electroweak condensate).  Every
 scale in the theory is M_Pl e^{-S} for a derived action.  Scanning
-the ladder against alpha_s(M_Z): the G2-face action scale M_R =
-M_Pl e^{-2 pi^2} (the seesaw scale, the would be independent G2-side
-condensate) fails by -72 sigma, Lambda_conf by +96 sigma, and no
+the ladder against alpha_s(M_Z): the G2-face action scale M_G2 =
+M_Pl e^{-2 pi^2} (the would be independent G2-side
+condensate) fails by -74 sigma, Lambda_conf by +116 sigma per mode
+(+105 total), and no
 threshold at all by -6.7 sigma.  Only the electroweak row survives
 (mu* = v_EW e^{15/512} sits 3 percent away and is numerically
 admissible, but it is a gauge matching endpoint, not a condensate).
@@ -50,17 +51,17 @@ admissible, but it is a gauge matching endpoint, not a condensate).
 FACT 4 (the reading closes: the sector completeness argument).
 Three lemmas settle the reading assignment.  The argument is
 exhaustive, of the same kind as the EM channel finality argument in
-root.py.  What it leaves open is stated here.  The per mode transfer
+root.py.  Its scope is stated here.  The per mode transfer
 to a transported condensate is the engine's uniform contraction
 grammar, not an independent transport computation.  The lemma chain
 uses one empirical row kill and one role exclusion.
   (a) NO INDEPENDENT SCALE: the derived actions each carry a
       sector already: S_lepton (the lepton knot), S_quark (the F4
-      knot, v_EW), S_baryo = 2 pi^2 (the G2 face, M_R = M_Pl
-      e^{-S_baryo}, used by the seesaw).  The 7-scalar carries
+      knot, v_EW), S_G2 = 2 pi^2 (the G2 face, M_G2 = M_Pl
+      e^{-S_G2}).  The 7-scalar carries
       none.  So its condensate can only be a reading of the one
       condensing channel, and the only route is the (7,26)
-      connector.  Asserted: M_R = M_Pl e^{-S_baryo} exactly,
+      connector.  Asserted: M_G2 = M_Pl e^{-S_G2} exactly,
       and its alpha_s row is dead (FACT 3).
   (b) THE COEFFICIENT IS NOT FREE: the connector's normalized Schur
       trace over all 182 copies introduces no independent bridge
@@ -73,14 +74,21 @@ uses one empirical row kill and one role exclusion.
       confining interface, and the matching sits three decades
       above it.  Asserted: Lambda_conf << M_V < mu*.
 
-LOOK ELSEWHERE, stated: at the PDG width, five engine atoms fall
-within 1 sigma as bare factors f^2 in v7^2 = f^2 v_EW^2 (1/2, 4/9,
+LOOK ELSEWHERE, stated: at the PDG width, four engine atoms fall
+within 1 sigma as plain factors f^2 in v7^2 = f^2 v_EW^2 (1/2,
 3/5, 2/3, 9/13).  So alpha_s supports the per mode reading but cannot
-pin it alone.  The structure above pins it.  At the watch-1
-lattice width (~0.03 percent) the neighbours separate from 1/2 by
+pin it alone.  The structure above pins it.  At a lattice
+width (~0.03 percent) the neighbours separate from 1/2 by
 > 5 sigma.  That is the kill.
 
-Usage: python3 condensate_map.py
+RESULT. The SM doublet obeys Sum M_a^2 = g^2 (3/4) v_EW^2 in both
+conventions, whose norm lengths differ by sqrt(2). The per mode
+reading v7^2 = E[v^2] v_EW^2 gives the coded M_V with B^2/4 = E[v^2]
+exactly, and the linear map v7 = v_EW and the M_G2 row are excluded.
+Four plain factors lie within 1 sigma, so alpha_s alone cannot pin
+the reading, and the sector completeness lemmas fix it.
+
+Usage: python3 tests/probes/condensate_map.py
 """
 
 import contextlib
@@ -101,8 +109,9 @@ for _path in (os.path.dirname(_here),
 import _bootstrap  # noqa: E402,F401
 
 from root import (d10, d11, n7, C2_7, C2_26, E_v2, dim_G2,   # noqa: E402
-                  M_Pl_GeV, S_lepton, S_baryo, BA_ratio,
+                  M_Pl_GeV, S_lepton, S_G2, BA_ratio,
                   rk4_run, PDG_EW, WEB)
+from couplings import W_COSET  # noqa: E402
 
 SIGMA_PDG = 0.0009
 
@@ -180,7 +189,7 @@ def alpha_s_of_v7(v7, mu_star, m_t, m_z):
     g = math.sqrt(4.0 * math.pi * a_mu)
     n_broken = 2 * n7 - (d11**2 - 1)
     m_v = g * v7 * math.sqrt(float(C2_7) / n_broken)
-    lam3 = 1.0 - float(d11 * n7) * math.log(m_v / mu_star)
+    lam3 = 1.0 - float(W_COSET) * math.log(m_v / mu_star)
     inv = 1.0 / a_mu - lam3 / (12.0 * math.pi)
     if inv <= 0.0 or 1.0 / inv > 1.0:
         return m_v, float("nan")
@@ -240,10 +249,10 @@ def run(report=print, engine_m_t_GeV=None):
 
     # FACT 3: the scale menu #
     lambda_conf = (1.0 / d10) * M_Pl_GeV * math.exp(-S_lepton)
-    m_r = M_Pl_GeV * math.exp(-2.0 * math.pi**2)
+    m_g2 = M_Pl_GeV * math.exp(-2.0 * math.pi**2)
     scale_menu = {}
     for sname, s in (("v_EW", v_ew), ("mu_star", mu_star),
-                     ("M_R", m_r), ("Lambda_conf", lambda_conf)):
+                     ("M_G2", m_g2), ("Lambda_conf", lambda_conf)):
         for cname, c in (("per_mode", float(E_v2)), ("total", 1.0)):
             _, a = alpha_s_of_v7(s * math.sqrt(c), mu_star,
                                  engine_m_t_GeV, m_z)
@@ -255,16 +264,16 @@ def run(report=print, engine_m_t_GeV=None):
     report(f"        no threshold: {pull(a_none):+.1f} sigma")
 
     # FACT 4: the completeness lemmas #
-    # (a) the G2 face's own action scale is the seesaw scale, exactly
-    assert abs(m_r / (M_Pl_GeV * math.exp(-S_baryo)) - 1.0) < 1e-12
-    assert abs(scale_menu["M_R:per_mode"]) > 50
+    # (a) the G2 face's own action scale is M_G2, exactly
+    assert abs(m_g2 / (M_Pl_GeV * math.exp(-S_G2)) - 1.0) < 1e-12
+    assert abs(scale_menu["M_G2:per_mode"]) > 50
     # (b) the coefficient cross pin: octonionic CG (B = sqrt(d10),
     #     Fano cross product) against the MTC Schur trace, exactly
     assert abs(BA_ratio**2 / 4.0 - float(E_v2)) < 1e-15
     # (c) no confining interface at the matching scale
     assert lambda_conf * 100.0 < mv_half < mu_star
-    report("FACT 4: M_R = M_Pl e^(-S_baryo) (the G2-face action is the")
-    report(f"  seesaw's, a dead row); B^2/4 = E[v^2] cross pin exact;")
+    report("FACT 4: M_G2 = M_Pl e^(-S_G2) (the G2-face action's own")
+    report(f"  scale, a dead row); B^2/4 = E[v^2] cross pin exact;")
     report(f"  Lambda_conf ({lambda_conf:.3f}) << M_V ({mv_half:.1f}) "
            f"< mu* ({mu_star:.1f}): no vent fires.")
 
