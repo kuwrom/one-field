@@ -1,11 +1,10 @@
 """
-KNOT CHARGE: the substrate does not protect pi_3 winding (measured).
+KNOT CHARGE: on the gas sign the substrate does not protect pi_3 winding (measured).
 
 The winding_texture probe shows the 3D texture carries unit pi_3 charge as a
 STATIC object. This probe measures the dynamics: a knot in the Z3-coupled
-substrate does NOT keep that charge. The result is a clean negative with
-the mechanism identified, and it narrows down where protection must come
-from.
+substrate does not keep that charge. The mechanism is identified, and it
+locates where protection comes from (effective_action.py).
 
 Three facts, each asserted below:
 
@@ -21,9 +20,9 @@ Three facts, each asserted below:
 
 3. BALLISTIC, NOT ACTIVATED: the unwinding time grows only linearly with
    texture size, tau ~ R/c_s with c_s = sqrt(g0 rho_tot) (measured
-   exponent ~1.3 over R in [1.8, 3.2] in a size scan this file does
-   not rerun; main() below asserts facts 1, 2 and 4 at one size,
-   R = 1.8, and fact 3 is a recorded measurement). An energy barrier
+   exponent ~1.3 over R in [1.8, 3.2]: texture_state(64, 24.0, amp=0.7,
+   size=R) through main()'s unwinding loop, not asserted; main() asserts
+   facts 1, 2 and 4 at R = 1.8). An energy barrier
    would give activated, at least quadratic growth. There is no
    metastability window. This is Derrick's theorem: quadratic gradient
    energetics cannot fix a texture scale, and the substrate has no
@@ -35,7 +34,7 @@ invariant. Its creation and protection are obligations of the confined phase
 effective theory, exactly where the level-3 WZ structure already lives
 (winding_texture.py). The texture stabilizing term of that effective
 theory, the Faddeev-Skyrme quartic of the fixed norm sector, is derived
-constructively in effective_action.py (branch (i)). Protection then rests
+constructively in effective_action.py. Protection then rests
 on the node channel's suppression, the premise substrate_depth.py bounds.
 Statements of the form "3D protects absolutely" hold for maps of fixed
 nonvanishing norm, not for the substrate's linear field.
@@ -48,18 +47,14 @@ nonvanishing norm, not for the substrate's linear field.
    substrate flow, while the genuine global U(1) commutes to machine
    epsilon.  So no Noether charge exists to back differential rotation.
    The one surviving charge (total N) is condensate dominated (~99%)
-   and cannot fix a texture scale. A tilt scan (core filling eta in
-   [0.5, 4], amplitude in [0.4, 1.0]; recorded, not rerun here)
-   confirms: unwinding time stays in a flat ballistic band, and the
-   strongest rotation candidate dies fastest.
+   and cannot fix a texture scale.
 
 Runtime: ~9 min single core (64^3 short run + two static grids + 32^3
 commutation test). Mark slow.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). Its closure is the spinning lump (spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
 """
 import os

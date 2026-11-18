@@ -1,5 +1,5 @@
 """
-knot.py: does matter FORM in the true substrate?
+Does matter FORM in the true substrate?
 
 Uses the upstream equation exactly (tests/substrate/nls_soliton.py):
 
@@ -22,13 +22,17 @@ forms matter.  This probe tests it nonlinearly, with two experiments:
     (static mark, v = (1,-1/2,-1/2)).  The framework requires the
     circulating loop to persist and the static mark to radiate away.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). At that sign the closure is the spinning lump
-(spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
-Usage: python3 knot.py   (~30 s)
+RESULT. On the gas sign, printed and not asserted, and no test runs it.
+A winding seed grows x10.9 by t = 12 under the true coupling and falls
+to x0.31 at g1 = 0, so the G2 exchange term forms the lump. A static v
+mark also grows (x6.9), and the winding over mark ratio of 1.58 clears
+the probe's 1.5 threshold.
+
+Usage: python3 tests/probes/knot.py   (~30 s)
 """
 
 import os
@@ -117,7 +121,7 @@ def run(report=print):
                               "v-mark (static bias):", report)
     report(f"  winding growth x{g_wind:.2f} vs mark growth x{g_bias:.2f}")
     sel = g_wind / max(g_bias, 1e-9)
-    verdict = ('SELECTIVE: circulation survives, mark does not'
+    verdict = ('SELECTIVE: circulation grows faster than the mark'
                if sel > 1.5 else 'not selective at this amplitude/time')
     report(f"  selectivity ratio (winding/mark): {sel:.2f}  {verdict}")
     return {"growth_true": growth_true, "growth_ctrl": growth_ctrl,

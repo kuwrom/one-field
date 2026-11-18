@@ -20,7 +20,7 @@ Two structures are reported with different statuses:
    WHY THE SAME FACTOR GOVERNS BOTH DOMAINS: the 1/(2π) is not
    "borrowed" from the EM sector.  It is the bridge's canonical
    closed loop response. The weight sum h(7,G₂) + h(26,F₄) = 1 fixes
-   h, and the framework's chosen unit normalized current basis defines
+   h, and the framework's canonical unit normalized current basis defines
    R(h)=h/(2π) once, for every module that uses it. Thus R(1)=1/(2π).
    It is not the raw integral of the singular two point kernel at
    separated points. This fraction answers a single question: what fraction of the bridge
@@ -55,7 +55,10 @@ Two structures are reported with different statuses:
    and collider dark matter searches always return null.  Any
    confirmed nongravitational dark matter detection falsifies it.
 
-   THE DUST READING (declared premise).  Ω_c h² is measured as the
+   THE DUST READING (identified: dust_gate.py excludes the carrier's
+   currents, dust_gate_state.py shows the induced route needs a mass
+   and occupation the amount does not carry, and one_flow_scope.py
+   scopes the one flow to the initial state).  Ω_c h² is measured as the
    amplitude of a component pressureless at recombination (the CMB
    bounds −0.0009 < w < 0.0024 and c_s² < 3.2×10⁻⁶ at 99.7%, Thomas,
    Kopp, Skordis arXiv:1601.05097).  The framework takes the amount as
@@ -81,8 +84,8 @@ Two structures are reported with different statuses:
    Current dark energy density:
      ρ_Λ = Ω_Λ ρ_crit
    Jacobson's thermodynamic derivation leaves Λ as an integration
-   constant. CKN saturation is an identification hypothesis, not a
-   derivation of the observed value.
+   constant. Cohen-Kaplan-Nelson (CKN) saturation is an outside bound
+   (12.2 times the observed density), not a derivation of it.
 
 Note on Z₃ coupling eigenvalues:
    The Z₃ substrate has coupling eigenvalues λ₀ = g₀(1+√d₁₀) and
@@ -163,7 +166,7 @@ def derive(R, grav_data):
 
     # Bridge self-interference → baryon/DM split #########
     #
-    # h_bridge = 1 (dimension one); c_coset = 0 removes the coset sector
+    # h_bridge = 1 (dimension one), c_coset = 0 removes the coset sector
     # D²_local = 1 (Lagrangian condensation)
     # f_baryonic = h_bridge/(2π) = 1/(2π)
     # Ω_DM/Ω_b = (1 − f_b)/f_b = 2π − 1
@@ -236,12 +239,12 @@ def derive(R, grav_data):
     print(f"    ACT pull:     {pull_ACT:+.2f}σ  ({err_ACT:+.2f}%)")
     print(f"    Sits between: {abs(DM_baryon_ratio - DM_b_planck):.3f} from Planck, {abs(DM_baryon_ratio - DM_b_ACT):.3f} from ACT")
     print(f"\n    Ω_m/Ω_b = 2π = {matter_baryon_ratio:.4f}  (Planck: {m_b_planck:.4f}, {err_m_b:+.2f}%)")
-    print(f"    Dust reading (declared premise): the amount is a conserved count whose weight does "
+    print(f"    Dust reading (identified): the amount is a conserved count whose weight does "
           f"not move with the volume, so w = 0, c_s² = 0 (CMB: |w| < 0.0024, c_s² < 3.2e-6)")
 
     # Cosmological density bookkeeping
     #
-    # H₀ is an observational scale anchor.  The code evaluates the
+    # H₀ is a comparison scale.  The code evaluates the
     # Friedmann identity ρ_crit = (3/8π) M_Pl²H₀².
     #
     # Step 1, the vacuum term does not gravitate (traceless form). Inside
@@ -253,7 +256,7 @@ def derive(R, grav_data):
     #   It does not determine rho_Lambda.
     #
     # Step 3, CKN saturation:
-    #   Saturating the UV/IR bound is an identification hypothesis.
+    #   Saturating the UV/IR bound is an outside bound, not a derivation.
     #
     rho_crit_mapped = RHO_CRIT_MAPPED
     rho_naive = M_Pl_GeV**4
@@ -266,7 +269,7 @@ def derive(R, grav_data):
     print(f"\n  Cosmological density bookkeeping:")
     print(f"    Step 1: the vacuum term does not gravitate (traceless form; ε − μn = 0 inside a lump)")
     print(f"    Step 2: Jacobson leaves Lambda as an integration constant")
-    print(f"    Step 3: CKN saturation is an identification hypothesis")
+    print(f"    Step 3: CKN saturation is an outside bound, not a derivation")
     print(f"    ρ_crit(H₀)       = {rho_crit_mapped:.2e} GeV⁴")
     print(f"    ρ_Λ(current)     = {rho_Lambda_current:.2e} GeV⁴  "
           f"(Ω_Λ = {Omega_Lambda})")

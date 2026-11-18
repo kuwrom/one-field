@@ -22,9 +22,8 @@ is z = phi_rel / sqrt(rho_rel + EPS), so
 In the symmetric background rho_rel = 0 identically, so |n| = 0: n does not
 map into S^2 but into a contractible BALL, pi_3(ball) = 0, and the Hopf
 charge is not quantized. That is why the symmetric background shows no
-energy barrier and a noninteger Q_H (0.94 in the recorded barrier
-scan, at four resolutions). There is no topology for the derived
-quartic to protect. Those scans are not rerun here. This probe
+energy barrier and a noninteger Q_H. There is no topology for the
+derived quartic to protect. This probe
 asserts the instability and the condensate's integer charge.  (The EPS in the
 director is a regulator for rho_rel = 0; effective_action.py's
 phi/sqrt(rho) is the same director wherever rho_rel != 0.)  In the
@@ -40,10 +39,9 @@ closed form with mu = 3 g0 - g1.
 Nothing here is fitted or relaxed. Every number is either exact algebra or
 a numerically exact eigendecomposition of a 6x6 matrix.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). Its closure is the spinning lump (spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
 """
 

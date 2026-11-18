@@ -55,6 +55,12 @@ action with no X gives the same pole. That form is the carrier written
 without a background metric (tests/probes/composite_metric.py), and
 zero rulers is its massless point.
 
+RESULT. The continuous symmetry algebra of the committed V inside
+so(6) is one dimensional, the common phase. The relative Hessian
+block, (5 -/+ sqrt 13) g1 rho / 2 each twice, has no zero, so the
+computed arena is one clock and zero rulers. The U(1)^3 extension
+gives two relative zero modes, and three rulers are excluded.
+
 Usage: python3 tests/probes/arena_rulers.py
 """
 

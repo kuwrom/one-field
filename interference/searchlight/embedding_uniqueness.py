@@ -3,18 +3,18 @@ E₈ conformal embedding uniqueness: the coherence gate (Octavian Coherence Gate
 
 CLAIM.  Among the rank-8 parents and factor pairs in the invariant table,
 E₈(1) ⊃ G₂(1) × F₄(1) is the UNIQUE unordered survivor satisfying all six
-coherence gates.  The surviving embedding is independently known; this
+coherence gates.  The surviving embedding is independently known. This
 numerical scan does not compute branching rules or embedding indices.
 
   (a) c_coset = c_parent − c_G − c_F = 0  (no coset Virasoro sector),
-  (b) h_bridge = h(fund_G) + h(fund_F) = 1  (dimension-one extension),
+  (b) h_bridge = h(fund_G) + h(fund_F) = 1  (dimension one extension),
   (c) dim(parent) = dim(G) + dim(F) + dim(fund_G)·dim(fund_F)
       (every mode assigned: gauge + matter + bridge, no leftovers),
-  (d) bridge dimension n_G·n_F > 0  (non-trivial matter sector),
-  (e) parent is self-adjoint: fund = adjoint  (self-encoding: the parent
+  (d) bridge dimension n_G·n_F > 0  (nontrivial matter sector),
+  (e) parent is self adjoint: fund = adjoint  (self-encoding: the parent
       theory IS its own deepest representation, no external structure),
   (f) both factors have trivial centre  (all quantum numbers emergent.
-      a non-trivial centre would pre-inscribe charges onto the vacuum).
+      a nontrivial centre would pre-inscribe charges onto the vacuum).
 
 Gates (a)-(d) are the numerical conformal embedding conditions.
 Gates (e)-(f) are the physics requirements from the framework's
@@ -23,11 +23,11 @@ crystallise upon breaking, they are not pre-inscribed (f).
 
 WHERE THE CLOSURE ACTUALLY HAPPENS (measured by this scan, stated
 up front rather than left to the reader): gate (e) alone eliminates
-every non-E₈ parent (A₈, B₈, C₈, D₈ are not self-adjoint), and gate
+every non-E₈ parent (A₈, B₈, C₈, D₈ are not self adjoint), and gate
 (f) alone eliminates the one genuine contender, E₈ ⊃ E₇ × A₁, which
 passes (a)-(e) in full (c_coset = 0, h_bridge = 1, 133 + 3 + 112 =
 248, bridge 56×2 > 0) and fails only on centres (Z₂ × Z₂).  The
-conformal gates (a)-(d) narrow the field; the two framework closure gates do
+conformal gates (a)-(d) narrow the field. The two framework closure gates do
 the decisive work.  The scan prints the contender so this is auditable, and
 derive() returns it.
 
@@ -36,7 +36,7 @@ exhaustive over the DATA TABLE below, all pairs of simple algebras
 with rank(G) + rank(F) ≤ 8 tested against the six gates by their
 numerical invariants.  It does NOT verify that a candidate pair is
 actually a subalgebra of the parent (no branching rules, no
-embedding indices are computed); a pair passing the numerical gates
+embedding indices are computed). A pair passing the numerical gates
 without being an embedding would survive the scan.  For the one
 survivor this is settled by the literature (E₈ ⊃ G₂ × F₄ is a known
 maximal conformal embedding), and the scan's role is to show that
@@ -54,7 +54,7 @@ At rank 8 there are exactly five simple Lie algebras:
 For each, we enumerate all sub-pairs (G, F) of table entries at level
 1 whose central charges saturate the parent's (c_coset = 0).  That
 condition alone does not close the field (the scan finds a hundred
-such pairs); it is the conjunction of all six gates that closes on
+such pairs). It is the conjunction of all six gates that closes on
 one embedding up to ordering, with gates (e) and (f) doing the
 decisive work (see above).
 
@@ -64,15 +64,15 @@ WHY THESE GATES MATTER
 
 c_coset = 0:  in the unitary embedding, the coset between the parent and
   sub-pair has no independent Virasoro sector. This identity alone does
-  not determine the heat-kernel spin assignment; the separate
-  non-adjoint representation routing assigns the bridge as a scalar-like
+  not determine the heat kernel spin assignment. The separate
+  nonadjoint representation routing assigns the bridge as a scalar-like
   coherence channel rather than a dynamical gauge field.
 
-h_bridge = 1:  the bridge is a dimension-one extension current; that fact
+h_bridge = 1:  the bridge is a dimension one extension current. That fact
   alone is not a proof of an exactly marginal (1,1) deformation.  Under the
   framework's single normalized-current definition its factor is 1/(2π),
   giving α(0) and Ω_DM/Ω_b = 2π − 1.  In the unitary embedding,
-  c_coset = 0 removes an independent coset Virasoro sector; registered Web
+  c_coset = 0 removes an independent coset Virasoro sector. Registered Web
   edges control later responses.  Any h ≠ 1 breaks both predictions.
 
 Reference:
@@ -230,7 +230,7 @@ def derive():
              if data['rank'] == 8}
     # skip isomorphic duplicates so the pair count is over DISTINCT
     # algebras: D3 ≅ A3, C2 ≅ B2 (both remain in the table for data
-    # completeness; only one representative each enters the scan)
+    # completeness, only one representative each enters the scan)
     _ISO_DUPES = {'D3', 'C2'}
     sub_candidates = {name: data for name, data in ALGEBRAS.items()
                       if data['rank'] <= 8 and name not in _ISO_DUPES}
@@ -278,7 +278,7 @@ def derive():
                 bridge_dim = n_G * n_F
                 dim_total = g_data['dim'] + f_data['dim'] + bridge_dim
 
-                # # Gate (e): parent self-adjoint #
+                # # Gate (e): parent self adjoint #
                 self_adj = (p_data['fund_dim'] == p_data['dim'])
 
                 # # Gate (f): both factors have trivial centre #
@@ -290,12 +290,12 @@ def derive():
                     '(b) h_bridge=1':      h_br == 1,
                     '(c) dim_match':       dim_total == p_data['dim'],
                     '(d) bridge>0':        bridge_dim > 0,
-                    '(e) self-adjoint':    self_adj,
+                    '(e) self adjoint':    self_adj,
                     '(f) trivial centres': trivial_centres,
                 }
                 all_pass = all(gates.values())
 
-                status = "★ ALL GATES PASS" if all_pass else "✗ FAILS"
+                status = "★ ALL GATES PASS" if all_pass else "excluded"
                 print(f"    {g_name} × {f_name}:  c_coset={float(c_coset)}  "
                       f"h_bridge={float(h_br):.4f}  "
                       f"bridge={n_G}×{n_F}={bridge_dim}  "
@@ -304,7 +304,7 @@ def derive():
 
                 if not all_pass:
                     fails = [k for k, v in gates.items() if not v]
-                    print(f"      fails: {', '.join(fails)}")
+                    print(f"      excluded by: {', '.join(fails)}")
 
                 key = (p_name, g_name, f_name)
                 results[key] = gates

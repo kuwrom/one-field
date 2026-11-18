@@ -85,8 +85,8 @@ STATEMENTS (the numbers below check each one).
 RESULT. The lump interior's pixel is bounded below by half the
 carrier's Compton length. So every reading of the record ties the
 regulator to a Planckian carrier mass that nothing reads. An electron
-mass lump records nothing of 1/(4G). The route from the smallest
-closed event to t0 is closed. t0 is the boundary identification of
+mass lump records nothing of 1/(4G), so the smallest closed event
+does not set t0. t0 is the boundary identification of
 root.py in proper time form, and G stays with the anchor. No carrier
 mass makes the minimal lump a particle (S5, S6), so the carrier mass
 is not a leftover free number. The lump is read in carrier units. It

@@ -3,8 +3,7 @@
 THE QUESTION. substrate_coupling.py defines the substrate's coupling
 as the force the medium carries between two of its quanta, in units
 of hbar c_s, and finds 1/(8 pi rho xi^3) for a one component medium
-with any equation of state. Nothing is exchanged and nothing is
-dressed. The force is the medium's static backreaction to two held
+with any equation of state. Nothing is exchanged. The force is the medium's static backreaction to two held
 biases. It is the inverse of the medium's stiffness at second order,
 and the e^(-r/xi)/r shape is the Green's function of that stiffness,
 with xi its screening length. The committed medium, the lump interior,

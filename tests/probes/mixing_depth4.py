@@ -1,9 +1,9 @@
 """Mixing at web depth four: the open path frames and the backreaction.
 
-Two depth-4 objects bear on mixing, and this probe computes both.  Every
+Two depth 4 objects bear on mixing, and this probe computes both.  Every
 step before PART C runs without mixing data.
 
-PART A: the depth-4 carriers as frames.
+PART A: the depth 4 carriers as frames.
   The D6* braid connection on four step paths with fixed endpoints acts
   on twelve eight dimensional blocks.  The central full twist splits
   every block as 3 + 3 + 2, so there are 24 generation sized carriers.
@@ -26,27 +26,34 @@ PART A: the depth-4 carriers as frames.
   the two carriers sit on the twist roots 1 and omega and the 2-dim
   piece on omega bar: the carriers are not a conjugate pair.
 
-PART B: the depth-4 backreaction on mixing.
-  B1. Every depth-4 edge in the web reads the depth-3 e<->q carrier
+PART B: the depth 4 backreaction on mixing.
+  B1. Every depth 4 edge in the web reads the depth 3 e<->q carrier
       eq_loop and sits on a coupling, action or per knot amplitude node,
       or on the common mode, which no knot reads.
       No mixing coordinate is a web node.
-  B2. A depth-4 term is either sector blind (one scalar on every knot)
+  B2. A depth 4 term is either sector blind (one scalar on every knot)
       or per knot (diagonal in its sector's mass basis).  Neither moves
       an eigenvector, so V = U_u^dag U_d is invariant at depth 4,
-      exactly.  The depth-4 reading of the depth-3 apex gives the
+      exactly.  The depth 4 reading of the depth 3 apex gives the
       same apex: gamma = arctan(pi/sqrt(d10)) at depth 3 and at depth 4.
-  B3. The one live depth-4 path into mixing is the lepton masses inside
+  B3. The one live depth 4 path into mixing is the lepton masses inside
       phi = sqrt(m_e/m_mu)/sqrt(d10).  It is computed here by reading the
       lepton ledgers at depth <= 3 and at full depth.
-  B4. A scalar depth-4 echo attached directly to a Wolfenstein coordinate
-      would need a depth-1 vertex weight on a mixing node, and none
+  B4. A scalar depth 4 echo attached directly to a Wolfenstein coordinate
+      would need a depth 1 vertex weight on a mixing node, and none
       exists.  Its size is bounded anyway by the frozen 4 x 7
       vertex weight menu: w (alpha/2pi)^2 with w <= (8/3)(182).
 
 PART C: data contact, once.
   The pull shifts of B3 and B4, and the distance of the PART A menu from
   the measured CKM magnitudes.
+
+RESULT. The four step path carriers give real fusion tree frames whose
+|V|^2 lies exactly on a nine value menu with floor 1/12 and J = 0.
+Sector blind and per knot terms move |V|^2 and J by under 1e-12, so V is
+invariant at web depth 4, and the one live path shifts the PMNS pulls by
+under 1e-3 sigma while the nearest tree frame sits farther from the
+measured CKM than the identity. Mixing closes at the depth it is read.
 """
 
 import contextlib
@@ -110,7 +117,7 @@ def _tree_frames(q, b1, b2, b3):
 
 
 def part_a(report):
-    report("PART A: the depth-4 carriers as frames (no data)")
+    report("PART A: the depth 4 carriers as frames (no data)")
     report("-" * 66)
     d6 = mixing._compute_d6_boundary()
     n10, path_operator = d6["n10"], d6["path_operator"]
@@ -180,7 +187,7 @@ def _solved_web():
 
 
 def _frames_invariant_under_depth4(seed=7):
-    """Sector blind and per knot depth-4 terms leave V unchanged."""
+    """Sector blind and per knot depth 4 terms leave V unchanged."""
     rng = np.random.default_rng(seed)
 
     def haar():
@@ -209,7 +216,7 @@ def _frames_invariant_under_depth4(seed=7):
 
 def part_b(report):
     report("")
-    report("PART B: the depth-4 backreaction on mixing (no data)")
+    report("PART B: the depth 4 backreaction on mixing (no data)")
     report("-" * 66)
     m = _solved_web()
     deep = [(name, t) for name, led in WEB.items()
@@ -219,14 +226,14 @@ def part_b(report):
     parents = {t.parent for _, t in deep}
     assert parents == {"eq_loop"}
     assert set(nodes) <= {"inv_alpha", "S_quark", "m_e", "m_mu", "m_tau", "common_mode"}
-    report(f"  B1 depth-4 edges: {len(deep)}, all reading eq_loop, on "
+    report(f"  B1 depth 4 edges: {len(deep)}, all reading eq_loop, on "
            f"{', '.join(nodes)}")
     report("     no mixing coordinate is a web node")
 
     v_shift = _frames_invariant_under_depth4()
     assert v_shift < 1e-12
     gamma3 = math.degrees(math.atan(math.pi / math.sqrt(float(d10))))
-    report(f"  B2 sector blind and per knot depth-4 terms move |V|^2 and J "
+    report(f"  B2 sector blind and per knot depth 4 terms move |V|^2 and J "
            f"by {v_shift:.1e}")
     report(f"     the apex is unchanged: gamma = {gamma3:.4f} deg at "
            "depth 3 and at depth 4")
@@ -240,7 +247,7 @@ def part_b(report):
     pm4 = mixing._derive_pmns(wzw, lam, m_e4, m_mu4)
     pm3 = mixing._derive_pmns(wzw, lam, m_e3, m_mu3)
     ratio_shift = (m_e4 / m_mu4) / (m_e3 / m_mu3) - 1.0
-    report(f"  B3 lepton depth-4 vent on m_e/m_mu: {ratio_shift:+.3e} "
+    report(f"  B3 lepton depth 4 vent on m_e/m_mu: {ratio_shift:+.3e} "
            "(relative), carried into phi")
 
     # Weights in use: coupling, action, amplitude. The common mode carries
@@ -251,7 +258,7 @@ def part_b(report):
     report(f"  B4 eq_loop = (alpha/2pi)^2 = {eq:.4e}. Endpoint weights in "
            f"use {', '.join(str(w) for w in w_used)}, menu ceiling "
            f"{float(w_menu_max):.1f}")
-    report(f"     relative ceiling on any scalar depth-4 echo: "
+    report(f"     relative ceiling on any scalar depth 4 echo: "
            f"{float(max(w_used)) * eq:.2e} (weights in use), "
            f"{float(w_menu_max) * eq:.2e} (menu)")
     return {"deep_nodes": nodes, "v_shift": v_shift, "gamma3_deg": gamma3,
@@ -310,11 +317,11 @@ def run(report=print):
     c = part_c(report, a, b)
     report("")
     report("VERDICT")
-    report("  The depth-4 carriers give real frames on a nine value menu")
+    report("  The depth 4 carriers give real frames on a nine value menu")
     report("  with a floor of 1/12 in |V|^2: no hierarchy, no CP phase.")
-    report("  The depth-4 backreaction leaves V invariant and reaches the")
+    report("  The depth 4 backreaction leaves V invariant and reaches the")
     report("  PMNS only through phi, far below every band. Mixing closes")
-    report("  at the depth it is read. The depth-4 version exists and is")
+    report("  at the depth it is read. The depth 4 version exists and is")
     report("  computed, and it moves no scored coordinate.")
     report("  Depth 4 cannot fix which quark rotation carries the CP")
     report("  phase. The frames are real, and the backreaction is a")

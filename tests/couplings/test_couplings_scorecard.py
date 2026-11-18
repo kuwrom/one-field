@@ -62,9 +62,9 @@ def test_smdr_beta_reference_point():
 # ═══════════════════════════════════════════════════════════════════════
 
 def test_sin2_theta_W(res):
-    """sin^2 theta_W = 3/13 + Q₀²·α/(2π), depth-1 h₇ + depth-2 h₇/d₁₁²."""
+    """sin^2 theta_W = 3/13 + Q₀²·α/(2π), depth 1 h₇ + depth 2 h₇/d₁₁²."""
     sin2W = res["g"]["sin2W"]
-    # canonical: base 3/13 + depth-1 h₇·α/(2π) + depth-2 (h₇/d₁₁²)·α/(2π)
+    # canonical: base 3/13 + depth 1 h₇·α/(2π) + depth 2 (h₇/d₁₁²)·α/(2π)
     # total echo coefficient h₇(1+1/d₁₁²) = Q₀² = 4/9
     import root as _r
     expected = 3.0/13.0 + (4.0/9.0) * _r.alpha_phys / (2.0 * math.pi)
@@ -114,11 +114,11 @@ def test_alpha_bridge_chain_is_one_loop_exact(res):
     assert math.isclose(bridge["g_bridge_sq"], 1.0, abs_tol=1e-12)
     assert math.isclose(bridge["c_coset"], 0.0, abs_tol=1e-12)
     # Depth-1 closed form 256(2 pi - 1)/pi^2 is the truncation. The full
-    # value includes the FORCED depth-4 reading of the e<->q carrier and
+    # value includes the FORCED depth 4 reading of the e<->q carrier and
     # solves the cubic  x^3 = (512/pi)[(1 - 1/(2 pi)) x^2 - 1/(2 pi^2)].
     x = bridge["inv_alpha_phys"]
     depth1 = 256.0 * (2.0 * math.pi - 1.0) / math.pi ** 2
-    assert x < depth1  # the depth-4 response lowers 1/alpha
+    assert x < depth1  # the depth 4 response lowers 1/alpha
     cubic = x**3 - (2**9 / math.pi) * ((1.0 - 1.0/(2.0*math.pi)) * x**2
                                        - 1.0/(2.0*math.pi**2))
     assert abs(cubic) < 1e-6

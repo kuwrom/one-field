@@ -1,7 +1,7 @@
 """
 edge_grammar.py: the structured admissible edge specification.
 
-WHY THIS FILE EXISTS (derivation program D1).  The framework's
+WHY THIS FILE EXISTS.  The framework's
 central negative claim is "zero dimensionless free parameters".  That
 claim can only be checked if "admissible edge" has a formal, finite,
 structured definition, not an impression left by the code.  This
@@ -74,15 +74,15 @@ GRAMMAR = dict(
                   "B/A = sqrt(d10) (channel map, fixed). theta from "
                   "theta_menu() (weights of the ten primaries and "
                   "their standard multiples), one theta per closure",
-        word_multiplier="m_q(n) = [count(w) + corr] * m_lep(n). w a "
+        word_multiplier="m_q(n) = [count(w) + echo] * m_lep(n). w a "
                         "channel word over {f, a} with the length rule "
                         "|w_n| = n + 1. count(w) = boundary walk count "
                         "on the D6 nimrep (word_menu)",
         koide_structure="Q = Q0 + h/K^p, h in {h(fund), h(adj)} = "
                         "{2/9, 1/2}, p in 1..4 (koide_menu). Inverted "
                         "for the held out mass at fixed partners",
-        correction="one multiplicative vent (1 + c), c from "
-                   "correction_menu() (small dictionary rationals), "
+        echo="one multiplicative vent (1 + c), c from "
+                   "echo_menu() (small dictionary rationals), "
                    "or none",
     ),
 )
@@ -168,19 +168,19 @@ def koide_menu():
     return out
 
 
-def correction_menu():
-    """The committed corr ladder of the mass sector (masses.py:
+def echo_menu():
+    """The committed echo ladder of the mass sector (masses.py:
     h10 -> delta -> 1/2K) plus the altitude family 1/K^p, p in 1..3.
     Exactly these. A wider menu would have to be committed HERE
     first (the registration rule).
 
-    TWO FAMILIES, one menu, stated.  The corr ladder and the altitude
+    TWO FAMILIES, one menu, stated.  The echo ladder and the altitude
     family are distinct constructions that share this menu.  At the
     terminus count 97 all six entries are below a percent, so they
     cannot be told apart at the scorecard's 1% band.  At lower counts
     they separate (1.8% at count 12).  This is why the closure
     search's U2/U3 stages carry many 1% hits: the data resolve the
-    word count, not the correction.  It is also why only the tight
+    word count, not the echo.  It is also why only the tight
     tier, where the reference permits, resolves choices within this
     menu."""
     return {
@@ -205,5 +205,5 @@ if __name__ == "__main__":
         print(f"  word menu |w| = {L}: {word_menu(L)}")
     print(f"  terminus menu: {terminus_menu()}")
     print(f"  koide menu: { {k: round(v, 6) for k, v in koide_menu().items()} }")
-    print(f"  correction menu: "
-          f"{ {k: round(v, 6) for k, v in correction_menu().items()} }")
+    print(f"  echo menu: "
+          f"{ {k: round(v, 6) for k, v in echo_menu().items()} }")

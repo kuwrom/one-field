@@ -1,22 +1,22 @@
 """
-echo_naturality.py: the response rule. One depth-3 carrier, three
-depth-4 channel readings, and the kernel regenerates canon without
+The response rule. One depth 3 carrier, three
+depth 4 channel readings, and the kernel regenerates canon without
 three independent loop declarations.
 
-SCOPE. The depth-4 responses (2, 16, 27/2) are not three
+SCOPE. The depth 4 responses (2, 16, 27/2) are not three
 separately declared edges. The wiring generates them from one loop
 object, and this probe shows how.
 
-WHAT THIS PROBE IS.  A refactoring equivalence check.  The response
-weights below are algebraically equal to canon's depth-4 coefficients,
+WHAT THIS PROBE IS.  An equivalence check.  The response
+weights below are algebraically equal to canon's depth 4 coefficients,
 so regeneration follows from the factorisation.  It establishes two
 things.
-(i) UNIFORMITY: all three depth-4 readings can be written as ONE loop
+(i) UNIFORMITY: all three depth 4 readings can be written as ONE loop
 amplitude L = (alpha/2pi)^2 read through each node's own channel
 response. No per node declaration is left anywhere.
-(ii) EQUIVALENCE: the fixed point of the refactored web equals the
+(ii) EQUIVALENCE: the fixed point of the factorised web equals the
 LIVE canon web (root.py WEB) and the frozen precision block.
-The wiring theorem proves the 2-cycle is the only depth-3 carrier and
+The wiring theorem proves the 2-cycle is the only depth 3 carrier and
 derives the unital Albert lift. vertex_pinning.py holds the
 independent numerical consequences.
 
@@ -33,7 +33,7 @@ THE RESPONSE RULE (the composition law, stated uniformly):
 
     Every weight is wiring layer data or an already FORCED vertex:
       coupling  : 2      = cycle orientation count      [wiring thm]
-      action    : 8/3    = charge trace                 [the depth-1
+      action    : 8/3    = charge trace                 [the depth 1
                   x 6    = C2 of the branching rep 26    alpha_G2 ->
                                                          alpha_EM
                                                          conversion
@@ -55,7 +55,7 @@ THE COMPUTATION (this probe).  A fresh Web is built from canon's own
 kernel classes. In place of three independent loop declarations it has
 one node, eq_loop. Its base is 0 and its single edge is the loop
 amplitude, read self-consistently from the state.  Every response
-becomes a depth-4 READ of eq_loop, weighted by the response rule.  The
+becomes a depth 4 READ of eq_loop, weighted by the response rule.  The
 kernel is solved jointly, and the fixed point must equal
 
     (a) the LIVE canon web (root.py WEB): inv_alpha, S_quark, M_Pl;
@@ -65,15 +65,15 @@ kernel is solved jointly, and the fixed point must equal
         m_tau      = 1776.9092814 MeV
         v_EW       = 246.219645 GeV
 
-PASSING MEANS: the depth-3 carrier is one loop object under one depth-4
+PASSING MEANS: the depth 3 carrier is one loop object under one depth 4
 read rule. No per node carrier declaration is needed anywhere.
 
-STANDING. This file proves refactoring equivalence and uniformity. The
+STANDING. This file proves the equivalence and the uniformity. The
 unique loop/orientation theorem and unital operator closure are in
 wiring_theorem_probe.py. vertex_pinning.py records the comparison with
 data.
 
-Usage: python3 echo_naturality.py
+Usage: python3 tests/probes/echo_naturality.py
 """
 
 import math
@@ -133,7 +133,7 @@ def run(report=print):
            "(the B/A Schur projector x the q-face")
     report(f"                Jordan algebra, 27 = 1 + n26 = d11^3)")
 
-    # # one depth-3 carrier, read at recursive depth 4 ##
+    # # one depth 3 carrier, read at recursive depth 4 ##
     web = Web()
     inv0 = 2**9 / math.pi
     L = lambda s: (1.0 / (2.0 * math.pi * s["inv_alpha"]))**2
@@ -145,22 +145,22 @@ def run(report=print):
         ["e<->q 2-cycle"], L, 3, "FORCED",
         "the wiring theorem's unique 2-cycle, L = (alpha/2pi)^2")
 
-    # coupling node: depth-1 bridge self-echo + a READ of the loop
+    # coupling node: depth 1 bridge self-echo + a READ of the loop
     web["inv_alpha"] = (
         Ledger("1/alpha", inv0, "add", web_depth=4)
         .echo(["bridge"], -inv0 * float(h_bridge) / (2 * math.pi), 1,
-              "FORCED", "normalized bridge self-response (canon depth-1)")
+              "FORCED", "normalized bridge self-response (canon depth 1)")
         .echo(["read:eq_loop"],
               lambda s: -inv0 * float(R["coupling"]) * s["eq_loop"], 4,
               "FORCED", "response rule: orientation count x L",
               parent="eq_loop"))
 
-    # action node: canon depth-1 vents + a READ of the loop
+    # action node: canon depth 1 vents + a READ of the loop
     delta_S = vertex_charge_trace * alpha_EM / (2 * math.pi)
     web["S_quark"] = (
         Ledger("S_quark", S_lepton, "add", web_depth=4)
         .echo(["F4-knot(26)"], -float(C2_26), 1, "FORCED",
-              "Casimir vent (canon depth-1)")
+              "Casimir vent (canon depth 1)")
         .echo(["EM(alg)"], delta_S, 1, "FORCED",
               "E8 current trace Tr_+(Q^2)=30 (derived in wiring.py)")
         .echo(["read:eq_loop"],
@@ -168,7 +168,7 @@ def run(report=print):
               "FORCED", "response rule: charge_trace x C2(26) x L",
               parent="eq_loop"))
 
-    # amplitude nodes: circulant base, canon depth-2 EM echo, and a
+    # amplitude nodes: circulant base, canon depth 2 EM echo, and a
     # READ of the loop weighted by the knot's own gap
     theta = float(h10)
     gap = {k: 1.0 + BA_ratio * math.cos(theta + 2 * math.pi * k / 3)
@@ -178,7 +178,7 @@ def run(report=print):
             Ledger(f"F_{name}", 1.0, "mul", web_depth=4)
             .echo(["bridge", "EM"],
                   lambda s: -1.0 / (2.0 * math.pi * s["inv_alpha"]), 2,
-                  "FORCED", "EM vertex echo (canon depth-2)")
+                  "FORCED", "EM vertex echo (canon depth 2)")
             .echo(["read:eq_loop"],
                   (lambda s, g=gap[k_idx]:
                    -float(R["amplitude"]) * s["eq_loop"] * g), 4,
@@ -198,8 +198,8 @@ def run(report=print):
                v_EW=M_Pl_MeV / 1e3 * math.exp(-web.state["S_quark"]))
     tol = dict(inv_alpha=5e-10, m_mu=5e-8, m_tau=5e-7, v_EW=5e-7)
     report("")
-    report("  fixed point of the constructive web (one depth-3 carrier; "
-           "three depth-4 reads):")
+    report("  fixed point of the constructive web (one depth 3 carrier; "
+           "three depth 4 reads):")
     for key, target in TARGETS.items():
         ok = abs(got[key] - target) < tol[key]
         report(f"    {key:<9s} = {got[key]:<15.11g} canon "

@@ -7,7 +7,7 @@ def _silent(*args, **kwargs):
     pass
 
 
-def test_one_list_kernel_carries_the_boundary_weights_and_the_labelled_list_breaks_down_inside_the_boundary():
+def test_one_list_kernel_carries_the_boundary_weights():
     """A heavy scalar row is the linearized Einstein-Hilbert operator
     with stiffness (1/6 - xi) E2(m^2 t0) per component, the weight
     boundary_content.py assumes.  The counted list's spin-2 form factor

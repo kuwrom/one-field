@@ -1,5 +1,5 @@
 """
-envelope_universality.py: the NLS form derived as the universal
+The NLS form derived as the universal
 envelope normal form of weak local self-interference, up to
 locality.
 
@@ -38,7 +38,7 @@ MEASURED (deterministic, frozen):
   halving), the signature of a normal form. The cubic term is
   essential (NLS beats the linear envelope by a factor > 15).
 
-Usage: python3 envelope_universality.py     (~20 s)
+Usage: python3 tests/probes/envelope_universality.py     (~20 s)
 """
 import os
 import sys

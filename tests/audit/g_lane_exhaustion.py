@@ -18,10 +18,10 @@ THE MENUS (each as g_path_trials.py states it):
   c          G = 1/(c M_b^2): 1, 4 pi, 8 pi, 16 pi, 32 pi (the factors
              of general relativity), d11 (cutoff scale), Sigma/2 pi
              (regulator at the boundary), 2
-  c2         the depth-2 coefficient, the rival readings of
+  c2         the depth 2 coefficient, the rival readings of
              frame_coefficients.py F2: c2 = -2 pi R(h) = -h over the
              conformal weights h_bridge, h_7, h_26, h11, h10
-  w4, w16    the depth-4 weights, the 29-entry vertex menu each
+  w4, w16    the depth 4 weights, the 29-entry vertex menu each
 N = 30 (h-dual(E8)) and theta = 2/9 are held: each is explained
 (g_path_trials.py G5, theta_menu.py).
 
@@ -32,9 +32,9 @@ THE OBSERVABLES AND WHAT EACH READS:
   G_F   v_EW/m_e. It depends on C_EFF, c2, w4 and w16, and not on the
         exponent, the reading or c. Window 2 sigma. Every lane keeps the
         engine's form S_quark = S - C2(26) + N (pi/512)/2pi
-        - w16 (alpha/2pi)^2, so S cancels. That form is assumed for every
-        alternative, not tested.
-  m_mu  the gap ratio and the depth-4 vent, which depends on w4 alone.
+        - w16 (alpha/2pi)^2, so S cancels. Every alternative is read with
+        that form.
+  m_mu  the gap ratio and the depth 4 vent, which depends on w4 alone.
         Window 2 sigma (vertex_pinning.py).
 
 STATEMENTS (the numbers below check each one).

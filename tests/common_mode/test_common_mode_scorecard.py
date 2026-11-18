@@ -65,9 +65,19 @@ def test_neutrino_rank_bound(res):
         "normal": "m1", "inverted": "m3"}
 
 
-def test_neutrino_ordering_is_not_selected(res):
+def test_import_audit_is_compatible(res):
+    """The import audit (higgs_ew.py): the framework's m_t moves rho hat's
+    quadratic m_t term by less than one standard deviation of the import,
+    and the internal vacuum polarization stays within its declared 0.5%
+    of the dispersive 1/alpha hat(M_Z)."""
+    from root import PDG_EW
+    assert res["g"]["drho_mt_import_audit"] < PDG_EW["rho_hat_err"]
+    assert abs(res["g"]["inv_alpha_em_MZ"] / PDG_EW["inv_alpha_hat_MZ"] - 1.0) < 0.005
+
+
+def test_rank_bound_admits_both_orderings(res):
     """The rank bound permits both normal and inverted ordering."""
-    assert res["g"]["ordering"] == "undetermined"
+    assert res["g"]["ordering"] == "either"
 
 
 # ═══════════════════════════════════════════════════════════════════════

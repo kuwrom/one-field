@@ -4,7 +4,7 @@ test_g_path_trials.py: freeze the trials ledger of the G prediction.
 What is frozen:
   1. each coarse menu on the G path (C_EFF, b0, loop order, alpha_G2)
      has every alternative off by an O(1) factor in M_Pl;
-  2. the depth-2 coefficient carries M_Pl from -1140 to +22.2 ppm, on a
+  2. the depth 2 coefficient carries M_Pl from -1140 to +22.2 ppm, on a
      menu spaced by alpha/2pi;
   3. G_F, through the M_Pl free ratio v_EW/m_e, admits exactly one of
      145 combinations (c2, w16) at N = 30 within 2 sigma, the canonical

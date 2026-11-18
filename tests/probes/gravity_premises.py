@@ -1,17 +1,14 @@
-"""The gravity lane's last three choices: the amount's share, the vector contact, the gates' thresholds.
+"""The gravity lane's three readings, each read without G: the amount's share, the vector contact, the gates' thresholds.
 
-THE QUESTION. The chain from the four integers to G and the six gates
-was audited for structural choices. Three were settled only by a
-measurement of G or by a convention: the bridge read as amount takes no
-share of b0 (horizon_amount.py A6 reads the anchor's 22 ppm), the
-vector rows enter the stiffness at the covariant contact c = +1
-(tests/audit/parameter_ledger.py lists it as an identification), and
-gates S and M are read at a threshold and in a band (g_path_trials.py
-G10 calls them soft). What closes each, and what does each still
-rest on?
+THE QUESTION. The chain from the four integers to G reads three things
+besides the integers: the bridge read as amount takes no share of b0
+(horizon_amount.py A6), the vector rows enter the stiffness at the
+covariant contact c = +1 (tests/audit/parameter_ledger.py), and gates
+S and M are read at a threshold and in a band (g_path_trials.py G10).
+What does each rest on without a measured G?
 
-PREMISES. P1 the lane's premise T1: the amount past the horizon carries
-no names (notes/open_derivation_tasks.md). P2 "One covariant operator
+PREMISES. P1 the horizon: the amount past it carries no names
+(interference/__init__.py, THE HORIZON). P2 "One covariant operator
 gives a row both its share of b0 and its stiffness" (interference/
 boundary.py, THE AMOUNT'S COUPLING). P3 the engine's transmutation:
 1/alpha_G2 = 24 pi at M_b, S0 = 2 pi/(b0 alpha_G2), the lever arm to
@@ -56,7 +53,7 @@ STATEMENTS (the numbers below check each one).
      k = 1 that uses no threshold is the coupling variable,
      coupling_normalization.py, an identification.
 
-RESULT. The amount's zero share is T1 read on the operator that gives
+RESULT. The amount's zero share is the horizon reading on the operator that gives
 a share, and 1/alpha(0) tests it without G. The covariant contact is
 the Weitzenbock identity of the gauge field's own operator, the one
 whose field strength term gives b0 its 11/3. No verdict on the sign
@@ -159,7 +156,7 @@ def run(report=print):
            + " / ".join(f"{v[0]:.2f}" for v in sig.values()) + ". Anchored t0 M_b^2 = "
            + " / ".join(f"{t:.2f}" for t in t0.values()))
 
-    report("RESULT: the zero share is T1 on the operator that gives a share, tested by 1/alpha(0) without G. The "
+    report("RESULT: the zero share is the horizon reading on the operator that gives a share, tested by 1/alpha(0) without G. The "
            "contact is the gauge operator's Weitzenbock term. No verdict on the sign or the stiffness depends on the thresholds. "
            "k = 1 against 4 pi depends on the wired threshold, and the coupling variable grounds it without the threshold "
            "(an identification).")

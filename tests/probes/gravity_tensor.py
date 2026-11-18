@@ -41,6 +41,14 @@ This excludes a separate tensor pole at Gaussian order about this
 uniform vacuum. It does not exclude an interacting bound state or a
 different phase. No bridge mass or gravitational coupling is inferred.
 
+RESULT. Computed about the uniform clock vacuum at g0 > 0, the gas sign:
+the analytic Hessian matches the live force, with one global U(1) zero
+direction and no local metric gauge constraint. The neutral tensor Q
+starts at order eta^2, and at k = 0 its infrared TT density scales as
+Omega^4, a two quasiparticle continuum. Under standard canonical bosonic
+quantization a separate massless spin 2 pole at Gaussian order about
+this vacuum is excluded.
+
 Usage: python3 tests/probes/gravity_tensor.py
 """
 

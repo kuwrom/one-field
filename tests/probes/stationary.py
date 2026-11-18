@@ -1,5 +1,5 @@
 """
-stationary.py: after formation, does the knot PERSIST, does it keep
+After formation, does the knot PERSIST, does it keep
 its winding, and how fast does it circulate?
 
 Continues probes/knot.py: seed the winding lump, let the instability
@@ -14,7 +14,12 @@ saturate (t ~ 8-10), then evolve long (t = 40) and measure
      (m = hbar*omega is the framework's mass as rotation claim. It is
      the first measured input to the spectrum test.)
 
-Usage: python3 stationary.py   (~25 s)
+RESULT. The lump persists to t = 40, and the knot circulates relative to
+the condensate at omega_rel > 0. A seeded pure q = 1 winding mixes to
+equal q = 1 and q = 2 shares once the instability saturates. Unprotected
+labels mix.
+
+Usage: python3 tests/probes/stationary.py   (~25 s)
 """
 
 import os
@@ -46,7 +51,7 @@ def run(report=print):
     report(f"  {'t':>5s} {'rel peak':>10s} {'width':>7s} "
            f"{'q1 share':>9s} {'q2 share':>9s}")
 
-    t, phases, times = 0.0, [], []
+    t, phases, times, shares = 0.0, [], [], {}
     for tm in [0, 5, 10, 15, 20, 25, 30, 35, 40]:
         n = int(round((tm - t) / dt))
         if n:
@@ -72,6 +77,7 @@ def run(report=print):
         a2f = (psi[0] + np.conj(omega)**2*psi[1] + np.conj(omega)*psi[2])/3.0
         s1, s2 = float((np.abs(a1f)**2).sum()), float((np.abs(a2f)**2).sum())
         tot = s1 + s2
+        shares[tm] = s1 / tot
         report(f"  {tm:5.0f} {peak:10.4f} {width:7.2f} "
                f"{s1/tot:9.3f} {s2/tot:9.3f}")
 
@@ -98,9 +104,17 @@ def run(report=print):
     report(f"  strict spectral absence.")
     report(f"  (the spectrum test proper needs the three windings'")
     report(f"   frequencies compared as Delta_k^2: spectrum.py)")
+    # the verdicts: the lump persists, the seeded pure winding mixes to
+    # equal shares once the instability saturates, and the knot
+    # circulates relative to the condensate
+    assert peak > 0.5, "the lump must persist to t = 40"
+    assert shares[0] > 0.999, "the seed is a pure q = 1 winding"
+    assert all(abs(shares[tm] - 0.5) < 0.1 for tm in shares if tm >= 15), \
+        "after saturation the windings mix to equal shares"
+    assert w_rel > 0.0
     return {"peak_final": peak, "omega": w_fit,
             "omega_rel": w_rel, "gap_scale": g1 * rho0,
-            "persistent": bool(peak > 0.5)}
+            "persistent": bool(peak > 0.5), "q1_shares": shares}
 
 
 if __name__ == "__main__":

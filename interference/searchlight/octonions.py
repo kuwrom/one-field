@@ -2,13 +2,13 @@
 Octonionic Clebsch-Gordan construction used by the B/A channel map in
 the gate-selected SU(3)₃ MTC.
 
-The Fano-plane multiplication table computes the Clebsch-Gordan ratio
+The Fano plane multiplication table computes the Clebsch-Gordan ratio
 √2.  Gate 3 supplies the SU(3)₃ modular data and their canonical positive
-spherical trace.  The channel-to-circulant map combines these values with
+spherical trace.  The channel to circulant map combines these values with
 the orientation count and returns B/A = √2 = √d₁₀.
 
 Derivation chain:
-    1. Build Im(O) ≅ R⁷ cross product from Fano-plane triples
+    1. Build Im(O) ≅ R⁷ cross product from Fano plane triples
     2. Holomorphic basis: z_α = (e_{2α-1} − i e_{2α})/√2, α=1,2,3
     3. Singlet channel:  z_α × z̄_β = i δ_{αβ} e₇  →  |C₁| = 1
     4. Triplet channel:  z_α × z_β = √2 ε_{αβγ} z̄_γ  →  |C₃̄| = √2
@@ -29,7 +29,7 @@ Derivation chain:
     6. Channel map:      B/A = 2|C₃̄|·W(3̄)/|C₁| = 2√2·(1/2)/1 = √2
     7. Koide:            Q₀ = 1/3 + |B/A|²/6 = 1/3 + 2/6 = 2/3 = d₁₀/d₁₁
 
-The ratio |C₃̄|/|C₁| = √2 is frame-independent (Schur's lemma:
+The ratio |C₃̄|/|C₁| = √2 is frame independent (Schur's lemma:
 both maps are unique up to phase).
 
 The octonions here are the searchlight (see __init__.py).  This
@@ -54,7 +54,7 @@ from ..root import d10, d11
 #  Octonion multiplication table from Fano plane
 # ═══════════════════════════════════════════════════════════════════════
 
-# Fano-plane triples (i,j,k) with e_i × e_j = ±e_k (cyclic).
+# Fano plane triples (i,j,k) with e_i × e_j = ±e_k (cyclic).
 # Convention: e₇ is the SU(3)-invariant direction.
 # The six-plane (e₁,...,e₆) carries the 3 ⊕ 3̄ of SU(3) ⊂ G₂.
 FANO_TRIPLES = [
@@ -108,7 +108,7 @@ def _cross_complex(a, b):
 #       criterion, while bilinearity makes every left-composition map
 #       L_x linear. For unit x, |xy|=|y| then makes L_x an isometry.
 #       Thus linearity and norm preservation follow directly from the
-#       selected algebraic structure; no appeal to Wigner's theorem is
+#       selected algebraic structure. No appeal to Wigner's theorem is
 #       needed. The Hurwitz gate is executable:
 #       one Cayley-Dickson doubling past O produces ZERO DIVISORS,
 #       |xy| = 0 with |x|,|y| ≠ 0, the bookkeeping fails.
@@ -123,7 +123,7 @@ def _cross_complex(a, b):
 #       superposition violations.  [checked: _check_z3_selection]
 #
 #  REMARK (Born rule, conjectural): protected forgetting erases linear
-#  ledger entries (PvP = 0) and retains second moments (per-mode
+#  ledger entries (PvP = 0) and retains second moments (per mode
 #  E[v²] = ½, total Pv²P = P).
 #  measurement statistics are web memories, so outcome frequencies can
 #  only read |amplitude|², the same structure that fixes m = Δ².
@@ -173,7 +173,7 @@ def _check_hurwitz_gate(*, census=False):
 
     Exhibits the witness (e₁ + e₁₀)(e₃ − e₁₂) = 0 in this Fano
     convention.  With census=True, additionally enumerates ALL
-    zero-divisor pairs of the form (e_i ± e_j)(e_k ± e_l) on the
+    zero divisor pairs of the form (e_i ± e_j)(e_k ± e_l) on the
     unit-coefficient lattice and asserts the count: 336 ordered =
     168 unordered pairs (the "one of 168" is computed, not quoted).
     """
@@ -189,7 +189,7 @@ def _check_hurwitz_gate(*, census=False):
                 for s in (1, -1)]
         ordered = sum(1 for v1 in vecs for v2 in vecs
                       if np.linalg.norm(sed_mul(v1, v2)) < 1e-12)
-        assert ordered == 336, f"zero-divisor census: {ordered} != 336"
+        assert ordered == 336, f"zero divisor census: {ordered} != 336"
     return True
 
 
@@ -197,11 +197,11 @@ def _check_e8_lattice_gate():
     """Rank-8 coherence gate: explicit witnesses, cited classification.
 
     What runs here: four explicit Gram matrices (I₈, A₈, D₈, E₈) are
-    checked for even / unimodular / positive definite; only E₈ passes
+    checked for even / unimodular / positive definite. Only E₈ passes
     all three.  What is CITED, not computed: the statement that these
     exhaust the possibilities is the even-unimodular lattice
     classification in rank 8 (E₈ is the unique even unimodular
-    positive-definite rank-8 lattice; Griess).  The four matrices are
+    positive definite rank-8 lattice, Griess).  The four matrices are
     executable witnesses of the gate, not a re-proof of the theorem."""
     I8 = np.eye(8)
     A8 = 2*np.eye(8) - np.diag(np.ones(7), 1) - np.diag(np.ones(7), -1)
@@ -366,8 +366,8 @@ def derive():
     ## Channel weight and B/A assembly ##
     # W(3̄) = 1/d(1,0) = 1/d₁₀.  Three separable parts (see the
     # _check_projector_normalization docstring): the 1/(loop value)
-    # STRUCTURE is proved; the classical (λ = 4) and quantum
-    # (d(1,0) = 2, su3_qdim) loop VALUES are both computed; the
+    # STRUCTURE is proved.  The classical (λ = 4) and quantum
+    # (d(1,0) = 2, su3_qdim) loop VALUES are both computed.  The
     # TRACE DATA: the selected SU(3)₃ modular data use the canonical
     # positive spherical trace with loop value d(1,0) = 2.  The ordinary
     # Fano composite has classical loop value 4.

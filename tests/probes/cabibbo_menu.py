@@ -1,5 +1,5 @@
 """
-lambda_admissibility.py: the Cabibbo reading, from its declared menu to one entry.
+The Cabibbo reading, from its declared menu to one entry.
 
 THE MENU. mixing.py reads lambda as the Sugawara weight h10 carrying one
 echo, lambda = h10 (1 + x / K^n), with the inserted weight x in
@@ -36,7 +36,7 @@ single h11 / K^3.  A5 leaves one, lambda = h10 (1 + h11/K^2) = (2/9)(73/72)
 = 73/324. This is the same paired insertion factor 73/72 that root.py
 applies to bridge^2.  The data check it (tests/mixing/test_mixing_probes.py).
 
-Usage: python3 tests/probes/lambda_admissibility.py     (instant)
+Usage: python3 tests/probes/cabibbo_menu.py     (instant)
 """
 
 from fractions import Fraction

@@ -13,8 +13,9 @@ Rules (enforced by tests/audit/test_blindness.py):
     dicts.  A new read anywhere fails CI until it is deliberately
     admitted.
 
-The dimensional anchor m_e and the Lambda sector reference H_0 live
-in root.py, because they are declared INPUTS, not comparisons.
+The anchor m_e lives in root.py because it sets the unit.  H_0 lives
+there too, as the comparison scale of the rho_crit bookkeeping, which
+no prediction reads.
 root.py reexports these dicts for package users.  Both module
 attributes refer to the same dict objects.
 """
@@ -94,10 +95,9 @@ PDG_EW = {
     'M_Z': 91.1876, 'M_W': 80.3625, 'M_W_err': 0.0077,
     'G_F': 1.1663788e-5, 'G_F_err': 0.0000006e-5,   # GeV^-2, PDG 2024. The one G_F in the repo
     'sin2W_MSbar': 0.23129, 'sin2W_err': 0.00004,   # global SM fit 2024
-    'm_H': 125.20, 'alpha_s_MZ': 0.1180,
+    'm_H': 125.20, 'alpha_s_MZ': 0.1180, 'alpha_s_MZ_err': 0.0009,
     # MS-bar radiative backreaction imports (DECLARED, cited).
-    # (Standard QFT: "radiative corrections". Here they are backreactions
-    # whose inputs are all rederived from the framework.)
+    # (Backreactions whose inputs are all rederived from the framework.)
     # ZERO PARAMETER DISCIPLINE: these are functions of (G_F, m_t,
     # m_H, alpha hat(M_Z)).  G_F and m_t are RECALCULATED from the
     # framework's own predictions and checked to be compatible within
@@ -108,6 +108,17 @@ PDG_EW = {
     # in higgs_ew.py).
     'dr_hat_W': 0.06937,   # ± 0.00006   PDG 2024 Eq. (10.26) text
     'rho_hat':  1.01016,   # ± 0.00009   PDG 2024 (incl. bosonic loops)
+    # comparison values of the import audit (higgs_ew.py), display only:
+    'rho_hat_err': 0.00009,       # PDG 2024 Eq. (10.26)
+    'm_t_EW_fit': 172.61,         # GeV, the m_t inside the EW fit's rho hat
+    'inv_alpha_hat_MZ': 127.929,  # dispersive 1/alpha hat(M_Z), MS-bar
+}
+
+# 1/alpha(0) determinations, comparison only: (value, standard uncertainty)
+ALPHA_INV_REF = {
+    'Cs_recoil': (137.035999046, 27e-9),   # Berkeley 2018
+    'Rb_recoil': (137.035999206, 11e-9),   # LKB 2020
+    'CODATA':    (137.035999177, 21e-9),   # CODATA 2022 blend
 }
 
 # Cosmological comparison data (single source)
@@ -138,7 +149,7 @@ PLANCK_2018 = {
     'Omega_c_h2_err': 0.0012,
     'H_0_km_s_Mpc':   67.4,        # ± 0.5 (CC scale display only)
 }
-# ACT DR6 + CMB lensing + DESI DR1 (arXiv:2503.14452, March 2025)
+# ACT DR6 + CMB lensing + DESI DR1 (arXiv:2503.14452)
 ACT_DR6 = {
     'Omega_b_h2':     0.0226,      # ± 0.0001
     'Omega_b_h2_err': 0.0001,

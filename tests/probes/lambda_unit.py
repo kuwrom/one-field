@@ -1,4 +1,4 @@
-"""Route B of notes/lambda_plan.md: is V0 = -rho_vac a tuning or a unit?
+"""Lambda route B: is V0 = -rho_vac a tuning or a unit?
 
 THE QUESTION. In the full form the metric is defined from the field,
 g = h/U, and the regulator is a proper time measured in that metric.
@@ -42,7 +42,7 @@ STATEMENTS (the numbers below check each one).
      are fixed here.  Treating the grain as a variable of the state is
      route C.
 
-RESULT. Route B closes: V0 = -rho_vac is a tuning, not a unit. One
+RESULT. Route B is excluded: V0 = -rho_vac would be a tuning, not a unit. One
 byproduct: off the point the vacuum is de Sitter, with no graviton mass
 and no ghost.
 
@@ -135,7 +135,7 @@ def run(report=print):
     report(f"B3 off the point, induced q = 0 term + V0 sqrt g = (V0 + rho_vac) x second order of "
            f"sqrt det(1 + h) to {r3['second_order']:.1e}, with the tadpole "
            f"(V0 + rho_vac) tr h / 2: a cosmological term about a nonsolution, no graviton mass.")
-    report("RESULT: route B closes. V0 = -rho_vac is a tuning. Off it the vacuum is de Sitter, "
+    report("RESULT: route B is excluded. V0 = -rho_vac would be a tuning. Off it the vacuum is de Sitter, "
            "with no mass and no ghost. An adjustment needs a variable of the state: route C.")
     return out
 

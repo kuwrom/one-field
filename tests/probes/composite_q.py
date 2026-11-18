@@ -1,4 +1,4 @@
-"""Route C of notes/lambda_plan.md: a composite vacuum variable q.
+"""Lambda route C: a composite vacuum variable q.
 
 THE MECHANISM. Klinkhamer and Volovik (arXiv:0711.3170) give the
 gravitating vacuum energy as eps - q d eps/dq (Eq. 28), zero in a
@@ -40,7 +40,7 @@ C3 (what a q-reading of the grain would leave). Per real component the
    conditional on a q that, by C2, the theory does not have.  It is
    recorded as the form such a premise would take.
 
-RESULT. Route C fails within the premises. It needs a dimensionless
+RESULT. Route C is excluded within the premises. It needs a dimensionless
 density of records per grain as a variable of the state, and the state
 carries none.
 
@@ -110,7 +110,7 @@ def run(report=print):
            + "; ".join(f"m^2 t0 = {k[0] * k[1]:g}: {r['numeric']:+.4e} vs {r['closed']:+.4e} "
                        f"(quartic class {r['quartic']:.2e})" for k, r in out["c3"].items())
            + ".  Massless content leaves zero. Massive content leaves the dimension two moment.")
-    report("RESULT: route C has no realization within the premises. The grain is a "
+    report("RESULT: route C is excluded within the premises. The grain is a "
            "unit, and a dimensionless record density per grain would be a new premise.")
     return out
 

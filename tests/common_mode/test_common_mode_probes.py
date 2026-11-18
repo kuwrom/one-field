@@ -16,7 +16,7 @@ def _silent(*args, **kwargs):
 
 
 def test_bridge_decoupling(res):
-    """D3+D4: 182 bridge modes from E8 branching. They decouple from
+    """Count and decoupling: 182 bridge modes from E8 branching. They decouple from
     the running but gravitate through the scalar heat kernel weight."""
     from probes import bridge_decoupling
     r = bridge_decoupling.run(report=_silent)
@@ -361,7 +361,7 @@ def test_regulator_free_ratios_higgs_is_the_dimension_two_ratio(res):
     assert r["M1_needed"] > 5e3
     assert r["v_over_MPl"] == pytest.approx(r["transmuted"], rel=1e-12)
     assert r["alpha_s_MZ_chain"] == pytest.approx(0.11839, abs=2e-5)
-    assert r["kappa_g_tracking"] == pytest.approx(-3.52, abs=0.02)
+    assert r["kappa_g_tracking"] == pytest.approx(-17 / 4, abs=1e-6)
     assert r["kappa_g_both"] > 0 > r["kappa_g_top"]
 
 
@@ -383,12 +383,13 @@ def test_log_class_stiffness_holds_and_extra_modes_sit_at_the_cutoff(res):
 
 
 @pytest.mark.slow
-def test_higgs_mass_from_the_boundary_is_a_fit(res):
+def test_higgs_boundary_vent_menu(res):
     """The bridge boundary, run with the Standard Model equations and
     matched to the pole mass, gives M_h = 125.36 GeV.  The vent menu
     holds two readings within 1 sigma, (1 - h10) and 1/6 (125.04 GeV).
-    So the measured mass selects the vent, and the engine's outputs
-    contain no M_h."""
+    So the elementary route takes M_h as data, and the engine, which reads
+    the boson as the condensate's radial mode, excludes it
+    (regulator_free_ratios.py R6)."""
     from probes import higgs_mass
 
     r = higgs_mass.run(report=_silent)

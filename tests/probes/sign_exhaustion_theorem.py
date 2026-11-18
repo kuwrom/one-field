@@ -1,12 +1,11 @@
 """
-sign_exhaustion_theorem.py: the PMNS sign rows against the data.
+The PMNS sign rows against the data.
 
-This probe is the check, not the selector.  tests/probes/pmns_sign_bits.py
-fixes the row with two data blind gates (the lepton sector's own pairing
+tests/probes/pmns_sign_bits.py fixes the row with two data blind gates (the lepton sector's own pairing
 and the charge dictionary).  This probe compares the four rows with the
 data. Condition (a) is the NuFIT range. Condition (b) only names which
 sign is matter, since one orientation bit flips every CP-odd sign
-together.  The data pick the same row the gates leave.
+together.  The data agree with the row the gates leave.
 
 Given the one orientation bit axiom (a single Fano orientation
 datum epsilon enters all CP-odd phases), and the Standard Model sphaleron
@@ -47,7 +46,15 @@ D1b proof outline:
     => -J_lep > 0
     => eta_B > 0  (matter excess, as observed)
 
-Usage: python3 sign_exhaustion_theorem.py
+RESULT. U_TBM is exactly real, so the delta in R13 is the one complex
+phase in U_PMNS, and flipping it flips J_lep with the three angles
+unchanged. Of the four sign rows exactly one meets both data conditions,
+delta_sign = -1 and eta_sign = -1, with the invariant delta_CP = 275.74
+deg inside the NuFIT 3 sigma range and eta_B > 0. The data blind gates
+of pmns_sign_bits.py leave the same row, so the data check the sign
+rather than choose it.
+
+Usage: python3 tests/probes/sign_exhaustion_theorem.py
 """
 
 import math
@@ -183,7 +190,7 @@ def run(report=print):
             delta_ok = NUFIT_DELTA_3SIGMA[0] < pmns["delta_invariant_deg"] < NUFIT_DELTA_3SIGMA[1]
             eta_ok = eta_B > 0
             closes = delta_ok and eta_ok
-            tag = "CLOSES" if closes else "fails"
+            tag = "CLOSES" if closes else "excluded"
             why = []
             if not delta_ok:
                 why.append(f"delta={pmns['delta_invariant_deg']:.1f} outside NuFIT")
@@ -209,19 +216,20 @@ def run(report=print):
     assert winner["delta_sign"] == -1
     assert winner["eta_sign"] == -1
 
-    # ── Why the three other rows fail ──
-    report("\n  WHY THE OTHER THREE ROWS FAIL:")
-    report("  Row (+1, -1): delta = 84.26 deg, below NuFIT 96 deg.")
+    # ── Why the three other rows are excluded ──
+    conj = next(r for r in rows if r["delta_sign"] == +1 and r["eta_sign"] == -1)
+    report("\n  WHY THE OTHER THREE ROWS ARE EXCLUDED:")
+    report(f"  Row (+1, -1): delta = {conj['delta_deg']:.2f} deg, below NuFIT {NUFIT_DELTA_3SIGMA[0]:.0f} deg.")
     report("    The conjugate sign places delta on the wrong side of")
     report("    arccos(-lam): the cosine is the same, the sine flips,")
     report("    and the invariant falls in the first quadrant.")
     report("  Row (-1, +1): eta_B < 0, antimatter universe.")
     report("    B = +(28/79)L contradicts the SM sphaleron calculation.")
-    report("  Row (+1, +1): both failures compound.")
+    report("  Row (+1, +1): it misses both conditions.")
     report("    delta outside range AND eta_B < 0.")
 
     report("-" * 64)
-    report("  SELECTION: of the four rows, one is consistent with the")
+    report("  CLOSURE: of the four rows, one is consistent with the")
     report("  NuFIT range and a matter excess.  The data blind gates of")
     report("  tests/probes/pmns_sign_bits.py leave that row, so the data")
     report("  check the sign rather than choose it.")
@@ -232,7 +240,7 @@ def run(report=print):
         "angles_invariant": True,
         "closing_count": len(closing),
         "closing_row": winner,
-        "eta_B_positive": eta_B > 0,
+        "eta_B_positive": winner["eta_B"] > 0,
     }
 
 

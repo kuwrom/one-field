@@ -14,8 +14,8 @@ with the second moment of the harmonic where the common mode enters
 (boundary_whole.py P2). P2 each factor is a partial sum of a list: the
 squares of the S-matrix's first row over the ten primaries, the two
 parts of the unit response, the powers of the two relative channels.
-P3 the lane's premise T1: "The common mode past the horizon carries no
-names" (notes/open_derivation_tasks.md). P4 the gates S and M on the
+P3 the horizon: the common mode past it carries no names
+(interference/__init__.py, THE HORIZON). P4 the gates S and M on the
 one list (interference/boundary.py), which use no measured G.
 
 STATEMENTS (the numbers below check each one).
@@ -47,7 +47,7 @@ STATEMENTS (the numbers below check each one).
      pointed orbit, the triality zero primaries and the whole, with
      c = 36, 12, 3 and 1. The whole without the pointed orbit contains
      no vacuum and is none of them. Every closure reads one common
-     mode (the step table, notes/open_derivation_tasks.md step 3). The
+     mode (root.py, THE COMMON MODE). The
      fundamental, the lightest triality changer, which sets theta
      (masses.py Step 3), is a closure. Of the four sets, only the whole
      contains it. FAILS for the other three: c = 36 and 12 fail S and

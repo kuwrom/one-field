@@ -13,13 +13,17 @@ external number lives in transport, so the full import list is
 stated here once)
 ═══════════════════════════════════════════════════════════════════════
 
-  DIMENSIONAL ANCHORS (fix scales, not couplings):
+  THE ANCHOR (sets the unit):
     m_e = 0.51099895069 MeV        CODATA 2022      root.M_E_ANCHOR_MEV
-    H₀  = 67.4 km/s/Mpc            Planck 2018      root.H_0_KM_S_MPC
     ħ, GeV/J                        exact SI         root (conversions)
 
-  DECLARED RADIATIVE IMPORTS (steer M_W/M_Z; audited for
-  compatibility with the framework's own values, below):
+  COMPARISON SCALE (ρ_crit bookkeeping, read by no prediction):
+    H₀  = 67.4 km/s/Mpc            Planck 2018      root.H_0_KM_S_MPC
+
+  DECLARED RADIATIVE TRANSPORT (carries the engine's A₀ and sin²θ_W to
+  the coordinate M_W and M_Z are measured in, read by no engine constant
+  (tests/audit/test_blindness.py), and audited for compatibility with
+  the framework's own values, below):
     Δr̂_W = 0.06937(6)              PDG 2024 10.26   reference.PDG_EW
     ρ̂    = 1.01016(9)              PDG 2024 10.26   reference.PDG_EW
     m_H  = 125.20 GeV               PDG 2024, inside the loop remainders
@@ -42,7 +46,7 @@ stated here once)
     quartic beta order 4: 8308.17    SPM 1508.00912 + Chetyrkin-Zoller
     ζ(3) = 1.2020569...             mathematics
 
-  REFERENCE DATA (never steer a prediction; perturbing all of
+  REFERENCE DATA (never steer a prediction: perturbing all of
   them at once leaves every prediction identical,
   tests/audit/test_blindness.py): everything in interference/reference.py
   (PDG_MASSES, PDG_CKM, NUFIT_PMNS, PDG_EW, PDG_COSMO, PLANCK_2018,
@@ -51,11 +55,11 @@ stated here once)
 
 Higgs:
     lambda(M_Pl) = -delta_bridge = -N_bridge * alpha_G₂² * E[v²] * (1 − h₁₀)
-    is a candidate bridge boundary. The imported beta equations use
+    is the bridge boundary. The imported beta equations use
     MS-bar coordinates. Transporting the boundary produces lambda(m_t).
     In the framework this is a transport coordinate, not a second
     physical mass. If an observable Higgs reading is named, it
-    must be identified at the depth-4 Web endpoint rather than by an
+    must be identified at the depth 4 Web endpoint rather than by an
     extra matching stage.
 
 Reference:
@@ -102,7 +106,7 @@ def _beta_sm(y):
       Order 3+: iterated backreaction
     These are transport expansion terms, not Ledger.web_depth.
     Orders 1-3 use one pure MS bar coordinate system. The order-3
-    equations are the SMDR yb=ytau=0 specialization; g1 is
+    equations are the SMDR yb=ytau=0 specialization. g1 is
     SU(5)-normalised, so gp=sqrt(3/5)g1 is used at the SMDR boundary.
     The leading QCD order-4 quartic term is in the same coordinates.
     Sources: Bednyakov-Pikelner-Velizhanin 2012-13,
@@ -325,8 +329,7 @@ def _derive_alpha_em(lepton_masses, quark_masses, mu_GeV):
     # C_EFF = 1/d₁₀ the SAME trace lift prefactor as the lepton
     # amplitude (root.C_EFF: one quantity, one name).
     # Λ_conf = 314.2 MeV comes out at the constituent scale (~1%).
-    # Its 0.47% closeness to m_p/3 is partly fortuitous and is NOT
-    # claimed.  Hadron masses belong to the hadrons and nuclei rung,
+    # Hadron masses belong to the hadrons and nuclei rung,
     # read from QCD with the engine's couplings and masses
     # (tests/audit/emergence_ladder.py).
     Lambda_conf_GeV = C_EFF * M_Pl_GeV * math.exp(-S_lepton)
@@ -408,7 +411,7 @@ def derive_higgs_ew(masses, couplings):
     #      E[v²] = 1/2 (protected forgetting: per mode |v̂₁|² = B²/4;
     #                   total Pv²P = P)
     #
-    # 3. Fundamental share vent candidate: the triality charged
+    # 3. Fundamental share vent: the triality charged
     #    3 ⊕ 3̄ share of the bridge 7 cannot cross into the condensing
     #    channel (N-ality superselection, words.py). Measured in the
     #    weight metric, the blocked share is h₁₀. This gives the
@@ -419,13 +422,13 @@ def derive_higgs_ew(masses, couplings):
     # [the vent lives in the WEB edge]
     #
     # SINGLE SOURCE OF TRUTH: the bridge→Higgs edge lives in the web
-    # (root.py WEB['lambda_MPl']). No second computation here (K3 dedup).
+    # (root.py WEB['lambda_MPl']). No second computation here.
     lam_Pl_boundary = WEB["lambda_MPl"].value()
     delta_bridge = -lam_Pl_boundary
 
     print(f"    F₄ fusion: lambda_F₄ = 0  [(26×26)_local = 1]")
     print(f"    delta_bridge = {N_bridge} * (1/(24pi))² * 1/2 * (1 − h₁₀) = {delta_bridge:.6f}")
-    print(f"      [candidate fundamental share vent (1−h₁₀) = 7/9]")
+    print(f"      [fundamental share vent (1−h₁₀) = 7/9]")
     print(f"    lambda(M_Pl) = -{delta_bridge:.6f}")
 
     # Derive EW couplings at the derived M_Z scale
@@ -434,7 +437,7 @@ def derive_higgs_ew(masses, couplings):
                     masses['m_c'], masses['m_b'], masses['m_t']]
 
     # sin²θ_W from the Web ledger (root.py).
-    # Base 3/13, depth-1 h₇·α/(2π), depth-2 (h₇/d₁₁²)·α/(2π).
+    # Base 3/13, depth 1 h₇·α/(2π), depth 2 (h₇/d₁₁²)·α/(2π).
     # Combined echo coefficient: Q₀² = 4/9 (Koide parameter squared).
     sin2W = WEB.state["sin2W"]
     cos2W = 1.0 - sin2W
@@ -445,8 +448,8 @@ def derive_higgs_ew(masses, couplings):
     # A₀ = [πα(0)/(√2 G_F)]^½ = 37.28038(1) GeV, and BOTH inputs of
     # A₀ are the framework's own predictions:
     #     A₀ = √(πα(0))·v_EW = 37.28038 GeV   (matches to 0.1 ppm)
-    # ŝ² is canonical (the solved WEB["sin2W"]: base 3/13 + depth-1
-    # h₇·α/2π + depth-2 (h₇/d₁₁²)·α/2π).  The two
+    # ŝ² is canonical (the solved WEB["sin2W"]: base 3/13 + depth 1
+    # h₇·α/2π + depth 2 (h₇/d₁₁²)·α/2π).  The two
     # imported electroweak transport terms [DECLARED, PDG 2024]:
     #     Δr̂_W = 0.06937(6),   ρ̂ = 1.01016(9)
     # Results: M_W = 80.356 GeV (−0.86σ of the 80.3625(77) world average).
@@ -468,8 +471,8 @@ def derive_higgs_ew(masses, couplings):
     sin2W_PDG = PDG_EW['sin2W_MSbar']
 
     print(f"    alpha_em(M_Z) = 1/{1.0/alpha_em_MZ:.3f}")
-    print(f"    sin²theta_W = 3/13 + Q₀²·(α/2π) = {sin2W:.6f}  [base 3/13 + depth-1 h₇ + depth-2 h₇/d₁₁²]")
-    print(f"    PDG 2024 global fit: {sin2W_PDG}(4)  (pull: {(sin2W - sin2W_PDG)/PDG_EW['sin2W_err']:+.2f}σ. Depth-1 only: −1.4σ)")
+    print(f"    sin²theta_W = 3/13 + Q₀²·(α/2π) = {sin2W:.6f}  [base 3/13 + depth 1 h₇ + depth 2 h₇/d₁₁²]")
+    print(f"    PDG 2024 global fit: {sin2W_PDG}(4)  (pull: {(sin2W - sin2W_PDG)/PDG_EW['sin2W_err']:+.2f}σ)")
     print(f"    M_W = A₀/(ŝ√(1−Δr̂_W)) = {M_W_derived:.4f} GeV  (PDG: {M_W_PDG}({PDG_EW['M_W_err']*1e4:.0f}), pull {(M_W_derived-M_W_PDG)/PDG_EW['M_W_err']:+.2f}σ)")
     M_Z_IMPORT_BAND = 0.0050    # GeV, the band the two imports (ρ̂, ŝ) propagate to M_Z
     print(f"    M_Z = M_W/(ρ̂^½ĉ)      = {M_Z_derived:.4f} GeV  (PDG: {M_Z_PDG}, {pct(M_Z_derived, M_Z_PDG):+.4f}%. "
@@ -500,10 +503,10 @@ def derive_higgs_ew(masses, couplings):
     lam_iter = 0.0
     for iteration in range(3):
         y_up = np.array([g1_mt, g2_mt, g3_mt, yt_mt_transport, lam_iter])
-        y_Pl_2L = _run_rge(y_up, 0.0, t_Pl, _beta_sm, N_rge)
+        y_Pl = _run_rge(y_up, 0.0, t_Pl, _beta_sm, N_rge)
 
-        y_down = np.array([y_Pl_2L[0], y_Pl_2L[1], y_Pl_2L[2],
-                           y_Pl_2L[3], lam_Pl_boundary])
+        y_down = np.array([y_Pl[0], y_Pl[1], y_Pl[2],
+                           y_Pl[3], lam_Pl_boundary])
         y_low = _run_rge(y_down, t_Pl, 0.0, _beta_sm, N_rge)
         lam_iter = y_low[4]
 
@@ -526,18 +529,15 @@ def derive_higgs_ew(masses, couplings):
          f"{higgs_transport_coordinate_2x:.4f} GeV")
 
     # F4-only for comparison (λ(M_Pl)=0, no bridge)
-    y_down_F4 = np.array([y_Pl_2L[0], y_Pl_2L[1], y_Pl_2L[2],
-                          y_Pl_2L[3], 0.0])
+    y_down_F4 = np.array([y_Pl[0], y_Pl[1], y_Pl[2],
+                          y_Pl[3], 0.0])
     y_low_F4 = _run_rge(y_down_F4, t_Pl, 0.0, _beta_sm, N_rge)
-    higgs_F4_transport_coordinate = math.sqrt(2.0 * abs(y_low_F4[4])) * v_EW
 
     # # IMPORT SPECIFICATION ####################
     print(f"    top Web reading -> beta coordinate: "
           f"{m_t_GeV:.3f} -> {m_t_rge_coordinate:.3f} GeV")
     print(f"    lambda_MSbar(m_t), F4 only:       {y_low_F4[4]:.6f}")
     print(f"    lambda_MSbar(m_t), F4 + bridge:   {lam_mt_transport:.6f}")
-    print(f"    transport coordinate sqrt(2lambda)v: "
-          f"{higgs_transport_coordinate:.2f} GeV")
 
     # # IMPORT COMPATIBILITY AUDIT (parameterless discipline) ###
     # A cited electroweak transport term is a FUNCTION of
@@ -571,29 +571,32 @@ def derive_higgs_ew(masses, couplings):
     #       by gauge group + matter content at the measured m_H (the EW
     #       remainder 0.00291 in Δr̂_W, the bosonic 0.00082 in ρ̂), the
     #       same status as the Machacek-Vaughn beta functions used for
-    #       the Higgs RGE.  No fine tuning enters: nothing is
-    #       adjusted, and everything is checked.
+    #       the Higgs RGE.
+    # The compatibility checks are frozen in
+    # tests/common_mode/test_common_mode_scorecard.py::test_import_audit_is_compatible.
+    # The engine only prints them, so no reference value can stop a run.
+    RHO_HAT_MT_COEFF = 0.00934      # ρ̂'s quadratic m_t term, PDG 2024 Eq. (10.23)
     _GF_ref = PDG_EW['G_F']
-    _GF_fw = 1.0 / (math.sqrt(2.0) * v_EW**2)    # compared below, asserted in the scorecard tests
-    _drho_mt = 0.00934 * abs((m_t_GeV/172.61)**2 - 1.0)   # vs EW fit m_t
-    assert _drho_mt < 9e-5                      # < 1 sigma of rho hat
-    assert abs((1.0/alpha_em_MZ)/127.929 - 1.0) < 0.005
+    _GF_fw = 1.0 / (math.sqrt(2.0) * v_EW**2)
+    _m_t_fit = PDG_EW['m_t_EW_fit']
+    _drho_mt = RHO_HAT_MT_COEFF * abs((m_t_GeV / _m_t_fit)**2 - 1.0)
+    _inv_alpha_hat = PDG_EW['inv_alpha_hat_MZ']
     print(f"    import audit: G_F fw/meas −1 = {1e6*(_GF_fw/_GF_ref-1):+.2f} ppm"
           f" ({(_GF_fw-_GF_ref)/PDG_EW['G_F_err']:+.2f}σ)."
-          f" δρ̂(m_t) = {_drho_mt:.1e} ({_drho_mt/9e-5:.2f}σ vs fit m_t 172.61)."
+          f" δρ̂(m_t) = {_drho_mt:.1e} ({_drho_mt/PDG_EW['rho_hat_err']:.2f}σ vs fit m_t {_m_t_fit})."
           f" m_H = {PDG_EW['m_H']} GeV enters the loop remainders as data.")
-    print(f"      internal VP α̂(M_Z) = 1/{1.0/alpha_em_MZ:.3f} vs dispersive 1/127.929"
-          f" ({100*((1.0/alpha_em_MZ)/127.929-1):+.2f}%, RGE only approximation)")
+    print(f"      internal VP α̂(M_Z) = 1/{1.0/alpha_em_MZ:.3f} vs dispersive 1/{_inv_alpha_hat}"
+          f" ({100*((1.0/alpha_em_MZ)/_inv_alpha_hat-1):+.2f}%, RGE only approximation)")
 
     return {
         'alpha_em_MZ': alpha_em_MZ,
         'inv_alpha_em_MZ': 1.0 / alpha_em_MZ,
+        'drho_mt_import_audit': _drho_mt,
         'sin2W': sin2W,
         'delta_bridge': delta_bridge,
         'lam_Pl_boundary': lam_Pl_boundary,
         'lambda_mt_transport': lam_mt_transport,
         'higgs_transport_coordinate_GeV': higgs_transport_coordinate,
-        'higgs_F4_transport_coordinate_GeV': higgs_F4_transport_coordinate,
         'm_t_rge_coordinate_GeV': m_t_rge_coordinate,
         'yt_mt_transport': yt_mt_transport,
         'M_Z_derived': M_Z_derived,

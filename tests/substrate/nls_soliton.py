@@ -560,17 +560,15 @@ def derive(verbose=True):
     print(f"\n  KOIDE CONNECTION (labelled):")
     print(f"    g₁/g₀ = 1/√d₁₀ = {g1/g0:.6f}")
     print(f"    B/A  = √d₁₀  = {BA_ratio:.6f}   [algebra layer]")
-    print(f"    (B/A)²·(g₁/g₀)² = 1  [TAUTOLOGY: g₁/g₀ ≡ 1/(B/A)]")
     print(f"    Q₀ = 1/3 + (B/A)²/6 = {Q0:.6f} = d₁₀/d₁₁ = 2/3")
     print(f"    substrate BdG circulant: B/A = 2(1+3r/2)/(1−r) = "
           f"{B_mass/A_mass:.6f}, θ = 0")
     print(f"    B/A = √2 would need r = {r_koide:.6f} < 0 → no "
           f"instability, no knots")
-    print(f"    → OFF the positive gap branch and degenerate. The "
-          f"algebra→dynamics")
-    print(f"      lock is OPEN.  A complex Z₃ phase α is hermitian-")
-    print(f"      admissible and lifts both obstructions "
-          f"(interaction_matrix)")
+    print(f"    → the knot forming and the Koide carrying branches are "
+          f"disjoint.")
+    print(f"      Q₀ is read at the algebra layer "
+          f"(tests/probes/circulant_normalization.py)")
 
     # ══════════════════════════════════════════════════════════════════
     #  Z₃ COUPLING EIGENVALUE STRUCTURE

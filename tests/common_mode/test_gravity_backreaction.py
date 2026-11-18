@@ -1,4 +1,4 @@
-"""Freezes tests/probes/gravity_back_reaction.py: gravity's backreaction on the masses, on the running and on itself."""
+"""Freezes tests/probes/gravity_backreaction.py: gravity's backreaction on the masses, on the running and on itself."""
 
 import math
 
@@ -18,9 +18,9 @@ def test_no_road_back_and_the_running_holds_no_gravitational_term():
     measured G and G below 1e-6. The metric's own loop takes the
     stiffness from 25.83 to 23.17 or 18.17 and the gates pass. A
     self-echo of the common mode is held below 6e-4 and 3e-3."""
-    from probes import gravity_back_reaction
+    from probes import gravity_backreaction
 
-    r = gravity_back_reaction.run(report=_silent)
+    r = gravity_backreaction.run(report=_silent)
     assert r["readers_of_gravity"]["G_ratio"] == [] and r["readers_of_gravity"]["Sigma_vent(UV)"] == ["G_ratio"]
     assert r["readers_of_ruler"] == ["m_e", "m_mu", "m_tau", "v_EW_GeV"]
     assert r["largest"] == "m_t" and r["coefficients"]["m_t"] == pytest.approx(2.0e-34, rel=0.02)

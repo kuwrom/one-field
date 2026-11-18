@@ -42,9 +42,9 @@ STATEMENTS (the numbers below check each one).
      overall sign, evolved along its odd direction, is hyperbolic and
      well posed. Its growth is sqrt(m^2 - k^2), bounded by m, in a
      tachyonic band |k| < m. S2 rejects it because the carrier has no
-     ground state there.  So the type of the equation selects the Lorentzian
+     ground state there.  So the type of the equation fixes the Lorentzian
      signature (only a hyperbolic equation carries a record of its
-     past), and the ground state selects its orientation.  On the
+     past), and the ground state fixes its orientation.  On the
      passing saddle Im omega = 0 for every k. A clock, exp(-i Omega t) f(r) with Omega < m, needs the
      hyperbolic dispersion, so the lump of lump_in_empty_field.py lives
      on that saddle alone.
@@ -72,6 +72,13 @@ STATEMENTS (the numbers below check each one).
      a_0/a_1, the cone of g = h/U, independent of U and of the overall
      scale: the composite metric's cone is the carrier's cone of gate C
      (one_cone.py, relativistic_carrier.py).
+
+RESULT. Of the 64 (pattern, tau) cases, exactly 4 have a Hamiltonian
+bounded below: the (1,3) saddles with tau on the odd sign, where Im
+omega = 0 at every sampled k. Every other case grows without bound in
+|k| or has no ground state. On the passing saddle the positive norm
+vacuum fills the trace part of the bilinear with C eta, C > 0, and the
+kinetic cone is the cone of g = h/U (c^2 = 4 at both checked points).
 
 Usage: python3 tests/probes/signature_of_the_saddle.py     (a few seconds)
 """

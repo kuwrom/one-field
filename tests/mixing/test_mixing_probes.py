@@ -72,8 +72,7 @@ def test_strong_cp_closure_and_null_directions(res):
     assert abs(r["mass_rephasing_countermodel"][
         "determinant_multiplier"] - 1.0) > 0.1
     assert r["strong_cp_closed_within_ontology"]
-    assert not r["strong_cp_unconditional_local_theorem"]
-    assert r["bar_theta_from_local_data_alone"] is None
+    assert r["closure_rests_on_constitutive_rule"]
     assert not r["theta_QCD_separately_defined"]
     assert not r["mass_determinant_phase_separately_defined"]
     assert r["bar_theta"] == 0.0
@@ -194,10 +193,10 @@ def test_pmns_form_sensitivity_is_scoped():
     it from being mislabeled as a complete PMNS form space grammar."""
     from probes import pmns_form_sensitivity
     r = pmns_form_sensitivity.run(report=_silent)
-    assert r["legacy_n_rows"] == 144
-    assert r["legacy_unique_fingerprints"] == 144
-    assert r["legacy_n_within_1sigma"] == 2
-    assert r["legacy_n_within_half_sigma"] == 1
+    assert r["declared_n_rows"] == 144
+    assert r["declared_unique_fingerprints"] == 144
+    assert r["declared_n_within_1sigma"] == 2
+    assert r["declared_n_within_half_sigma"] == 1
     assert r["distinct_plane_n_rows"] == 96
     assert r["distinct_plane_hits"] == {1.0: 2, 0.5: 1}
     assert r["extended_n_rows"] == 288
@@ -243,7 +242,7 @@ def test_pmns_sign_is_fixed_by_two_blind_gates(res):
 
 
 def test_lambda_menu_closes_on_one_reading(res):
-    """lambda_admissibility.py: the twelve entry menu lambda = h10 (1 + x/K^n)
+    """cabibbo_menu.py: the twelve entry menu lambda = h10 (1 + x/K^n)
     closes on one reading without using a measured value.  The order
     lemma, the SU(3)_3 weights, the simple current's trivial boundary
     action and f x fbar = 1 + 8 leave three entries.  The overlap
@@ -251,7 +250,7 @@ def test_lambda_menu_closes_on_one_reading(res):
     insertion h11/K^2, lambda = 73/324.
     The data check it: of the twelve entries it is the only one within 1 sigma,
     and the two single insertions the lemmas leave miss by more than 3 sigma."""
-    from probes import lambda_admissibility as la
+    from probes import cabibbo_menu as la
     from interference import mixing
 
     out = la.run(report=_silent)

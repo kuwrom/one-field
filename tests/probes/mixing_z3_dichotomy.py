@@ -1,5 +1,4 @@
-"""Why the mixing sector cannot close as a relative diagonalizer, and
-where its premise fails.
+"""Mixing is not a relative diagonalizer: the Z3 dichotomy, in six exact facts.
 
 The mixing sector asks for CKM and PMNS as RELATIVE DIAGONALIZERS of four
 derived sector transports (u, d, e, nu), each a response operator on a
@@ -27,7 +26,7 @@ actually contains.
      (same subgroup) or exactly democratic (different subgroup).  There is
      no interpolation, and no breaking INSIDE Delta(27) can reach a
      hierarchy.  The escape is not a leading order answer awaiting a
-     correction. It is rigid.
+     next order. It is rigid.
 
   3. PREMISE.  The engine's own mass sector contradicts the question.  The
      circulant amplitude is DERIVED, |B/A| = sqrt(d10), equivalently the
@@ -46,6 +45,14 @@ actually contains.
      coordinates are correlated checks, not fifteen independent measurements.
 
 This probe records those facts only.  It proposes no replacement map.
+
+RESULT. Two Z3 equivariant sector transports commute, so V = 1 exactly,
+while the four mutually unbiased Delta(27) eigenbases give exact
+democracy, |V_ij| = 1/sqrt(3), with no reading between the two. The
+engine's circulant amplitude |B/A| = sqrt(d10) holds on (e, mu, tau) and
+the two isospin crossing triplets to within 1% and misses the same
+charge triplets. The menu out of the up channel is {0, 1, 2}, and the
+nine |V_ij| have parameter rank 4.
 """
 
 import os
@@ -226,7 +233,7 @@ def braiding_phase():
     D6* connection q^(2/3) at q = exp(i pi / 6) all equal pi/9.  They are
     NOT three independent witnesses: T_ll = exp(2 pi i (h_l - c/24)), so
     all three are functions of the same conformal weights h_3 = 2/9
-    (the fundamental, the bare Sugawara weight of mixing.py) and
+    (the fundamental, the Sugawara weight of mixing.py) and
     h_6 = 5/9 (the symmetric square), and pi/9 = pi (h_6 - 2 h_3)
     exactly, as the code below computes.  Their agreement is a
     consistency check of the modular data, a good one, and not triple

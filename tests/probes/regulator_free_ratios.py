@@ -43,7 +43,7 @@ STATEMENTS (the numbers below check each one).
      C_V = -0.218 at the regulator scale M_Pl/sqrt(d11) and -0.206 at
      M_Pl. C_V vanishes only at 2.0e23 GeV. At the regulator scale it
      would need y_t = 0.334 against the engine's 0.385. The induced term
-     is tachyonic with |m| = 0.018 M_Pl. A bare Higgs mass could cancel
+     is tachyonic with |m| = 0.018 M_Pl. A Higgs mass term could cancel
      it only to 31 digits. The engine reads v_EW = M_Pl exp(-S) with no
      such term. The combination is Veltman's, d str M^2 / d(phi^2/2)
      with weights +1 per real scalar, +3 per massive vector, -4 per
@@ -117,20 +117,22 @@ STATEMENTS (the numbers below check each one).
      Grinstein and Skiba, PRL 100, 111802 (2008); Bellazzini et al.
      arXiv:1209.3299), is the fluctuation of the scale itself, so it
      moves mu*, M_V and m_t together and couples to gluons with
-     kappa_g = +10.3 (R7, tests/probes/scale_ties.py). The radial mode's
+     kappa_g = +23/2 (R7, tests/probes/scale_ties.py). The radial mode's
      cubic coupling is set by the condensate's potential, which the
      engine does not compute.
   R7 (the gluon coupling). The engine matches G2 to SU(3) at mu* with
      the coset threshold M_V = g v_break sqrt(C2(7)/6), v_break^2 =
      E[v^2] v_EW^2 (couplings.py). By the low energy theorem the 125 GeV
-     state couples to gluons through d(1/alpha_s)/d ln v. On the engine's
-     own two loop chain, at 125 GeV, the top alone gives -0.124 and the
-     coset threshold +0.559 per unit ln v: if the state moved M_V,
-     kappa_g = -3.52 and gluon fusion would run at 12.4 times the
-     Standard Model rate, against kappa_g = 0.92 +/- 0.08 (CMS, Nature
-     607, 60 (2022)). This holds for any state that moves M_V with mu*
+     state couples to gluons through d(1/alpha_s)/d ln v. At beta order 1,
+     the order of the threshold matching, the top alone gives
+     -1/(3 pi) = -0.106 and the coset threshold 21/(12 pi) = +0.557 per
+     unit ln v: if the state moved M_V, kappa_g = -17/4 and gluon fusion
+     would run at 18 times the Standard Model rate, against
+     kappa_g = 0.92 +/- 0.08 (CMS, Nature 607, 60 (2022)). The engine's
+     two loop chain, which carries no two loop decoupling term, gives
+     -3.52, with the same verdict. This holds for any state that moves M_V with mu*
      fixed, elementary or composite. A dilaton moves mu* as well and
-     gets kappa_g = +10.3 (tests/probes/scale_ties.py). A threshold that
+     gets kappa_g = +23/2 (tests/probes/scale_ties.py). A threshold that
      is not a particle still couples this way when its mass follows a
      field. The radial mode of the electroweak condensate, with G2
      broken by its own field, gives kappa_g = 1.00. The measured
@@ -138,8 +140,9 @@ STATEMENTS (the numbers below check each one).
      v_break^2 = E[v^2] v_EW^2 to transport the vacuum value and not the
      field (couplings.py, THE GLUON CONDITION). The condensate on the G2
      side then has a radial mode of its own, a colour singlet coupling to
-     gluons through the threshold at 0.5589/0.1237 = 4.5 times the top's
-     per unit ln v_break, at a mass the engine does not compute.
+     gluons through the threshold at 21/4 times the top's per unit
+     ln v_break, with mass 2 alpha_G2 v_break = 34 GeV
+     (tests/probes/g2_radial_mode.py).
 
 RESULT. Every ratio of the gravity lane whose data value is a
 structural zero (F0/F2 = -2, gamma = 1, c_T = c, the Eotvos parameter)
@@ -320,20 +323,24 @@ def run(report=print, res=None):
     g_G2 = math.sqrt(4 * math.pi * a_star)
     v0, mt0 = m["v_EW_pred_GeV"], m["m_t"] / 1e3
 
-    def inv_alpha(v, track_MV, track_mt, mu=125.0):
+    def run1(a0, mu0, mu1, nf):                     # beta order 1
+        return 1.0 / (1.0 / a0 + cpl._b0(nf) * math.log(mu1 / mu0))
+
+    def inv_alpha(v, track_MV, track_mt, mu=125.0, run=run1):
         MV = g_G2 * (v if track_MV else v0) * math.sqrt(float(root.E_v2) / 3)
         mt = mt0 * (v / v0 if track_mt else 1.0)
         lam3 = 1.0 - root.d11 * root.n7 * math.log(MV / mu_star)
         a = 1.0 / (1.0 / a_star - lam3 / (12 * math.pi))
-        return 1.0 / cpl._run_SM_2loop(cpl._run_SM_2loop(a, mu_star, mt, 6), mt, mu, 5)
+        return 1.0 / run(run(a, mu_star, mt, 6), mt, mu, 5)
 
     def slope(track_MV, track_mt, h=1e-4):
         return (inv_alpha(v0 * math.exp(h), track_MV, track_mt)
                 - inv_alpha(v0 * math.exp(-h), track_MV, track_mt)) / (2 * h)
     top, both = slope(False, True), slope(True, True)
     out.update(kappa_g_top=top, kappa_g_both=both, kappa_g_tracking=both / top,
-               alpha_s_MZ_chain=1.0 / inv_alpha(v0, True, True, mu=91.1876))
-    report(f"R7 d(1/alpha_s)/d ln v at 125 GeV: top {top:+.4f}, top and coset threshold {both:+.4f}: "
+               alpha_s_MZ_chain=1.0 / inv_alpha(v0, True, True, mu=91.1876,
+                                                run=cpl._run_SM_2loop))
+    report(f"R7 d(1/alpha_s)/d ln v at 125 GeV, beta order 1: top {top:+.4f}, top and coset threshold {both:+.4f}: "
            f"kappa_g = {both / top:+.3f} if the 125 GeV state moved M_V (measured 0.92 +/- 0.08).")
     report("RESULT: the Einstein term and every scalar mass term share one moment of the "
            "regulator, so their ratio is free of it. For the Higgs that ratio must vanish at "

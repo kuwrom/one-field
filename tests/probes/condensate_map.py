@@ -35,14 +35,15 @@ The engine consumes the per mode contraction at every quadratic
 bridge reading (xi_bridge, delta_bridge).  Applied to the transported
 condensate second moment it gives v7^2 = E[v^2] v_EW^2.  That
 reproduces the coded M_V = g v_EW/sqrt(6) = 111.648 GeV exactly.
-alpha_s(M_Z) separates the two contractions by 3.0 sigma: per mode
+alpha_s(M_Z) separates the two contractions by 2.95 sigma: per mode
 +0.43, total -2.53.
 
 FACT 3 (the scale menu closes on the electroweak condensate).  Every
 scale in the theory is M_Pl e^{-S} for a derived action.  Scanning
 the ladder against alpha_s(M_Z): the G2-face action scale M_R =
 M_Pl e^{-2 pi^2} (the seesaw scale, the would be independent G2-side
-condensate) fails by -72 sigma, Lambda_conf by +96 sigma, and no
+condensate) fails by -72 sigma, Lambda_conf by +105 sigma per mode
+(+96 total), and no
 threshold at all by -6.7 sigma.  Only the electroweak row survives
 (mu* = v_EW e^{15/512} sits 3 percent away and is numerically
 admissible, but it is a gauge matching endpoint, not a condensate).
@@ -50,7 +51,7 @@ admissible, but it is a gauge matching endpoint, not a condensate).
 FACT 4 (the reading closes: the sector completeness argument).
 Three lemmas settle the reading assignment.  The argument is
 exhaustive, of the same kind as the EM channel finality argument in
-root.py.  What it leaves open is stated here.  The per mode transfer
+root.py.  Its scope is stated here.  The per mode transfer
 to a transported condensate is the engine's uniform contraction
 grammar, not an independent transport computation.  The lemma chain
 uses one empirical row kill and one role exclusion.
@@ -74,13 +75,20 @@ uses one empirical row kill and one role exclusion.
       above it.  Asserted: Lambda_conf << M_V < mu*.
 
 LOOK ELSEWHERE, stated: at the PDG width, five engine atoms fall
-within 1 sigma as bare factors f^2 in v7^2 = f^2 v_EW^2 (1/2, 4/9,
+within 1 sigma as plain factors f^2 in v7^2 = f^2 v_EW^2 (1/2, 4/9,
 3/5, 2/3, 9/13).  So alpha_s supports the per mode reading but cannot
-pin it alone.  The structure above pins it.  At the watch-1
-lattice width (~0.03 percent) the neighbours separate from 1/2 by
+pin it alone.  The structure above pins it.  At a lattice
+width (~0.03 percent) the neighbours separate from 1/2 by
 > 5 sigma.  That is the kill.
 
-Usage: python3 condensate_map.py
+RESULT. The SM doublet obeys Sum M_a^2 = g^2 (3/4) v_EW^2 in both
+conventions, whose norm lengths differ by sqrt(2). The per mode
+reading v7^2 = E[v^2] v_EW^2 gives the coded M_V with B^2/4 = E[v^2]
+exactly, and the linear map v7 = v_EW and the M_R row are excluded.
+Five plain factors lie within 1 sigma, so alpha_s alone cannot pin
+the reading, and the sector completeness lemmas fix it.
+
+Usage: python3 tests/probes/condensate_map.py
 """
 
 import contextlib

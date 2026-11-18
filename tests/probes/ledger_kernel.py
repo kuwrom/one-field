@@ -62,6 +62,12 @@ STATEMENTS (the numbers below check each one).
      depends on Sigma (interference/gravity.py), so the next order
      changes only a diagnostic ratio.
 
+RESULT. Computed. The second order heat trace matches the direct kernels
+to 1e-10, and the engine's rows sum to Sigma = 27.00 with no zero of
+either form factor from q^2 t0 = 1e-3 to 1e3, so the massless pole is
+the only one. The graviton's own loop keeps Sigma positive in all four
+listed conventions.
+
 Usage: python3 tests/probes/ledger_kernel.py     (a few seconds)
 """
 

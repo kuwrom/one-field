@@ -107,11 +107,7 @@ def test_baryon_asymmetry(res):
 
 
 def test_ckm_lambda_is_the_base_plus_echo_form():
-    """The λ candidate exactly reuses bridge²'s 73/72 factor.
-
-    This freezes the arithmetic identity only.  It does not freeze a
-    CKM specific rule that would force the transfer or its power K².
-    """
+    """λ exactly reuses bridge²'s 73/72 factor: λ = h10 · 73/72."""
     import root
 
     assert 1 + root.h11 / root.K**2 == Fraction(73, 72)

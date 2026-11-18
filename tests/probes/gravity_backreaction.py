@@ -78,7 +78,7 @@ Scope: one loop running with a power law term of the stated form. The
 self-echo is bounded by G alone, below a part in a thousand of its
 natural size.
 
-Usage: python3 tests/probes/gravity_back_reaction.py     (about 30 s, runs the chain)
+Usage: python3 tests/probes/gravity_backreaction.py     (about 30 s, runs the chain)
 """
 
 import math

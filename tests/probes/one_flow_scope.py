@@ -1,6 +1,6 @@
 """The scope of "coherence carries one flow": the initial state, not every time.
 
-THE QUESTION. The dust reading (dark_sector.py, T10) reads the amount
+THE QUESTION. The dust reading (dark_sector.py) reads the amount
 as a count with no pressure: "kinetic pressure needs constituents
 moving against the common frame, and coherence carries one flow, the
 frame of the state it was left in". Halos are held up by velocity

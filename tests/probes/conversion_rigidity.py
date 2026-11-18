@@ -1,5 +1,5 @@
 """
-conversion_rigidity.py: terminus purity follows from label rigidity.
+Terminus purity follows from label rigidity.
 Excluding mixed words needs no 6j symbol.
 
 SCOPE.  The conversion lemma excludes mixed terminus words from
@@ -35,7 +35,7 @@ fusion data, mixing._compute_wzw):
       f (x) f = (0,1) + (2,0) and the adjoint does not appear.  Even
       the vertex mediated conversion is unavailable inside a
       uniformly oriented tower: an f-tower cannot emit an a-line at
-      any price.  (Stronger than the conversion lemma claims.)
+      any price.
 
   R3 (conversion = orientation reversed pair fusion).  dim
       Hom(f (x) fbar, a) = 1 (the words.py E3 vertex), and the walk
@@ -51,8 +51,8 @@ CONSEQUENCE.  ALL mixed orderings are excluded from bases:
   odd class:  excluded twice over (rigidity, and the original
               irrationality witness sqrt(2)^odd).
   even class: excluded by rigidity (R1) and vertex absence (R2).
-              The "rational 2" evaluation is moot because no
-              morphism exists to carry it.
+              No morphism exists to carry the "rational 2"
+              evaluation.
 The knot definition only describes this. Schur's lemma does the work.
 The only definitional layer left is the base/vent taxonomy itself
 (a base counts ONE closure's states). It is uniform canon with no
@@ -62,7 +62,7 @@ The empirical fence remains as the physical check. The mixed word
 ghosts (~64, ~139 GeV) and the would-be even response ghost (~128 GeV)
 match no PDG state and must stay absent.
 
-Usage: python3 conversion_rigidity.py
+Usage: python3 tests/probes/conversion_rigidity.py
 """
 
 import os

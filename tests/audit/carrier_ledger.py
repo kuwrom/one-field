@@ -74,7 +74,7 @@ STATEMENTS (each frozen by tests/audit/test_carrier_ledger.py).
      measurement resolves a weight there.  The venting ledger is a
      count of rows.
   C7 (the readings that are not web nodes).  The mixing matrices are
-     read from finite maps, not ledgers.  Every depth-4 term is either
+     read from finite maps, not ledgers.  Every depth 4 term is either
      sector blind or diagonal in its sector's mass basis.  Neither kind
      moves an eigenvector, so V = U_u^dag U_d is the same at depth four,
      to 1e-12.  The one live path is the lepton masses inside the PMNS

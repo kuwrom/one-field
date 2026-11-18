@@ -127,8 +127,8 @@ exp(-t0/t) gives 0.280 (Sigma = +3.65, attractive, but its anchored
 regulator lies outside the boundary). The G2-singlet content the
 repository names supplies 2.34 of the 6.46 the sign needs under the
 ledger's own cutoff. So for the labelled bridge the sign depends on
-the regulator's shape at the boundary, and the regulator literature
-leaves that shape unsettled. Read as amount beyond the horizon, as the
+the regulator's shape at the boundary, which no source fixes. Read as
+amount beyond the horizon, as the
 gravity.py ledger counts it and boundary.py's one list reads it, the
 bridge takes no share of the running. The sign then holds for any
 cutoff shape (tests/probes/horizon_amount.py).

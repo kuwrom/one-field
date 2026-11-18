@@ -1,4 +1,4 @@
-"""Option D3 of notes/lambda_plan.md against the data: a record count per grain.
+"""Lambda option D3 against the data: a record count per grain.
 
 THE MODEL. Everpresent Lambda (Ahmed, Dodelson, Greene, Sorkin,
 astro-ph/0209274; Zwane, Afshordi, Sorkin arXiv:1703.06265 Eqs. 5-8):
@@ -32,7 +32,7 @@ E3. The window needs a grain 4-volume of 2.5e3 to 1e4 l_p^4, or an
 RESULT. With the anchor's Planckian grain and an order one action per
 record, the record count fluctuates too strongly for the data in
 either convention. The density turns negative before today.  D3 in
-this form needs an unexplained small factor, which is a tuning.  The
+this form is excluded: it needs a small factor the state does not supply.  The
 estimate carries the shape factor k and the action per record as
 order one conventions. No verdict here rests on better than a factor
 of a few.

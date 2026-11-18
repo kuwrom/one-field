@@ -95,20 +95,21 @@ alpha_s (full chain, self-contained):
      A measured neutron EDM attributable to θ̄ ≠ 0 kills it.
      The compact derivation is evaluated below with the other strong sector
      results.
-     WHY THE COSET MODES DON'T APPEAR IN THE SPECTRUM: the D⁽⁶⁾
-     boundary structure projects out the nonconstant coset label
-     before localisation, the off diagonal nimrep fraction (2/3)
-     transmits only scalar spectral weight, and no coset
-     quantum number survives as a conserved charge below matching.
+     WHY THE COSET MODES DON'T APPEAR IN THE SPECTRUM: they are read
+     as nonpropagating below matching. They enter only virtually,
+     through the threshold, and no coset quantum number survives as a
+     conserved charge below matching.
      M_V enters ONLY as a matching parameter (exactly like heavy
      states in GUT threshold backreactions), not as a particle.
      THE GLUON CONDITION.  The connector transports the vacuum value of
      the electroweak condensate, not the field: a transported field
-     would run gluon fusion at 12.4 times the Standard Model rate,
+     would run gluon fusion at 18 times the Standard Model rate,
      against κ_g = 0.92 ± 0.08 (CMS, Nature 607, 60 (2022);
      tests/probes/regulator_free_ratios.py R7).  The G₂ face condensate
      then has its own radial mode. It is a colour singlet whose
-     coupling to gluons, per unit ln v_break, is 4.5 times the top's.
+     coupling to gluons, per unit ln v_break, is 21/4 times the top's
+     at beta order 1, the order of the threshold. Its mass is
+     2 α_G₂ v_break = 34 GeV (tests/probes/g2_radial_mode.py).
      A gluon fusion scalar resonance with that coupling would test it.
 
   4. SM QCD transport through beta order 2, μ* → M_Z, with the
@@ -127,20 +128,20 @@ alpha_s (full chain, self-contained):
      decides it.
 
 alpha(0):
-    Bridge self-interference with its depth-4 recursive response.
+    Bridge self-interference with its depth 4 recursive response.
     1/alpha(0) is the real root of the cubic
         x³ = (2⁹/pi)[(1 − 1/(2pi)) x² − 1/(2pi²)]
            = 137.035999050
-    (depth-1 self-echo 1/(2pi) + the FORCED depth-4 reading of the
-    depth-3 e↔q carrier, solved self-consistently in root.py).
+    (depth 1 self-echo 1/(2pi) + the FORCED depth 4 reading of the
+    depth 3 e↔q carrier, solved self-consistently in root.py).
     Full comparison: Berkeley Cs 137.035999046(27) → +0.13σ. LKB Rb
     137.035999206(11) → −14σ. CODATA 2022 blend 137.035999177(21)
     → −6.1σ. The two recoil experiments disagree with each other by
     5.5σ.  The commitment is to the cesium side, and it is
     FINAL in the EM channel: no additional independent edge exists.
-    The Cs/Rb discrepancy resolving on the Rb side kills it; a
+    The Cs/Rb discrepancy resolving on the Rb side kills it. A
     next generation recoil measurement decides.  The
-    depth-1 TRUNCATION alone,
+    depth 1 TRUNCATION alone,
         (2⁹/pi)(1 − 1/(2pi)) = 2⁸(2pi−1)/pi² = 137.036439,
     is an intermediate identity, not the prediction.
 
@@ -161,7 +162,7 @@ framework's single current response definition:
     (A) h_bridge = h(n₇,G₂) + h(n₂₆,F₄) = 2/5 + 3/5 = 1     [DIMENSION ONE]
     (B) D²_local = 1                                         [LAGRANGIAN]
     (C) c_coset  = c(E₈) − c(G₂) − c(F₄) = 0                 [CONFORMAL]
-    (D) R(h) = h/(2π) in the chosen unit normalized current basis [DEFINITION]
+    (D) R(h) = h/(2π) in the canonical unit normalized current basis [DEFINITION]
 
 Identity (A) fixes h=1 for the bridge. The single definition in
 wiring.py then gives R(1) = 1/(2pi).  It is not the raw integral of the singular separated point
@@ -172,7 +173,7 @@ later responses.
 Same bridge, two observables.  gravity.py reads the same (7,26) sector
 as 182 scalar heat kernel channels, minimally coupled (boundary.py).
 Newton's constant is the anchor inversion (root.py).
-The conformal weight h_bridge = 1 sets BOTH the QED depth-1 fraction
+The conformal weight h_bridge = 1 sets BOTH the QED depth 1 fraction
 1/(2π) and the gravitational stiffness weight of the bridge.  EM
 renormalisation and induced gravity are two readings through one bridge.
 
@@ -315,7 +316,7 @@ def _derive_bridge():
     5. Assembly (depth 1, the truncation):
          1/α_alg = 2⁹/π = 512/π  (emergence value, from Singh ratio)
          (512/π)(1 − 1/(2π)) = 2⁸(2π−1)/π² = 137.036439
-       The canonical 1/α(0) adds the FORCED depth-4 recursive response
+       The canonical 1/α(0) adds the FORCED depth 4 recursive response
        and is the
        cubic root 137.035999050 (steps continue below).
     """
@@ -334,7 +335,7 @@ def _derive_bridge():
     delta_inv = g2 * wiring.normalized_current_response(h)
     inv_alpha_alg = 2**9 / math.pi         # = 512/π (emergence value)
 
-    # Depth-4 response: the depth-3 electron↔quark carrier, read back
+    # Depth-4 response: the depth 3 electron↔quark carrier, read back
     # through the EM channel.
     # ORIENTATION RULE: a closed echo cycle contributes once per
     # orientation. The precedent is the published B = 2ρ factor from
@@ -347,11 +348,11 @@ def _derive_bridge():
     #     x³ = (512/π)[(1 − 1/(2π))x² − 1/(2π²)]
     # SINGLE SOURCE OF TRUTH: the kernel's solved web state (root.py).
     # The fixed point of x ← b + W(x) already resums this cycle. No
-    # second solver is kept here (dedup, task K3).
+    # second solver is kept here.
     inv_alpha = inv_alpha_phys
     alpha = alpha_phys
 
-    # Verify: depth-1 truncation is the published 2⁸(2π−1)/π² identity,
+    # Verify: depth 1 truncation is the published 2⁸(2π−1)/π² identity,
     # and the full value solves the cubic.
     inv_depth1 = 2**8 * (2.0 * math.pi - 1.0) / math.pi**2
     assert abs(inv_alpha_alg * (1.0 - delta_inv) - inv_depth1) < 1e-10
@@ -412,7 +413,7 @@ def derive(R, masses):
     # DEFINED in root.py as S_lepton − C₂(26) + 15/512 − 16(α/2π)²
     # and μ* as M_Pl·e^{−(S_lepton−C₂(26))}, so ln(μ*/v_EW) equals
     # the EM terms identically. This assert catches a transcription
-    # drift between the two files, never a physics failure.
+    # drift between the two files.
     em_below = 15.0/512.0 - 16.0*(alpha_phys/(2.0*math.pi))**2
     assert abs(math.log(mu_star / v_EW) - em_below) < 1e-9
 
@@ -433,8 +434,8 @@ def derive(R, masses):
     alpha_MZ_no_th = _run_SM_2loop(a_no_th_mt, m_t_GeV, M_Z_PDG, n_f - 1)
     err_no_th = 100 * (alpha_MZ_no_th - alpha_s_PDG) / alpha_s_PDG
 
-    print(f"\n  SM QCD transport through beta order 2 (no matching):")
-    print(f"    alpha_s(M_Z) = {alpha_MZ_no_th:.4f}  ({err_no_th:+.1f}%)")
+    print(f"\n  SM QCD transport through beta order 2, before the G₂ threshold:")
+    print(f"    alpha_s(M_Z) = {alpha_MZ_no_th:.4f}  (intermediate, the threshold below completes it)")
 
     # G₂ -> SU(3) threshold (matched at μ*)
     g_G2 = math.sqrt(4.0 * math.pi * alpha_s_mu_star)  # = pi/(2*sqrt(2))
@@ -473,15 +474,14 @@ def derive(R, masses):
     print(f"    lambda_3 = 1 - 21·ln(M_V/mu*) = {lambda_3:.6f}")
     print(f"    alpha_s(mu*) after threshold = {a_thresh:.6f}")
     print(f"    alpha_s(M_Z) [+threshold] = {alpha_MZ_thresh:.4f}  ({err_thresh:+.2f}%)")
-    print(f"    PDG: 0.1180 +/- 0.0009")
+    print(f"    PDG: {alpha_s_PDG:.4f} +/- {PDG_EW['alpha_s_MZ_err']:.4f}")
     print(f"    Delta = {abs(alpha_MZ_thresh-alpha_s_PDG):.4f}"
-          f", {abs(alpha_MZ_thresh-alpha_s_PDG)/0.0009:.1f}sigma")
+          f", {abs(alpha_MZ_thresh-alpha_s_PDG)/PDG_EW['alpha_s_MZ_err']:.1f}σ")
 
     # Full record strong CP closure
     strong_cp_result = derive_strong_cp()
     print(f"\n  Strong CP: bar(theta) = "
-          f"{strong_cp_result['bar_theta']:.1f} mod 2pi  "
-          f"[conditional IH]")
+          f"{strong_cp_result['bar_theta']:.1f} mod 2pi")
     print("    full record phase action on A=1+B (tests/probes/strong_cp.py)")
 
     # RK4 convergence self-certification
@@ -505,13 +505,13 @@ def derive(R, masses):
           "(S,S† rule), self-consistent:")
     print(f"    1/alpha(0) = (2⁹/pi)(1 - 1/(2pi) - 2(alpha/2pi)²)")
     print(f"               = {bridge['inv_alpha_phys']:.9f}")
-    print(f"    Berkeley Cs (2018):  137.035999046(27)   "
-          f"{(bridge['inv_alpha_phys']-137.035999046)/27e-9:+.2f}σ")
-    print(f"    LKB Rb (2020):       137.035999206(11)   "
-          f"{(bridge['inv_alpha_phys']-137.035999206)/11e-9:+.2f}σ")
-    print(f"    CODATA blend:        137.035999177(21)   "
-          f"{(bridge['inv_alpha_phys']-137.035999177)/21e-9:+.2f}σ")
-    print(f"    The two recoil experiments disagree by >5σ (unresolved).")
+    from .root import ALPHA_INV_REF
+    for label, key in (("Berkeley Cs (2018)", 'Cs_recoil'), ("LKB Rb (2020)", 'Rb_recoil'),
+                       ("CODATA blend", 'CODATA')):
+        val, err = ALPHA_INV_REF[key]
+        print(f"    {label + ':':21s}{val:.9f}({err * 1e9:.0f})   "
+              f"{(bridge['inv_alpha_phys'] - val) / err:+.2f}σ")
+    print(f"    The two recoil experiments disagree by 5.5σ.")
     print(f"    The framework value sits on the cesium side (falsifiable).")
 
     return {

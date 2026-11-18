@@ -70,15 +70,15 @@ THE CHOICES (the explanation each has in the repository):
                           29-entry menu (vertex_pinning.py)
 
 STATEMENTS (the numbers below check each one).
-  G1  Every choice except the depth-2 coefficient and the depth-4
+  G1  Every choice except the depth 2 coefficient and the depth 4
       weight moves M_Pl by an O(1) factor, so its menu supports the
       0.1% statement: given the menus, M_Pl from the four integers
       comes out within -0.11% at depth 1.
-  G2  The step from -1140 ppm to +21.5 ppm is the depth-2 coefficient
+  G2  The step from -1140 ppm to +21.5 ppm is the depth 2 coefficient
       alone. Its menu is spaced by alpha/2pi = 1161 ppm in M_Pl
       (581 ppm for half integers). For an unexplained coefficient, a
       match within the achieved 22 ppm has a 3.8% (7.7%) chance.
-  G3  The depth-4 weight moves M_Pl by 0.7 ppm. Across its whole
+  G3  The depth 4 weight moves M_Pl by 0.7 ppm. Across its whole
       menu it spans 0 to 26 ppm.
   G4  The same coefficient enters the electron in the ratio v_EW/m_e,
       where M_Pl cancels: v_EW = M_Pl e^{-S_quark} with
@@ -90,7 +90,7 @@ STATEMENTS (the numbers below check each one).
       29-entry w16 menu, 145 combinations, exactly one lies within
       2 sigma: (c2, N, w16) = (-1, 30, 16), at +0.019 ppm. The next is
       2.7 ppm away (11 sigma), and 465 ppm among the readings at
-      w16 = 16. The vertex unit pi/512 and the depth-2 unit alpha(0)
+      w16 = 16. The vertex unit pi/512 and the depth 2 unit alpha(0)
       are incommensurate, so no integer trade between N and c2 exists.
   G5  The chance that a random G_F target finds a combination within
       2 sigma is 0.22% with N = 30 and w16 = 16 taken as derived
@@ -497,7 +497,7 @@ def run(report=print):
         report(f"  {name:9s}: " + ", ".join(f"{k} {v:+.3g}" for k, v in res.items()))
     report(f"  w4 menu  : 29 entries span {w4_span:.1f} ppm in M_Pl; 27/2 sits at "
            f"{out['w4']['27/2'] - out['w4']['0']:+.2f} ppm from 'no term'")
-    report(f"depth-2 coefficient: menu spacing {spacing:.0f} ppm (integer), {spacing / 2:.0f} ppm "
+    report(f"depth 2 coefficient: menu spacing {spacing:.0f} ppm (integer), {spacing / 2:.0f} ppm "
            f"(half integer). Chance of a match within {achieved:.1f} ppm: "
            f"{100 * luck_int:.1f}% / {100 * luck_half:.1f}%")
     gf = gf_lock()
@@ -531,7 +531,7 @@ def run(report=print):
            + ". At the wired threshold S and M pass "
            + ", ".join(f"k = {n}" for n, v in bg["wired"].items() if all(v))
            + f"; c window {bg['c_window'][0]:.3f} to {bg['c_window'][1]:.2f}; G tests k = 1")
-    report("RESULT: the depth-2 coefficient is fixed by G_F on the derived N = 30 and w16 = 16, "
+    report("RESULT: the depth 2 coefficient is fixed by G_F on the derived N = 30 and w16 = 16, "
            "so the ppm statement on G is a prediction. The 0.1% statement rests on O(1)-spaced "
            "menus: C_EFF is fixed by G_F (G6). The wired gates leave k = 1 alone on the GR menu "
            "without G, and G tests it (G10). The loop order takes the closure action whole. The point "

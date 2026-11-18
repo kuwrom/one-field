@@ -20,8 +20,8 @@ The coupling record and the common mode column are computed, never
 written by hand.
 
 CURATED, per rung: what closes, what keeps it, its spins, and its
-counterfactuals.  The counterfactuals are ids in candidates.tsv, and
-their verdicts are read from that index rather than restated.
+counterfactuals: the rival readings each rung excludes, with the probe
+or module that excludes them.
 
 Two placement rules keep the record complete: every web node sits on
 exactly one rung, and every channel maps to a rung.  A new node or a new
@@ -38,13 +38,13 @@ WHAT THE RECORD SHOWS (each point is frozen by the test):
      scalars.  There the bridge's +30.33, read as amount past the
      searchlight's horizon, passes the sign gate (S) at every contact
      (tests/probes/horizon_amount.py).
-  2. One path for the deepest backreaction.  Every depth-4 edge has as
-     its parent the one depth-3 node, the e<->q charged loop.  The
-     depth-4 edges are 1/alpha, the three lepton masses, S_quark, and
+  2. One path for the deepest backreaction.  Every depth 4 edge has as
+     its parent the one depth 3 node, the e<->q charged loop.  The
+     depth 4 edges are 1/alpha, the three lepton masses, S_quark, and
      the common mode's two relative powers of the lepton circulant.
   3. Sparse rungs.  Quark masses meet the leptons only by ratio (u and d
      from e, c from mu, t from tau), and meet the algebra only through
-     depth-1 WZW vents.  Lepton masses take electromagnetic backreaction
+     depth 1 WZW vents.  Lepton masses take electromagnetic backreaction
      at depths 2 and 4.  Constants folded into a base (the four
      integers, theta) are not edges.  So an empty cell means there is no
      edge the solver iterates, not that there is no dependence.
@@ -62,7 +62,6 @@ Usage: python3 tests/audit/emergence_ladder.py
 """
 
 import contextlib
-import csv
 import io
 import os
 import sys
@@ -74,7 +73,6 @@ import _bootstrap  # noqa: E402,F401
 from interference import (couplings, dark_sector, gravity,  # noqa: E402
                           masses, mixing, root)
 
-CANDIDATES = os.path.join(_here, "candidates.tsv")
 
 
 def _rung(key, name, closes, keeps, spins, nodes=(), read="", counter=()):
@@ -91,14 +89,18 @@ RUNGS = (
           "pi_3 knot fits inside the lump",
           "0: three complex components in cyclic Z3 exchange",
           read="tests/probes/spinning_lump.py, knot_in_lump.py",
-          counter=("sub-uniform-bdg", "sub-complex-alpha", "sub-long-root-v")),
+          counter=("a uniform medium gives B/A = 14.07, not sqrt 2 (circulant_normalization.py)",
+                   "the complex coupling point exists but knots cannot form there (circulant_normalization.py)",
+                   "the long root harmonic v = (1, -1/2, -1/2) gives 1:1:16, Q = 1/2 (protected_forgetting.py)",)),
     _rung("algebra", "closure algebra",
           "the finite closure menu: the SU(3)_3 data (d10 = 2, d11 = 3, "
           "h10 = 2/9) and the conformal embedding E8(1) > G2(1) x F4(1)",
           "integrality: the braid image is finite, so the menu is discrete",
           "none. It supplies the WZW vents",
           read="interference/root.py",
-          counter=("theta-menu", "theta-2pih", "theta-extremum")),
+          counter=("the 13 other MTC angles are negative or degenerate (theta_menu.py)",
+                   "theta = 4 pi/9 leaves the positive gap branch",
+                   "no symmetric mass functional built from algebraic data selects theta = 2/9",)),
     _rung("bridge", "bridge",
           "182 = 7 x 26 coherence channels between the G2 and F4 faces",
           "it stays delocalized: 1/(2pi) of its current response localizes "
@@ -106,7 +108,7 @@ RUNGS = (
           "0 (h_bridge = 1 is integer spin; the Hurwitz ceiling forces the "
           "scalar reading)",
           nodes=("bridge_sq", "a1_bridge"),
-          counter=("g-bridge-fermion",)),
+          counter=("a fermionic bridge is excluded by spin statistics, h_bridge = 1 is integer spin",)),
     _rung("scales", "scale hierarchy",
           "the closure actions that place each scale at e^-S, as in "
           "v_EW = M_Pl e^-S_quark",
@@ -114,7 +116,9 @@ RUNGS = (
           "and interact only through echoes tagged with a depth",
           "none",
           nodes=("S_lepton", "S_baryo", "S_quark", "v_EW_GeV"),
-          counter=("mode-25", "inst-measure", "as-2loop-g2")),
+          counter=("25 alpha(0)/2pi misses v_EW by +0.022%, and the count is Tr_+(Q^2) = 30 (root.py)",
+                   "an instanton measure +1/(8 pi^2) is about 3x off",
+                   "a two loop G2 coefficient b1 = 232/3 overshoots by 10%",)),
     _rung("forces", "gauge forces and Higgs",
           "the couplings: 1/alpha from the bridge self-response and the "
           "e<->q loop, sin^2 theta_W, the Higgs quartic at M_Pl",
@@ -122,7 +126,9 @@ RUNGS = (
           "sectors and never interfere",
           "1 (photon, W, Z, gluons, coset vectors), 0 (Higgs, G2 scalars)",
           nodes=("eq_loop", "inv_alpha", "lepton_EM", "sin2W", "lambda_MPl"),
-          counter=("H-veltman", "H-mass-elementary", "kg-threshold-field")),
+          counter=("a Veltman zero at M_Pl needs m_t = 169.8 GeV against 172.57 (regulator_free_ratios.py R3)",
+                   "an elementary Higgs mass from the bridge boundary needs the measured m_H to fix the vent (higgs_mass.py)",
+                   "the 125 GeV state as threshold field gives kappa_g = -17/4 (regulator_free_ratios.py R7)",)),
     _rung("leptons", "leptons (G2 face)",
           "e, mu, tau: three standing waves of the G2 face at theta = "
           "h(fund) = 2/9 with B/A = sqrt 2",
@@ -131,7 +137,9 @@ RUNGS = (
           "electron is the lightest charged state",
           "1/2",
           nodes=("m_e", "m_mu", "m_tau"),
-          counter=("theta-pi3", "wall-triple", "g2-I6-hessian")),
+          counter=("the tree mu tau phase gives Q = 0.4094",
+                   "a domain wall triple point gives B/A = -0.271",
+                   "the G2 sextic invariant's Hessian gives at best Q = 0.341",)),
     _rung("quarks", "quarks (F4 face)",
           "u, d, s, c, b, t: word counts on the F4 face, with the crossing "
           "Koide triplets (c, b, t) and (s, c, b)",
@@ -139,7 +147,11 @@ RUNGS = (
           "confines quarks to hadrons",
           "1/2",
           nodes=("m_u", "m_d", "m_s", "m_c", "m_b", "m_t", "Q_cbt", "Q_scb"),
-          counter=("ud-bare", "c-ladder", "t-yukawa", "b-q0", "same-charge")),
+          counter=("4 m_e and 9 m_e miss by -5.4% and -2.2%",
+                   "m_d (m_tau/m_mu)^2 misses by +2.2%",
+                   "m_t = v/sqrt 2 misses by +0.89%",
+                   "Q(c,b,t) = 2/3 misses m_b by +2.66%",
+                   "Q = 2/3 on same charge triplets puts |B/A| off by 24% and 9% (mixing_z3_dichotomy.py)",)),
     _rung("hadrons", "hadrons and nuclei",
           "proton, neutron and nuclei: QCD bound states of the quark rung",
           "the proton is the lightest baryon and no edge kind changes "
@@ -164,8 +176,12 @@ RUNGS = (
           "2 (the composite metric, a gradient bilinear of the carrier)",
           nodes=("M_Pl_MeV", "common_mode", "Sigma_vent(UV)",
                  "Sigma_vent(broken)", "G_ratio"),
-          counter=("g-min-spectrum", "g-screened-poisson", "g-bridge-vector",
-                   "g-vortex-tangle", "g-graviton-ondd", "g-one-list")),
+          counter=("the minimal spectrum alone gives -10/3 (full ledger), -4.5 (one list): repulsive (gravity.py)",
+                   "a q = 0 screened Poisson field falls as e^(-r/xi0)",
+                   "the bridge as vectors gives Sigma near -33: repulsive",
+                   "a vortex tangle carries omega ~ k^2 with helicity +-1, not spin 2",
+                   "the on shell graviton row -8/3 moves 6pi/Sigma to 0.775, not 1 (self_consistent_gravity.py)",
+                   "the bridge as running charge moves M_Pl by x1.6e13 (boundary_content.py B2, B3)",)),
     _rung("dark", "dark sector",
           "the bridge coherence that never localizes: dark/baryonic = "
           "2pi - 1",
@@ -179,7 +195,9 @@ RUNGS = (
           "nothing to keep: a boundary datum, not a closure",
           "none",
           read="tests/probes/composite_metric.py",
-          counter=("L-full-form", "L-ckn", "L-sequester")),
+          counter=("the full form gives Lambda G = -0.319 on the full ledger (composite_metric.py)",
+                   "CKN saturation sits 12.2x above the observed density and needs Omega_Lambda as input (dark_sector.py)",
+                   "sequestering needs m/M_Pl to vary over the history, and the anchor fixes it (lambda_scope.py)",)),
 )
 
 # Channel path element (by prefix) -> the rung(s) it runs through.
@@ -219,15 +237,6 @@ def run_chain():
     GATES.clear()
     GATES.update(g["gravity_gates"])
     return root.WEB
-
-
-def candidate_verdicts(path=CANDIDATES):
-    out = {}
-    with open(path, newline="") as fh:
-        for row in csv.reader(fh, delimiter="\t"):
-            if row and not row[0].startswith("#") and row[0] != "id":
-                out[row[0]] = (row[4], row[5])
-    return out
 
 
 def _reads(fn, state):
@@ -317,7 +326,6 @@ def _wrap(label, text, width=78):
 
 def run(report=print):
     web = run_chain()
-    verdicts = candidate_verdicts()
     nodes = [n for n, led in web.items() if isinstance(led, root.Ledger)]
     placed = [n for r in RUNGS for n in r["nodes"]]
     unplaced_nodes = sorted(set(nodes) - set(placed))
@@ -327,7 +335,6 @@ def run(report=print):
     record = coupling_record(edges)
     feeders = sources_by_node(edges)
     cm_rows, sigma = common_mode(web)
-    missing = sorted({c for r in RUNGS for c in r["counter"]} - set(verdicts))
 
     report(f"EMERGENCE LADDER: {len(RUNGS)} rungs bottom up, couplings read "
            f"off root.WEB ({len(nodes)} nodes)")
@@ -353,10 +360,8 @@ def run(report=print):
                 report(f"    gate     {name:24s} {g['status']} {g['tier']:8s} {len(g['witness'])} witnesses")
             readers = sorted({e["node"] for e in edges if "gravity" in e["srcs"] and e["tgt"] != "gravity"})
             report(_wrap("readers", ", ".join(readers) or "none: no node of another rung reads the common mode"))
-        if r["counter"]:
-            cf = ", ".join(f"{c} {'/'.join(verdicts.get(c, ('?', '?')))}"
-                           for c in r["counter"])
-            report(_wrap("counter", cf))
+        for c in r["counter"]:
+            report(_wrap("excludes", c))
 
     cols = [k for k in KEYS if any(t == k for (_, t) in record)]
     rows = [k for k in KEYS if any(s == k for (s, _) in record)]
@@ -383,19 +388,17 @@ def run(report=print):
            f"widest elsewhere: {widest[0]} <- {sorted(widest[1])}")
     report(f"PLACEMENT: unplaced nodes {unplaced_nodes}, unplaced channels "
            f"{unplaced_channels}, doubly placed {doubly}, phantom {phantom}, "
-           f"unknown candidates {missing}, missing sources {sources}")
+           f"missing sources {sources}")
     return dict(rungs=RUNGS, nodes=nodes, edges=edges, record=record,
                 feeders=feeders, common_mode=cm_rows, sigma=sigma,
                 sigma_sum=total, sigma_without_bridge=no_bridge,
                 unplaced_nodes=unplaced_nodes,
                 unplaced_channels=unplaced_channels, doubly_placed=doubly,
-                phantom_nodes=phantom, missing_candidates=missing,
+                phantom_nodes=phantom,
                 missing_sources=sources,
                 gates={name: (g["status"], g["tier"], len(g["witness"])) for name, g in GATES.items()},
                 gravity_readers=sorted({e["node"] for e in edges
-                                        if "gravity" in e["srcs"] and e["tgt"] != "gravity"}),
-                verdicts={c: verdicts.get(c) for r in RUNGS
-                          for c in r["counter"]})
+                                        if "gravity" in e["srcs"] and e["tgt"] != "gravity"}))
 
 
 if __name__ == "__main__":

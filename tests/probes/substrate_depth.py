@@ -1,5 +1,5 @@
 """
-substrate_depth.py: the substrate depth, measured through the
+The substrate depth, measured through the
 matter stability channel.
 
 SCOPE.  The one quantity the physical layer adds is the
@@ -42,9 +42,9 @@ framework's own derived M_Pl:
 The deep condensate requirement rho xi^3 >> 1 is therefore not a
 premise: it is measured, with two decades of margin over unity, and
 every future improvement of the proton lifetime bound RAISES the
-floor.  The remaining bet is that no derivation forces the
-opposite (rho xi^3 ~ 1). That is the kill condition of the
-confined phase entry test (confined_phase.py).
+floor.  A derivation that forces the opposite (rho xi^3 ~ 1) kills
+it, the kill condition of the confined phase entry test
+(confined_phase.py).
 
 THE CHANNEL.  The floor reads the proton's decay as a node event
 unwinding a pi_3 texture of a populated relative sector, the picture
@@ -59,17 +59,15 @@ in the range convention and up to 12 in the 1/(4|mu0|) convention
 floor fails for any O(1) c (it needs c > 16). So the node event
 channel and a common mode that carries alpha_G2 are incompatible.
 
-STANDING OF THE PHYSICAL LAYER AFTER THIS READING.  It holds
-no open premise: #1 depth = lower bound under the node event reading
-+ its kill;
-#4 winding protection = conditional derivation (the stabilizing
-Faddeev-Skyrme quartic is constructive given the gap,
-effective_action.py, and the gap is measured, knot_spectrum.py);
-#2 (Lorentz) = the carrier's symmetry in the empty field
-(relativistic_carrier.py, lump_in_empty_field.py); #5 (locked clocks)
-= untested prediction with stated kill; #3 = the verification program's scope, whose falsifiers are already in
-PREDICTIONS (dark matter nulls, Bell, EP).  Every entry is a
-derivation, a measurement, or a bet.
+STANDING OF THE PHYSICAL LAYER.  Depth: a lower bound under the node
+event reading, with its kill.  Winding protection: derived given the
+gap (the stabilizing Faddeev-Skyrme quartic is constructive,
+effective_action.py, and the gap is measured, knot_spectrum.py).
+Lorentz symmetry: the carrier's symmetry in the empty field
+(relativistic_carrier.py, lump_in_empty_field.py).  Locked clocks: a
+prediction with a stated kill.  The realization program's falsifiers
+are in PREDICTIONS (dark matter nulls, Bell, EP).  Every entry is a
+derivation, a measurement, or a prediction with its kill.
 
 Scope: c is an O(1) action coefficient of the effective theory, and
 the measured floor is on the product c rho xi^3.  A computed c rescales the floor, not the
@@ -85,7 +83,7 @@ The medium's interference weight would then be inherent to the
 minimal form. The only contingent inputs left would be existence
 itself and the names of units.
 
-Usage: python3 substrate_depth.py
+Usage: python3 tests/probes/substrate_depth.py
 """
 
 import math

@@ -1,12 +1,12 @@
 """
-bridge_decoupling.py: the D3 and D4 derivations, bridge count and decoupling.
+The bridge count and its decoupling from the running.
 
-D4 (COUNT): the conformal embedding E8(1) > G2(1) x F4(1) decomposes
+COUNT: the conformal embedding E8(1) > G2(1) x F4(1) decomposes
 the E8 adjoint as  248 = (14,1) + (1,52) + (7,26).  The bridge is
 the complement: dim = n7 * n26 = 7 * 26 = 182.  No horizon input is
 needed. The count follows from E8 representation theory alone.
 
-D3 (DECOUPLING): the 182 bridge modes gravitate (enter the Sakharov
+DECOUPLING: the 182 bridge modes gravitate (enter the Sakharov
 stiffness sum Sigma) but do NOT run gauge couplings.  Five structural
 reasons, each verified computationally:
 
@@ -37,7 +37,13 @@ reasons, each verified computationally:
       common mode tensor response.  The entry is through energy, not
       through gauge coupling.
 
-Usage: python3 bridge_decoupling.py
+RESULT. E8 branching gives 248 = 14 + 52 + 182 with c_coset = 0, so
+the bridge count is 182. In the amount reading the bridge's share of
+b0 is 0 and b0 = 32/3. At the minimal scalar weight 1/6 per channel
+the bridge turns Sigma from -4.50 to 25.83 (printed, with the signs
+asserted).
+
+Usage: python3 tests/probes/bridge_decoupling.py
 """
 
 import math
@@ -56,11 +62,11 @@ from interference import boundary
 
 
 def run(report=print):
-    report("BRIDGE DECOUPLING: D3 + D4 derivation")
+    report("BRIDGE DECOUPLING: count and decoupling")
     report("=" * 64)
 
-    # ── D4: the 182 count from E8 branching ──
-    report("\n  D4: E8 BRANCHING")
+    # ── COUNT: the 182 count from E8 branching ──
+    report("\n  COUNT: E8 BRANCHING")
     dim_G2 = 2 * n7       # = 14
     dim_F4 = 2 * n26      # = 52
     dim_E8 = dim_G2 + dim_F4 + n7 * n26   # 14 + 52 + 182 = 248
@@ -70,7 +76,7 @@ def run(report=print):
     assert N_bridge == 182
     assert dim_G2 + dim_F4 + N_bridge == dim_E8
 
-    # ── D4: c_coset = 0 ──
+    # ── COUNT: c_coset = 0 ──
     hv_G2 = d10**2    # = 4
     hv_F4 = d11**2    # = 9
     c_G2 = Fraction(dim_G2, 1 + hv_G2)   # 14/5
@@ -87,14 +93,14 @@ def run(report=print):
     assert c_E8 == 8
     assert hv_E8 == 30
 
-    # ── D4: bridge conformal weight ──
+    # ── COUNT: bridge conformal weight ──
     report(f"\n    h(7,G2) = {h_7} = {float(h_7):.4f}")
     report(f"    h(26,F4) = {h_26} = {float(h_26):.4f}")
     report(f"    h_bridge = h_7 + h_26 = {h_bridge} = {float(h_bridge):.0f} (dimension 1)")
     assert h_bridge == 1
 
-    # ── D3: decoupling checks ──
-    report("\n  D3: DECOUPLING MECHANISM")
+    # ── DECOUPLING: decoupling checks ──
+    report("\n  DECOUPLING MECHANISM")
 
     # (a) Lagrangian algebra condensation
     report("\n  (a) Lagrangian algebra: c_coset = 0 => bridge absorbed")
@@ -163,8 +169,8 @@ def run(report=print):
     assert sigma_with > 0, "bridge flips sign to correct"
 
     report("-" * 64)
-    report("  D4 CLOSED: 182 = n7 * n26 from E8 branching alone.")
-    report("  D3 CLOSED: bridge decouples from running by five linked")
+    report("  COUNT: 182 = n7 * n26 from E8 branching alone.")
+    report("  DECOUPLING: bridge decouples from running by five linked")
     report("  structural properties (condensation, representation,")
     report("  zero share, scalar assignment, amount only reading).")
     report("  It gravitates because it carries energy and enters the")

@@ -2,7 +2,7 @@
 
 import pytest
 
-pytest.importorskip("flint")
+pytest.importorskip("flint", reason="needs python-flint (pip install -r requirements.txt)")
 
 
 def _silent(*args, **kwargs):

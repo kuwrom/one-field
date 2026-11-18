@@ -1,14 +1,14 @@
 """
-vertex_pinning.py: the response rule multiplicities, constrained.
+The response rule multiplicities, constrained.
 
-WHAT THIS ESTABLISHES. The response rule assigns the depth-4
+WHAT THIS ESTABLISHES. The response rule assigns the depth 4
 multiplicities
 
     coupling node (1/alpha):  2      (unweighted orientation count)
     action node   (S_quark):  16     (charge_trace x C2(26))
     amplitude node (m_lep):   27/2   (W(fund) x dim J3(O))
 
-by composing each node's own depth-1 vertex stack (the constructive
+by composing each node's own depth 1 vertex stack (the constructive
 demonstration is echo_naturality.py).  What this probe establishes
 is that the rule's three outputs are not one collective fit:
 EACH multiplicity is independently pinned by its own precision
@@ -36,8 +36,8 @@ corresponding observable.
 THE NATURALITY STATEMENT (the rule's formal content):
 
     NATURALITY OF ECHO COMPOSITION.  Let a ledger node carry
-    depth-1 echo terms with vertex data V = {v_i} (the node's own
-    OPE couplings). Then every admissible depth-4 response through the
+    depth 1 echo terms with vertex data V = {v_i} (the node's own
+    OPE couplings). Then every admissible depth 4 response through the
     e<->q 2-cycle carries multiplicity  Prod_{v in V'} v  for some
     V' subset of V fixed by the cycle's endpoints, the unweighted
     orientation count when V' is empty, and NO echo introduces a
@@ -48,7 +48,7 @@ THE NATURALITY STATEMENT (the rule's formal content):
 The statement is formal, the targets are frozen, and the rigidity is
 quantified. The constructive witness is echo_naturality.py.
 
-Usage: python3 vertex_pinning.py
+Usage: python3 tests/probes/vertex_pinning.py
 """
 
 import math
@@ -74,7 +74,7 @@ M_MU_CODATA = (105.6583755, 2.3e-6)     # MeV
 
 def menu():
     """The committed 4 x 7 vertex product menu (the e-side and q-side
-    vertex weights root.py's depth-4 readings are built from, frozen
+    vertex weights root.py's depth 4 readings are built from, frozen
     executably in wiring_theorem_probe.py, PART D), plus 0 (no term)."""
     e_side = [Fraction(1), Fraction(2), Fraction(8, 3), Fraction(1, 2)]
     q_side = [Fraction(1), Fraction(6), Fraction(27), Fraction(26),

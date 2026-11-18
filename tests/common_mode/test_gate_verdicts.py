@@ -5,7 +5,7 @@ import sys
 
 import pytest
 
-pytest.importorskip("sympy")
+pytest.importorskip("sympy", reason="needs sympy (pip install -r requirements.txt)")
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "audit"))
 import gate_verdicts  # noqa: E402
 

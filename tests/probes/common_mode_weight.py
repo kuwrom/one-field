@@ -1,6 +1,6 @@
 """The vertex composition rule read on the common mode, with one classification, and why it is not the node's reading.
 
-THE QUESTION. Every depth-4 reading of the closed carrier L = (alpha/2pi)^2
+THE QUESTION. Every depth 4 reading of the closed carrier L = (alpha/2pi)^2
 has, by the vertex composition rule, "at each endpoint, THE SAME VERTEX
 WEIGHT that node's channel already carries at depth 1, echoes compose
 existing vertices, they never invent new ones" (root.py). The rule

@@ -39,10 +39,11 @@ STATEMENTS (the numbers below check each one).
      g1 != 0 the populations of the Z3 modes do not conserve the norm,
      so no term in the director can block this direction.
 
-RESULT. On the self-bound sign the clock lump holds no knot. The
-knot based statements of the matter probes rest on a populated relative
-sector over a uniform background on the gas sign. The particle of the
-gravity lane does not carry such a sector.
+RESULT. On the self-bound sign the clock lump holds no knot: a
+texture written into it flows to the plain clock lump. The knot based
+statements of the gas sign probes read a populated relative sector
+over a uniform background, which the particle of the gravity lane does
+not carry. Its persistence is its circulation (spinning_lump.py).
 
 Usage: python3 tests/probes/knot_in_lump.py     (about a minute and a half)
 """

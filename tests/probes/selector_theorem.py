@@ -1,6 +1,6 @@
 """
 selector_theorem.py (Gate 4): the selector space is BINARY,
-and one of the two is already dead.
+and lepton closure excludes one of the two.
 
 THE THEOREM (finite group theory, verified exhaustively below):
 an idempotent probability measure on Z3 (p * p = p under Z3
@@ -24,19 +24,18 @@ not selection.  A weighted twirl is the example: not idempotent,
 hence not a selector.
 
 THE CLOSURE: the delta_e branch is the label keeping branch. The
-three gates applied to the survivors KILL it on observables: it
+three gates applied to the survivors exclude it on observables: it
 fails lepton closure (the "localize G2 first" family). Haar =
-protected forgetting is therefore the UNIQUE viable selector. This
-is not a preference. The alternative set has exactly one other
-element, and computation excludes it.
+protected forgetting is therefore the UNIQUE viable selector. The
+alternative set has exactly one other element, and computation
+excludes it.
 
-STATUS: Gate 4 closes MODULO one labeled definition (selection =
-idempotent Z3-equivariant measure).  Gate 4 does not need the wall
-datum derived from 4d dynamics. Given the definition of selection,
-the rest is a two element check, so the definition is the only
-point open to objection.
+STATUS: Gate 4 closes with selection defined as an idempotent
+Z3-equivariant measure.  It does not need the wall datum derived
+from 4d dynamics. Given that definition, the rest is a two element
+check.
 
-Usage: python3 selector_theorem.py
+Usage: python3 tests/probes/selector_theorem.py
 """
 
 

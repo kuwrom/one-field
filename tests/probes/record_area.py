@@ -53,9 +53,10 @@ STATEMENTS (the numbers below check each one).
 RESULT. The substrate fixes a finite record area. It is a lump interior
 record that acts as a regulator only for a Planckian carrier
 (closed_event_scale.py). With the Planck identification xi0 = l_Pl/2
-it gives an induced stiffness about 14 times too strong.
-The identification and this reading of the record do not both hold.
-Taken as the closure, the substrate's healing length is 1.9 to 2.9
+it gives an induced stiffness about 14 times the measured one, so the
+identification and this reading of the record do not both hold.  Gate
+C (R5) places the record in the lump interior, not the vacuum
+regulator.  Taken as the closure, the substrate's healing length is 1.9 to 2.9
 Planck lengths, the spread being the vector contact convention. The
 premise is that every ledger state is an excitation of the substrate
 (the gauge as substrate program). This record area is then the only

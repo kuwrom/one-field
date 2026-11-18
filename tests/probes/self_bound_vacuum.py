@@ -45,6 +45,14 @@ g1 = 2|g0|.  At |g1/g0| = 1/sqrt 2 the ratio c_rel/c_ph is 0.621 (gas)
 and 0.691 (liquid).  These are internal speeds of the medium.  Gate
 C's cone is set by the carrier (tests/probes/lump_in_empty_field.py).
 
+RESULT. On the gas sign (+,+) the clock has p = eps = a R^2 with a > 0,
+so it holds nothing without external pressure. At |g1/g0| = 1/sqrt 2
+only g0 < 0 < g1 keeps the clock as ground state with a < 0, and with
+the total density sextic that sign reaches a zero pressure point where
+eps - mu n = 0 to 1e-8. There the Bogoliubov spectrum is real, the
+relative gaps keep their closed form, and c_rel/c_ph = 0.691 (0.621 on
+the gas sign).
+
 Usage: python3 tests/probes/self_bound_vacuum.py     (a few seconds)
 """
 

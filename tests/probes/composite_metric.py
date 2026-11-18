@@ -60,6 +60,14 @@ STATEMENTS (the numbers below check each one).
      in the traceless form: repulsive. The binding is the coupling's
      (self_bound_vacuum.py), not the metric's.
 
+RESULT. Written without a background metric the carrier eliminates to
+g = h/U with a vanishing energy momentum tensor, and the traceless
+form is L = 2|det h|^(1/4) - U. At one loop under the Pauli-Villars
+regulator the q = 0 tensor term is -rho/4 in the full form and zero
+in the traceless form, and the q^2 stiffness is the heat kernel
+weight a1 = 1/6 per real component. The form binds nothing, and both
+contact energies are repulsive.
+
 Usage: python3 tests/probes/composite_metric.py     (about half a minute
 standalone: C6 solves the engine web once)
 """

@@ -3,7 +3,7 @@ reading gives on the expansion's form."""
 
 import pytest
 
-pytest.importorskip("sympy")
+pytest.importorskip("sympy", reason="needs sympy (pip install -r requirements.txt)")
 
 
 def _silent(*args, **kwargs):

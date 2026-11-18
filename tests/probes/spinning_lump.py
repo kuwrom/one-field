@@ -30,7 +30,8 @@ STATEMENTS (the numbers below check each one).
      Tarruell and Torner, PRA 98, 013612 (2018)).
   S3 (the full three component dynamics). Real time, all three
      components seeded with noise 1e-3 and the ring with 2% n = 2, 3
-     dents, absorbing layer, 48^3. RECORD (t = 300, not rerun here):
+     dents, absorbing layer, 48^3. RECORD (t = 300, a long run outside the
+     suite: evolve(*seeded_3d(torus(N, m)), T=300.0), not asserted):
          m = 1, N = 500:   n = 2 grows to 0.93, the ring splits and
                            sheds 59% of its charge;
          m = 1, N = 1000:  harmonics stay below 0.013, L_z/N = 0.9998,
@@ -42,20 +43,6 @@ STATEMENTS (the numbers below check each one).
      inside the spinning lump stays locked: the relative sector adds no
      instability.
 
-  S4 (what mergers make, RECORD). Two lumps of opposite clock
-     orientation colliding head on (scratchpad/collisions/collide.py,
-     64^3, closing speed 0.2) merge into one lump. At equal charge (460
-     each, a configuration symmetric under exchanging the orientations)
-     the two orientation domains persist to t = 300 (cell fractions
-     0.45/0.55, lock 0.88 to 0.91). At unequal charge (630 against 180)
-     the larger orientation takes the whole lump by t = 240 (minority
-     share 0.22 -> 0.02, lock 0.90). Two lumps of one orientation
-     merging off centre with L/N = 1.05 (two of charge 1075, 72^3) form
-     one lump within t = 40 that carries its angular momentum without a
-     vortex, as a rotating deformed lump, and sheds it slowly (L/N 0.89
-     at t = 400, lock 1.000). The closed circulation is stable once
-     present; a merger at L/N near one does not create it on this
-     horizon.
 
 RESULT. The field holds a closed circulation: one quantum of the common
 phase winding around a ring, inside a lump above a threshold charge,

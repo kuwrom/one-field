@@ -118,11 +118,10 @@ chi(0) = 1, but the spectral action ties chi(0) to the coupling at
 24 pi^2, and there the one scale shapes lose the bridge. The sources
 fix conditions and counts, not masses, widths or amplitudes, and those
 decide the sign. Within the sources' own families, a wide spread of
-proper times passes. For the labelled bridge, the regulator literature
-does not settle the sign gate. Settling it needs a principle that fixes
-the regulator's spread at the boundary. Read as amount beyond the
-horizon, the bridge is light and the spread does not enter
-(tests/probes/horizon_amount.py).
+proper times passes. Read as amount beyond the horizon, the engine's
+reading, the bridge is light and the spread does not enter
+(tests/probes/horizon_amount.py). The labelled bridge is the reading
+whose sign rests on a spread no source fixes.
 
 Usage: python3 tests/probes/boundary_regulator.py
 """

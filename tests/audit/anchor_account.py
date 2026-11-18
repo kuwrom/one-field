@@ -42,7 +42,7 @@ WHAT THE OBJECT ENFORCES (the numbers below check each one).
      by tens to thousands of standard deviations.
   A5 (second order entries enter once).  The account holds three
      entries of order e^2: w4 on each lepton, w16 on v_EW, and the square
-     of the depth-2 term, which is absent.  G_F reads the electron's
+     of the depth 2 term, which is absent.  G_F reads the electron's
      terms and v_EW's terms together.  It fixes w16 minus the electron's
      terms to 0.38 at two standard deviations, not each one alone.  A
      term common to every mass node is a factor on M_b, which is a
@@ -118,7 +118,7 @@ class Account:
         rows = [
             Entry("S0", r.S_lepton, 1, "closure action, one loop (identification G tests)", "root.py S_lepton",
                   "every node", 1e-7),
-            Entry("c", 1.0, 0, "identification by necessity (T8), the boundary reading beside the count",
+            Entry("c", 1.0, 0, "identification by necessity, the boundary reading beside the count",
                   "root.py, the boundary reading", "G", 1e-7),
             Entry("C_EFF", r.C_EFF, 1, "the closure's common mode read whole (frame_coefficients F1), tested by G_F", "root.py C_EFF", "leptons", 1e-8),
             Entry("theta", float(r.h10), 1, "derived (h10)", "root.py h10", "leptons", 1e-9),

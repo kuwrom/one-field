@@ -36,7 +36,7 @@ STATEMENTS (the numbers below check each one).
 RESULT. The boundary matches the Higgs mass. The measured mass
 constrains the vent and leaves two readings, 1/6 and h10.  The pole
 matching is the extra stage higgs_ew.py excludes ("identified at the
-depth-4 Web endpoint rather than by an extra matching stage"). The
+depth 4 Web endpoint rather than by an extra matching stage"). The
 Higgs mass enters the chain as data on the vent, and the engine's
 outputs contain no M_h.
 

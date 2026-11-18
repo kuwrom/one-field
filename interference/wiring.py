@@ -193,7 +193,7 @@ def level_residual(k):
     h_J integer but >= 2 -> W-algebra extension, imports a free
     normalisation (1 violation). h_J = 1 -> closes (0).
 
-    R3-FROM-R1 (why k = 3 is a LEMMA, not a hypothesis).  The only
+    R3-FROM-R1 (why k = 3 is a lemma).  The only
     axiom in play is R1, zero free parameters.  The simple current
     J = (k,0) of SU(3)_k has h_J = k/3.  A modular extension needs
     h_J to be an integer, so k = 3, 6, 9, ....  For k > 3 the extending
@@ -219,7 +219,7 @@ def level_residual(k):
     return 0 if h_J == 1 else 1
 
 
-# # Kac-Peterson S-matrix for SU(3)_k (computed, not cited) ####
+# # Kac-Peterson S-matrix for SU(3)_k (computed) ####
 
 def su3_qdims(k):
     """Quantum dimensions of SU(3)_k primaries from the S-matrix."""
@@ -378,7 +378,7 @@ def run(report=print):
         "(k > 3 extends by a W-generator, reimporting a free " \
         "normalisation. Excluded by the zero parameter demand itself)"
     report("    -> unique survivor: k = 3 (a lemma of the "
-           "zero parameter demand, not a hypothesis)")
+           "zero parameter demand)")
 
     n7, n26 = FUND_DIM["G2"], FUND_DIM["F4"]
     d = su3_qdims(3)

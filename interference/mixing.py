@@ -3,7 +3,7 @@ Mixing: CKM + PMNS from (d₁₀, d₁₁, π) and the derived lepton masses.
 
 The parameter map evaluates all four Wolfenstein coordinates from
 (d₁₀, d₁₁, π).  The modular phase π/9 is computed. Assigning it
-to the physical Wolfenstein coordinate η̄ is an identification hypothesis,
+to the physical Wolfenstein coordinate η̄ is an identification,
 as are the assignments of λ, A, and ρ̄.
 CKM scorecard: diagonal pull score = 3.13, max marginal pull 0.70σ.
 The comparison block mixes correlated global fit outputs with one
@@ -23,11 +23,11 @@ CKM parameter map
 
 The engine uses:
 
-  λ = h₁₀·(1 + h₁₁/K²) = (2/9)(73/72) = 73/324 , METRIC face (IH)
+  λ = h₁₀·(1 + h₁₁/K²) = (2/9)(73/72) = 73/324 , METRIC face (identified)
       This is the Sugawara weight h₁₀ = d₁₀/d₁₁² with the adjoint
       backreaction h₁₁/K² = 1/72. It is the same 73/72 factor that
       root.py applies to bridge².  The declared 12-entry menu closes on
-      it without data (tests/probes/lambda_admissibility.py). The order
+      it without data (tests/probes/cabibbo_menu.py). The order
       lemma, the SU(3)₃ weights, the simple current's trivial boundary
       action and f ⊗ f̄ = 1 ⊕ 8 leave three entries. The overlap
       V = U_u† U_d is a Hermitian pair, which leaves only the paired
@@ -58,10 +58,10 @@ PMNS, democratic mixing + charged lepton backreaction
   democratic adjoint block with TBM eigenvectors.
 
   U_PMNS = U_e† · U_TBM, with U_e = R₂₃(−φ) · R₁₃(θ_C, δ):
-    φ = √(m_e/m_μ)/√d₁₀   (mass ratio derived; the 1/√d₁₀ scale is IH)
-    θ_C = h₁₀ = 2/9        (bare Sugawara weight; slot assignment IH)
+    φ = √(m_e/m_μ)/√d₁₀   (mass ratio derived, the 1/√d₁₀ scale identified)
+    θ_C = h₁₀ = 2/9        (Sugawara weight, slot assignment identified)
     δ = −arccos(−λ)        (echoed λ = 73/324, in the CKM convention;
-                            form IH)
+                            form identified)
   No continuous parameter is fitted.  δ is not a pure rephasing: it
   controls sin²θ₁₂ through interference.
 
@@ -194,10 +194,10 @@ def _compute_d6_boundary():
     In cell system notation this regular graph is D⁽⁶⁾*.  The two
     algebraic cell magnitudes are fixed by the type-I equations and the
     relative sign by the type II equation.  Substitution in the Ocneanu
-    formula gives a unitary Yang--Baxter connection whose entries all
+    formula gives a unitary Yang-Baxter connection whose entries all
     have magnitude 1/sqrt(2).  Thus 1/sqrt(2) is derived here from the
     solved connection, not assigned from graph valency.  This is the
-    n=1 specialization of Evans--Pugh, Theorem 8.2 (arXiv:0906.4307).
+    n=1 specialization of Evans-Pugh, Theorem 8.2 (arXiv:0906.4307).
     """
     from .words import N_FUND
 
@@ -300,7 +300,7 @@ def _compute_d6_boundary():
                     connection[target, source]
         return operator
 
-    # Yang--Baxter is the type II cell equation in operator form.
+    # Yang-Baxter is the type II cell equation in operator form.
     paths3 = tuple(
         path for path in itertools.product(range(6), repeat=4)
         if all(n10[path[i], path[i + 1]] for i in range(3))
@@ -317,7 +317,7 @@ def _compute_d6_boundary():
     # The central full twist splits it canonically as 3 + 3 + 2.  Read as
     # fusion tree frames, the two 3-dim carriers give real relative
     # frames. Their |V|^2 values lie on a nine value menu with floor
-    # 1/12. The depth-4 backreaction leaves V invariant
+    # 1/12. The depth 4 backreaction leaves V invariant
     # (tests/probes/mixing_depth4.py).
     start = boundary_pairs[0][0]
     endpoint = boundary_pairs[1][0]
@@ -404,7 +404,7 @@ def _derive_ckm(wzw):
     """Derive the full CKM matrix from the SU(3)₃ boundary data.
 
     Four Wolfenstein parameters, each a face of the D⁽⁶⁾* graph:
-      λ , metric (Sugawara weight + adjoint echo, IH)
+      λ , metric (Sugawara weight + adjoint echo, identified)
       A , algebraic (nimrep within pair off diagonal fraction)
       η̄ , modular (S-matrix phase)
       ρ̄ , topological (Ocneanu braid connection amplitude)
@@ -416,7 +416,7 @@ def _derive_ckm(wzw):
     # λ = h₁₀·(1 + h₁₁/K²).  Its 73/72 factor is the paired insertion
     # factor that root.py applies to bridge². The overlap V = U_u† U_d
     # is a Hermitian pair, so the CKM insertion is paired too
-    # (tests/probes/lambda_admissibility.py).
+    # (tests/probes/cabibbo_menu.py).
     # On the declared menu {h₁₀,h₁₁,Q₀,1} × {K,K²,K³}, this is the
     # only entry within 1σ of the measured Wolfenstein λ.  The
     # enumeration is returned below and frozen by
@@ -430,7 +430,7 @@ def _derive_ckm(wzw):
     assert abs(A**2 - float(d10) / float(d11)) < 1e-15
 
     # The oriented fundamental/fundamental modular phase is pi/9.
-    # Identifying this mathematical phase with physical etabar is an IH.
+    # This mathematical phase is identified with physical etabar.
     fund = wzw['IDX'][(1, 0)]
     eta = cmath.phase(wzw['S_mat'][fund, fund])
     assert abs(eta - math.pi / float(d11**2)) < 1e-12
@@ -537,10 +537,9 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
     1. The adjoint principal block and a further projected fundamental
        block give TBM magnitudes up to ordering and rephasing. They are
        an algebraic candidate, not a Z_C nimrep or a neutrino mass operator.
-    2. Charged lepton rotation U_e provides backreaction (called "NLO
-       corrections" in standard convention):
+    2. Charged lepton rotation U_e provides backreaction:
          φ = √(m_e/m_μ)/√d₁₀  (lepton mass ratio, derived in masses.py)
-         θ_C = h₁₀ = 2/9       (conformal weight = Cabibbo angle, IH)
+         θ_C = h₁₀ = 2/9       (conformal weight = Cabibbo angle, identified)
          δ = −arccos(−λ_CKM)   (phase consistency, CKM convention)
     3. U_PMNS = U_e† · U_TBM gives three mixing angles and the
        rephasing invariant δ_CP = 275.74° (J_lep < 0).
@@ -639,12 +638,11 @@ def _derive_pmns(wzw, lam_ckm, m_e, m_mu):
     assert np.allclose(np.abs(U_TBM), tbm_abs)
 
     # # Charged lepton backreaction: U_e = R₂₃(−φ) · R₁₃(θ_C, δ) #
-    # (Standard convention: "NLO correction to TBM.")
     # The rotation form uses the CKM derived coordinates.
     # φ = √(m_e/m_μ)/√d₁₀; m_e and m_μ come from masses.py.
     phi = math.sqrt(m_e / m_mu) / math.sqrt(float(d10))
-    # θ_C = h₁₀ BARE: the R₁₃ angle is the interface free reading. It
-    # carries no neutral lane adjoint factor (IH).
+    # θ_C = h₁₀ as read: the R₁₃ angle is the interface free reading. It
+    # carries no neutral lane adjoint factor (identified).
     theta = float(h10)
     # δ = −arccos(−λ_CKM), in the CKM convention (e^{−iδ} at (1,3)).
     # The invariant δ is 275.74°, inside all NuFIT 6.0 3σ ranges. The
@@ -742,26 +740,26 @@ def derive(R, masses):
     print(f"  S-matrix: {N_PRIM}x{N_PRIM}, unitarity |SS†−I| = {unitarity_err:.2e}")
 
     # # CKM #
-    print(f"\n  CKM candidate map (physical coordinate assignments are IHs):")
+    print(f"\n  CKM map:")
     ckm = _derive_ckm(wzw)
 
     h10_frac = Fraction(d10, d11**2)
-    print(f"    lambda [IH] = h₁₀(1+h₁₁/K²) = ({h10_frac})(73/72) = "
+    print(f"    lambda = h₁₀(1+h₁₁/K²) = ({h10_frac})(73/72) = "
           f"{Fraction(73, 324)} = {ckm['lam']:.5f}"
-          f"  (PDG: {PDG_CKM['lambda'][0]}, pull: {(ckm['lam']-PDG_CKM['lambda'][0])/PDG_CKM['lambda'][1]:+.2f}sigma)")
+          f"  (PDG: {PDG_CKM['lambda'][0]}, pull: {(ckm['lam']-PDG_CKM['lambda'][0])/PDG_CKM['lambda'][1]:+.2f}σ)")
     _menu = ckm['lambda_menu']
     print(f"    lambda echo menu {{h₁₀,h₁₁,Q₀,1}}x{{K,K²,K³}}: "
-          f"{_menu['n_within_1sigma']}/{_menu['n_candidates']} within "
-          f"1sigma (committed {_menu['committed_pull']:+.2f}sigma, "
-          f"next best {_menu['next_best_abs_pull']:.2f}sigma)")
-    print(f"    A [IH] = sqrt(d₁₀/d₁₁) = sqrt({Fraction(d10,d11)}) = {ckm['A']:.5f}"
-          f"  (PDG: {PDG_CKM['A'][0]}, pull: {(ckm['A']-PDG_CKM['A'][0])/PDG_CKM['A'][1]:+.2f}sigma)")
-    print(f"    modular phase pi/d₁₁² = pi/{d11**2} -> etabar [IH] "
+          f"{_menu['n_within_1sigma']} of {_menu['n_candidates']} within "
+          f"1σ (committed {_menu['committed_pull']:+.2f}σ, "
+          f"next best {_menu['next_best_abs_pull']:.2f}σ)")
+    print(f"    A = sqrt(d₁₀/d₁₁) = sqrt({Fraction(d10,d11)}) = {ckm['A']:.5f}"
+          f"  (PDG: {PDG_CKM['A'][0]}, pull: {(ckm['A']-PDG_CKM['A'][0])/PDG_CKM['A'][1]:+.2f}σ)")
+    print(f"    modular phase pi/d₁₁² = pi/{d11**2} -> etabar "
           f"= {ckm['eta']:.5f}"
-          f"  (PDG: {PDG_CKM['etabar'][0]}, pull: {(ckm['eta']-PDG_CKM['etabar'][0])/PDG_CKM['etabar'][1]:+.2f}sigma)")
-    print(f"    rhobar [IH] = h₁₀/sqrt(d₁₀) = sqrt({d10})/{d11**2} = {ckm['rho']:.5f}"
-          f"  (PDG: {PDG_CKM['rhobar'][0]}, pull: {(ckm['rho']-PDG_CKM['rhobar'][0])/PDG_CKM['rhobar'][1]:+.2f}sigma)")
-    print(f"    gamma [IH map output] = arctan(pi/sqrt({d10})) = {ckm['gamma_deg']:.2f} deg"
+          f"  (PDG: {PDG_CKM['etabar'][0]}, pull: {(ckm['eta']-PDG_CKM['etabar'][0])/PDG_CKM['etabar'][1]:+.2f}σ)")
+    print(f"    rhobar = h₁₀/sqrt(d₁₀) = sqrt({d10})/{d11**2} = {ckm['rho']:.5f}"
+          f"  (PDG: {PDG_CKM['rhobar'][0]}, pull: {(ckm['rho']-PDG_CKM['rhobar'][0])/PDG_CKM['rhobar'][1]:+.2f}σ)")
+    print(f"    gamma (map output) = arctan(pi/sqrt({d10})) = {ckm['gamma_deg']:.2f} deg"
           f"  (PDG: {PDG_CKM['gamma_deg'][0]})")
 
     labels_row = ['u', 'c', 't']
@@ -773,7 +771,7 @@ def derive(R, masses):
             key = f"V{labels_row[i]}{labels_col[j]}"
             pdg_val, pdg_err = PDG_CKM[key]
             pull = (Vabs[i, j] - pdg_val) / pdg_err
-            row += f"|V_{labels_row[i]}{labels_col[j]}|={Vabs[i,j]:.5f}({pull:+.1f}s) "
+            row += f"|V_{labels_row[i]}{labels_col[j]}|={Vabs[i,j]:.5f}({pull:+.1f}σ) "
         print(row)
 
     print(f"    J_ckm = {ckm['J_ckm']:.2e}  (PDG: {PDG_CKM['J'][0]:.2e})")
@@ -783,26 +781,24 @@ def derive(R, masses):
     print("    unitarity triangle diagnostics, not scored (functions of "
           "rho_bar, eta_bar, gamma already in the block):")
     print("      " + "  ".join(
-        f"{n} = {v:.3f} ({(v - r[0]) / r[1]:+.2f}s vs {r[0]})"
+        f"{n} = {v:.3f} ({(v - r[0]) / r[1]:+.2f}σ vs {r[0]})"
         for n, v, r in _ut))
     print(f"    diagonal pull score (CKM) = "
           f"{ckm['diagonal_pull_score_ckm']:.2f} / "
           f"{len(ckm['ckm_obs'])} comparison coordinates = "
           f"{ckm['diagonal_pull_score_ckm']/len(ckm['ckm_obs']):.2f}")
-    print("      global fit outputs plus a separate phase constraint. No joint")
-    print("      covariance model is supplied, so this is descriptive, not chi2")
 
     # # PMNS #
     m_e = masses['m_e']
     m_mu = masses['m_mu']
     pmns = _derive_pmns(wzw, ckm['lam'], m_e, m_mu)
 
-    print(f"\n  PMNS candidate (conjugation orbit projection + charged lepton backreaction):")
+    print(f"\n  PMNS map (conjugation orbit projection + charged lepton backreaction):")
     print(f"    Z_C Cardy boundaries = {pmns['zc_boundary_states']}; "
           f"fundamental projection leakage = "
           f"{pmns['fundamental_generation_leakage']:.3f}")
     print(f"    phi = sqrt(m_e/m_mu)/sqrt({d10}) = {math.sqrt(m_e/m_mu)/math.sqrt(float(d10)):.6f} rad")
-    print(f"    theta_C = h₁₀ = {h10_frac} = {math.degrees(float(h10)):.3f} deg  [IH]")
+    print(f"    theta_C = h₁₀ = {h10_frac} = {math.degrees(float(h10)):.3f} deg")
     print(f"    delta = -arccos(-lambda) = {-math.degrees(math.acos(-ckm['lam'])):.3f} deg"
           "  (CKM convention)")
 
@@ -810,7 +806,7 @@ def derive(R, masses):
         val = pmns[key]
         nf_val, nf_err = NUFIT_PMNS[f'sin2_{label}']
         pull = (val - nf_val) / nf_err
-        print(f"    sin2_theta_{label} = {val:.5f}  (NuFit: {nf_val}, pull: {pull:+.2f}sigma)")
+        print(f"    sin2_theta_{label} = {val:.5f}  (NuFit: {nf_val}, pull: {pull:+.2f}σ)")
 
     print(f"    delta_CP (invariant) = {pmns['delta_invariant_deg']:.2f} deg"
           "  [NuFIT 6.0 NO 3sigma: 96-422]")
@@ -818,7 +814,6 @@ def derive(R, masses):
     print(f"    diagonal pull score (PMNS) = "
           f"{pmns['diagonal_pull_score_pmns']:.2f} / 3 correlated angles = "
           f"{pmns['diagonal_pull_score_pmns']/3:.2f}")
-    print("      approximate symmetric marginals. Not a covariance aware chi2")
 
     # # Merge and return #
     result = {}

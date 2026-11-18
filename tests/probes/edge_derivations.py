@@ -1,8 +1,8 @@
 """
-edge_derivations.py: the two independent mass derivations.
+The two independent mass derivations.
 
 Two canon edges enter the mass sector through structures beyond the
-word/correction menus.  Neither is a menu choice. This probe holds
+word/echo menus.  Neither is a menu choice. This probe holds
 both derivations in executable form.
 
 THE DOWN QUARK VENT (m_d).  The exact identity
@@ -10,9 +10,9 @@ THE DOWN QUARK VENT (m_d).  The exact identity
     d11^2 (1 + d10/d11^4)  =  count(aa) + h10  =  83/9
 
 says the multiplicative vent form IS the committed word_multiplier
-operation m_q = (count(w) + corr) m_lep. The Z2 triality swap changes
+operation m_q = (count(w) + echo) m_lep. The Z2 triality swap changes
 only the seed word (ff -> aa, exactly as at the seed level u = ff,
-d = aa). The correction corr(1) = h10 comes from the generation
+d = aa). The echo term echo(1) = h10 comes from the generation
 ladder, where it is already fixed at up-gen-1.  Zero freedom.  The down-gen-1 search
 stage (closure_search.py, ancillary) shows (aa, h10) as the unique
 ladder conditioned hit at the 1% band.
@@ -49,7 +49,7 @@ with every ingredient derived:
   Ch. 5). So the space of invariant symmetric bilinear forms on the
   26 is one dimensional. Any two equivariant norms differ by ONE
   constant, and the Dynkin->Albert mass map is the single factor
-  delta_Z2/delta_J = sqrt(32/27).  Forced, not chosen.
+  delta_Z2/delta_J = sqrt(32/27).  Forced.
 
   The identities delta_Z2 = Q0 and 1/delta_J^2 = 8/3 = charge_trace
   show that the two readings of 32/27, as a norm conversion and as a
@@ -60,7 +60,15 @@ puts m_s inside the scorecard band only at w = 1/8. The altitude
 factor (1 + h11/K^2) is the paired insertion K^2 term (the first
 invariant order theorem).
 
-Usage: python3 edge_derivations.py
+RESULT. Derived: the down quark vent is the exact identity d11^2 (1 +
+d10/d11^4) = count(aa) + h10 = 83/9, and the strange bridge is the Schur
+unique norm conversion bridge^2 = delta_Z2^2 / delta_J^2 = 32/27, with
+delta_J^2 = 3/8 constructed on an antiassociative triple. Compared with
+data, aa is the only two letter word whose m_d lies inside 1%. The share
+scan puts m_s inside 1% only at the isotropic share w = 1/8, and the
+imaginary only share 1/7 is excluded.
+
+Usage: python3 tests/probes/edge_derivations.py
 """
 
 import math
@@ -94,13 +102,13 @@ def run(report=print):
     rhs = Fraction(d11**2) + Fraction(h10)
     assert lhs == rhs == Fraction(83, 9)
     w2 = eg.word_menu(2)
-    assert w2["aa"] == 9 and "h10" in eg.correction_menu()
+    assert w2["aa"] == 9 and "h10" in eg.echo_menu()
     hits_cond = [w for w, c in w2.items()
                  if abs((c + float(h10)) * M_E_ANCHOR_MEV
                         / PDG_MASSES["d"] - 1.0) < 0.01]
     assert hits_cond == ["aa"]
     report(f"  m_d: d11^2(1 + d10/d11^4) = {lhs} = count(aa) + h10 "
-           f"(EXACT, word 'aa' and corr 'h10' committed).")
+           f"(EXACT, word 'aa' and echo 'h10' committed).")
     report("       ladder conditioned down-gen-1 stage: unique hit = "
            "aa  ->  m_d = (83/9) m_e")
 

@@ -1,4 +1,4 @@
-"""The internal modes of the 1D clock lump, and why the lock stalls.
+"""The internal modes of the 1D clock lump, and its approach to the clock.
 
 lump_formation.py finds that a lump formed from a random cloud turns
 toward the clock but does not reach it within the simulated time (F3).
@@ -41,7 +41,8 @@ STATEMENTS (the numbers below check each one).
      becomes small.
   I5 (the fingerprint, failed as registered). The registered test was
      a line at twice the soft frequency in the lock signal of formed
-     lumps. RECORD (t = 600 to 2400, not rerun here): seeds 1, 2 and 7
+     lumps. RECORD (t = 600 to 2400, lump_formation.evolve at T = 2400 and
+     the spectrum of its lock series, not asserted): seeds 1, 2 and 7
      show lines at 0.275, 0.060 and 0.074 against twice the soft
      frequency 0.078, 0.078, 0.053. Their mean late lock is 0.44, 0.86
      and 0.79. Within the simulated time, formed lumps sit outside the
@@ -57,7 +58,8 @@ STATEMENTS (the numbers below check each one).
      (l = 0). At 0.7 mu0, 0.0570 and 0.1905 (l = 0) and 0.1309 (l = 1).
      The number of bound modes is set by the lump's size, as for any
      well. It is not three. The l = 0 pair at mu0/2 is rechecked below.
-     The full table is a RECORD.
+     The full table is bound_3d(frac, l) at frac = 0.3, 0.5, 0.7, 0.85
+     and l = 0 to 3 (not asserted beyond the l = 0 pair).
 
 RESULT. Near the clock, energy in the soft relative mode stays there,
 because its first harmonic in the continuum is the seventh. A large
@@ -65,9 +67,9 @@ excess drains nonlinearly and slows as it shrinks. So conservative
 dynamics approaches the clock without completing the lock, in any
 dimension where the soft mode sits this deep below the continuum. In 3D
 the soft relative mode (l = 0) sits at omega/|mu| = 0.28, and its fourth
-harmonic is the first in the continuum. The 3D formation run of
-lump_formation.py (RECORD) shows no draining of the excess within its
-simulated time.
+harmonic is the first in the continuum.  A long 3D formation run, outside
+the suite, saw no draining of the isolated lump's excess on its
+simulated horizon.
 
 Usage: python3 tests/probes/lump_internal_modes.py     (about two minutes)
 """

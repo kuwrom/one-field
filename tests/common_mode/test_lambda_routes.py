@@ -1,4 +1,4 @@
-"""Freezes the Lambda routes of notes/lambda_plan.md.  Route B
+"""Freezes the Lambda routes A, B and C.  Route B
 (lambda_unit.py): the metric's unit cannot absorb V0, so V0 = -rho_vac
 is a tuning, and off it the vacuum is de Sitter with no graviton mass.
 Route A (composite_volume.py): the carrier's volume element is nonzero
@@ -19,7 +19,7 @@ def test_lambda_route_b_the_vacuum_constant_is_a_tuning():
     assert out["b3"]["second_order"] < 1e-12
 
 
-def test_lambda_route_a_the_carrier_volume_element_closes():
+def test_lambda_route_a_the_carrier_volume_element_is_excluded():
     from probes import composite_volume as cv
 
     out = cv.run(report=_silent)

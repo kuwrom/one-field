@@ -68,21 +68,21 @@ either a per channel weight 0.122 in place of the minimal 1/6, or
 t0 = 4.297 l_Pl^2.  None of the places such a number could come from
 supplies it:
   (a) Depth.  Every post searchlight term in the web reads
-      eq_loop = (alpha/2pi)^2. The depth-4 terms are 5e-7 to 3e-6
-      relative and a depth-5 echo would move Sigma by ~4e-8.  The
+      eq_loop = (alpha/2pi)^2. The depth 4 terms are 5e-7 to 3e-6
+      relative and a depth 5 echo would move Sigma by ~4e-8.  The
       gap is 0.43.  No stiffness node reads eq_loop (the bridge carries
       the loop and receives no echo of it), asserted below. The common
       mode's own node reads it once, at 3.6e-5 (root.py).
   (b) The Albert junction.  In the Tits construction the bridge is
       Im(O) x J3(O)_0, traceless in both factors, so a channel has
       zero linear projection on the unit and its quadratic vent into
-      the unique (1,1) invariant is its own trace norm.  The depth-4
+      the unique (1,1) invariant is its own trace norm.  The depth 4
       transport is an Albert automorphism, block diagonal on 1 + 26,
       so the per channel multiplier is exactly 1 (theorem; the
       explicit J3(O) check is kept with this probe).
   (c) The substrate.  The q=0 channel is shift symmetric, so xi = 0
-      exactly. The quantum pressure corrections (1/4) grad^2 ln rho
-      and p^4/4 multiply p^2 and are metric corrections, not curvature
+      exactly. The quantum pressure terms (1/4) grad^2 ln rho
+      and p^4/4 multiply p^2 and are metric terms, not curvature
       couplings.  The p^4 dispersion softens the induced-1/G
       divergence from 1/t0 to sqrt(pi) Lambda_h/sqrt(t0) and does not
       remove it (asserted below). It belongs to a condensate, not to the
@@ -133,7 +133,14 @@ t0 = Sigma/(2 pi) l_Pl^2 (g_path_trials.py G10).  Given a cutoff, the
 DeWitt Seeley theorem fixes the arithmetic on the composite metric.
 The coefficient it returns is FACT 6's.
 
-Usage: python3 sakharov_normalisation.py
+RESULT. With the standard per state weights the ledger counts Sigma =
+27, so under t0 = d11 l_Pl^2 the ratio is 6 pi/Sigma = 2 pi/9 = 0.698.
+The vector contact coefficient +1, 0 and -1 gives 0.698, 0.419 and
+0.299, all attractive, so the ratio is a regulator dependent diagnostic.
+G is the anchor inversion read through the common mode (root.py), not a
+reading of this ratio.
+
+Usage: python3 tests/probes/sakharov_normalisation.py
 """
 
 import math
@@ -255,7 +262,7 @@ def run(report=print):
            f"metric (FACT 6).")
 
     # # FACT 6: the closed derivation routes, executable parts #
-    # (a) no stiffness node reads the depth-3 carrier. The depth-4 web
+    # (a) no stiffness node reads the depth 3 carrier. The depth 4 web
     #     terms are ppm scale against a 0.43 gap
     from root import WEB, Ledger, SEARCHLIGHT_DEPTH
     grav_reads_carrier = any(
@@ -288,7 +295,7 @@ def run(report=print):
         assert abs(C / pred - 1.0) < 1e-3
         consts.append(C * math.sqrt(t0) / L)
     assert consts[-1] > consts[0]          # approaches sqrt(pi) from below
-    report(f"FACT 6: no stiffness node reads eq_loop. Max depth-4 term "
+    report(f"FACT 6: no stiffness node reads eq_loop. Max depth 4 term "
            f"{max_depth4_rel:.1e} relative vs gap {gap:.2f}; p^4 "
            f"dispersion leaves C(t0) sqrt(t0)/Lambda_h -> "
            f"{consts[-1]:.3f} (sqrt(pi) = {math.sqrt(math.pi):.3f}), "

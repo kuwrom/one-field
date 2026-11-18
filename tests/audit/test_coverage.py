@@ -178,8 +178,8 @@ def test_vertex_current_trace_identity():
 def test_inv_alpha_closed_form(res):
     """1/alpha(0) solves the FINAL cubic
         x = (512/pi) * (1 - 1/(2pi) - 2*(1/x / 2pi)^2)
-    with base 512/pi (Singh ratio), depth-1 coefficient h_bridge = 1,
-    depth-4 response multiplicity exactly 2 (orientation rule)."""
+    with base 512/pi (Singh ratio), depth 1 coefficient h_bridge = 1,
+    depth 4 response multiplicity exactly 2 (orientation rule)."""
     x = res["c"]["inv_alpha_phys"]
     rhs = (512 / math.pi) * (1 - 1 / (2 * math.pi)
                              - 2 * (1 / (x * 2 * math.pi))**2)
@@ -216,7 +216,7 @@ def test_bridge_sq_closed_form(res):
 
 
 # ═══════════════════════════════════════════════════════════════════════
-#  4. Derivation program witnesses
+#  4. Structural theorem witnesses
 #     Each structural theorem reduced to executable components
 #     already present in the repo.  These tests freeze the witnesses.
 #     The symbolic proofs are the papers' job.
@@ -317,19 +317,19 @@ def test_searchlight_depth_and_recursive_web_are_distinct(res):
     """The octonionic searchlight stops at 3. The recursive web does not.
 
     Three checks:
-    1. The framework's searchlight depth is 3 while a checked depth-4
+    1. The framework's searchlight depth is 3 while a checked depth 4
        web child is legal.
     2. The EM sector graph has exactly 2 charged nodes (G2-knot, F4-knot),
        so its longest nonrepeating path is length 2. All deeper traversals
        are resummed by the kernel's self-consistency.
-    3. Every post searchlight response names the depth-3 carrier parent,
+    3. Every post searchlight response names the depth 3 carrier parent,
        and takes its value through a state dependent (callable) edge.
     """
     from root import WEB, SEARCHLIGHT_DEPTH, EchoTerm, Ledger
 
     # 1. The norm multiplicative ledger criterion plus Hurwitz caps the
     # octonionic searchlight at depth 3, while the recursive Web permits
-    # a checked depth-4 child.
+    # a checked depth 4 child.
     assert SEARCHLIGHT_DEPTH == 3
     assert EchoTerm(["post searchlight"], 0.0, 4).depth == 4
     max_depth_found = 0
@@ -340,21 +340,21 @@ def test_searchlight_depth_and_recursive_web_are_distinct(res):
         for t in led.terms:
             max_depth_found = max(max_depth_found, t.depth)
             total_terms += 1
-    assert max_depth_found == 4, "canon must include its depth-4 reading"
+    assert max_depth_found == 4, "canon must include its depth 4 reading"
     assert total_terms > 0, "web must have echo terms"
     assert WEB["S_baryo"].web_depth == 4
     assert WEB["M_Pl_MeV"].web_depth == 4
     assert not hasattr(WEB["S_baryo"], "emergence_depth")
     for name in ("inv_alpha", "S_quark", "m_e", "m_mu", "m_tau"):
         assert WEB[name].web_depth == 4, \
-            f"{name} must declare its recursive depth-4 reading"
-    # the stiffness nodes carry constant depth-1 vents and a ratio over
-    # them. None of their edges couples to the depth-3 carrier (the
+            f"{name} must declare its recursive depth 4 reading"
+    # the stiffness nodes carry constant depth 1 vents and a ratio over
+    # them. None of their edges couples to the depth 3 carrier (the
     # bridge carries the loop), so their depth is 1 (sakharov_normalisation
     # FACT 6). The common mode's own node couples to it at depth 4 (root.py)
     assert WEB["common_mode"].web_depth == 4
     for name in ("a1_bridge", "Sigma_vent(UV)", "G_ratio"):
-        assert WEB[name].web_depth == 1, f"{name} is a depth-1 vent ledger"
+        assert WEB[name].web_depth == 1, f"{name} is a depth 1 vent ledger"
         assert all(t.depth <= 1 for t in WEB[name].terms)
 
     assert WEB["eq_loop"].web_depth == 3
@@ -379,7 +379,7 @@ def test_searchlight_depth_and_recursive_web_are_distinct(res):
     wrong_depth["child"] = Ledger(
         "child", 0.0, "add", web_depth=4).echo(
         ["read:parent"], lambda s: s["parent"], 4, parent="parent")
-    with pytest.raises(ValueError, match="requires a depth-3 parent"):
+    with pytest.raises(ValueError, match="requires a depth 3 parent"):
         wrong_depth.solve()
 
     unread = type(WEB)()
@@ -397,8 +397,8 @@ def test_searchlight_depth_and_recursive_web_are_distinct(res):
     #   - Higgs and common mode are EM neutral
     # With 2 nodes and 1 edge, the only cycle is the 2-cycle e<->q,
     # and the kernel's self-consistency resums all repetitions.
-    # Inspect the solved web itself. The EM channel's depth-4 reading of
-    # the depth-3 carrier must appear in the charged nodes and, among the
+    # Inspect the solved web itself. The EM channel's depth 4 reading of
+    # the depth 3 carrier must appear in the charged nodes and, among the
     # neutral nodes, in the common mode alone. The common mode couples to
     # the closed carrier at second order and no node couples back to it,
     # so it adds no cycle to the EM channel graph (root.py, THE COMMON MODE).
@@ -415,12 +415,12 @@ def test_searchlight_depth_and_recursive_web_are_distinct(res):
         "of the EM neutral nodes only the common mode reads the e↔q carrier"
     assert em_cycle_nodes == {"inv_alpha", "S_quark", "m_e", "m_mu", "m_tau", "common_mode"}
 
-    # 3. The depth-4 EM response names and reads its depth-3 parent.
+    # 3. The depth 4 EM response names and reads its depth 3 parent.
     inv_alpha_led = WEB["inv_alpha"]
     depth4_terms = [t for t in inv_alpha_led.terms if t.depth == 4]
-    assert len(depth4_terms) == 1, "inv_alpha must have one depth-4 response"
+    assert len(depth4_terms) == 1, "inv_alpha must have one depth 4 response"
     assert callable(depth4_terms[0].factor), \
-        "depth-4 EM response must read its carrier from the recursive web"
+        "depth 4 EM response must read its carrier from the recursive web"
     assert depth4_terms[0].parent == "eq_loop"
 
     # The self-referential term resums all traversals: the cubic
@@ -489,7 +489,7 @@ def test_grammar_null_model_scorecard_not_cheap():
     rates puts the joint chance near 1e-6. This treats the stages as
     approximately independent, so it is an estimate, not a theorem.  Frozen bounds are
     deliberately loose: lepton rate < 5e-3, product < 1e-4, zero
-    full hits at this N.  This is the look elsewhere correction for
+    full hits at this N.  This is the look elsewhere factor for
     the 9/9-at-1% claim.  Caveats stated: the target window (x/2.5)
     is a choice, and the null holds the framework's functional FORMS
     fixed: it asks whether THIS grammar is dense, not how many
@@ -512,13 +512,13 @@ def test_grammar_null_model_scorecard_not_cheap():
 
     LEP = [r for r in (circ(t % (2 * math.pi))
                        for t in eg.theta_menu()) if r is not None]
-    CORR = [0.0] + sorted(set(eg.correction_menu().values()))
+    ECHO = [0.0] + sorted(set(eg.echo_menu().values()))
     MUL2 = sorted({w * (1 + c) for w in set(eg.word_menu(2).values())
-                   for c in CORR})
+                   for c in ECHO})
     MUL3 = sorted({w * (1 + c) for w in set(eg.word_menu(3).values())
-                   for c in CORR})
+                   for c in ECHO})
     W4 = set(eg.word_menu(4).values()) | set(eg.terminus_menu().values())
-    MUL4 = sorted({w * (1 + c) for w in W4 for c in CORR})
+    MUL4 = sorted({w * (1 + c) for w in W4 for c in ECHO})
     KQ = sorted(set(eg.koide_menu().values()))
 
     def hit(menu, target):
@@ -624,21 +624,21 @@ def test_proton_stability_bookkeeping():
 
 def test_cited_paths_exist():
     """Citation resolution: every repo relative file path cited in
-    the README and the interference/ module docstrings must
+    the README, the interference/ modules and the tests/ files must
     exist on disk.  Catches citation rot (a probe renamed or moved
     while prose still points at the old path)."""
     import re
     root_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                             ".."))
     pat = re.compile(
-        r"(?:interference|tests)/(?:[a-z_]+/)?[A-Za-z0-9_.-]+"
-        r"\.(?:py|md|yml)")
+        r"(?:interference|tests|notes|scratchpad)/(?:[a-z_0-9]+/)*[A-Za-z0-9_.-]+"
+        r"\.(?:py|md|yml|tsv)")
     sources = [os.path.join(root_dir, "README.md")]
-    iface = os.path.join(root_dir, "interference")
-    for dirpath, dirnames, filenames in os.walk(iface):
-        dirnames[:] = [d for d in dirnames if d != "__pycache__"]
-        sources += [os.path.join(dirpath, f) for f in sorted(filenames)
-                    if f.endswith(".py")]
+    for top in ("interference", "tests"):
+        for dirpath, dirnames, filenames in os.walk(os.path.join(root_dir, top)):
+            dirnames[:] = [d for d in dirnames if d != "__pycache__"]
+            sources += [os.path.join(dirpath, f) for f in sorted(filenames)
+                        if f.endswith((".py", ".tsv"))]
     missing = []
     for src in sources:
         text = open(src, encoding="utf-8").read()

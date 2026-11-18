@@ -175,7 +175,7 @@ def test_protected_forgetting():
     assert abs(result['Q'] - 2.0 / 3.0) < 1e-12
     assert result['amplitude_pinned_by_koide'] is True
     # the excluded harmonic is degenerate at Q = 1/2
-    assert abs(result['retired_Q'] - 0.5) < 1e-12
+    assert abs(result['excluded_Q'] - 0.5) < 1e-12
     assert result['theta0_degenerate'] is True
     # the short root direction gives three distinct masses
     assert result['short_root_three_distinct'] is True
@@ -198,7 +198,7 @@ def test_bell_fork():
 #  The derivation chain, asserted against the engine
 #
 #  These are the identities the chain stands on: the dimensional
-#  transmutation actions and their two face readings, the depth-4
+#  transmutation actions and their two face readings, the depth 4
 #  response weights, the per mode condensate reading behind the
 #  alpha_s threshold, and the CKM lambda form.  Each is computed in
 #  the module that owns it. Each is read back here so a refactor

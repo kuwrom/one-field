@@ -4,7 +4,7 @@ above which the two derivative action holds there."""
 
 import pytest
 
-sp = pytest.importorskip("sympy")
+sp = pytest.importorskip("sympy", reason="needs sympy (pip install -r requirements.txt)")
 
 
 def _silent(*args, **kwargs):

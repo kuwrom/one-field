@@ -1,6 +1,6 @@
 """One loop induced spatial metric action of the Z3-NLS clock vacuum.
 
-HYPOTHESIS UNDER TEST. A uniform clock medium carries no tensor at first
+THE CANDIDATE. A uniform clock medium carries no tensor at first
 order in the field (interference/gravity.py, gate T). The candidate takes the spatial
 metric h_ij of the gauged Galilean symmetry (Newton-Cartan background,
 Son arXiv:1306.0638 eq. (1); Jensen arXiv:1408.6855) as the variable

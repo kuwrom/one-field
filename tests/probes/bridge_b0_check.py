@@ -26,7 +26,7 @@ STATEMENTS.
      cancel exactly. The O(F^2) piece is the G2 field's own Maxwell
      term. That row is already counted as the G2 gauge row (44/3
      share), so it is not a new matter gauge portal.
-  B2 (c-independence). Numerically, the second derivative of the
+  B2 (c independence). Numerically, the second derivative of the
      Hermitian form in F is c-independent to order F^2 for every U
      and c: the vector sees the conformal class of h alone (V5).
   B3 (b0). The amount's running share is 0 on the one list, b0 = 32/3.
@@ -39,6 +39,12 @@ STATEMENTS.
   B5 (the flat connection). Omega = 0 puts the label in the Einstein
      term (a2 ~ tr(1)) only, not in the running (a4 ~ tr(Omega^2)).
      This is the flat label algebra behind B1.
+
+RESULT. At the empty field vacuum the O(F^2) density is -(1/4)
+F_flat^2 for every c, the G2 field's own Maxwell term, so the bridge
+adds no matter gauge portal, consistent with b0 = 32/3 on the one
+list. The light reading, b0 = 19/3, moves M_Pl by x1.58e13 and is
+excluded.
 
 Usage: python3 tests/probes/bridge_b0_check.py     (a few seconds)
 """
@@ -82,7 +88,7 @@ def run(report=print):
              "own Maxwell term, already counted as the G2 gauge row, not "
              "a new matter gauge portal")
 
-    # B2 the numerical c-independence of the second F derivative.
+    # B2 the numerical c independence of the second F derivative.
     rng = np.random.default_rng(3)
     F = rng.normal(size=(4, 4))
     F = F - F.T
@@ -131,7 +137,7 @@ def run(report=print):
     report("B5 Omega = 0 puts the label in the Einstein term (a2 ~ tr(1)) "
            "only, not in the running (a4 ~ tr(Omega^2)). B1 is the O(F^2) "
            "piece of that separation, and the cancellation of B1 is the "
-           "c-independence of B2")
+           "c independence of B2")
 
     report("RESULT: the O(g^2) piece of the bridge is the G2 field's own "
            "Maxwell term, c- and U-independent to order F^2. It is already "

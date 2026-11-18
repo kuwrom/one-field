@@ -22,7 +22,7 @@ are split into two strictly ordered stages:
     a candidate HITS if it falls within the scorecard band (1%)
     of the observed value.  A second, tighter tier (0.1%) is also
     reported.  At 1% the data select the word COUNT but often not
-    the correction, because all corrections are below a percent.
+    the echo, because all echoes are below a percent.
     The tight tier shows what the precision claims actually resolve.
     The down-type stages condition on the CANON upstream choices.
     The search is staged, and the conditioning is printed, not hidden.
@@ -44,8 +44,8 @@ tests/audit/test_closure_search.py; any drift fails CI):
     eligible realizations hit the data at the 1% band, canon among
     them.  The structural wiring is fixed throughout.  The uniqueness
     that survives is narrower.  The word COUNTS are resolved
-    uniquely.  The subpercent corrections are not resolved at the
-    terminus: at count 97 all six corrections sit within 1% of each
+    uniquely.  The subpercent echoes are not resolved at the
+    terminus: at count 97 all six echoes sit within 1% of each
     other.  At lower counts they separate (1.8% at count 12), and the
     U1/U2 stages resolve them.
   * the joint 0.1% tier is ZERO, including canon: U1 and Db have no
@@ -77,13 +77,13 @@ tests/audit/test_closure_search.py; any drift fails CI):
     stated here so that the menu is not widened silently.
 
 THE TWO DERIVED EDGES.  Two canon edges enter the mass sector
-through structures outside the word/correction menus.  Both are
+through structures outside the word/echo menus.  Both are
 derivations, not menu choices (DERIVED_EDGES below; witnesses in
 tests/probes/):
 
   m_d: the exact identity d₁₁²(1 + d₁₀/d₁₁⁴) = count(aa) + h₁₀ =
        83/9, the SAME committed word_multiplier operation as the up
-       sector, with corr(1) = h₁₀ inherited from the generation
+       sector, with echo(1) = h₁₀ inherited from the generation
        ladder.  The Z₂ triality swap changes only the seed word.
        The down-gen-1 stage is reported below (ancillary,
        outside the frozen denominator).
@@ -156,14 +156,14 @@ def lepton_candidates():
 
 
 def up_candidates(gen, length_words):
-    """m_q(n) = [count(w) + corr]·m_lep(n): every word of the length
-    rule's length × every correction (or none).
+    """m_q(n) = [count(w) + echo]·m_lep(n): every word of the length
+    rule's length × every echo (or none).
     BLIND GATE: count ≥ 1 (a multiplier; count 0 = no walk closes).
     VACUOUS IN PRACTICE: every word in the committed menus has count
     ≥ 4.  So this gate removes nothing, and the up stage blind counts
     equal the candidate counts.  The module docstring states this, and
     the joint denominator inherits it."""
-    corrs = dict(eg.correction_menu())
+    corrs = dict(eg.echo_menu())
     corrs["none"] = 0.0
     out = []
     for w, cnt in sorted(length_words.items()):
@@ -292,7 +292,7 @@ def run(report=print):
         hit_ids[f"up_gen{gen}"] = sorted((c["word"], c["corr"])
                                          for c in hits)
         up_blind_masses[gen] = [(c, c["mult"] * m_lep[gen]) for c in blind]
-        report(f"  U{gen} word×corr:   {len(cands):4d} candidates → "
+        report(f"  U{gen} word×echo:   {len(cands):4d} candidates → "
                f"{len(blind):3d} blind survivors → {len(hits)} hit(s) @1%"
                f" → {len(tight)} @0.1%")
         for c in hits:
@@ -395,13 +395,13 @@ def run(report=print):
            f"(μ, τ, c, t)")
     report(f"  canon status: one of {joint_hits} joint hits at 1%, NOT "
            f"unique at that band (word counts resolve uniquely, "
-           f"subpercent corrections do not). Joint 0.1% tier = "
+           f"subpercent echoes do not). Joint 0.1% tier = "
            f"{joint_tight}, canon included (U1 and Db carry no tight "
            f"hits)")
     # Down-gen-1 stage (ANCILLARY: outside the frozen joint
     # denominator. Not multiplied into the accounting)
     w2 = eg.word_menu(2)
-    corrs = dict(eg.correction_menu())
+    corrs = dict(eg.echo_menu())
     corrs["none"] = 0.0
     d_uncond = [(w, cn) for w, c in sorted(w2.items())
                 for cn, cv in sorted(corrs.items())
@@ -411,10 +411,10 @@ def run(report=print):
                       PDG_MASSES["d"], TOL)]
     report(f"\n  D1 down-gen-1 (ancillary): unconditioned hits @1% = "
            f"{d_uncond}. Ladder conditioned")
-    report(f"     (corr(1) = h10, fixed at up-gen-1): unique hit = "
+    report(f"     (echo(1) = h10, fixed at up-gen-1): unique hit = "
            f"{d_cond}  (canon: aa + h10 = 83/9 exactly)")
 
-    report(f"\n  DERIVED EDGES (beyond the word/correction "
+    report(f"\n  DERIVED EDGES (beyond the word/echo "
            f"menus. Each a derivation, not a choice):")
     for name, expr, derivation in DERIVED_EDGES:
         report(f"    {name}: {expr}")

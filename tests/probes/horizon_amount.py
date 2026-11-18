@@ -6,7 +6,7 @@ distinguishes. Whatever folds beyond it is read as amount without
 identity" (interference/__init__.py, THE HORIZON). On the one list of
 interference/boundary.py the bridge is that amount.  It vents, takes
 no share of the running, and gates S and M pass. The searchlight counts it as
-n7 n26 = 182 channels, a depth-3 count. How much of the closure rests on
+n7 n26 = 182 channels, a depth 3 count. How much of the closure rests on
 that count, on the bridge's labels, on a xi in its weight, on its mass
 and on the regulator?
 
@@ -27,7 +27,7 @@ with E2(m^2 t0) under the ledger's sharp proper time cutoff, the least
 weight among monotone regulators with the same massless normalization
 (Jensen, boundary_regulator.py R4); a band pass cutoff function with a
 free amplitude has no such floor (R5).
-P5 depth: the web's depth-4 terms are 5e-7 to 3e-6 relative and no
+P5 depth: the web's depth 4 terms are 5e-7 to 3e-6 relative and no
 gravity node reads them (sakharov_normalisation.py FACT 6 (a)), against
 the factor two margins of A2.
 

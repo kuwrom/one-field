@@ -1,7 +1,7 @@
-"""What a name is, and why the bridge carries none: the premise T1 in two parts.
+"""What a name is, and why the bridge carries none: the horizon reading in two parts.
 
-THE QUESTION. The lane's premise T1 reads "The common mode past the
-horizon carries no names" (notes/open_derivation_tasks.md), and six
+THE QUESTION. The horizon reads the common mode past it as carrying
+no names (interference/__init__.py, THE HORIZON), and six
 readings rest on it: the boundary reading c, the bridge's zero share of
 b0, the amount's scalar weight, C_EFF, minimal coupling and the dust
 reading. The repository uses "name" in several senses. What single
@@ -30,11 +30,12 @@ STATEMENTS (H3 is computed below; H1 and H2 read the cited probes).
      relabelling the components (unnamed_metric.py). C_EFF reads the
      whole second moment (frame_coefficients.py F1). The amount's
      coupling involves no vertex, and every vertex carries a name
-     (boundary.py, THE AMOUNT'S COUPLING). The dust reading needs a
-     momentum mode to count as a name (T10).  It is the only reading the
-     definition does not settle, so it keeps its own premise.  A
-     momentum mode labels a representation of translations, not of the
-     searchlight's data.
+     (boundary.py, THE AMOUNT'S COUPLING). The dust reading is the one
+     reading this definition does not settle: it would need a momentum
+     mode to count as a name, and a momentum mode labels a
+     representation of translations, not of the searchlight's data.  The
+     dust reading closes by its own exhaustion instead (dark_sector.py,
+     THE DUST READING).
   H2 (gate U in that sense). The weight and the count of a lump are
      both amounts. Gate U compares two readings of amounts: a bias
      that reads the weight keeps the ratio of two clocks, and one that
@@ -55,8 +56,9 @@ RESULT. One definition serves five of the six readings: a name is a
 representation or channel label of the searchlight's data, and amounts
 are numbers read off the whole. The bridge
 carries no name because the ambient theory has one primary and no
-composition algebra holds a joint label. The dust reading needs momentum
-modes to be names, which stays the premise T10.
+composition algebra holds a joint label. The dust reading, the one this
+definition does not settle, closes by its own exhaustion (dark_sector.py,
+THE DUST READING).
 
 Usage: python3 tests/probes/horizon_names.py
 """

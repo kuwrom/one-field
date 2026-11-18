@@ -1,5 +1,5 @@
 """
-orientation_bit.py: ONE Fano orientation bit propagates through the
+ONE Fano orientation bit propagates through the
 CP-odd observables. No second CP sign datum is inserted.
 
 THE COMPUTATION: build the octonion cross product from the Fano
@@ -8,13 +8,12 @@ recompute every orientation sensitive quantity, and verify:
 
   (i)   CP EVEN data are invariant: |C1| = 1, |C3bar| = sqrt(2),
         hence B/A, masses, mixing angle magnitudes.
-  (ii)  ONE DECLARED MAP, applied by hand here: the Fano orientation
-        sign epsilon multiplies the modular phase (eta_bar = epsilon
-        pi/d11^2) and the PMNS phase (delta = -epsilon arccos(-lambda),
-        CKM convention).  This Fano to phase sign map is declared in
-        this probe (the engine's mixing.py fixes the forward sign by its
-        Kac-Peterson convention and reports signed J_lep).  With the map
-        declared, the CKM and PMNS matrices are recomputed in both
+  (ii)  ONE MAP: the Fano orientation sign epsilon multiplies the
+        modular phase (eta_bar = epsilon pi/d11^2) and the PMNS phase
+        (delta = -epsilon arccos(-lambda), CKM convention).  The
+        engine's mixing.py fixes the forward sign by its Kac-Peterson
+        convention and reports signed J_lep.  Under the map, the CKM
+        and PMNS matrices are recomputed in both
         orientations, so eta_bar, J_CKM, J_lep, and eta_B flip
         together; eta_B follows from -J_lep (sphaleron sign).
   (iii) therefore CP sign and baryon excess sign are ONE propagated bit.
@@ -30,9 +29,9 @@ results are established in their own branches: the mass protection
 selection of the chiral branch, the gauge representation embedding, and
 the Skyrmion-Dirac spectral flow. They combine with this one under the
 repository's stated fermion/knot identification. This probe does not
-recompute them. That is a division of scope, not an open step.
+recompute them.
 
-Usage: python3 orientation_bit.py
+Usage: python3 tests/probes/orientation_bit.py
 """
 
 import math
@@ -95,7 +94,7 @@ def ckm_data(orientation):
 
 
 def pmns_data(orientation):
-    """Recompute the charged lepton corrected TBM matrix."""
+    """Recompute the TBM matrix with the charged lepton rotation."""
     def mass_factor(k):
         gap = 1.0 + BA_ratio * math.cos(float(h10) + 2*math.pi*k/3)
         vent = 1.0 - (d11**3/d10) * (alpha_phys/(2*math.pi))**2 * gap

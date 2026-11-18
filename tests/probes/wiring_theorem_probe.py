@@ -1,5 +1,5 @@
 """
-wiring_theorem_probe.py: the wiring theorem attempt, executable.
+The wiring theorem, executable.
 
 THE STATEMENT (unifying the algebra's closure requirements and the
 web's wiring):
@@ -54,7 +54,7 @@ WHAT IS PROVED HERE (computed, not cited):
 
   PART D: the vertex composition inventory, made executable as a
       target conditioned verification.
-      root.py reads three depth-4 responses (2, 16, 27/2) as endpoint
+      root.py reads three depth 4 responses (2, 16, 27/2) as endpoint
       products of vertex weights.  Here the 4 e-side x 7 q-side
       vertex weight menu is frozen and it is CHECKED that each target
       is hit exactly once (a menu unique grade). The
@@ -72,10 +72,10 @@ WHAT IS PROVED HERE (computed, not cited):
 VERDICT (printed at the end): the wiring rule is TWO LAYER. Sector
 level is a theorem (existence, confinement, and pure orientation
 multiplicities). Intraface edges carry their individual grades. The
-depth-4 response refactoring and its unital/inverse-path normalization
+depth 4 response refactoring and its unital/inverse-path normalization
 are executable here.
 
-Usage: python3 wiring_theorem_probe.py [path to one field repo]
+Usage: python3 tests/probes/wiring_theorem_probe.py [path to one field repo]
 """
 
 import cmath
@@ -425,7 +425,7 @@ def albert_unital_response(n26=26, schur_weight=Fraction(1, 2)):
 
 def part_D(report):
     report("")
-    report("PART D: the depth-4 vertex composition menu, made "
+    report("PART D: the depth 4 vertex composition menu, made "
            "executable (menu unique GRADE, not theorem)")
     report("-" * 70)
     # e-side vertex weights: exactly the G2/lepton-side weights already
@@ -484,11 +484,11 @@ EDGE_CLASS = {
     # embedding layer: existence forced by PART B, multiplicity by C/D
     "bridge": ("EMBEDDING", "B self-loop. Coeff 1 (PART C), weight "
                             "h_B = 1 (dimension one)"),
-    "e<->q 2-cycle": ("EMBEDDING", "the explicit depth-3 carrier "
+    "e<->q 2-cycle": ("EMBEDDING", "the explicit depth 3 carrier "
                                     "(PART C)"),
-    "read:eq_loop": ("EMBEDDING", "checked depth-4 read of the "
-                                   "depth-3 charged sector carrier"),
-    "EM-loop(e<->q)": ("EMBEDDING", "legacy label for the 2-cycle; "
+    "read:eq_loop": ("EMBEDDING", "checked depth 4 read of the "
+                                   "depth 3 charged sector carrier"),
+    "EM-loop(e<->q)": ("EMBEDDING", "the label of the 2-cycle; "
                                       "coeff 2 (PART C)"),
     "bridge->EM": ("EMBEDDING", "open path through B. Per mode "
                                 "(EM vertex)"),
@@ -500,7 +500,7 @@ EDGE_CLASS = {
                                   "27/2 (Albert unit choice)"),
     "G2-face(EM)": ("EMBEDDING", "apportioned emission share h7 "
                                  "(conservation of h_B = 1)"),
-    "F4-knot(26)": ("EMBEDDING", "q-node depth-1 vertex: Casimir of "
+    "F4-knot(26)": ("EMBEDDING", "q-node depth 1 vertex: Casimir of "
                                  "the branching rep 26"),
     "EM(alg)": ("EMBEDDING", "open path; E8 positive root current "
                                   "trace Tr_+(Q^2)=30 (wiring.py)"),
@@ -549,7 +549,7 @@ CROSS_DERIVED = [
      "(edge_derivations.py)"),
     ("insertion channels", "adjoint -> Q(c,b,t), fund -> Q(s,c,b)",
      "the insertion rule: superselection at the deepest closing "
-     "interface (lambda_assignment.py)"),
+     "interface (koide_assignment.py)"),
     ("terminus purity", "all mixed orderings excluded",
      "label rigidity: no in strand switch exists at any parity "
      "(conversion_rigidity.py)"),
@@ -683,7 +683,7 @@ def run(repo=None, report=print):
      SU(3)_3 / D6 module data inside the G2 face. They are selected by
      the committed menus, with the closure search's look elsewhere
      accounting. The independently derived edges and selections carry
-     stated derivations (edge_derivations.py, lambda_assignment.py,
+     stated derivations (edge_derivations.py, koide_assignment.py,
      conversion_rigidity.py).
 """)
     return dict(counts=counts, n_edges=len(rows), albert=albert)

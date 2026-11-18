@@ -17,7 +17,7 @@ Four layers, named consistently across the repository:
                 imports it. It limits what can be tracked, not what
                 exists
     SUBSTRATE   the medium the claim is about. Its physical
-                realisation is a verification program, so it sits
+                realisation is the realization program, so it sits
                 with the scrutiny (tests/substrate/), probed by
                 tests/probes/
     AUDIT       the instruments that hold the engine to its own rules
@@ -27,7 +27,7 @@ Checking the theory is testing, so the freezes and the probes live in
 tests/.  The layer names are deliberately not the directory names.
 What a thing IS and where it is READ from are different questions.
 
-Every prediction is expressed through 4 integers (the depth-3
+Every prediction is expressed through 4 integers (the depth 3
 searchlight vocabulary), pi, and m_e. The electron sets the scale.
 M_Pl and G are OUTPUTS.  The integers are:
 
@@ -86,16 +86,16 @@ with the three generations.  Mass is the squared gap of that pattern.
 G_2 has trivial centre and trivial pi_1, so every quantum number is
 emergent.  When G_2 breaks to SU(3), the Z_3 centre appears.
 
-THE SEARCHLIGHT. The octonions reduced blind interference fluctuations
+THE SEARCHLIGHT.  The octonions reduced blind interference fluctuations
 to seven directions.  Through the unique (7,26) bridge they reduced the
 search to a finite 7x26 one.  That is why the closing loop could be
-found at all.  This was luck in a precise sense: the smallest structure
-becomes observable at depth three, the same depth the searchlight can
-resolve.  The Chladni plate analogy holds as a method: the pattern
-first becomes visible at finite resolution, and later recursive
-readings refine it.  The engine's arithmetic never evaluates an
-octonion or a sedenion.  The algebra's entire output is a handful of
-discrete selections, each with a closure status in the engine:
+found at all.  The smallest structure becomes observable at depth three,
+the same depth the searchlight can resolve.  The Chladni plate analogy
+holds as a method: the pattern first becomes visible at finite
+resolution, and later recursive readings refine it.  The engine's
+arithmetic never evaluates an octonion or a sedenion.  The algebra's
+entire output is a handful of discrete selections, each with a closure
+status in the engine:
 
   selection              | engine constant | closure
   -----------------------+-----------------+--------------------------
@@ -103,13 +103,13 @@ discrete selections, each with a closure status in the engine:
   + Hurwitz              |                 | unital positive composition-
                          |                 | algebra criterion. Not Web cap
   quantum dims of SU(3)_3| d_10=2, d_11=3  | the four integers
-  Fano CG |C_3bar|/|C_1| | B/A = sqrt(2)   | COMPUTED + IH: the Fano CG
-                         |                 | ratio is computed. The
+  Fano CG |C_3bar|/|C_1| | B/A = sqrt(2)   | IDENTIFIED: the Fano CG
+                         |                 | ratio is computed, and the
                          |                 | triality amplitude rule is
-                         |                 | the IH (the classical trace
-                         |                 | fails, tests/probes/
-                         |                 | amplitude_gate.py)
-  Sugawara weight h_10   | theta = 2/9     | COMPUTED + IH: lightest
+                         |                 | identified (the classical
+                         |                 | trace gives 5/12, excluded,
+                         |                 | tests/probes/amplitude_gate.py)
+  Sugawara weight h_10   | theta = 2/9     | IDENTIFIED: lightest
                          |                 | triality changer and theta=h
                          |                 | mass phase map. Sole positive
                          |                 | nondegenerate angle menu survivor
@@ -122,8 +122,8 @@ searchlight selection from the engine, as Q_0 already is.  At that
 point the algebra serves only as motivation.  The strong hypothesis
 that the program tests is this: the octonions are not a separate
 searchlight shone on the territory, but the territory's own accounting
-seen from the ledger's side.  Until each selection is derived this way, the
-octonions remain the searchlight.  Deeper self-interference is carried
+seen from the ledger's side.  The absorption program is to derive each
+selection this way.  Deeper self-interference is carried
 by the recursive web, not by extending the Cayley-Dickson tower.  The
 pattern becomes visible at depth three and gains finer structure as
 later backreactions are evaluated.
@@ -136,12 +136,24 @@ perturbative expansion used for transport and is not web depth. A module's
 No value acquires a second physical identity by changing calculation or
 comparison coordinates.
 
-SEARCH ORDER. The framework chose the three label cyclic closure as its
-first search target.  This is not a graph theoretic claim that every
-loop needs three nodes: the Web itself contains self-loops and a two
-cycle.  Had nothing matched the anchors at 3, the search would have
-moved on to 4, then 5.  The match at 3 is a contingent result of that
-search rule.
+GATE VOCABULARY. Three sets of six carry the word gate. The lane's Gates
+1 to 6 (below) are the conditions the closing lane meets. The coherence
+gates (a) to (f) scan the E_8 embedding on Lie table invariants
+(searchlight/embedding_uniqueness.py). The gravity lane's gates S, U, M,
+C, T, P (sign, universality, magnitude, one cone, tensor carrier, no
+preferred location) test gravity on that lane (gravity.py).
+
+WHY THREE.  G_2 -> SU(3) supplies a Z_3 centre (Gate 2).  Given it, a
+single sector changing insertion S first returns to its sector at
+third order: tr S = tr S^2 = 0 and tr S^3 = 3 (masses.py, FIRST
+INVARIANT ORDER THEOREM).  Orders one and two are forbidden, not
+small, so within a sector the first closure is the three cycle
+a->b->c->a.  The Web's bridge self-loop and the e<->q two cycle
+(root.py, eq_loop) join the G_2 and F_4 sectors.  That bound is the
+territory's.  The map's bound is Hurwitz: three is the deepest the
+octonionic searchlight resolves.  The two bounds are independent, and
+that they meet at three is why the closing loop could be found at all
+(THE SEARCHLIGHT).
 
 THE GENERATIVE DIRECTION.  The engine derives the scorecard.  The
 substrate probes test whether the same structure emerges dynamically:
@@ -150,12 +162,15 @@ clock locking.  Each probe states its own verdict and kill
 condition.  The circulant ratios are closed algebraically.
 emergent_clock.py reports broadband clocks in substrate only 1D and 3D
 runs.  A confined phase 3D run that locks to the algebraic circulant
-remains an outstanding dynamical verification.
+belongs to the realization program.
 
 WHERE THE QUESTIONS END.  The engine takes one number, and that
 number is a choice of unit, not physics.  The ratio m_e/M_Pl is
-derived outright.  G, read through the common mode, sits 2.4 standard
-deviations below CODATA's value (asserted at import, root.py).  That
+derived outright.  G, read through the common mode, sits within one
+standard deviation of the G measurements under an added spread or the
+unweighted median, and
+2.4 below CODATA's multiplicative combination (root.py,
+tests/probes/g_measurements.py G6).  That
 reading is an identification: the boundary is read as the full Planck
 mass, and the common mode as the count of the lepton circulant.  So
 the dimensionless output takes no input.  How strongly the substrate
@@ -171,20 +186,20 @@ closes into anything further.  Because self-interference cannot be
 reduced further, anything beneath it is undecidable from inside, not
 merely unanswered.
 
-THE GAUGE FIELDS VERIFICATION PROGRAM.  The gauge sector of the web
-is carried by collective excitations of the confined phase, not
-postulated fields.  The algebraic structure (representations,
-couplings, confinement) is derived from the E_8/MTC data.  The
-computational demonstration program includes reproducing the
-perturbative gauge series on composite knots (g-2, scattering
-amplitudes, decay widths) and the multiknot Fock/Pauli structure
-beyond two body exchange.
-ENDGAME (deriving the substrate strength): closure makes the emergent
-coupling a function of the substrate parameters.  The derived
-alpha_G2(M_Pl) = 1/(24 pi) can then be INVERTED to give the depth
-rho xi^3.  The medium's interference weight would then follow from
-the minimal form, and the only contingent inputs left would be
-existence itself and the choice of units.
+THE GAUGE FIELDS.  The gauge sector of the web is carried by collective
+excitations of the confined phase, not postulated fields.  The algebraic
+structure (representations, couplings, confinement) is derived from the
+E_8/MTC data.  The realization program is to reproduce the perturbative
+gauge series on composite knots (g-2, scattering amplitudes, decay
+widths) and the multiknot Fock/Pauli structure beyond two body exchange.
+
+THE SUBSTRATE STRENGTH.  Closure makes the emergent coupling a
+function of the substrate parameters.  The derived alpha_G2(M_Pl) =
+1/(24 pi), read as the medium's exchange coupling, places the depth at
+rho xi^3 = 3 or 4.25 in the range convention
+(tests/audit/parameter_ledger.py P9).  With the
+depth read this way, the only contingent inputs are existence itself
+and the choice of units.
 
 CLOSURE BY DERIVATION PATH LENGTH. Partial closures exist.  Some lanes
 make electron like objects whose ratios do not carry on to the next
@@ -211,9 +226,9 @@ had never seen this engine.
 THE GATES ARE CONSISTENCY CONDITIONS WITHIN OUR LANE.  Given a three
 cycle closure, the level, the circulant, and the E_8 coherence follow.
 At loop 3 the surviving lane is unique.  That is the computed content
-of "exactly one lane" (the seven branch gauntlet below).  Whether loop
-3 itself was necessary or contingent is settled by the SEARCH ORDER
-above: the match at 3 is the contingent fact.  The anchor m_e
+of "exactly one lane" (the seven branch gauntlet below).  Loop 3
+itself follows from the Z_3 of Gate 2 and the first invariant order
+(WHY THREE above).  The anchor m_e
 identifies which lane we are in.  The four integers are readings of
 observed structure: they are counts.
 
@@ -263,25 +278,26 @@ same couplings are
 with g_{kk} = g_0 and g_{kj} = g_1 for k != j.  The phase lock comes
 from the exchange term.
 
-The Fano plane cross product gives
-|C_3bar|/|C_1| = sqrt(2) (searchlight/octonions.py).  Gate 3 selects
-the SU(3)_3 modular data.  Their canonical positive spherical trace gives
-the channel weight 1/d(fund) = 1/2.  The channel to circulant
-identification combines that trace with two cycle orientations and reads
-B/A = 2 sqrt(2)/2 = sqrt(2).  The substrate realizes the same ratio as
-its coupling, |g_1/g_0| = 1/(B/A) (tests/substrate/nls_soliton.py,
+The Fano plane cross product gives |C_3bar|/|C_1| = sqrt(2)
+(searchlight/octonions.py).  Gate 3 selects the SU(3)_3 modular data.
+Their canonical positive spherical trace gives the channel weight
+1/d(fund) = 1/2.  The channel to circulant identification combines that
+trace with two cycle orientations and reads B/A = 2 sqrt(2)/2 = sqrt(2).
+The substrate realizes the same ratio as its coupling, |g_1/g_0| =
+1/(B/A) (tests/substrate/nls_soliton.py,
 tests/probes/circulant_normalization.py).  The substrate is a
-realization, and no engine number depends on it.  A classical Q = 2/3
-on the knot forming branch would falsify that separation.  The Madelung decomposition psi_k = sqrt(rho_k) exp(i S_k /
-hbar) is exact, and the Z_3 Fourier split into q = 0 (geometry) and
-q = 1, 2 (matter) is exact.  This resolves the Barcelo-Liberati-Visser
-"two roles of rho" obstruction in single component analog gravity.
-Status of the equation itself: the NLS form is DERIVED, up to
-locality, as the universal envelope normal form of weak local
-self-interference (tests/probes/envelope_universality.py).  Locality is
-an axiom of self-presence.  A nonlocal self term would be interference
-with something elsewhere: a second thing.  That is
-coupling, not self-interference.
+realization, and no engine number depends on it.  A classical Q = 2/3 on
+the knot forming branch would falsify that separation.  The Madelung
+decomposition psi_k = sqrt(rho_k) exp(i S_k / hbar) is exact, and the
+Z_3 Fourier split into q = 0 (geometry) and q = 1, 2 (matter) is exact.
+This resolves the Barcelo-Liberati-Visser "two roles of rho" obstruction
+in single component analog gravity.  Status of the equation itself: the
+NLS form is DERIVED, up to locality, as the universal envelope normal
+form of weak local self-interference
+(tests/probes/envelope_universality.py).  Locality is an axiom of
+self-presence.  A nonlocal self term would be interference with
+something elsewhere: a second thing.  That is coupling, not
+self-interference.
 
 From this equation:
   * the BdG linearisation gives Delta_k = A + B cos(theta + 2 pi k / 3),
@@ -327,7 +343,7 @@ Gate 4, Closure.
     filter.
     Code: masses.py (Brannen circulant), gravity.py (protected
     forgetting: P v P = 0; per mode E[v^2] = 1/2, total
-    P v^2 P = P; the two contractions are distinct and easily
+    P v^2 P = P.  The two contractions are distinct and easily
     conflated).
 
 Gate 5, Octavian / E_8 coherence.
@@ -403,8 +419,7 @@ normalisation is a closed form expression in
 (d_10, d_11, n_7, n_26) + pi.
 
 This has a strict consequence for how the code reads. The framework has
-no free interference strengths to tune and no sequence of preliminary
-and corrected physical masses.  Each closure echoes through channels
+no free interference strengths to tune.  Each closure echoes through channels
 that already exist (the bridge self-loop, the e<->q cycle, the WZW
 vents), and each echo's weight is a theorem about its channel.  A beta
 function or matching formula may convert a completed reading into the
@@ -437,7 +452,7 @@ base of the embedding layer (alpha_G2(mu*) over the Singh ratio), used
 inside the instanton vertex. alpha(0) is the zero momentum reading:
 the bridge SELF-loop gives the factor (1 - 1/(2 pi)) (h = 1,
 unit coupling D2_local = 1, c_coset = 0), and the
-depth-4 recursive reading of the electron<->quark carrier (two
+depth 4 recursive reading of the electron<->quark carrier (two
 orientations, the S, S-dagger rule) adds -2 (alpha / 2 pi)**2, so
 1/alpha(0) is the real root of
 
@@ -452,7 +467,7 @@ channels (boundary.py).  EM and induced gravity are two readings of
 one bridge, not two sectors.
 
 ================================================================================
-The echo law and THE KERNEL (root.py), nothing is a "correction"
+The echo law and THE KERNEL (root.py)
 ================================================================================
 
 One scalar recursion, x <- b + W(x), solved to its joint fixed point
@@ -491,7 +506,7 @@ masses.py               | 1 anchor + 8 mass predictions (2 leptons + 6 quarks)
                         | from the Z_3 circulant + WZW emergence
                         | ladder.
 mixing.py               | WZW/D^(6)* connection and mixing candidates;
-                        | the sector operator lift is depth-4
+                        | the sector operator lift is depth 4
                         | (mixing_z3_dichotomy.py, mixing_operator_search.py).
 couplings.py            | alpha_s(M_Z) from the embedding index chain.
                         | alpha(0) from (7,26) bridge self-interference
@@ -510,7 +525,7 @@ higgs_ew.py             | SM RGE transport, Higgs quartic boundary
                         | audit.  Engine import inventory.
 dark_sector.py          | Omega_DM/Omega_b = 2 pi - 1. Friedmann
                         | critical density versus current dark energy
-                        | density; CKN status explicit.
+                        | density, CKN status explicit.
 words.py                | Generation word lemma, executable and fully
                         | derived: base(n) = (4, 12, 97) as boundary-
                         | walk counts.  N-ality superselection (neutral
@@ -576,34 +591,11 @@ Ledger inspection: any node's interference history prints via
 root.WEB[name].table() after the chain has run.
 
 ================================================================================
-The attention/SSM reading (interpretive only. Cited)
-================================================================================
-
-NO MACHINE LEARNING ENTERS THE COMPUTATION.  The kernel x <- b + W(x)
-is solved by a classical Jacobi style fixed point iteration. Nothing
-is trained, no parameters are fitted, and the weights are theorems.
-
-This READING is kept as documentation because it guided the kernel's
-design.  It was a discovery heuristic, and no number depends on it.
-The echo web can be read as a sparse attention network in the sense of
-Vaswani et al., "Attention Is All You Need" (NeurIPS 2017).  Closures
-are tokens, channels are heads, arrival order is sequence position,
-and ledgers are residual streams.  The mapping is generic (any sparse
-weighted fixed point system admits it), which is exactly why it
-carries no explanatory weight here.  A per layer pipeline is CAUSAL
-attention.  The echo law is the same network with the mask removed
-(backreaction = mask removal).  In the language of
-structured state space sequence models (S4: Gu, Goel,
-Re 2021. Selective SSMs/Mamba: Gu, Dao 2023), the finite committed
-edge graph is the state transition. Octonions located its smallest
-observable cycle. They do not cap its recursive depth.
-
-================================================================================
 The bets, the coordinate, and the closed chain
 ================================================================================
 
 Sole dimensional input: the electron mass (CODATA, +-0.3 ppb).  M_Pl
-and G are OUTPUTS.  The depth-4 response refines the unit.  The EM
+and G are OUTPUTS.  The depth 4 response refines the unit.  The EM
 sector graph admits no further independent edge after it, because the
 fixed point already resums repeated traversals of that carrier.  This
 is channel finality, not a global depth cap.
@@ -611,12 +603,8 @@ is channel finality, not a global depth cap.
 Every number lives in ONE place: the module that computes it, with its
 kill condition stated next to it.  The frozen values the code must
 reproduce are the branch scorecards,
-tests/<branch>/test_<branch>_scorecard.py.  mixing_z3_dichotomy.py
-proves that closed frame blind data (Z3-equivariant transports, hence
-circulants sharing one Fourier frame) contain no relative sector
-diagonalizer.  The finite mixing maps have identification status.
-sakharov_normalisation.py computes the diagnostic target 2*pi*d11 from
-two equal factorizations under the cutoff t0 = d11 l_Pl^2.  The
+tests/<branch>/test_<branch>_scorecard.py.  Mixing is four readings of
+the solved D(6)* boundary, one per face (mixing_z3_dichotomy.py).  The
 substrate suite contains the lump in the empty field, clock runs,
 confined phase lattice probes, the composite metric, and the
 Skyrmion-Dirac spectral flow probe.
@@ -627,18 +615,20 @@ coordinates to their entries.  Those labels are metadata for the
 comparison, not extra stages of the derivation.  Full treatment:
 masses.py.
 
-THE CHAIN IS CLOSED.  Every canonical claim is exactly one of:
-DERIVED (the algebraic chain), ENUMERATED (words lemma, K^3
-closure, metric uniqueness), TRIANGULATED (shared dictionary
-objects measured in independent observables), an IDENTIFICATION
-HYPOTHESIS (a chain object matched with a physical one, named at the
-point of use and separately falsifiable), or a CITED IMPORT WITH
-A STATED BAND.  Every import is decomposed and audited (higgs_ew.py,
-tests/probes/ew_internal.py).  Data driven ingredients are
-measurements.  Parameter dependencies are recalculated from the
-framework's own values and checked for compatibility.  Pure loop
-integrals are mathematics fixed by the field content.  Nothing is
-split into preliminary and later corrected physical values.  Every
+THE CHAIN IS CLOSED.  The framework has no Lagrangian.  It observes the
+interference, seeded by the anchor at depth three, so every reading is
+an IDENTIFICATION: a chain object observed as a physical one, with the
+exhaustion of its committed menu and the reason only this lane closes,
+each separately falsifiable.  Within that, many links are DERIVED
+outright (the algebraic chain) or ENUMERATED (the words lemma, K^3
+closure, metric uniqueness).  The anchor sets the unit.  Each CITED
+IMPORT WITH A STATED BAND is transport: it carries an engine reading to
+the coordinate a measurement is quoted in, and no engine constant reads
+it (tests/audit/test_blindness.py).  Every import is decomposed and
+audited (higgs_ew.py, tests/probes/ew_internal.py).  Data driven
+ingredients are measurements.  Parameter dependencies are recalculated
+from the framework's own values and checked for compatibility.  Pure
+loop integrals are mathematics fixed by the field content.  Every
 nontrivial factor is a backreaction through an existing channel.
 Nothing is tuned.
 
@@ -661,7 +651,7 @@ committed structural menu.  The substrate realizes the amplitude ratio
 as its coupling.  masses.py then compares the
 calculated mass ratios with the PDG entries.
 
-WHAT WAS NOT DONE. No formula was constructed for an unmeasured
+NO SEARCHED FORMULAS. No formula was constructed for an unmeasured
 constant by searching combinations of (2, 3, 7, 26, pi).  In a four
 integer grammar such searches always succeed, which is exactly why
 their successes would carry no weight.  Every testable prediction in

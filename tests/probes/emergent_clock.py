@@ -1,5 +1,5 @@
 """
-emergent_clock.py: give the substrate a phase and READ THE CLOCK BACK.
+Give the substrate a phase and READ THE CLOCK BACK.
 
 THE POINT (substrate verification).  The channel and mass phase maps set
 B/A = √2 and θ = 2/9 (searchlight/octonions.py, masses.py).  This probe
@@ -28,27 +28,25 @@ CALIBRATION FINDINGS (measured, kept):
       test).  Only the symmetric background decays into
       matter. It is not the ground state (z3_vacuum.py).
     · in THIS regime (1D, substrate only, this horizon) the knots form
-      but the clocks do NOT lock a sharp line: peak power share is at
+      and the clocks read broadband: peak power share is at
       the few percent level (broadband, soliton collisions in the
       box).  The verdict is frozen as measured.
 
 COMPUTED STATUS (structural, target blind). The checks are: number
 conservation. Knot growth from noise (> ×3). Dominant frequencies
 positive and below the linearised μ plus a margin. And the verdict
-fields are reported, including clocks_locked = False for the
+fields are reported, including broadband = True for the
 substrate only 1D regime.
 
 The algebraic derivation gives B/A = √2 and θ = 2/9.  The 1D substrate
 run is broadband.  A confined phase 3D clock run would give an
 independent dynamical check of sharp locking to the derived circulant.
 
-SIGN.  This probe runs the gas sign g0 > 0 over a held uniform
-background (tests/substrate/nls_soliton.py, THE SIGN).  The committed
-self-bound sign holds the clock lump, which carries no pi_3 texture
-(knot_in_lump.py). For that sign the closure is the spinning lump
-(spinning_lump.py).
+SCOPE.  The gas sign g0 > 0 over a held uniform background
+(tests/substrate/nls_soliton.py, THE SIGN).  On the committed sign the
+particle is the spinning lump (spinning_lump.py).
 
-Usage: python3 emergent_clock.py     (about two minutes: 1D, three seeds)
+Usage: python3 tests/probes/emergent_clock.py     (about two minutes: 1D, three seeds)
 """
 
 import math
@@ -192,7 +190,7 @@ def run_3d(report=print, sponged=False):
         Q = sum(omegas) / sum(math.sqrt(o) for o in omegas)**2
     out = dict(seed=SEED3, growth=growth, conservation=conservation,
                omegas=omegas, peak_shares=shares, Q=Q,
-               clocks_locked=max(shares) > 0.5, sponged=sponged)
+               broadband=max(shares) <= 0.5, sponged=sponged)
     report(f"  3D seed {SEED3} N={N3} "
            f"{'SPONGED' if sponged else 'free':>7s}: growth={growth:.1f} "
            f"ω={[round(o, 3) for o in omegas]} "
@@ -227,7 +225,7 @@ def run(report=print):
     Q_mean = float(np.mean(Qs)) if Qs else None
     Q_spread = float(np.std(Qs)) if Qs else None
     report("-" * 70)
-    report(f"  clocks_locked = {locked}  (sharp line := peak power "
+    report(f"  broadband = {not locked}  (sharp line := peak power "
            f"share > 0.5. Measured ≤ "
            f"{max(max(r['peak_shares']) for r in results):.2f})")
     if Q_mean is not None:
@@ -238,7 +236,7 @@ def run(report=print):
            f"1D regime is broadband on this horizon, with no sharp clock. "
            f"The derived circulant supplies the 3D locked clock target.")
     return dict(results=results, Q_values=Qs, Q_mean=Q_mean,
-                Q_spread=Q_spread, clocks_locked=locked)
+                Q_spread=Q_spread, broadband=not locked)
 
 
 if __name__ == "__main__":
